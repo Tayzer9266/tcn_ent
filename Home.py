@@ -1,6 +1,6 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
-from st_social_media_links import SocialMediaIcons
+# from st_social_media_links import SocialMediaIcons
  
 # Page Tab
 st.set_page_config(
@@ -14,13 +14,13 @@ st.set_page_config(
 )
 
 #social media links
-social_media_links = [
-    "https://www.youtube.com/@DJTayzer",
-    "https://www.instagram.com/Tayzer",
-]
+# social_media_links = [
+#     "https://www.youtube.com/@DJTayzer",
+#     "https://www.instagram.com/Tayzer",
+# ]
 
-social_media_icons = SocialMediaIcons(social_media_links)
-social_media_icons.render()
+# social_media_icons = SocialMediaIcons(social_media_links)
+# social_media_icons.render()
 
  
 # Background for page
