@@ -58,12 +58,12 @@ style = "
     action="https://formsubmit.co/tnguyen9266@GMAIL.COM" method="POST" >
         <input type="hidden" name="_captcha" value="false" >
         <br><h1 style="font-size: 50px; color: grey">Add a Song</h1></br>
-        <br><input type="text" name="event" placeholder="Event name" required style="width: 400px;"></br>
-        <br><input type="text" name="name" placeholder="Your name" required style="width: 400px;"></br>
-        <br><input type="text" name="artist" placeholder="Artist name" required style="width: 400px;"></br>
-        <br><input type="text" name="song" placeholder="Song name" required style="width: 400px;"></br>
-        <br><input type="email" name="email" placeholder="Your email" required style="width: 400px;"></br>
-        <br><textarea name="message"  placeholder="Your message here" style="width: 400px; height: 100px"></textarea></br>
+        <br><input type="text" name="event" placeholder="Event name" required style="width: 300px;"></br>
+        <br><input type="text" name="name" placeholder="Your name" required style="width: 300px;"></br>
+        <br><input type="text" name="artist" placeholder="Artist name" required style="width: 300px;"></br>
+        <br><input type="text" name="song" placeholder="Song name" required style="width: 300px;"></br>
+        <br><input type="email" name="email" placeholder="Your email" required style="width: 300px;"></br>
+        <br><textarea name="message"  placeholder="Your message here" style="width: 300px; height: 100px"></textarea></br>
         <br><button type="submit"  >Send</button></br>
     </form>
     """
