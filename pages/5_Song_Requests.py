@@ -1,17 +1,17 @@
 import streamlit as st  
-from streamlit_option_menu import option_menu
-from st_social_media_links import SocialMediaIcons
+# from streamlit_option_menu import option_menu
+# from st_social_media_links import SocialMediaIcons
 
-import firebase_admin
-from firebase_admin import credentials #pip install firebase_admin
-from firebase_admin import auth
+# import firebase_admin
+# from firebase_admin import credentials #pip install firebase_admin
+# from firebase_admin import auth
 import io
 from PIL import Image
 import base64
-import pandas as pd
-from st_aggrid import AgGrid, GridOptionsBuilder  #add import for GridOptionsBuilder
-import psycopg2
-from streamlit_option_menu import option_menu
+# import pandas as pd
+# from st_aggrid import AgGrid, GridOptionsBuilder  #add import for GridOptionsBuilder
+# import psycopg2
+ 
 
 
 ################################################## SET PAGE ############################################################################  
