@@ -5,10 +5,9 @@ import streamlit as st
 import io
 from PIL import Image
 import base64
-import streamlit as st
-import pandas as pd
-from st_aggrid import AgGrid, GridOptionsBuilder  #add import for GridOptionsBuilder
-import psycopg2
+# import pandas as pd
+# from st_aggrid import AgGrid, GridOptionsBuilder  #add import for GridOptionsBuilder
+# import psycopg2
  
 
 # ---- HEADER SECTION ----
