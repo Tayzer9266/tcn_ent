@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "wholesale-lenders-network",
+  "private_key_id": "5295e57cd2b49700c886a09a716f4d7331b3240f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCQYFbHoOgOeCs2\nxDBKKLgxBx3UlLrk2wi432IivWj8gskn7csBi0hoo5BzFsm7KGpj7GqiHWb9z6of\n8iNt/xYwTozLh2tcdAFJZuyoVOzE4fGuc1jk+d2vYgg3pp2DbzTIZEEjDNy9OsaR\nqgCc9DNKrHvCb3Duhc+Eg5VwjWXBSY5/g1gzmEYgHurIOfTBA364dfBk4qgHLhy9\nQm/ZO3eZwS02gX/dFsSDmHwdaJfcbFWeVmfOuKR3hVQYOSPTUAMavZl40CFcqPze\np7jk3It2tU6G+UmBsLofEYtS4pGDkBUq1ScPdTAlXUjwAJMNIBXpZWSwzSp4lRTk\ni2asUnKZAgMBAAECggEAEQS+Lf12ZUA+jc/eBlva7HKTjluy1SfJlStF0OUFY2CS\nUCncaHPv5t/C9wIMaQqoUduMLUxsd8Y7HlVnXj+3sJ2NxK8TlXwaK7odcvFB0Kp2\nl/MCW0ll25bhc5fpENVywh1pPTW2rnqnbgO9W0MA6dA/rWmABSnSTqNJIhGU2U4C\nR9yzH0PMMXOGn1DSCYTesrAw1D3gEubtOXOtiZG7YTQXlorazq8Dd6KEojrzmAPw\nIXJEQmqOngiWtOYufhgRT7sBicPy3f12Upg/yg+HVOff5ND7aWf71uyT0Pvfu0dn\nXgWEte12x+i8l4Xkh3WZyZ6PgjyiePBkFzpJWrmNVQKBgQDIm0WmiIiflwn/J63m\nB2+/64T84Dcb3/ek0Tsk2DgHjV6oTYVxSUcgWVMApFqiIetpIzaf4D92ktFtd+9/\nUmfF/alqsf3y3K1q1BDBImbdkvjMurIMgELMgZFTszqEvVPLkJBXdRZBe+esmFgg\navfpAnQj50kizy7ty67QCN+ZBQKBgQC4PjHp+JLjFCvskYu0xuKZNjVBrTlvLml4\n2HjTDW5ovDuntXtLrKmNZPN/geqIZhdwvSe6MJLG/yG+5NqkUggHkbKj4K1tVw31\nxL+yx9vjk1Hoj6Xho6kOEZpWtITTRDSYOaZz8eH6bAEWwRIdeTPGGbkngnAl/0fp\nyahNVi6XhQKBgDIZTQC1EmHAx7dYQn6zFr54ZCL/H+QvP9qCgmHGOd/w91XS3mOX\naFL029zKLvRUwkTkjWzKBS9opTLQhBhpDQ+ONPQ3dXNkl06ZnYGOROBLJyWB7pte\noNAP/6pGlXO3EKlC9jlRPXinKAmblk6qSDWB7l1VEpfF5DNw7bx4qta9AoGAVAjq\nM1GRjclxj2GDW10rlb5H5EDiZXfB28DAu2Lw7QyOGRyJtCZ432kgNxRGqRgHsQBV\n0nK9P8620Z8IqtJPn0QxOtYLxEdksqie1yiZft9/CJgcjSJcxXH593o26zW814HU\nDiZRcCs7A+nkHVVe7Ahnj0HLbUlWv6efAEdC0RECgYAZELx4MDP7x65q3dbXtY6i\nDrR7POOwQPAbh1CZqv7BwCSNwg6OkKv+Zik5b/d8yKIVLbxLhZH4eLQ/rRlLSuys\nX/F3S8dySDfLTbezaxPyyzS+10P83ZXQyrQy21mJAr7kNZvofKlSx6GkyCrrN+SJ\nHRztBHVnG+UQAbRks2DDSA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-7iep9@wholesale-lenders-network.iam.gserviceaccount.com",
+  "client_id": "108250557241633748224",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-7iep9%40wholesale-lenders-network.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
