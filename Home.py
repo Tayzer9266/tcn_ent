@@ -21,8 +21,8 @@ st.set_page_config(
 #     "https://www.instagram.com/Tayzer",
 # ]
 
-social_media_icons = SocialMediaIcons(social_media_links)
-social_media_icons.render()
+# social_media_icons = SocialMediaIcons(social_media_links)
+# social_media_icons.render()
 
  
 # Background for page
