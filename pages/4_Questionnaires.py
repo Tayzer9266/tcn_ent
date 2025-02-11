@@ -103,45 +103,34 @@ with open("pages/documents/Photo Booth Questionnaire.pdf", "rb") as pdf_file:
                         file_name="Photo Booth Questionnaire.pdf",
                         mime='application/octet-stream')
 
-# class PDF(FPDF):
-#     def header(self):
-#         self.set_font('Arial', 'B', 12)
-#         self.cell(0, 10, 'Your PDF Title', 0, 1, 'C')
-
-# pdf = PDF()
-# pdf.add_page()
-# pdf.set_font('Arial', '', 12)
-# pdf.cell(0, 10, 'Hello World in PDF', 0, 1)
-# # Assume `pdf` is your generated PDF object
-# pdf_output = pdf.output(dest='S').encode('latin1')
-# st.download_button(label='Wedding Questionnaire', data=pdf_output, file_name='example.pdf', mime='application/pdf')
+ 
 
 
 # #Logo
-# file = open("pages/images/company_logo_padding.png", "rb")
-# contents = file.read()
-# img_str = base64.b64encode(contents).decode("utf-8")
-# buffer = io.BytesIO()
-# file.close()
-# img_data = base64.b64decode(img_str)
-# img = Image.open(io.BytesIO(img_data))
-# resized_img = img.resize((310, 56))  # x, y
-# resized_img.save(buffer, format="PNG")
-# img_b64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
-# st.markdown(
-#         f"""
-#         <style>
-#             [data-testid="stSidebarNav"] {{
-#                 background-image: url('data:image/png;base64,{img_b64}');
-#                 background-repeat: no-repeat;
-#                 padding-top: 0px;
-#                 margin-left: auto;
-#                 margin-right: auto;
-#             }}
-#         </style>
-#         """,
-#         unsafe_allow_html=True,
-#     )
+file = open("pages/images/company_logo_padding.png", "rb")
+contents = file.read()
+img_str = base64.b64encode(contents).decode("utf-8")
+buffer = io.BytesIO()
+file.close()
+img_data = base64.b64decode(img_str)
+img = Image.open(io.BytesIO(img_data))
+resized_img = img.resize((310, 56))  # x, y
+resized_img.save(buffer, format="PNG")
+img_b64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
+st.markdown(
+        f"""
+        <style>
+            [data-testid="stSidebarNav"] {{
+                background-image: url('data:image/png;base64,{img_b64}');
+                background-repeat: no-repeat;
+                padding-top: 0px;
+                margin-left: auto;
+                margin-right: auto;
+            }}
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
  
  

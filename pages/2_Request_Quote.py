@@ -105,7 +105,6 @@ with st.form("my_form"):
     uplighting = st.radio(
         "Do you need uplighting for the venue?",
         ('Yes', 'No'))
-    st.write("#")
     photo_booth = st.radio(
         "Do you need a photo booth?",
         ('Yes', 'No'))
