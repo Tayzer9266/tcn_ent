@@ -72,11 +72,11 @@ style = "
     action="https://formsubmit.co/tnguyen9266@GMAIL.COM" method="POST" >
         <input type="hidden" name="_captcha" value="false" >
         <br><h1 style="font-size: 50px; color: grey">Enter Information</h1></br>
-        <br><input type="text" name="name" placeholder="Your name" required style="width: 600px;"></br>
-        <br><input type="text" name="email_address" placeholder="Email Address" required style="width: 600px;"></br>
-        <br><input type="text" name="phone_number" placeholder="Phone" required style="width: 600px;"></br>
-        <br><input type="text" name="subject" placeholder="Subject" required style="width: 600px;"></br>
-        <br><textarea name="message"  placeholder="Your message here" style="width: 600px; height: 200px"></textarea></br>
+        <br><input type="text" name="name" placeholder="Your name" required style="width: 320px;"></br>
+        <br><input type="text" name="email_address" placeholder="Email Address" required style="width: 320px;"></br>
+        <br><input type="text" name="phone_number" placeholder="Phone" required style="width: 320px;"></br>
+        <br><input type="text" name="subject" placeholder="Subject" required style="width: 320px;"></br>
+        <br><textarea name="message"  placeholder="Your message here" style="width: 320px; height: 200px"></textarea></br>
         <br><button type="submit"  >Send</button></br>
     </form>
     """
