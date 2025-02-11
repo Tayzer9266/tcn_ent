@@ -16,3 +16,13 @@ textColor = '#404040'
 # Accepted values (serif | sans serif | monospace) 
 # Default: "sans serif"
 font = "sans serif"
+
+
+[server]
+enableCORS = false
+enableXsrfProtection = false
+port = 8501
+headless = true
+sslCertFile = "documents/www.tcnentertainment.com_key"
+sslKeyFile = "documents/www.tcnentertainment.com_key"
+ 
