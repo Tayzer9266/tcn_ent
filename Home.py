@@ -1,5 +1,6 @@
 import streamlit as st
 import base64
+import streamlit.components.v1 as components
 # from st_social_media_links import SocialMediaIcons
 
  
@@ -147,6 +148,40 @@ with st.container():
         )
         st.write("[Learn More >](/Song_Requests)")
  
+
+# Sumamry Section
+with st.container():
+    st.write("---")
+    left_column, right_column = st.columns(2)
+    with left_column:
+        st.header("Reviews")
+        st.write("##")
+    
+
+html_content2 = """
+<div style="display: flex; align-items: center;">
+    <a href="https://www.gigsalad.com/tcn_entertainment_dallas" style="margin-right: 20px;">
+        <img src="https://cress.gigsalad.com/images/svg/standalone/promokit-links/top-performer/top-performer--blue.svg" alt="Top Performer on GigSalad" height="128" width="116">
+    </a>
+    <a href="https://www.gigsalad.com/tcn_entertainment_dallas">
+        <img src="https://cress.gigsalad.com/images/svg/standalone/promokit-links/read-reviews/read-reviews--dark.svg" alt="Read My Reviews on GigSalad" height="100" width="300">
+    </a>
+</div>
+"""
+
+# Display the HTML content
+components.html(html_content2, height=150)
+
+# HTML content
+html_content = """
+<div id="gigsalad-reviews-widget"></div><script>var gsReviewWidget;(function(d,t){var s=d.createElement(t),options={path:'254761',maxWidth:600,count:4};s.src='https://www.gigsalad.com/js/gigsalad-reviews-widget.min.js';s.onload=s.onreadystatechange=function(){var rs=this.readyState;if(rs)if(rs!='complete')if(rs!='loaded')return;try{gsReviewWidget=new GsReviewsWidget(options);gsReviewWidget.display();}catch(e){}};var scr=d.getElementsByTagName(t)[0];var par=scr.parentNode;par.insertBefore(s,scr);})(document,'script');</script>
+"""
+
+# Display the HTML content
+components.html(html_content, height=1500)
+
+#<div id="gigsalad-reviews-widget"></div><script>var gsReviewWidget;(function(d,t){var s=d.createElement(t),options={path:'254761',maxWidth:600,count:4};s.src='https://www.gigsalad.com/js/gigsalad-reviews-widget.min.js';s.onload=s.onreadystatechange=function(){var rs=this.readyState;if(rs)if(rs!='complete')if(rs!='loaded')return;try{gsReviewWidget=new GsReviewsWidget(options);gsReviewWidget.display();}catch(e){}};var scr=d.getElementsByTagName(t)[0];var par=scr.parentNode;par.insertBefore(s,scr);})(document,'script');</script>
+
 
 #st.image("pages/images/company_logo.png", width=200)
  
