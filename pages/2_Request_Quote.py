@@ -50,15 +50,26 @@ with st.form("my_form"):
     my_input_first_name = st.text_input("First Name", st.session_state["my_input_first_name"]) #FirstName
     my_input_last_name = st.text_input("Last Name", "") #LastName
     my_input_phone_number = st.text_input("Phone Number", "") #Phone
-    my_venue_email = st.text_input("Email Address", "") #Address
+    my_email = st.text_input("Email Address", "") #Email
+    my_contact_time = st.text_input("Best Time to Contact", "") #Contact
+    my_start_time = st.text_input("Start Time", "") #Start
+    my_end_time = st.text_input("End Time", "") #End
+    my_budget = st.text_input("Buget Amount", "") #Buget
+    event_type = st.selectbox("Event Type?", ("Wedding", "Birthday", "Annaversary", "Corporate Function","Engagement", "Club", "Concert", "Other"))
+    st.write("#")
     my_venue_location= st.text_input("Venue Location", "") #LastName
     event_date = st.date_input("Event Date", value=None) 
-    professional_type = st.multiselect('What professional services do you need?', ["DJ", "KJ", "MC"])
     st.write("#")
-    guest_count = st.slider('Number of guest', 0, 1, 600)
+    guest_count = st.slider('Number of guests', 0, 1, 600)
     st.write("#")
     service_hour_count = st.slider('Number of hours professional needed', 0, 1, 9)
     st.write("#")
+    mc_service = st.radio(
+        "Do you need MC Service?",
+        ('Yes', 'No'))
+    kj_service = st.radio(
+        "Do you need Karoake Service?",
+        ('Yes', 'No'))
     pa_system = st.radio(
         "Do you need a PA system?",
         ('Yes', 'No'))
