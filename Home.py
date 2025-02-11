@@ -73,7 +73,7 @@ with st.container():
             - Corporate Functions
             - Engagement Parties
             
-            Private Events:
+            Public Events:
             - Club Nights
             - Festivals
             - Concerts
