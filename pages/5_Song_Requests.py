@@ -115,4 +115,6 @@ else:
     gb.configure_pagination(paginationAutoPageSize=True)
     gridOptions = gb.build()
     AgGrid(data, gridOptions=gridOptions, height=200, width='100%')
+
+    
  
