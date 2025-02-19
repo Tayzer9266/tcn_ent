@@ -77,6 +77,7 @@ def execute_procedure(email, song, artist, first_name):
         except Exception as e:
             conn.rollback()
             st.error(f"Error: {e}")
+            
 
 # Uses st.cache_data to only rerun when the query changes or after 10 min.
 @st.cache_data(ttl=600)
