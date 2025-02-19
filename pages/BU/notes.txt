@@ -211,3 +211,218 @@ with st.container():
         st.markdown(contact_form, unsafe_allow_html=True)
     with right_column:
         st.empty()
+
+
+# @st.cache_resource
+# def init_connection():
+#     return psycopg2.connect(**st.secrets["postgres"])
+
+# conn = init_connection()
+
+ 
+ 
+
+# # Uses st.cache_data to only rerun when the query changes or after 10 min.
+# @st.cache_data(ttl=600)
+# def run_query(query):
+#     with conn.cursor() as cur:
+#         cur.execute(query)
+#         return cur.fetchall()
+
+# rows = run_query("select request_by, song_name, artist_name from f_song_request();")
+# data = pd.DataFrame(rows)
+
+# if len(data.columns) == 0:
+#     st.write("Currently No Song Request")
+# else:
+#     data.columns = ['request_by', 'song_name', 'artist_name']
+#     st.table(data)
+
+# my_email_address = st.text_input("Email Address*", "") # Email
+# my_first_name = st.text_input("First Name", "") # First
+# my_song = st.text_input("Song Name*", "") # Song
+# my_artist = st.text_input("Artist Name*", "") # Artist
+
+ 
+
+
+    # else:
+    #     st.error("Please fill in all required fields.")
+
+
+
+# import streamlit as st  
+# import io
+# from PIL import Image
+# import base64
+# import pandas as pd
+# from st_aggrid import AgGrid, GridOptionsBuilder
+# import psycopg2
+
+# ################################################## SET PAGE ############################################################################  
+# st.set_page_config(
+#     page_title="Song Requests",
+#     page_icon="pages/images/TCN logo black.jpg",
+#     layout="wide",
+#     initial_sidebar_state="collapsed",
+#     menu_items={
+#         'About': "# Make your dream a reality!"
+#     }
+# )
+
+# # Use local CSS
+# with open("pages/style/style.css") as source_style:
+#     st.markdown(f"<style>{source_style.read()}</style>", unsafe_allow_html=True)
+
+# st.image("pages/images/song_request.png", width=1750)  
+
+# # Inject CSS for background color
+# page_bg_img = """
+# <style>
+# [data-testid="stAppViewContainer"] {
+#     background-color: #f1ecec;
+# }
+# </style>
+# """
+# st.markdown(page_bg_img, unsafe_allow_html=True)
+
+# # Load the images
+# youtube_img = base64.b64encode(open("pages/images/youtube.png", "rb").read()).decode()
+# instagram_img = base64.b64encode(open("pages/images/instagram.png", "rb").read()).decode()
+
+# # Create columns in the sidebar with less spacing
+# col1, col2, col3, col4, col5, col6 = st.sidebar.columns([1, 1, 1, 1, 1, 1])
+
+# with col1:
+#     st.markdown(
+#         f"""<a href="https://www.youtube.com/@djtayzer">
+#         <img src="data:image/png;base64,{youtube_img}" width="30">
+#         </a>""",
+#         unsafe_allow_html=True,
+#     )
+
+# with col2:
+#     st.markdown(
+#         f"""<a href="https://www.instagram.com/tayzer/">
+#         <img src="data:image/png;base64,{instagram_img}" width="30">
+#         </a>""",
+#         unsafe_allow_html=True
+#     )
+
+# ################################################## Email Form ############################################################################    
+# # Uses st.cache_resource to only run once.
+# @st.cache_resource
+# def init_connection():
+#     return psycopg2.connect(**st.secrets["postgres"])
+
+# conn = init_connection()
+
+# # Function to execute the query
+# def execute_function(email, song, artist, first_name):
+#     with conn.cursor() as cur:
+#         cur.callproc('sp_song_request', [email, song, artist, first_name])
+#         return cur.fetchall()
+# # Uses st.cache_data to only rerun when the query changes or after 10 min.
+# @st.cache_data(ttl=600)
+# def run_query(query):
+#     with conn.cursor() as cur:
+#         cur.execute(query)
+#         return cur.fetchall()
+# # Function to check if all required fields are filled
+# def check_required_fields(fields):
+#     for field in fields:
+#         if not field:
+#             return False
+#     return True
+
+# my_email_address = st.text_input("Email Address*", "") # Email
+# my_first_name = st.text_input("First Name", "") # First
+# my_song = st.text_input("Song Name*", "") # Song
+# my_artist = st.text_input("Artist Name*", "") # Artist
+# # Submit button
+# if st.button("Submit"):
+#     # Input fields
+
+#         # Check if all required fields are filled
+#     if check_required_fields([my_email_address, my_song, my_artist]):
+#         st.success("Form submitted successfully!")
+#         execute_function(my_email_address, my_song, my_artist, my_first_name)
+
+#     else:
+#         st.error("Please fill in all required fields.")
+
+
+# rows = run_query("select request_by, song_name, artist_name from f_song_request();")
+# data = pd.DataFrame(rows)
+# if len(data.columns) == 0:
+#     st.write("Currently No Song Request")
+# else:
+#     data.columns = ['request_by', 'song_name', 'artist_name']
+#     st.table(data)
+
+
+
+rows = run_query("select first_name, last_name  from professional;")
+#rows = run_query("select request_by from f_song_request();")
+ 
+data=pd.DataFrame(rows)
+if len(data.columns) == 0:
+    st.write("Product not available")
+else:
+    #data.columns=['request_by']
+    data.columns=['first_name', 'last_name']
+    st.table(data)
+
+
+
+
+
+
+
+
+
+
+#<div id="gigsalad-reviews-widget"></div><script>var gsReviewWidget;(function(d,t){var s=d.createElement(t),options={path:'254761',maxWidth:600,count:4};s.src='https://www.gigsalad.com/js/gigsalad-reviews-widget.min.js';s.onload=s.onreadystatechange=function(){var rs=this.readyState;if(rs)if(rs!='complete')if(rs!='loaded')return;try{gsReviewWidget=new GsReviewsWidget(options);gsReviewWidget.display();}catch(e){}};var scr=d.getElementsByTagName(t)[0];var par=scr.parentNode;par.insertBefore(s,scr);})(document,'script');</script>
+
+
+#st.image("pages/images/company_logo.png", width=200)
+ 
+#Logo
+# file = open("pages/images/", "rb")
+# contents = file.read()
+# img_str = base64.b64encode(contents).decode("utf-8")
+# buffer = io.BytesIO()
+# file.close()
+# img_data = base64.b64decode(img_str)
+# img = Image.open(io.BytesIO(img_data))
+# resized_img = img.resize((250, 44))  # x, y
+# resized_img.save(buffer, format="PNG")
+# img_b64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
+# st.markdown(
+#         f"""
+#         <style>
+#             [data-testid="stSidebarNav"] {{
+#                 background-image: url('data:image/png;base64,{img_b64}');
+#                 background-repeat: no-repeat;
+#                 padding-top: 0px;
+#                 margin-left: auto;
+#                 margin-right: auto;
+#             }}
+#         </style>
+#         """,
+#         unsafe_allow_html=True,
+#     )
+
+ 
+# Use local CSS
+
+# social_media_links = [
+#     "https://www.youtube.com/@DJTayzer",
+#     "https://www.instagram.com/Tayzer",
+# ]
+# st.markdown("<h1 style='text-align: center; color: green;'>Get In Touch With Me!</h1>", unsafe_allow_html=True)
+# st.markdown("<h3 style='text-align: center; color: green;'>Cell: (714) 260-5003</h3>", unsafe_allow_html=True)
+# social_media_icons = SocialMediaIcons(social_media_links)
+# social_media_icons.render()
+
+ 
