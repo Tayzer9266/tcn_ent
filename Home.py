@@ -2,7 +2,13 @@ import streamlit as st
 import base64
 import streamlit.components.v1 as components
 # from st_social_media_links import SocialMediaIcons
-
+# import firebase_admin
+# from firebase_admin import credentials #pip install firebase_admin
+# from firebase_admin import auth
+ 
+import pandas as pd
+from st_aggrid import AgGrid, GridOptionsBuilder  #add import for GridOptionsBuilder
+import psycopg2
  
 # Page Tab
 st.set_page_config(
@@ -39,6 +45,7 @@ with col2:
         unsafe_allow_html=True
     )
 
+ 
 # Background for page
 page_bg_img = """
 <style>
@@ -180,50 +187,10 @@ html_content = """
 # Display the HTML content
 components.html(html_content, height=2000)
 
-#<div id="gigsalad-reviews-widget"></div><script>var gsReviewWidget;(function(d,t){var s=d.createElement(t),options={path:'254761',maxWidth:600,count:4};s.src='https://www.gigsalad.com/js/gigsalad-reviews-widget.min.js';s.onload=s.onreadystatechange=function(){var rs=this.readyState;if(rs)if(rs!='complete')if(rs!='loaded')return;try{gsReviewWidget=new GsReviewsWidget(options);gsReviewWidget.display();}catch(e){}};var scr=d.getElementsByTagName(t)[0];var par=scr.parentNode;par.insertBefore(s,scr);})(document,'script');</script>
 
 
-#st.image("pages/images/company_logo.png", width=200)
- 
-#Logo
-# file = open("pages/images/", "rb")
-# contents = file.read()
-# img_str = base64.b64encode(contents).decode("utf-8")
-# buffer = io.BytesIO()
-# file.close()
-# img_data = base64.b64decode(img_str)
-# img = Image.open(io.BytesIO(img_data))
-# resized_img = img.resize((250, 44))  # x, y
-# resized_img.save(buffer, format="PNG")
-# img_b64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
-# st.markdown(
-#         f"""
-#         <style>
-#             [data-testid="stSidebarNav"] {{
-#                 background-image: url('data:image/png;base64,{img_b64}');
-#                 background-repeat: no-repeat;
-#                 padding-top: 0px;
-#                 margin-left: auto;
-#                 margin-right: auto;
-#             }}
-#         </style>
-#         """,
-#         unsafe_allow_html=True,
-#     )
 
- 
-# Use local CSS
 
-# social_media_links = [
-#     "https://www.youtube.com/@DJTayzer",
-#     "https://www.instagram.com/Tayzer",
-# ]
-# st.markdown("<h1 style='text-align: center; color: green;'>Get In Touch With Me!</h1>", unsafe_allow_html=True)
-# st.markdown("<h3 style='text-align: center; color: green;'>Cell: (714) 260-5003</h3>", unsafe_allow_html=True)
-# social_media_icons = SocialMediaIcons(social_media_links)
-# social_media_icons.render()
-
- 
  
 
 
