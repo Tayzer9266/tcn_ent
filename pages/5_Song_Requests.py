@@ -3,6 +3,7 @@ import io
 from PIL import Image
 import base64
 import pandas as pd
+import mysql.connector
 #from st_aggrid import AgGrid, GridOptionsBuilder
 #import psycopg2
 
@@ -64,8 +65,13 @@ with col2:
 #     return psycopg2.connect(**st.secrets["postgres"])
 
 # conn = init_connection()
+#@st.experimental_singleton
+#def init_connection():
+#    return mysql.connector.connect(**st.secrets["postgres"])
 
-conn = st.experimental_connection('tcn_ent', type='sql')
+#conn = init_connection()
+conn = st.connection("postgresql", type="sql")
+#conn = st.experimental_connection('tcn_ent', type='sql')
 
 # Function to execute the stored procedure
 def execute_procedure(email, song, artist, first_name):
@@ -77,10 +83,10 @@ def execute_procedure(email, song, artist, first_name):
         except Exception as e:
             conn.rollback()
             st.error(f"Error: {e}")
-            
+
 
 # Uses st.cache_data to only rerun when the query changes or after 10 min.
-@st.cache_data(ttl=600)
+@st.experimental_memo(ttl=600)
 def run_query(query):
     with conn.cursor() as cur:
         cur.execute(query)
