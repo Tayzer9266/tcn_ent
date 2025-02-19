@@ -3,7 +3,7 @@ import io
 from PIL import Image
 import base64
 import pandas as pd
-from st_aggrid import AgGrid, GridOptionsBuilder
+#from st_aggrid import AgGrid, GridOptionsBuilder
 import psycopg2
 
 ################################################## SET PAGE ############################################################################  
@@ -107,14 +107,14 @@ rows = run_query(query)
 data = pd.DataFrame(rows, columns=['Song_Order', 'Request_By', 'Song_Name', 'Artist_Name'])
 
 #Display the results in a DataGrid
-st.subheader("Song Queue List")
-if data.empty:
-    st.write("Currently No Song Request")
-else:
-    gb = GridOptionsBuilder.from_dataframe(data)
-    gb.configure_pagination(paginationAutoPageSize=True)
-    gridOptions = gb.build()
-    AgGrid(data, gridOptions=gridOptions, height=200, width='100%')
+# st.subheader("Song Queue List")
+# if data.empty:
+#     st.write("Currently No Song Request")
+# else:
+#     gb = GridOptionsBuilder.from_dataframe(data)
+#     gb.configure_pagination(paginationAutoPageSize=True)
+#     gridOptions = gb.build()
+#     AgGrid(data, gridOptions=gridOptions, height=200, width='100%')
 
-    
+
  
