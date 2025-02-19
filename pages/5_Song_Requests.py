@@ -3,7 +3,6 @@ import io
 from PIL import Image
 import base64
 import pandas as pd
-import mysql.connector
 #from st_aggrid import AgGrid, GridOptionsBuilder
 #import psycopg2
 
