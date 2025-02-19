@@ -1,14 +1,7 @@
 import streamlit as st
 import base64
 import streamlit.components.v1 as components
-# from st_social_media_links import SocialMediaIcons
-# import firebase_admin
-# from firebase_admin import credentials #pip install firebase_admin
-# from firebase_admin import auth
  
-# import pandas as pd
-# from st_aggrid import AgGrid, GridOptionsBuilder  #add import for GridOptionsBuilder
-# import psycopg2
  
 # Page Tab
 st.set_page_config(
