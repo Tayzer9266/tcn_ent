@@ -4,7 +4,7 @@ from PIL import Image
 import base64
 import pandas as pd
 #from st_aggrid import AgGrid, GridOptionsBuilder
-import psycopg2
+#import psycopg2
 
 ################################################## SET PAGE ############################################################################  
 st.set_page_config(
@@ -58,11 +58,14 @@ with col2:
 
 ################################################## Email Form ############################################################################    
 # Uses st.cache_resource to only run once.
-@st.cache_resource
-def init_connection():
-    return psycopg2.connect(**st.secrets["postgres"])
+# @st.cache_resource
+# def init_connection():
 
-conn = init_connection()
+#     return psycopg2.connect(**st.secrets["postgres"])
+
+# conn = init_connection()
+
+conn = st.experimental_connection('tcn_ent', type='sql')
 
 # Function to execute the stored procedure
 def execute_procedure(email, song, artist, first_name):
