@@ -1,15 +1,11 @@
-# import streamlit as st
-# import base64
-# import streamlit as st
-# import base64
-
 import streamlit as st
-import sqlalchemy
-import pandas as pd
+import base64
+import streamlit as st
 import base64
 
 
-st.success("Connected to PostgreSQL successfully!")  
+
+
 # Start
 st.set_page_config(
     page_title="Contact Us",
@@ -21,59 +17,7 @@ st.set_page_config(
     }
 )
 
- 
-# Start
-st.set_page_config(
-    page_title="Contact Us",
-    page_icon="pages/images/TCN logo black.jpg",
-    layout="wide",
-    initial_sidebar_state="expanded",
-    menu_items={
-        'About': "# Make your dream a reality!"
-    }
-)
 
- 
-
-# Load secrets from Streamlit
-st.set_page_config(page_title="PostgreSQL Connection", layout="wide")
-
-st.title("PostgreSQL Data Connection")
-
-# Get secrets from Streamlit
-db_credentials = st.secrets["postgres"]
-
-# Create a connection string
-DATABASE_URL = f"postgresql://{db_credentials['username']}:{db_credentials['password']}@{db_credentials['host']}:{db_credentials['port']}/{db_credentials['database']}"
-
-# Connect using SQLAlchemy
-@st.cache_resource
-def get_connection():
-    engine = sqlalchemy.create_engine(DATABASE_URL)
-    return engine
-
-# Fetch data function
-def fetch_data(query):
-    engine = get_connection()
-    with engine.connect() as connection:
-        df = pd.read_sql_query(query, connection)
-    return df
-
-# User Input Query
-query = st.text_area("Enter SQL Query", "SELECT * FROM clients LIMIT 10;")
-
-if st.button("Run Query"):
-    try:
-        data = fetch_data(query)
-        st.write("### Query Results:")
-        st.dataframe(data)
-    except Exception as e:
-        st.error(f"Error: {e}")
-
-st.success("Connected to PostgreSQL successfully!")
-
-
- 
 
 # Load the images
 youtube_img = base64.b64encode(open("pages/images/youtube.png", "rb").read()).decode()
