@@ -1,10 +1,8 @@
 import streamlit as st  
-import io
-from PIL import Image
-import base64
+from sqlalchemy import create_engine
 import pandas as pd
-#from st_aggrid import AgGrid, GridOptionsBuilder
-#import psycopg2
+import base64
+from PIL import Image
 
 ################################################## SET PAGE ############################################################################  
 st.set_page_config(
@@ -56,42 +54,33 @@ with col2:
         unsafe_allow_html=True
     )
 
-################################################## Email Form ############################################################################    
-# Uses st.cache_resource to only run once.
-# @st.cache_resource
-# def init_connection():
+################################################## DATABASE CONNECTION ############################################################################
 
-#     return psycopg2.connect(**st.secrets["postgres"])
+# Load database credentials from Streamlit secrets
+db_config = st.secrets["postgres"]
 
-# conn = init_connection()
-#@st.experimental_singleton
-#def init_connection():
-#    return mysql.connector.connect(**st.secrets["postgres"])
+# Create the SQLAlchemy engine using connection string format
+def init_connection():
+    connection_string = f"postgresql+psycopg2://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['dbname']}"
+    engine = create_engine(connection_string)
+    return engine.connect()
 
-#conn = init_connection()
-conn = st.connection("postgresql", type="sql")
-#conn = st.experimental_connection('tcn_ent', type='sql')
+conn = init_connection()
 
 # Function to execute the stored procedure
 def execute_procedure(email, song, artist, first_name):
-    with conn.cursor() as cur:
-        try:
-            cur.execute("CALL sp_song_request(%s, %s, %s, %s);", (email, song, artist, first_name))
-            conn.commit()
-            st.success("Your song is added successfully! (It may take a few mins to show up in the queue)")
-        except Exception as e:
-            conn.rollback()
-            st.error(f"Error: {e}")
-
+    try:
+        # Using SQLAlchemy's connection to execute the procedure
+        with conn.begin():
+            conn.execute("CALL sp_song_request(%s, %s, %s, %s);", (email, song, artist, first_name))
+        st.success("Your song is added successfully! (It may take a few mins to show up in the queue)")
+    except Exception as e:
+        st.error(f"Error: {e}")
 
 # Uses st.cache_data to only rerun when the query changes or after 10 min.
 @st.experimental_memo(ttl=600)
 def run_query(query):
-    with conn.cursor() as cur:
-        cur.execute(query)
-        return cur.fetchall()
-
- 
+    return pd.read_sql(query, conn)
 
 # Input fields
 st.subheader("Song Request Form")
@@ -109,21 +98,18 @@ if st.button("Submit"):
         st.error("Please fill in all required fields.")
 
 # Run the query to fetch song requests
-query = "select  s.Song_Order, c.first_name  as Request_By, s.song_name as Song_Name , s.artist_name as Artist_Name from song_requests s left join clients c on c.client_id = s.created_by order by s.song_order"
+query = """
+    SELECT s.Song_Order, c.first_name AS Request_By, s.song_name AS Song_Name, s.artist_name AS Artist_Name
+    FROM song_requests s
+    LEFT JOIN clients c ON c.client_id = s.created_by
+    ORDER BY s.song_order
+"""
 rows = run_query(query)
 
-# Convert the query results to a pandas DataFrame
-data = pd.DataFrame(rows, columns=['Song_Order', 'Request_By', 'Song_Name', 'Artist_Name'])
-
-#Display the results in a DataGrid
-# st.subheader("Song Queue List")
-# if data.empty:
-#     st.write("Currently No Song Request")
-# else:
-#     gb = GridOptionsBuilder.from_dataframe(data)
-#     gb.configure_pagination(paginationAutoPageSize=True)
-#     gridOptions = gb.build()
-#     AgGrid(data, gridOptions=gridOptions, height=200, width='100%')
-
-
+# Display the results
+st.subheader("Song Queue List")
+if rows.empty:
+    st.write("Currently No Song Request")
+else:
+    st.write(rows)
  
