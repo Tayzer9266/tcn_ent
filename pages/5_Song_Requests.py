@@ -96,7 +96,12 @@ def run_query(query):
         return pd.DataFrame()  # Return an empty DataFrame instead of None
 
     columns = result.keys()  # Get column names
-    return pd.DataFrame(rows, columns=columns)
+    df = pd.DataFrame(rows, columns=columns)
+
+    # Exclude the index (reset the index to avoid displaying it)
+    df = df.reset_index(drop=True)
+
+    return df
 
 
 # Input fields
