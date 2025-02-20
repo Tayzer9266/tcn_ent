@@ -1,8 +1,10 @@
 # import streamlit as st
 # import base64
+# import streamlit as st
+# import base64
 
 import streamlit as st
-import psycopg2
+import sqlalchemy
 import pandas as pd
 import base64
 
@@ -19,32 +21,42 @@ st.set_page_config(
     }
 )
 
-# Load secrets
+ 
+# Start
+st.set_page_config(
+    page_title="Contact Us",
+    page_icon="pages/images/TCN logo black.jpg",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    menu_items={
+        'About': "# Make your dream a reality!"
+    }
+)
+
+ 
+
+# Load secrets from Streamlit
 st.set_page_config(page_title="PostgreSQL Connection", layout="wide")
 
 st.title("PostgreSQL Data Connection")
 
 # Get secrets from Streamlit
 db_credentials = st.secrets["postgres"]
-  
 
-  
-# Connect to PostgreSQL
+# Create a connection string
+DATABASE_URL = f"postgresql://{db_credentials['username']}:{db_credentials['password']}@{db_credentials['host']}:{db_credentials['port']}/{db_credentials['database']}"
+
+# Connect using SQLAlchemy
 @st.cache_resource
 def get_connection():
-    return psycopg2.connect(
-        host=db_credentials["host"],
-        database=db_credentials["database"],
-        user=db_credentials["username "],
-        password=db_credentials["password"],
-        port=db_credentials["port"]
-    )
+    engine = sqlalchemy.create_engine(DATABASE_URL)
+    return engine
 
 # Fetch data function
 def fetch_data(query):
-    conn = get_connection()
-    df = pd.read_sql_query(query, conn)
-    conn.close()
+    engine = get_connection()
+    with engine.connect() as connection:
+        df = pd.read_sql_query(query, connection)
     return df
 
 # User Input Query
@@ -57,6 +69,11 @@ if st.button("Run Query"):
         st.dataframe(data)
     except Exception as e:
         st.error(f"Error: {e}")
+
+st.success("Connected to PostgreSQL successfully!")
+
+
+ 
 
 # Load the images
 youtube_img = base64.b64encode(open("pages/images/youtube.png", "rb").read()).decode()
