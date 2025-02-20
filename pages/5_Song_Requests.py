@@ -96,6 +96,7 @@ def run_query(query):
     columns = result.keys()  # Get column names
     return pd.DataFrame(rows, columns=columns)
 
+
 # Input fields
 st.subheader("Song Request Form")
 my_email_address = st.text_input("Email Address*", "")  # Email
