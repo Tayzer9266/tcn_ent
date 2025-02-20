@@ -72,7 +72,9 @@ conn = init_connection()
 def execute_procedure(email, song, artist, first_name):
     try:
         # Testing the connection
-        conn.execute("SELECT 1")
+         with conn.begin():
+            conn.execute("CALL sp_song_request(%s, %s, %s, %s);", (email, song, artist, first_name))
+         st.success("Your song is added successfully! (It may take a few mins to show up in the queue)")
     except Exception as e:
         st.error(f"Error connecting to the database: {e}")
     # try:
