@@ -9,7 +9,9 @@ st.title("PostgreSQL Data Connection")
 
 # Get secrets from Streamlit
 db_credentials = st.secrets["postgres"]
+  
 
+  
 # Connect to PostgreSQL
 @st.cache_resource
 def get_connection():
