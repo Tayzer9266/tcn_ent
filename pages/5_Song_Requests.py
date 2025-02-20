@@ -72,7 +72,7 @@ conn = init_connection()
 def execute_procedure(email, song, artist, first_name):
     try:
         # Testing the connection
-        conn.execute("CALL sp_song_request(%s, %s, %s, %s);", (email, song, artist, first_name))
+        conn.execute(text("CALL sp_song_request(%s, %s, %s, %s);", (email, song, artist, first_name)))
     except Exception as e:
         st.error(f"Error connecting to the database: {e}")
     # try:
