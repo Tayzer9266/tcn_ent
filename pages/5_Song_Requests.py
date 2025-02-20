@@ -71,19 +71,19 @@ conn = init_connection()
 # Function to execute the stored procedure
 def execute_procedure(email, song, artist, first_name):
     try:
-        # Testing the connection
-         with conn.begin():
-            conn.execute("CALL sp_song_request(%s, %s, %s, %s);", (email, song, artist, first_name))
-         st.success("Your song is added successfully! (It may take a few mins to show up in the queue)")
+        # Create the SQL procedure call using SQLAlchemy text()
+        query = text("CALL sp_song_request(:email, :song, :artist, :first_name)")
+
+        # Execute the procedure with the parameters as named arguments
+        with conn.begin():  # Start a transaction block
+            conn.execute(query, {"email": email, "song": song, "artist": artist, "first_name": first_name})
+
+        # Show success message
+        st.success("Your song is added successfully! (It may take a few mins to show up in the queue)")
+
     except Exception as e:
         st.error(f"Error connecting to the database: {e}")
-    # try:
-    #     # Using SQLAlchemy's connection to execute the procedure
-    #     with conn.begin():
-    #         conn.execute("CALL sp_song_request(%s, %s, %s, %s);", (email, song, artist, first_name))
-    #     st.success("Your song is added successfully! (It may take a few mins to show up in the queue)")
-    # except Exception as e:
-    #     st.error(f"Error: {e}")
+ 
 
 # Uses st.cache_data to only rerun when the query changes or after 10 min.
 @st.cache_data(ttl=600)
