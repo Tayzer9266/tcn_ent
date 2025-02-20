@@ -70,17 +70,30 @@ conn = init_connection()
 # Function to execute the stored procedure
 def execute_procedure(email, song, artist, first_name):
     try:
-        # Using SQLAlchemy's connection to execute the procedure
-        with conn.begin():
-            conn.execute("CALL sp_song_request(%s, %s, %s, %s);", (email, song, artist, first_name))
-        st.success("Your song is added successfully! (It may take a few mins to show up in the queue)")
+        # Testing the connection
+        conn.execute("SELECT 1")
     except Exception as e:
-        st.error(f"Error: {e}")
+        st.error(f"Error connecting to the database: {e}")
+    # try:
+    #     # Using SQLAlchemy's connection to execute the procedure
+    #     with conn.begin():
+    #         conn.execute("CALL sp_song_request(%s, %s, %s, %s);", (email, song, artist, first_name))
+    #     st.success("Your song is added successfully! (It may take a few mins to show up in the queue)")
+    # except Exception as e:
+    #     st.error(f"Error: {e}")
 
 # Uses st.cache_data to only rerun when the query changes or after 10 min.
-@st.experimental_memo(ttl=600)
+@st.cache_data(ttl=600)
 def run_query(query):
-    return pd.read_sql(query, conn)
+    # Use SQLAlchemy connection and execute query
+    result = conn.execute(query)
+    # Fetch all results and load them into a pandas DataFrame
+    rows = result.fetchall()
+    if rows is None:
+        return pd.DataFrame()  # Return an empty DataFrame instead of None
+
+    columns = result.keys()  # Get column names
+    return pd.DataFrame(rows, columns=columns)
 
 # Input fields
 st.subheader("Song Request Form")
