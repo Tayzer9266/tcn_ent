@@ -119,6 +119,7 @@ query = """
     SELECT s.Song_Order, c.first_name AS Request_By, s.song_name AS Song_Name, s.artist_name AS Artist_Name
     FROM song_requests s
     LEFT JOIN clients c ON c.client_id = s.created_by
+    where s.deleted_at is null
     ORDER BY s.song_order
 """
 rows = run_query(query)
