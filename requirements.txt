@@ -1,4 +1,2 @@
 streamlit
 sqlalchemy
-pandas
-psycopg2
