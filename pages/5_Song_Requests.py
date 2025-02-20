@@ -1,5 +1,6 @@
 import streamlit as st  
 from sqlalchemy import create_engine
+from sqlalchemy import text
 import pandas as pd
 import base64
 from PIL import Image
@@ -86,7 +87,7 @@ def execute_procedure(email, song, artist, first_name):
 @st.cache_data(ttl=600)
 def run_query(query):
     # Use SQLAlchemy connection and execute query
-    result = conn.execute(query)
+    result = conn.execute(text(query))
     # Fetch all results and load them into a pandas DataFrame
     rows = result.fetchall()
     if rows is None:
