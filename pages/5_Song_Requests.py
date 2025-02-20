@@ -61,7 +61,7 @@ db_config = st.secrets["postgres"]
 
 # Create the SQLAlchemy engine using connection string format
 def init_connection():
-    connection_string = f"postgresql+psycopg2://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['dbname']}"
+    connection_string = f"postgresql://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['dbname']}"
     engine = create_engine(connection_string)
     return engine.connect()
 
