@@ -89,17 +89,17 @@ def init_connection():
 
 conn = init_connection()
 
-
-def execute_procedure(first_name, last_name, phone_number, email, best_time, event_date, start_time, end_time, estimated_budget, event_type, event_location, guest_count, mc_service, karoake, pa_system, dancing_lights, disco_ball, uplighting, fog_machine_lights, low_fog_machine, photo_booth, photo_booth_prints, booth_location, comments, created_by):
+def execute_procedure(first_name, last_name, phone_number, email, best_time, event_date, start_time,
+                      estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball,
+                      uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location,
+                      comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types):
     try:
         # Convert boolean radio button responses to True/False
-        mc_service = mc_service == 'Yes'
-        karoake = karoake == 'Yes'
         pa_system = pa_system == 'Yes'
         dancing_lights = dancing_lights == 'Yes'
         disco_ball = disco_ball == 'Yes'
         uplighting = uplighting == 'Yes'
-        fog_machine_lights = fog_machine_lights == 'Yes'
+        fog_machine = fog_machine == 'Yes'
         low_fog_machine = low_fog_machine == 'Yes'
         photo_booth = photo_booth == 'Yes'
         photo_booth_prints = photo_booth_prints == 'Yes'
@@ -107,7 +107,6 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
         # Set empty string inputs to None
         best_time = best_time if best_time else None
         start_time = start_time if start_time else None
-        end_time = end_time if end_time else None
         estimated_budget = estimated_budget if estimated_budget else None
         event_location = event_location if event_location else None
         booth_location = booth_location if booth_location else None
@@ -115,27 +114,35 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
         created_by = created_by if created_by else None
 
         # Create the SQL procedure call using SQLAlchemy text()
-        query = text("CALL sp_client_quote(:first_name, :last_name, :phone_number, :email " +
-                     ", :best_time, :event_date, :start_time, :end_time, :estimated_budget, :event_type, :event_location " +
-                     ", :guest_count, :mc_service, :karoake, :pa_system, :dancing_lights, :disco_ball, :uplighting, :fog_machine_lights " +
-                     ", :low_fog_machine, :photo_booth, :photo_booth_prints, :booth_location, :comments, :created_by)")
+        query = text("CALL sp_client_quote(:first_name, :last_name, :phone_number, :email, " +
+                     ":best_time, :event_date, :start_time, " +
+                     ":estimated_budget, :event_type, :event_location, :guest_count, :pa_system, " +
+                     ":dancing_lights, :disco_ball, :uplighting, :fog_machine, " +
+                     ":low_fog_machine, :photo_booth, :photo_booth_prints, :booth_location, " +
+                     ":comments, :created_by, :uplight_ct, :backdrop_props, :back_drop_type, " +
+                     ":service_hours, :service_types)")
 
         # Execute the procedure with the parameters as named arguments
         with conn.begin():  # Start a transaction block
             conn.execute(query, {
-                "first_name": first_name, "last_name": last_name, "phone_number": phone_number, "email": email, 
-                "best_time": best_time, "event_date": event_date, "start_time": start_time, "end_time": end_time, 
-                "estimated_budget": estimated_budget, "event_type": event_type, "event_location": event_location, 
-                "guest_count": guest_count, "mc_service": mc_service, "karoake": karoake, "pa_system": pa_system, 
-                "dancing_lights": dancing_lights, "disco_ball": disco_ball, "uplighting": uplighting, "fog_machine_lights": fog_machine_lights, 
-                "low_fog_machine": low_fog_machine, "photo_booth": photo_booth, "photo_booth_prints": photo_booth_prints, 
-                "booth_location": booth_location, "comments": comments, "created_by": created_by
+                "first_name": first_name, "last_name": last_name, "phone_number": phone_number, "email": email,
+                "best_time": best_time, "event_date": event_date, "start_time": start_time,
+                "estimated_budget": estimated_budget, "event_type": event_type, "event_location": event_location,
+                "guest_count": guest_count, "pa_system": pa_system, "dancing_lights": dancing_lights, "disco_ball": disco_ball,
+                "uplighting": uplighting, "fog_machine": fog_machine, "low_fog_machine": low_fog_machine, "photo_booth": photo_booth,
+                "photo_booth_prints": photo_booth_prints, "booth_location": booth_location, "comments": comments,
+                "created_by": created_by, "uplight_ct": uplight_ct, "backdrop_props": backdrop_props,
+                "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types
             })
 
         # Show success message
         st.success('Thank you! We will be in touch shortly.', icon="✅")
     except Exception as e:
         st.error(f"Error connecting to the database: {e}")
+
+
+
+
 
  
 
@@ -154,100 +161,129 @@ def run_query(query):
     df = df.reset_index(drop=True)
     return df
 
-
+photo_booth_options = ['Yes', 'No']
 booth_location= ""
 created_by=""
-with st.form("my_form"):
-    first_name = st.text_input("First Name*", "")  #FirstName
-    last_name = st.text_input("Last Name*", "") #LastName
-    phone_number = st.text_input("Phone Number*", "") #Phone
-    email = st.text_input("Email Address*", "") #Email
-    event_date = st.date_input("Event Date*", value=None) 
-    event_type = st.selectbox("Event Type?*", ("","Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Other"))
-    best_time = st.time_input("Best Time to Contact", None) 
-    start_time = st.time_input("Estimated Start Time*", None) #Start
-    end_time = st.time_input("Estimated End Time*", None) #End
-    estimated_budget = st.number_input("Budget Amount", 0) #Budget
-    event_location = st.text_input("Venue Location", "") #Location
-    guest_count = st.slider('Number of guests', 1, 600, value=50)
-    service_hour_count = st.slider('Number of hours professional needed', 2, 9, value=2)
-    mc_service = st.radio(
-        "Do you need MC Service?",
-        ('Yes', 'No'),
-        index=1)
-    karoake = st.radio(
-        "Do you need Karoake Service?",
-        ('Yes', 'No'),
-        index=1)
-    pa_system = st.radio(
-        "Do you need PA systems?",
-        ('Yes', 'No'),
-        index=0)
-    microphone = st.radio(
-        "Do you need microphones?",
-        ('Yes', 'No'),
-        index=0)
-    dancing_lights = st.radio(
-        "Do you need dance lights?",
-        ('Yes', 'No'),
-        index=0)
-    disco_ball = st.radio(
-        "Do you need a disco ball with lighting?",
-        ('Yes', 'No'),
-        index=1)
-    uplighting = st.radio(
-        "Do you need uplighting for the venue?",
-        ('Yes', 'No'),
-        index=1)
-    how_many_uplights = None
-    if uplighting == 'Yes':
-        how_many_uplights = st.slider('If yes, How many uplights', 0, 20, value=0)
-    fog_machine_lights = st.radio(
-        "Do you need a fog machine?",
-        ('Yes', 'No'),
-        index=1)
-    low_fog_machine = st.radio(
-        "Do you want dancing on the clouds?",
-        ('Yes', 'No'),
-        index=1)
-    photo_booth = st.radio(
-        "Do you need a photo booth?",
-        ('Yes', 'No'),
-        index=1)
-    photo_booth_prints = st.radio(
-        "If yes, do you need photo prints?",
-        ('Yes', 'No'),
-        index=1)
-    backdrop = st.radio(
-        "If yes, do you need a backdrop?",
-        ('Yes', 'No'),
-        index=1)
-    back_drop_type = st.selectbox(
-        "Select a backdrop",
-        ("","White", "Shimmering Black"),
-        index=0,
-        placeholder=""
-    )
-    backdrop_props = st.radio(
-        "If yes, do you need photo booth props?",
-        ('Yes', 'No'),
-        index=1)
-    comments = st.text_area("Additional comments", "")   
-    created_by = ""
+def main():
+    # Ask the user if they want a new quote
+    # Create a drop-down menu for new quote or preview existing quotes
+    option = st.selectbox("Select a quote", ("", "New", "Prior"))
+    if option == "New": 
+        with st.form("my_form"):
+            service_types = st.multiselect("Service Type?*", ("","DJ","MC", "Karaoke"))
+            first_name = st.text_input("First Name*", "")  #FirstName
+            last_name = st.text_input("Last Name*", "") #LastName
+            phone_number = st.text_input("Phone Number*", "") #Phone
+            email = st.text_input("Email Address*", "") #Email
+            event_date = st.date_input("Event Date*", value=None) 
+            event_type = st.selectbox("Event Type?*", ("","Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Other"))
+            best_time = st.time_input("Best Time to Contact", None) 
+            service_hours = st.slider('Number of hours professional needed', 2, 24, value=2)
+            start_time = st.time_input("Estimated Start Time*", None) #Start
+            estimated_budget = st.number_input("Budget Amount", 0) #Budget
+            event_location = st.text_input("Venue Location", "") #Location
+            guest_count = st.slider('Number of guests', 1, 600, value=50)
+            pa_system = st.radio(
+                "Do you need PA systems?",
+                ('Yes', 'No'),
+                index=0)
+            microphone = st.radio(
+                "Do you need microphones?",
+                ('Yes', 'No'),
+                index=0)
+            dancing_lights = st.radio(
+                "Do you need dance lights?",
+                ('Yes', 'No'),
+                index=0)
+            disco_ball = st.radio(
+                "Do you need a disco ball?",
+                ('Yes', 'No'),
+                index=1)
+            uplighting = st.radio(
+                "Do you need uplighting?",
+                ('Yes', 'No'),
+                index=1)
+            uplight_ct = st.slider('If yes, How many uplights', 0, 20, value=0)
+            fog_machine = st.radio(
+                "Do you need a fog machine?",
+                ('Yes', 'No'),
+                index=1)
+            low_fog_machine = st.radio(
+                "Do you want dancing on the clouds?",
+                ('Yes', 'No'),
+                index=1)
+            
+            photo_booth = st.radio(
+                "Do you need a photo booth?",
+                ('Yes', 'No'),
+                index=1)
+       
+            photo_booth_prints = st.radio(
+                    "If yes, do you need photo prints?",
+                    ('Yes', 'No'),
+                    index=1
+                )
+            backdrop = st.radio(
+                    "If yes, do you need a backdrop?",
+                    ('Yes', 'No'),
+                    index=1
+                )
+            back_drop_type = st.selectbox(
+                    "Select a backdrop",
+                    ("", "White", "Shimmering Black"),
+                    index=0,
+                    placeholder=""
+                )
+            backdrop_props = st.radio(
+                    "If yes, do you need photo booth props?",
+                    ('Yes', 'No'),
+                    index=1
+                )
+            comments = st.text_area("Additional comments", "")   
+            created_by = ""
 
-    # Submit button
-    submitted = st.form_submit_button("Submit")
-
-    if submitted:
-        # Check if all required fields are filled
-        st.session_state["my_input"] = first_name
-        if email and phone_number and first_name and event_date:
-            execute_procedure(first_name, last_name, phone_number, email, best_time, event_date, start_time, end_time, estimated_budget, event_type, event_location, guest_count, mc_service, karoake, pa_system, dancing_lights, disco_ball, uplighting, fog_machine_lights, low_fog_machine, photo_booth, photo_booth_prints, booth_location, comments, created_by)
-        else:
-            st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Est Time, Service Type).")
-
-
+            # Submit button
+            submitted = st.form_submit_button("Submit")
+            if submitted:
+                # Check if all required fields are filled
+                st.session_state["my_input"] = first_name
+                if email and phone_number and first_name and event_date:
+                    execute_procedure(first_name, last_name, phone_number, email, best_time, event_date, start_time, estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct, back_drop_type, backdrop_props, service_hours, service_types)
+                else:
+                    st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
  
+
+    elif option == "Prior":
+        # Add your logic to preview existing quotes here
+        email = st.text_input("Email Address*", "") 
+        # Add a submit button
+        if st.button('View') and email:
+            query = f"""
+                SELECT booking_id, 
+                    event_status, 
+                    event_date, 
+                    event_type, 
+                    estimated_guest, 
+                    event_location, 
+                    start_time, 
+                    service_hours, 
+                    payment_due_date, 
+                    billing_status, 
+                    actual_cost  
+                FROM f_get_bookings('{email}')
+            """
+            rows = run_query(query)
+    
+            if rows.empty:
+                st.write("No prior quotes.")
+            else:
+                st.write(rows, index=False)
+
+       
+
+if __name__ == "__main__":
+    main()
+    
 
  
  
