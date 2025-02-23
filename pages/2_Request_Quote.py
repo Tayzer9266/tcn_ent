@@ -246,7 +246,7 @@ def main():
             if submitted:
                 # Check if all required fields are filled
                 st.session_state["my_input"] = first_name
-                if email and phone_number and first_name and event_date:
+                if email and phone_number and first_name and event_date and service_hours and event_type:
                     execute_procedure(first_name, last_name, phone_number, email, best_time, event_date, start_time, estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct, back_drop_type, backdrop_props, service_hours, service_types)
                 else:
                     st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
