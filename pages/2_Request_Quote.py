@@ -1,9 +1,9 @@
-import streamlit as st
-from PIL import Image
-import base64
-import streamlit.components.v1 as components
+import streamlit as st  
 from sqlalchemy import create_engine
 from sqlalchemy import text
+import pandas as pd
+import base64
+from PIL import Image
 
 
 
