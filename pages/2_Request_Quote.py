@@ -267,8 +267,8 @@ def main():
                     event_location, 
                     start_time, 
                     service_hours, 
-                    payment_due_date, 
                     billing_status, 
+                    payment_due_date, 
                     actual_cost  
                 FROM f_get_bookings('{email}')
             """
