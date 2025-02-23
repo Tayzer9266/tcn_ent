@@ -69,12 +69,12 @@ st.write(
         with an accurate quote. Get started today and make your event one to remember with the best in entertainment!"""
 )
 
-# HTML content
-html_content = """
-<a href="https://www.gigsalad.com/tcn_entertainment_dallas"><img src="https://cress.gigsalad.com/images/svg/standalone/promokit-links/book-securely/book-securely--dark.svg" alt="Hire me on GigSalad" height="100" width="300"></a>
-"""
-# Display the HTML content
-components.html(html_content, height=100)
+# # HTML content
+# html_content = """
+# <a href="https://www.gigsalad.com/tcn_entertainment_dallas"><img src="https://cress.gigsalad.com/images/svg/standalone/promokit-links/book-securely/book-securely--dark.svg" alt="Hire me on GigSalad" height="100" width="300"></a>
+# """
+# # Display the HTML content
+# components.html(html_content, height=100)
 
 ################################################## DATABASE CONNECTION ############################################################################
 

@@ -3,6 +3,3 @@ sqlalchemy
 psycopg2-binary
 datetime
 time
-pandas
-st_aggrid
-GridOptionsBuilder
