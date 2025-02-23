@@ -157,16 +157,22 @@ def run_query(query):
     columns = result.keys()  # Get column names
     df = pd.DataFrame(rows, columns=columns)
     # Exclude the index (reset the index to avoid displaying it)
-    df = df.reset_index(drop=True)
+    #df = df.reset_index(drop=True)
     return df
 
-photo_booth_options = ['Yes', 'No']
-booth_location= ""
-created_by=""
+
+
 def main():
     # Ask the user if they want a new quote
     # Create a drop-down menu for new quote or preview existing quotes
-    option = st.selectbox("Select a quote", ("", "New", "Prior"))
+    global selected_bookings
+    selected_bookings = []
+    if 'selected_bookings' not in st.session_state:
+        st.session_state.selected_bookings = []
+    photo_booth_options = ['Yes', 'No']
+    booth_location= ""
+    created_by=""
+    option = st.selectbox("Select a quote", ("", "New", "Current"))
     if option == "New": 
         with st.form("my_form"):
             service_types = st.multiselect("Service Type?*", ("","DJ","MC", "Karaoke"))
@@ -251,13 +257,14 @@ def main():
                 else:
                     st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
  
+ 
 
-    elif option == "Prior":
+    elif option == "Current":
         # Add your logic to preview existing quotes here
         email = st.text_input("Email Address*", "") 
         # Add a submit button
-        if st.button('View') and email:
-            query = f"""
+        #if st.button('View') and email:
+        query = f"""
                 SELECT booking_id, 
                     event_status, 
                     event_date, 
@@ -272,19 +279,30 @@ def main():
                     last_name
                 FROM f_get_bookings('{email}')
             """
-            rows = run_query(query)
+        rows = run_query(query)
     
-            if rows.empty:
-                st.write("No prior quotes.")
-            else:
-                st.write(rows, index=False)
+        if rows.empty:
+                if email:
+                    st.write("Loading...")
+        else:
+                st.write("Booking ID | Event State  |   Event Date   |   Event Type |")
+                options = []
+                for index, row in rows.iterrows():
+                    option_text = f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']}"
+                    options.append(option_text)
 
-       
+                selected_option = st.radio("", options)
+
+                if selected_option:
+                    for index, row in rows.iterrows():
+                        if selected_option == f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']}":
+                            selected_bookings.append(row['booking_id'])
+
+                    for booking in selected_bookings:
+                        st.write(booking)
 
 if __name__ == "__main__":
     main()
-    
-
  
  
  
