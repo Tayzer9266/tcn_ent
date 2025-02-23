@@ -268,7 +268,8 @@ def main():
                     service_hours, 
                     billing_status, 
                     payment_due_date, 
-                    actual_cost  
+                    actual_cost,
+                    last_name
                 FROM f_get_bookings('{email}')
             """
             rows = run_query(query)
