@@ -108,14 +108,20 @@ def run_query(query):
 st.subheader("Song Request Form")
 my_email_address = st.text_input("Email Address*", "")  # Email
 my_first_name = st.text_input("First Name", "")  # First
-my_song = st.text_input("Song Name*", "")  # Song
-my_artist = st.text_input("Artist Name*", "")  # Artist
+# Create placeholders for the Song Name and Artist Name fields
+song_placeholder = st.empty()
+artist_placeholder = st.empty()
+my_song = song_placeholder.text_input("Song Name*", "")  # Song
+my_artist = artist_placeholder.text_input("Artist Name*", "")  
 
 # Submit button
 if st.button("Submit"):
     # Check if all required fields are filled
     if my_email_address and my_song and my_artist:
         execute_procedure(my_email_address, my_song, my_artist, my_first_name)
+        # Clear the input fields
+        song_placeholder.text_input("Song Name*", "", key="clear_song")
+        artist_placeholder.text_input("Artist Name*", "", key="clear_artist")
     else:
         st.error("Please fill in all required fields.")
 
