@@ -379,93 +379,93 @@ def main():
                         payment_due_date = df['payment_due_date'][0]
                         actual_cost = df['actual_cost'][0]
 
-                        # with st.form("my_form"):
-                        #     booking_state = st.selectbox("Booking Status", (df['event_status'][0],"Canceled")) 
-                        #     service_types = st.multiselect(
-                        #         "Service Type?*",
-                        #         options=["", "DJ", "MC", "Karaoke"],
-                        #         default=['DJ','MC']
-                        #     )
-                        #     first_name = st.text_input("First Name*", df['first_name'][0])  #FirstName
-                        #     last_name = st.text_input("Last Name*", df['last_name'][0]) #LastName
-                        #     phone_number = st.text_input("Phone Number*", df['phone_number'][0]) #Phone
-                        #     email = st.text_input("Email Address*", df['email'][0]) #Email
-                        #     event_date = st.date_input("Event Date*", df['event_date'][0]) 
-                        #     event_type = st.selectbox("Event Type?*", (df['event_type'][0],"Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Other"))
-                        #     best_time = st.time_input("Best Time to Contact", df['best_time'][0]) 
-                        #     service_hours = st.slider('Number of hours professional needed', 2, 24, value=df['service_hours'][0])
-                        #     start_time = st.time_input("Estimated Start Time*", df['start_time'][0]) #Start
-                        #     estimated_budget = st.number_input("Budget Amount", ) #Budget
-                        #     event_location = st.text_input("Venue Location", df['event_location'][0]) #Location
-                        #     guest_count = st.slider('Number of guests', 1, 600, value=df['guest_count'][0])
-                        #     pa_system = st.radio(
-                        #         "Do you need PA systems?",
-                        #         ('Yes', 'No'),
-                        #         index=int(df['pa_system'][0]))
-                        #     microphone = st.radio(
-                        #         "Do you need microphones?",
-                        #         ('Yes', 'No'),
-                        #         index=0)
-                        #     dancing_lights = st.radio(
-                        #         "Do you need dance lights?",
-                        #         ('Yes', 'No'),
-                        #         index=int(df['dancing_lights'][0]))
-                        #     disco_ball = st.radio(
-                        #         "Do you need a disco ball?",
-                        #         ('Yes', 'No'),
-                        #         index=int(df['disco_ball'][0]))
-                        #     uplighting = st.radio(
-                        #         "Do you need uplighting?",
-                        #         ('Yes', 'No'),
-                        #         index=int(df['uplight_ct'][0]))
-                        #     uplight_ct = st.slider('If yes, How many uplights', 0, 20, value=0)
-                        #     fog_machine = st.radio(
-                        #         "Do you need a fog machine?",
-                        #         ('Yes', 'No'),
-                        #         index=1)
-                        #     low_fog_machine = st.radio(
-                        #         "Do you want dancing on the clouds?",
-                        #         ('Yes', 'No'),
-                        #         index=1)
+                        with st.form("my_form"):
+                            booking_state = st.selectbox("Booking Status", (df['event_status'][0],"Canceled")) 
+                            service_types = st.multiselect(
+                                "Service Type?*",
+                                options=["", "DJ", "MC", "Karaoke"],
+                                default=['DJ','MC']
+                            )
+                            first_name = st.text_input("First Name*", df['first_name'][0])  #FirstName
+                            last_name = st.text_input("Last Name*", df['last_name'][0]) #LastName
+                            phone_number = st.text_input("Phone Number*", df['phone_number'][0]) #Phone
+                            email = st.text_input("Email Address*", df['email'][0]) #Email
+                            event_date = st.date_input("Event Date*", df['event_date'][0]) 
+                            event_type = st.selectbox("Event Type?*", (df['event_type'][0],"Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Other"))
+                            best_time = st.time_input("Best Time to Contact", df['best_time'][0]) 
+                            service_hours = st.slider('Number of hours professional needed', 2, 24, value=df['service_hours'][0])
+                            start_time = st.time_input("Estimated Start Time*", df['start_time'][0]) #Start
+                            estimated_budget = st.number_input("Budget Amount", ) #Budget
+                            event_location = st.text_input("Venue Location", df['event_location'][0]) #Location
+                            guest_count = st.slider('Number of guests', 1, 600, value=df['guest_count'][0])
+                            pa_system = st.radio(
+                                "Do you need PA systems?",
+                                ('Yes', 'No'),
+                                index=int(df['pa_system'][0]))
+                            microphone = st.radio(
+                                "Do you need microphones?",
+                                ('Yes', 'No'),
+                                index=0)
+                            dancing_lights = st.radio(
+                                "Do you need dance lights?",
+                                ('Yes', 'No'),
+                                index=int(df['dancing_lights'][0]))
+                            disco_ball = st.radio(
+                                "Do you need a disco ball?",
+                                ('Yes', 'No'),
+                                index=int(df['disco_ball'][0]))
+                            uplighting = st.radio(
+                                "Do you need uplighting?",
+                                ('Yes', 'No'),
+                                index=int(df['uplight_ct'][0]))
+                            uplight_ct = st.slider('If yes, How many uplights', 0, 20, value=0)
+                            fog_machine = st.radio(
+                                "Do you need a fog machine?",
+                                ('Yes', 'No'),
+                                index=1)
+                            low_fog_machine = st.radio(
+                                "Do you want dancing on the clouds?",
+                                ('Yes', 'No'),
+                                index=1)
                             
-                        #     photo_booth = st.radio(
-                        #         "Do you need a photo booth?",
-                        #         ('Yes', 'No'),
-                        #         index=1)
+                            photo_booth = st.radio(
+                                "Do you need a photo booth?",
+                                ('Yes', 'No'),
+                                index=1)
                     
-                        #     photo_booth_prints = st.radio(
-                        #             "If yes, do you need photo prints?",
-                        #             ('Yes', 'No'),
-                        #             index=1
-                        #         )
-                        #     backdrop = st.radio(
-                        #             "If yes, do you need a backdrop?",
-                        #             ('Yes', 'No'),
-                        #             index=1
-                        #         )
-                        #     back_drop_type = st.selectbox(
-                        #             "Select a backdrop",
-                        #             ("", "White", "Shimmering Black"),
-                        #             index=0,
-                        #             placeholder=""
-                        #         )
-                        #     backdrop_props = st.radio(
-                        #             "If yes, do you need photo booth props?",
-                        #             ('Yes', 'No'),
-                        #             index=1
-                        #         )
-                        #     comments = st.text_area("Additional comments", "")   
-                        #     created_by = ""
+                            photo_booth_prints = st.radio(
+                                    "If yes, do you need photo prints?",
+                                    ('Yes', 'No'),
+                                    index=1
+                                )
+                            backdrop = st.radio(
+                                    "If yes, do you need a backdrop?",
+                                    ('Yes', 'No'),
+                                    index=1
+                                )
+                            back_drop_type = st.selectbox(
+                                    "Select a backdrop",
+                                    ("", "White", "Shimmering Black"),
+                                    index=0,
+                                    placeholder=""
+                                )
+                            backdrop_props = st.radio(
+                                    "If yes, do you need photo booth props?",
+                                    ('Yes', 'No'),
+                                    index=1
+                                )
+                            comments = st.text_area("Additional comments", "")   
+                            created_by = ""
 
-                        #     # Submit button
-                        #     submitted = st.form_submit_button("Submit")
-                        #     if submitted:
-                        #         # Check if all required fields are filled
-                        #         st.session_state["my_input"] = first_name
-                        #         if email and phone_number and first_name and event_date and service_hours and event_type:
-                        #             execute_procedure(first_name, last_name, phone_number, email, best_time, event_date, start_time, estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct, backdrop_props, back_drop_type,  service_hours, service_types)
-                        #         else:
-                        #             st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
+                            # Submit button
+                            submitted = st.form_submit_button("Submit")
+                            if submitted:
+                                # Check if all required fields are filled
+                                st.session_state["my_input"] = first_name
+                                if email and phone_number and first_name and event_date and service_hours and event_type:
+                                    execute_procedure(first_name, last_name, phone_number, email, best_time, event_date, start_time, estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct, backdrop_props, back_drop_type,  service_hours, service_types)
+                                else:
+                                    st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
 
 if __name__ == "__main__":
     main()
