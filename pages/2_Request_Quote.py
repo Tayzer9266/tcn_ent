@@ -11,7 +11,7 @@ st.set_page_config(
     page_title="Questionnaires",
     page_icon="pages/images/TCN logo black.jpg",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
     menu_items={
         'About': "# Make your dream a reality!"
     }
@@ -394,13 +394,17 @@ def main():
                         billing_status = df['billing_status'][0]
                         payment_due_date = df['payment_due_date'][0]
                         actual_cost = df['actual_cost'][0]
-                        booking_id = {booking}
+                  
+                        back_drop_needed = 1 if not df['back_drop_type'][0] else 0
+                        booking_id = booking
                         with st.form("my_form"):
+                            st.subheader("Booking# " + str(booking_id))
+             
                             event_status = st.selectbox("Booking Status", (df['event_status'][0],"Canceled")) 
                             service_types = st.multiselect(
                                 "Service Type?*",
                                 options=["", "DJ", "MC", "Karaoke"],
-                                default=['DJ','MC']
+                                default=default_service_types
                             )
                             first_name = st.text_input("First Name*", df['first_name'][0])  #FirstName
                             last_name = st.text_input("Last Name*", df['last_name'][0]) #LastName
@@ -459,13 +463,16 @@ def main():
                             backdrop = st.radio(
                                     "If yes, do you need a backdrop?",
                                     ('Yes', 'No'),
-                                    index=1
+                                    index=back_drop_needed
                                 )
                             back_drop_type = st.selectbox(
-                                    "Select a backdrop",
-                                    (df['back_drop_type'][0], "White", "Shimmering Black"),
-                                    index=0
-                                )
+                                "Select a backdrop",
+                                (str(df['back_drop_type'][0]), "White", "Shimmering Black"),
+                                index=0
+                       
+                            )
+                
+
                             backdrop_props = st.radio(
                                     "If yes, do you need photo booth props?",
                                     ('Yes', 'No'),
