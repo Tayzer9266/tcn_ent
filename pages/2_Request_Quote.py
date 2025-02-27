@@ -221,7 +221,11 @@ def main():
     photo_booth_options = ['Yes', 'No']
     booth_location= ""
     created_by=""
-    option = st.selectbox("Select a quote", ("", "New", "Current"))
+    option = st.radio(
+                "Select a quote",
+                ('New', 'Current'),
+                index=0)
+ 
     if option == "New": 
         with st.form("my_form"):
             service_types = st.multiselect("Service Type?*", ("","DJ","MC", "Karaoke"))
