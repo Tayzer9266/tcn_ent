@@ -254,10 +254,7 @@ def main():
                 "Do you need microphones?",
                 ('Yes', 'No'),
                 index=0)
-            cold_sparks = st.radio(
-                "Do you need cold sparks?",
-                ('Yes', 'No'),
-                index=0)
+
             dancing_lights = st.radio(
                 "Do you need dance lights?",
                 ('Yes', 'No'),
@@ -279,7 +276,10 @@ def main():
                 "Do you want dancing on the clouds?",
                 ('Yes', 'No'),
                 index=1)
-            
+            cold_sparks = st.radio(
+                "Do you need cold sparks?",
+                ('Yes', 'No'),
+                index=1)
             photo_booth = st.radio(
                 "Do you need a photo booth?",
                 ('Yes', 'No'),
