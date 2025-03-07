@@ -176,7 +176,7 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
                      ":dancing_lights, :disco_ball, :uplighting, :fog_machine, " +
                      ":low_fog_machine, :photo_booth, :photo_booth_prints, :booth_location, " +
                      ":comments, :created_by, :uplight_ct, :backdrop_props, :back_drop_type, " +
-                     ":service_hours, :service_types :cold_sparks, :microphone)")
+                     ":service_hours, :service_types, :cold_sparks, :microphone)")
 
         # Execute the procedure with the parameters as named arguments
         with conn.begin():  # Start a transaction block
