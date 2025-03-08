@@ -347,7 +347,7 @@ def main():
                 if email:
                     st.write("Loading...")
         else:
-                st.write("Booking ID | Event State  |   Event Date   |   Event Type |")
+                st.write("Booking ID | Event State  |   Event Date   |   Event Type ")
                 options = []
                 for index, row in rows.iterrows():
                     option_text = f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']}"
