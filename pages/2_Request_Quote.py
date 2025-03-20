@@ -298,11 +298,11 @@ def main():
                     ('Yes', 'No'),
                     index=1
                 )
-            backdrop = st.radio(
-                    "If yes, do you need a backdrop?",
-                    ('Yes', 'No'),
-                    index=1
-                )
+            # backdrop = st.radio(
+            #         "If yes, do you need a backdrop?",
+            #         ('Yes', 'No'),
+            #         index=1
+            #     )
             back_drop_type = st.selectbox(
                     "Select a backdrop",
                     ("", "White", "Shimmering Black"),
