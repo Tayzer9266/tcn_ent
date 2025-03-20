@@ -503,11 +503,11 @@ def main():
                                     ('Yes', 'No'),
                                     index=int(df['photo_booth_prints'][0])
                                 )
-                            backdrop = st.radio(
-                                    "If yes, do you need a backdrop?",
-                                    ('Yes', 'No'),
-                                    index=back_drop_needed
-                                )
+                            # backdrop = st.radio(
+                            #         "If yes, do you need a backdrop?",
+                            #         ('Yes', 'No'),
+                            #         index=back_drop_needed
+                            #     )
                             back_drop_type = st.selectbox(
                                 "Select a backdrop",
                                 (str(df['back_drop_type'][0]), "White", "Shimmering Black"),
