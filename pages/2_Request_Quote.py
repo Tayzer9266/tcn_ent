@@ -101,7 +101,8 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
         fog_machine = fog_machine == 'Yes'
         backdrop_props = backdrop_props == 'Yes'
         low_fog_machine = low_fog_machine == 'Yes'
-        photo_booth = photo_booth == 'Yes'
+        #photo_booth = photo_booth == 'Yes'
+        monogram = monogram == 'Yes'
         photo_booth_prints = photo_booth_prints == 'Yes'
         cold_sparks = cold_sparks == 'Yes'
         microphone = microphone == 'Yes'
@@ -121,7 +122,7 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
                      ":dancing_lights, :disco_ball, :uplighting, :fog_machine, " +
                      ":low_fog_machine, :photo_booth, :photo_booth_prints, :booth_location, " +
                      ":comments, :created_by, :uplight_ct, :backdrop_props, :back_drop_type, " +
-                     ":service_hours, :service_types, :cold_sparks, :microphone)")
+                     ":service_hours, :service_types, :cold_sparks, :microphone, :monogram)")
 
         # Execute the procedure with the parameters as named arguments
         with conn.begin():  # Start a transaction block
@@ -133,7 +134,7 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
                 "uplighting": uplighting, "fog_machine": fog_machine, "low_fog_machine": low_fog_machine, "photo_booth": photo_booth,
                 "photo_booth_prints": photo_booth_prints, "booth_location": booth_location, "comments": comments,
                 "created_by": created_by, "uplight_ct": uplight_ct, "backdrop_props": backdrop_props,
-                "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types, "cold_sparks": cold_sparks, "microphone": microphone
+                "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types, "cold_sparks": cold_sparks, "microphone": microphone, "monogram": monogram
             })
 
         # Show success message
@@ -145,7 +146,7 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
 def execute_procedure_update(booking_id, event_status, first_name, last_name, phone_number, email, best_time, event_date, start_time,
                       estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball,
                       uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location,
-                      comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types, cold_sparks, microphone):
+                      comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types, cold_sparks, microphone, monogram):
     try:
         # Convert boolean radio button responses to True/False
         pa_system = pa_system == 'Yes'
@@ -155,7 +156,8 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
         fog_machine = fog_machine == 'Yes'
         low_fog_machine = low_fog_machine == 'Yes'
         backdrop_props = backdrop_props == 'Yes'
-        photo_booth = photo_booth == 'Yes'
+       # photo_booth = photo_booth == 'Yes'
+        microphone = microphone == 'Yes'
         photo_booth_prints = photo_booth_prints == 'Yes'
         cold_sparks = cold_sparks == 'Yes'
         microphone = microphone == 'Yes'
@@ -176,7 +178,7 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
                      ":dancing_lights, :disco_ball, :uplighting, :fog_machine, " +
                      ":low_fog_machine, :photo_booth, :photo_booth_prints, :booth_location, " +
                      ":comments, :created_by, :uplight_ct, :backdrop_props, :back_drop_type, " +
-                     ":service_hours, :service_types, :cold_sparks, :microphone)")
+                     ":service_hours, :service_types, :cold_sparks, :microphone, :monogram)")
 
         # Execute the procedure with the parameters as named arguments
         with conn.begin():  # Start a transaction block
@@ -188,7 +190,7 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
                 "uplighting": uplighting, "fog_machine": fog_machine, "low_fog_machine": low_fog_machine, "photo_booth": photo_booth,
                 "photo_booth_prints": photo_booth_prints, "booth_location": booth_location, "comments": comments,
                 "created_by": created_by, "uplight_ct": uplight_ct, "backdrop_props": backdrop_props,
-                "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types, "cold_sparks": cold_sparks, "microphone": microphone
+                "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types, "cold_sparks": cold_sparks, "microphone": microphone, "monogram": monogram
             })
 
         # Show success message
@@ -223,7 +225,7 @@ def main():
     selected_bookings = []
     if 'selected_bookings' not in st.session_state:
         st.session_state.selected_bookings = []
-    photo_booth_options = ['Yes', 'No']
+    #photo_booth_options = ['Yes', 'No']
     booth_location= ""
     created_by=""
     option = st.radio(
@@ -276,14 +278,20 @@ def main():
                 "Do you want dancing on the clouds?",
                 ('Yes', 'No'),
                 index=1)
+            monogram = st.radio(
+                "Do you want a projecting monogram?",
+                ('Yes', 'No'),
+                index=1)
             cold_sparks = st.radio(
                 "Do you need cold sparks?",
                 ('Yes', 'No'),
                 index=1)
-            photo_booth = st.radio(
-                "Do you need a photo booth?",
-                ('Yes', 'No'),
-                index=1)
+            photo_booth = st.selectbox(
+                    "Select a photo booth",
+                    ("", "DSLR Photo Booth", "IPad Photo Booth"),
+                    index=0,
+                    placeholder=""
+                )
        
             photo_booth_prints = st.radio(
                     "If yes, do you need photo prints?",
@@ -315,7 +323,10 @@ def main():
                 # Check if all required fields are filled
                 st.session_state["my_input"] = first_name
                 if email and phone_number and first_name and event_date and service_hours and event_type:
-                    execute_procedure(first_name, last_name, phone_number, email, best_time, event_date, start_time, estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct, backdrop_props, back_drop_type,  service_hours, service_types, cold_sparks, microphone)
+                    execute_procedure(first_name, last_name, phone_number, email, best_time, event_date, start_time, estimated_budget, event_type,
+                                       event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting, fog_machine, low_fog_machine, 
+                                       photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct, backdrop_props, back_drop_type,  
+                                       service_hours, service_types, cold_sparks, microphone, monogram)
                 else:
                     st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
  
@@ -398,7 +409,8 @@ def main():
                         payment_due_date,
                         actual_cost ,
                         cold_sparks,
-                        microphone
+                        microphone,
+                        monogram
                         FROM f_get_booking_details('{booking}')
                         """
 
@@ -456,6 +468,11 @@ def main():
                                 ('Yes', 'No'),
                                 index=int(df['disco_ball'][0])
                                 )
+                            monogram = st.radio(
+                                "Do you want a projecting monogram?",
+                                ('Yes', 'No'),
+                                index=int(df['monogram'][0])
+                                )
                             uplighting = st.radio(
                                 "Do you need uplighting?",
                                 ('Yes', 'No'),
@@ -470,11 +487,16 @@ def main():
                                 "Do you want dancing on the clouds?",
                                 ('Yes', 'No'),
                                 index=int(df['low_fog_machine'][0]))
+                            photo_booth = st.selectbox(
+                                        "Select a photo booth",
+                                        (str(df['photo_booth'][0]), "DSLR Photo Booth", "IPad Photo Booth"),
+                                        index=0
+                                    )
                             
-                            photo_booth = st.radio(
-                                "Do you need a photo booth?",
-                                ('Yes', 'No'),
-                                index=int(df['photo_booth'][0]))
+                            # photo_booth = st.radio(
+                            #     "Do you need a photo booth?",
+                            #     ('Yes', 'No'),
+                            #     index=int(df['photo_booth'][0]))
                     
                             photo_booth_prints = st.radio(
                                     "If yes, do you need photo prints?",
@@ -510,7 +532,10 @@ def main():
                                
                                 if email and phone_number and first_name and event_date and service_hours and event_type:
                                     booking_id = next(iter(booking_id)) if isinstance(booking_id, set) else booking_id
-                                    execute_procedure_update(booking_id, event_status, first_name, last_name, phone_number, email, best_time, event_date, start_time, estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct, backdrop_props, back_drop_type,  service_hours, service_types, cold_sparks, microphone)
+                                    execute_procedure_update(booking_id, event_status, first_name, last_name, phone_number, email, best_time, event_date, start_time, 
+                                                             estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting, 
+                                                             fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct, 
+                                                             backdrop_props, back_drop_type,  service_hours, service_types, cold_sparks, microphone, monogram)
                                 else:
                                     st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
 
