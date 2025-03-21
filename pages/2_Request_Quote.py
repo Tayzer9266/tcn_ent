@@ -157,6 +157,7 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
         low_fog_machine = low_fog_machine == 'Yes'
         backdrop_props = backdrop_props == 'Yes'
        # photo_booth = photo_booth == 'Yes'
+        monogram = monogram == 'Yes'
         microphone = microphone == 'Yes'
         photo_booth_prints = photo_booth_prints == 'Yes'
         cold_sparks = cold_sparks == 'Yes'
@@ -202,7 +203,9 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
  
 
 # Uses st.cache_data to only rerun when the query changes or after 10 min.
-@st.cache_data(ttl=600)
+#@st.cache_data.clear()
+@st.cache_data(ttl=10)
+
 def run_query(query):
     # Use SQLAlchemy connection and execute query
     result = conn.execute(text(query))
@@ -216,7 +219,26 @@ def run_query(query):
     #df = df.reset_index(drop=True)
     return df
 
+@st.cache_data(ttl=600)
+def run_query_as_text(query):
+    # Use SQLAlchemy connection and execute query
+    result = conn.execute(text(query))
+    rows = result.fetchall()  # Fetch all results
 
+    if not rows:  # Check if rows are empty
+        return "No data was returned for the given query."
+
+    # Get column names
+    columns = result.keys()
+
+    # Format rows as text
+    text_output = "Query Results:\n"
+    text_output += "\t".join(columns) + "\n"  # Add column headers
+    text_output += "-" * 40 + "\n"  # Add a separator
+    for row in rows:
+        text_output += "\t".join(map(str, row)) + "\n"  # Add each row of data
+
+    return text_output
 
 def main():
     # Ask the user if they want a new quote
@@ -240,6 +262,7 @@ def main():
             last_name = st.text_input("Last Name*", "") #LastName
             phone_number = st.text_input("Phone Number*", "") #Phone
             email = st.text_input("Email Address*", "") #Email
+            discount_code = st.text_input("Discount Code", "") #Phone
             event_date = st.date_input("Event Date*", value=None) 
             event_type = st.selectbox("Event Type?*", ("","Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Other"))
             best_time = st.time_input("Best Time to Contact", None) 
@@ -298,11 +321,7 @@ def main():
                     ('Yes', 'No'),
                     index=1
                 )
-            # backdrop = st.radio(
-            #         "If yes, do you need a backdrop?",
-            #         ('Yes', 'No'),
-            #         index=1
-            #     )
+ 
             back_drop_type = st.selectbox(
                     "Select a backdrop",
                     ("", "White", "Shimmering Black"),
@@ -358,8 +377,9 @@ def main():
                 if email:
                     st.write("Loading...")
         else:
-                st.write("Booking ID | Event State  |   Event Date   |   Event Type ")
+                
                 options = []
+                st.write("Booking ID | Event State  |   Event Date   |   Event Type ")
                 for index, row in rows.iterrows():
                     option_text = f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']}"
                     options.append(option_text)
@@ -367,12 +387,36 @@ def main():
                 selected_option = st.radio("", options)
 
                 if selected_option:
+                    
                     for index, row in rows.iterrows():
                         if selected_option == f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']}":
                             selected_bookings.append(row['booking_id'])
 
+
                     for booking in selected_bookings:
-                        #st.write(booking)
+                      
+
+                        query2 = f"""
+                        SELECT a.product as items,
+                            a.units,
+                            a.market_total AS market_price,
+                            a.savings as  savings, 
+                            a.amount AS total
+                        FROM f_service_product_total('{booking}') as a
+                        """
+
+
+                        # Execute the query and create a DataFrame
+                        df = run_query(query2)
+
+                        # Display the DataFrame
+                        if not df.empty:
+                            st.write(df) # Display the first few rows for verification
+                          
+                        else:
+                            st.write("No data was returned for the given query.")
+                             
+
                         # Define your query
                         query = f"""
                         SELECT 
@@ -538,6 +582,9 @@ def main():
                                                              backdrop_props, back_drop_type,  service_hours, service_types, cold_sparks, microphone, monogram)
                                 else:
                                     st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
+
+
+
 
 if __name__ == "__main__":
     main()
