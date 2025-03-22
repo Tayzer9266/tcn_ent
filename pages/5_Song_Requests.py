@@ -131,6 +131,7 @@ query = """
     FROM song_requests s
     LEFT JOIN clients c ON c.client_id = s.created_by
     where s.deleted_at is null
+    and s.created_at::date = now()::date
     ORDER BY s.song_order
 """
 rows = run_query(query)

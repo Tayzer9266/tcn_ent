@@ -411,8 +411,9 @@ def main():
 
                         # Display the DataFrame
                         if not df.empty:
+                            st.write('*This is just an estimate. We are ready to match any offer—reach out to us today!')
                             st.write(df) # Display the first few rows for verification
-                          
+                            
                         else:
                             st.write("No data was returned for the given query.")
                              
