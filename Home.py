@@ -56,12 +56,12 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 db_config = st.secrets["postgres"]
 
 # Create the SQLAlchemy engine using connection string format
-# def init_connection():
-#     connection_string = f"postgresql://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['dbname']}"
-#     engine = create_engine(connection_string)
-#     return engine.connect()
+def init_connection():
+    connection_string = f"postgresql://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['dbname']}"
+    engine = create_engine(connection_string)
+    return engine.connect()
 
-# conn = init_connection()
+conn = init_connection()
 
 
 # Uses st.cache_data to only rerun when the query changes or after 10 min.
@@ -270,7 +270,15 @@ st.write("[Get an instant quote>](Request_Quote)")
 #             st.text("No scheduled events found.")
 
 
-
+# try:
+#     # Execute your query
+#     result = conn.execute("SELECT * FROM your_table")
+#     # Process the results here
+#     for row in result:
+#         print(row)
+# finally:
+#     # Ensure the connection is closed
+#     conn.close()
 
 
 

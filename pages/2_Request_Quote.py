@@ -382,13 +382,17 @@ def main():
             if submitted:
                 # Check if all required fields are filled
                 st.session_state["my_input"] = first_name
-                if email and phone_number and first_name and event_date and service_hours and event_type:
-                    execute_procedure(first_name, last_name, phone_number, email, best_time, event_date, start_time, estimated_budget, event_type,
-                                       event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting, fog_machine, low_fog_machine, 
-                                       photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct, backdrop_props, back_drop_type,  
-                                       service_hours, service_types, cold_sparks, microphone, monogram, discount_code)
-                else:
-                    st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
+                try:
+                    if email and phone_number and first_name and event_date and service_hours and event_type:
+                        conn = init_connection()
+                        execute_procedure(first_name, last_name, phone_number, email, best_time, event_date, start_time, estimated_budget, event_type,
+                                        event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting, fog_machine, low_fog_machine, 
+                                        photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct, backdrop_props, back_drop_type,  
+                                        service_hours, service_types, cold_sparks, microphone, monogram, discount_code)
+                    else:
+                        st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
+                finally:
+                    conn.close()
  
  
 
@@ -412,8 +416,13 @@ def main():
                     last_name
                 FROM f_get_bookings('{email}')
             """
-        rows = run_query(query)
-    
+        
+        try:
+            conn = init_connection()     
+            rows = run_query(query)
+        finally:
+            conn.close()
+            
         if rows.empty:
                 if email:
                     st.write("Loading...")
@@ -501,10 +510,13 @@ def main():
                         discount_code
                         FROM f_get_booking_details('{booking}')
                         """
-
+                        try:
+                            conn = init_connection()
                         # Run the query and store the results in a DataFrame
-                        df = run_query(query)
-                        # Convert boolean columns to integers (0 for True, 1 for False)
+                            df = run_query(query)
+                            # Convert boolean columns to integers (0 for True, 1 for False)
+                        finally:
+                            conn.close()
                         df = df.applymap(lambda x: 0 if x is True else 1 if x is False else x)
                         default_service_types = df['service_types'][0]
                         billing_status = df['billing_status'][0]
@@ -614,18 +626,19 @@ def main():
                                 if submitted:
                                     # Check if all required fields are filled
                                     st.session_state["my_input"] = first_name
-                              
-                                    if email and phone_number and first_name and event_date and service_hours and event_type:
-                                        booking_id = next(iter(booking_id)) if isinstance(booking_id, set) else booking_id
-                                        execute_procedure_update(booking_id, event_status, first_name, last_name, phone_number, email, best_time, event_date, start_time, 
-                                                                estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting, 
-                                                                fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct, 
-                                                                backdrop_props, back_drop_type,  service_hours, service_types, cold_sparks, microphone, monogram, price_override, discount_code)
-                                    else:
-                                        st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
+                                    try: 
+                                        if email and phone_number and first_name and event_date and service_hours and event_type:
+                                            booking_id = next(iter(booking_id)) if isinstance(booking_id, set) else booking_id
+                                            execute_procedure_update(booking_id, event_status, first_name, last_name, phone_number, email, best_time, event_date, start_time, 
+                                                                    estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting, 
+                                                                    fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct, 
+                                                                    backdrop_props, back_drop_type,  service_hours, service_types, cold_sparks, microphone, monogram, price_override, discount_code)
+                                        else:
+                                            st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
+                                    finally:
+                                        conn.close()
 
-
-
+ 
 
 if __name__ == "__main__":
     main()
