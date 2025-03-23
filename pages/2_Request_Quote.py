@@ -495,7 +495,7 @@ def main():
                                     price_override = st.text_input("Override Price", df['price_override'][0])
 
                                 discount_code  = st.text_input("Discount Code", df['discount_code'][0]) 
-
+                                st.write(df['service_hours'][0])
                                 first_name = st.text_input("First Name*", df['first_name'][0])  #FirstName
                                 last_name = st.text_input("Last Name*", df['last_name'][0]) #LastName
                                 phone_number = st.text_input("Phone Number*", df['phone_number'][0]) #Phone
