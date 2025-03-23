@@ -476,9 +476,9 @@ def main():
 
                         # Display the DataFrame
                     if not df.empty:
-                            st.write('*This is just an estimate. We are ready to match or beat any offer—reach out to us today!')
-                            st.write(df) # Display the first few rows for verification
                             
+                            st.write(df) # Display the first few rows for verification
+                            st.warning("This is just an estimate. We are ready to match or beat any offer—reach out to us today!")  
                     else:
                             st.write("No data was returned for the given query.")
                              
