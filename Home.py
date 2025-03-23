@@ -241,33 +241,33 @@ st.write("[Get an instant quote>](Request_Quote)")
 
 
 
-# Sumamry Section
-with st.container():
-    st.write("---")
-    left_column, right_column = st.columns(2)
-    with left_column:
-        st.header("Upcoming Events")
-        st.write("##")
+# # Sumamry Section
+# with st.container():
+#     st.write("---")
+#     left_column, right_column = st.columns(2)
+#     with left_column:
+#         st.header("Upcoming Events")
+#         st.write("##")
 
-        query = """
-            select event_date::date  as event_date
-            , a.event_name 
-            , a.event_status
-            from events a
-            where event_status in ('Scheduled','Ongoing')
-            and a.deleted_at is null 
-            and event_date >= now()::date
-            order by event_date 
-        """
-        # Execute the query and create a DataFrame
-        df = run_query(query)
+#         query = """
+#             select event_date::date  as event_date
+#             , a.event_name 
+#             , a.event_status
+#             from events a
+#             where event_status in ('Scheduled','Ongoing')
+#             and a.deleted_at is null 
+#             and event_date >= now()::date
+#             order by event_date 
+#         """
+#         # Execute the query and create a DataFrame
+#         df = run_query(query)
 
-        # Display the query results as text rows
-        if not df.empty:
-            for index, row in df.iterrows():
-                st.text(f" {row['event_date']} - {row['event_status']} - {row['event_name']} ")
-        else:
-            st.text("No scheduled events found.")
+#         # Display the query results as text rows
+#         if not df.empty:
+#             for index, row in df.iterrows():
+#                 st.text(f" {row['event_date']} - {row['event_status']} - {row['event_name']} ")
+#         else:
+#             st.text("No scheduled events found.")
 
 
 

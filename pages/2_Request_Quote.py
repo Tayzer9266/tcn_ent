@@ -433,7 +433,7 @@ def main():
                         if selected_option == f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']}":
                             selected_bookings.append(row['booking_id'])
 
-
+                    #booking = selected_bookings[0]
                     for booking in selected_bookings:
                       
 
