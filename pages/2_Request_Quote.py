@@ -4,7 +4,8 @@ from sqlalchemy import text
 import pandas as pd
 import base64
 from PIL import Image
-
+ 
+ 
 
 
 st.set_page_config(
@@ -218,56 +219,46 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
 #@st.cache_data.clear()
 @st.cache_data(ttl=10)
 
+# def run_query(query):
+#     #try:
+#         # Use SQLAlchemy connection and execute query
+#         result = conn.execute(text(query))
+#         # Fetch all results and load them into a pandas DataFrame
+#         rows = result.fetchall()
+#         if rows is None:
+#             return pd.DataFrame()  # Return an empty DataFrame instead of None
+#         columns = result.keys()  # Get column names
+#         df = pd.DataFrame(rows, columns=columns)
+#         # Exclude the index (reset the index to avoid displaying it)
+#         #df = df.reset_index(drop=True)
+    
+#         return df
+#     # finally:
+#     #     conn.close()  # Ensure the connection is closed
 def run_query(query):
-    #try:
-        # Use SQLAlchemy connection and execute query
-        result = conn.execute(text(query))
-        # Fetch all results and load them into a pandas DataFrame
-        rows = result.fetchall()
-        if rows is None:
-            return pd.DataFrame()  # Return an empty DataFrame instead of None
-        columns = result.keys()  # Get column names
-        df = pd.DataFrame(rows, columns=columns)
-        # Exclude the index (reset the index to avoid displaying it)
-        #df = df.reset_index(drop=True)
+    try:
+        # Begin a transaction
+        with conn.begin() as transaction:
+            # Execute the query
+            result = conn.execute(text(query))
+            
+            # Fetch all results and load them into a pandas DataFrame
+            rows = result.fetchall()
+            if not rows:
+                return pd.DataFrame()  # Return an empty DataFrame if no rows
+            
+            columns = result.keys()  # Get column names
+            df = pd.DataFrame(rows, columns=columns)
+            df = df.reset_index(drop=True)  # Reset index to avoid displaying it
+            
+            # If no exception occurred, the transaction will auto-commit
+            return df
+    except Exception as e:
+        # Rollback the transaction on error
+        transaction.rollback()
+        raise RuntimeError(f"Error executing query: {e}")
     
-        return df
-    # finally:
-    #     conn.close()  # Ensure the connection is closed
  
-def run_query2(query):
-    #try:
-        # Use SQLAlchemy connection and execute query
-        result = conn.execute(text(query))
-        # Fetch all results and load them into a pandas DataFrame
-        rows = result.fetchall()
-        if rows is None:
-            return pd.DataFrame()  # Return an empty DataFrame instead of None
-        columns = result.keys()  # Get column names
-        df = pd.DataFrame(rows, columns=columns)
-        # Exclude the index (reset the index to avoid displaying it)
-        #df = df.reset_index(drop=True)
-    
-        return df
-    # finally:
-    #     conn.close()  # Ensure the connection is closed
-
-def run_query3(query):
-    #try:
-        # Use SQLAlchemy connection and execute query
-        result = conn.execute(text(query))
-        # Fetch all results and load them into a pandas DataFrame
-        rows = result.fetchall()
-        if rows is None:
-            return pd.DataFrame()  # Return an empty DataFrame instead of None
-        columns = result.keys()  # Get column names
-        df = pd.DataFrame(rows, columns=columns)
-        # Exclude the index (reset the index to avoid displaying it)
-        #df = df.reset_index(drop=True)
-    
-        return df
-    # finally:
-    #     conn.close()  # Ensure the connection is closed
 
 @st.cache_data(ttl=600)
 def run_query_as_text(query):
@@ -446,7 +437,7 @@ def main():
                     for booking in selected_bookings:
                       
 
-                        query2 = f"""
+                        query = f"""
                         SELECT a.product as items,
                             a.units,
                             a.market_total AS market_price,
@@ -457,12 +448,12 @@ def main():
 
 
                         # Execute the query and create a DataFrame
-                        df2 = run_query2(query2)
+                        df = run_query(query)
 
                         # Display the DataFrame
-                        if not df2.empty:
+                        if not df.empty:
                             st.write('*This is just an estimate. We are ready to match or beat any offer—reach out to us today!')
-                            st.write(df2) # Display the first few rows for verification
+                            st.write(df) # Display the first few rows for verification
                             
                         else:
                             st.write("No data was returned for the given query.")
@@ -512,7 +503,7 @@ def main():
                         """
 
                         # Run the query and store the results in a DataFrame
-                        df = run_query3(query)
+                        df = run_query(query)
                         # Convert boolean columns to integers (0 for True, 1 for False)
                         df = df.applymap(lambda x: 0 if x is True else 1 if x is False else x)
                         default_service_types = df['service_types'][0]
