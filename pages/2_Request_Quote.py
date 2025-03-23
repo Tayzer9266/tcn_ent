@@ -91,7 +91,8 @@ conn = init_connection()
 def execute_procedure(first_name, last_name, phone_number, email, best_time, event_date, start_time,
                       estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball,
                       uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location,
-                      comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types, cold_sparks, microphone, monogram):
+                      comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types, cold_sparks, microphone, monogram,
+                      discount_code):
     try:
         # Convert boolean radio button responses to True/False
         pa_system = pa_system == 'Yes'
@@ -122,7 +123,7 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
                      ":dancing_lights, :disco_ball, :uplighting, :fog_machine, " +
                      ":low_fog_machine, :photo_booth, :photo_booth_prints, :booth_location, " +
                      ":comments, :created_by, :uplight_ct, :backdrop_props, :back_drop_type, " +
-                     ":service_hours, :service_types, :cold_sparks, :microphone, :monogram)")
+                     ":service_hours, :service_types, :cold_sparks, :microphone, :monogram, :discount_code)")
 
         # Execute the procedure with the parameters as named arguments
         with conn.begin():  # Start a transaction block
@@ -134,7 +135,8 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
                 "uplighting": uplighting, "fog_machine": fog_machine, "low_fog_machine": low_fog_machine, "photo_booth": photo_booth,
                 "photo_booth_prints": photo_booth_prints, "booth_location": booth_location, "comments": comments,
                 "created_by": created_by, "uplight_ct": uplight_ct, "backdrop_props": backdrop_props,
-                "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types, "cold_sparks": cold_sparks, "microphone": microphone, "monogram": monogram
+                "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types, "cold_sparks": cold_sparks, "microphone": microphone, 
+                "monogram": monogram, "discount_code": discount_code
             })
 
         # Show success message
@@ -146,7 +148,8 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
 def execute_procedure_update(booking_id, event_status, first_name, last_name, phone_number, email, best_time, event_date, start_time,
                       estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball,
                       uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location,
-                      comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types, cold_sparks, microphone, monogram, price_override):
+                      comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types, cold_sparks, microphone, monogram, 
+                      price_override, discount_code):
     try:
         # Convert boolean radio button responses to True/False
         pa_system = pa_system == 'Yes'
@@ -179,7 +182,7 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
                      ":dancing_lights, :disco_ball, :uplighting, :fog_machine, " +
                      ":low_fog_machine, :photo_booth, :photo_booth_prints, :booth_location, " +
                      ":comments, :created_by, :uplight_ct, :backdrop_props, :back_drop_type, " +
-                     ":service_hours, :service_types, :cold_sparks, :microphone, :monogram, :price_override)")
+                     ":service_hours, :service_types, :cold_sparks, :microphone, :monogram, :price_override, :discount_code)")
 
         # Execute the procedure with the parameters as named arguments
         with conn.begin():  # Start a transaction block
@@ -192,7 +195,7 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
                 "photo_booth_prints": photo_booth_prints, "booth_location": booth_location, "comments": comments,
                 "created_by": created_by, "uplight_ct": uplight_ct, "backdrop_props": backdrop_props,
                 "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types, "cold_sparks": cold_sparks, "microphone": microphone, "monogram": monogram,
-                "price_override": price_override
+                "price_override": price_override, "discount_code": discount_code
             })
 
 
@@ -347,7 +350,7 @@ def main():
                     execute_procedure(first_name, last_name, phone_number, email, best_time, event_date, start_time, estimated_budget, event_type,
                                        event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting, fog_machine, low_fog_machine, 
                                        photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct, backdrop_props, back_drop_type,  
-                                       service_hours, service_types, cold_sparks, microphone, monogram)
+                                       service_hours, service_types, cold_sparks, microphone, monogram, discount_code)
                 else:
                     st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
  
@@ -458,7 +461,8 @@ def main():
                         cold_sparks,
                         microphone,
                         monogram,
-                        price_override
+                        price_override,
+                        discount_code
                         FROM f_get_booking_details('{booking}')
                         """
 
@@ -473,113 +477,116 @@ def main():
                   
                         back_drop_needed = 1 if not df['back_drop_type'][0] else 0
                         booking_id = booking
-                        with st.form("my_form"):
-                            st.subheader("Booking# " + str(booking_id))
+                        if df['event_status'][0] != 'Scheduled' or email == "5003":
+                            with st.form("my_form"):
+                                st.subheader("Booking# " + str(booking_id))
 
-                            if email == "5003":
-                                event_status = st.selectbox("Booking Status", (df['event_status'][0], "Ongoing","Canceled","Scheduled")) 
-                            else:
-                                event_status = st.selectbox("Booking Status", (df['event_status'][0],"Ongoing","Canceled")) 
-
-                            service_types = st.multiselect(
-                                "Service Type?*",
-                                options=["", "DJ", "MC", "Karaoke"],
-                                default=default_service_types
-                            )
-                            if email == "5003":
-                                price_override = st.text_input("Override Price", df['price_override'][0])
-
-                            first_name = st.text_input("First Name*", df['first_name'][0])  #FirstName
-                            last_name = st.text_input("Last Name*", df['last_name'][0]) #LastName
-                            phone_number = st.text_input("Phone Number*", df['phone_number'][0]) #Phone
-                            email = st.text_input("Email Address*", df['email'][0]) #Email
-                            event_date = st.date_input("Event Date*", df['event_date'][0]) 
-                            event_type = st.selectbox("Event Type?*", (df['event_type'][0],"Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Other"))
-                            best_time = st.time_input("Best Time to Contact", df['best_time'][0]) 
-                            service_hours = st.slider('Number of hours professional needed', 2, 24, value=df['service_hours'][0])
-                            start_time = st.time_input("Estimated Start Time*", df['start_time'][0]) #Start
-                            estimated_budget = st.number_input("Budget Amount", ) #Budget
-                            event_location = st.text_input("Venue Location", df['event_location'][0]) #Location
-                            guest_count = st.slider('Number of guests', 1, 600, value=df['guest_count'][0])
-                       
-                            pa_system = st.radio(
-                                "Do you need PA systems?",
-                                ('Yes', 'No'),
-                                index=int(df['pa_system'][0]))
-                            microphone = st.radio(
-                                "Do you need microphones?",
-                                ('Yes', 'No'),
-                                index=int(df['microphone'][0]))
-                            cold_sparks = st.radio(
-                                "Do you need cold sparks?",
-                                ('Yes', 'No'),
-                                index=int(df['cold_sparks'][0]))
-                            dancing_lights = st.radio(
-                                "Do you need dance lights?",
-                                ('Yes', 'No'),
-                                index=int(df['dancing_lights'][0]))
-                            disco_ball = st.radio(
-                                "Do you need a disco ball?",
-                                ('Yes', 'No'),
-                                index=int(df['disco_ball'][0])
-                                )
-                            monogram = st.radio(
-                                "Do you want a projecting monogram?",
-                                ('Yes', 'No'),
-                                index=int(df['monogram'][0])
-                                )
-                            uplighting = st.radio(
-                                "Do you need uplighting?",
-                                ('Yes', 'No'),
-                                index=int(df['uplighting'][0])
-                                )
-                            uplight_ct = st.slider('If yes, How many uplights', 0, 20, value=df['uplight_ct'][0])
-                            fog_machine = st.radio(
-                                "Do you need a fog machine?",
-                                ('Yes', 'No'),
-                                index=int(df['fog_machine'][0]))
-                            low_fog_machine = st.radio(
-                                "Do you want dancing on the clouds?",
-                                ('Yes', 'No'),
-                                index=int(df['low_fog_machine'][0]))
-                            photo_booth = st.selectbox(
-                                        "Select a photo booth",
-                                        (str(df['photo_booth'][0]), "", "DSLR Photo Booth", "IPad Photo Booth"),
-                                        index=0
-                                    )
-                            photo_booth_prints = st.radio(
-                                    "If yes, do you need photo prints?",
-                                    ('Yes', 'No'),
-                                    index=int(df['photo_booth_prints'][0])
-                                )
-                            back_drop_type = st.selectbox(
-                                "Select a backdrop",
-                                (str(df['back_drop_type'][0]), "White", "Shimmering Black"),
-                                index=0
-                            )
-
-                            backdrop_props = st.radio(
-                                    "If yes, do you need photo booth props?",
-                                    ('Yes', 'No'),
-                                    index=int(df['photo_booth_props'][0])
-                                )
-                            comments = st.text_area("Additional comments", df['comments'][0])   
-                            created_by = ""
-
-                            # Submit button
-                            submitted = st.form_submit_button("Update")
-                            if submitted:
-                                # Check if all required fields are filled
-                                st.session_state["my_input"] = first_name
-                                st.write(event_status)
-                                if email and phone_number and first_name and event_date and service_hours and event_type:
-                                    booking_id = next(iter(booking_id)) if isinstance(booking_id, set) else booking_id
-                                    execute_procedure_update(booking_id, event_status, first_name, last_name, phone_number, email, best_time, event_date, start_time, 
-                                                             estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting, 
-                                                             fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct, 
-                                                             backdrop_props, back_drop_type,  service_hours, service_types, cold_sparks, microphone, monogram, price_override)
+                                if email == "5003":
+                                    event_status = st.selectbox("Booking Status", (df['event_status'][0], "Ongoing","Canceled","Scheduled")) 
                                 else:
-                                    st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
+                                    event_status = st.selectbox("Booking Status", (df['event_status'][0],"Ongoing","Canceled")) 
+
+                                service_types = st.multiselect(
+                                    "Service Type?*",
+                                    options=["", "DJ", "MC", "Karaoke"],
+                                    default=default_service_types
+                                )
+                                if email == "5003":
+                                    price_override = st.text_input("Override Price", df['price_override'][0])
+
+                                discount_code  = st.text_input("Discount Code", df['discount_code'][0]) 
+
+                                first_name = st.text_input("First Name*", df['first_name'][0])  #FirstName
+                                last_name = st.text_input("Last Name*", df['last_name'][0]) #LastName
+                                phone_number = st.text_input("Phone Number*", df['phone_number'][0]) #Phone
+                                email = st.text_input("Email Address*", df['email'][0]) #Email
+                                event_date = st.date_input("Event Date*", df['event_date'][0]) 
+                                event_type = st.selectbox("Event Type?*", (df['event_type'][0],"Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Other"))
+                                best_time = st.time_input("Best Time to Contact", df['best_time'][0]) 
+                                service_hours = st.slider('Number of hours professional needed', 2, 24, value=df['service_hours'][0])
+                                start_time = st.time_input("Estimated Start Time*", df['start_time'][0]) #Start
+                                estimated_budget = st.number_input("Budget Amount", ) #Budget
+                                event_location = st.text_input("Venue Location", df['event_location'][0]) #Location
+                                guest_count = st.slider('Number of guests', 1, 600, value=df['guest_count'][0])
+                        
+                                pa_system = st.radio(
+                                    "Do you need PA systems?",
+                                    ('Yes', 'No'),
+                                    index=int(df['pa_system'][0]))
+                                microphone = st.radio(
+                                    "Do you need microphones?",
+                                    ('Yes', 'No'),
+                                    index=int(df['microphone'][0]))
+                                cold_sparks = st.radio(
+                                    "Do you need cold sparks?",
+                                    ('Yes', 'No'),
+                                    index=int(df['cold_sparks'][0]))
+                                dancing_lights = st.radio(
+                                    "Do you need dance lights?",
+                                    ('Yes', 'No'),
+                                    index=int(df['dancing_lights'][0]))
+                                disco_ball = st.radio(
+                                    "Do you need a disco ball?",
+                                    ('Yes', 'No'),
+                                    index=int(df['disco_ball'][0])
+                                    )
+                                monogram = st.radio(
+                                    "Do you want a projecting monogram?",
+                                    ('Yes', 'No'),
+                                    index=int(df['monogram'][0])
+                                    )
+                                uplighting = st.radio(
+                                    "Do you need uplighting?",
+                                    ('Yes', 'No'),
+                                    index=int(df['uplighting'][0])
+                                    )
+                                uplight_ct = st.slider('If yes, How many uplights', 0, 20, value=df['uplight_ct'][0])
+                                fog_machine = st.radio(
+                                    "Do you need a fog machine?",
+                                    ('Yes', 'No'),
+                                    index=int(df['fog_machine'][0]))
+                                low_fog_machine = st.radio(
+                                    "Do you want dancing on the clouds?",
+                                    ('Yes', 'No'),
+                                    index=int(df['low_fog_machine'][0]))
+                                photo_booth = st.selectbox(
+                                            "Select a photo booth",
+                                            (str(df['photo_booth'][0]), "", "DSLR Photo Booth", "IPad Photo Booth"),
+                                            index=0
+                                        )
+                                photo_booth_prints = st.radio(
+                                        "If yes, do you need photo prints?",
+                                        ('Yes', 'No'),
+                                        index=int(df['photo_booth_prints'][0])
+                                    )
+                                back_drop_type = st.selectbox(
+                                    "Select a backdrop",
+                                    (str(df['back_drop_type'][0]), "White", "Shimmering Black"),
+                                    index=0
+                                )
+
+                                backdrop_props = st.radio(
+                                        "If yes, do you need photo booth props?",
+                                        ('Yes', 'No'),
+                                        index=int(df['photo_booth_props'][0])
+                                    )
+                                comments = st.text_area("Additional comments", df['comments'][0])   
+                                created_by = ""
+
+                                # Submit button
+                                submitted = st.form_submit_button("Update")
+                                if submitted:
+                                    # Check if all required fields are filled
+                                    st.session_state["my_input"] = first_name
+                              
+                                    if email and phone_number and first_name and event_date and service_hours and event_type:
+                                        booking_id = next(iter(booking_id)) if isinstance(booking_id, set) else booking_id
+                                        execute_procedure_update(booking_id, event_status, first_name, last_name, phone_number, email, best_time, event_date, start_time, 
+                                                                estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting, 
+                                                                fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct, 
+                                                                backdrop_props, back_drop_type,  service_hours, service_types, cold_sparks, microphone, monogram, price_override, discount_code)
+                                    else:
+                                        st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
 
 
 
