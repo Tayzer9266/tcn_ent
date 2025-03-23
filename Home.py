@@ -204,7 +204,7 @@ html_content2 = """
 """
 
 # Display the HTML content
-components.html(html_content2, height=150)
+#components.html(html_content2, height=150)
 
 # HTML content
 html_content = """
@@ -213,7 +213,7 @@ html_content = """
 
 # Display the HTML content
 components.html(html_content, height=900)
-st.write("[Get an instant estimate>](Request_Quote)")
+st.write("[Get an instant quote>](Request_Quote)")
 
 
 
