@@ -219,25 +219,7 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
 
  
 
-# Uses st.cache_data to only rerun when the query changes or after 10 min.
-#@st.cache_data.clear()
-#@st.cache_data(ttl=10)
-
-# def run_query(query):
-#     #try:
-#         # Use SQLAlchemy connection and execute query
-#         result = conn.execute(text(query))
-#         # Fetch all results and load them into a pandas DataFrame
-#         rows = result.fetchall()
-#         if rows is None:
-#             return pd.DataFrame()  # Return an empty DataFrame instead of None
-#         columns = result.keys()  # Get column names
-#         df = pd.DataFrame(rows, columns=columns)
-#         # Exclude the index (reset the index to avoid displaying it)
-#         #df = df.reset_index(drop=True)
-    
-#         return df
-#     # finally:
+ 
 #     #     conn.close()  # Ensure the connection is closed
 def run_query(query):
     try:
@@ -261,29 +243,7 @@ def run_query(query):
     except Exception as e:
         # Log or handle the exception
         raise RuntimeError(f"Error executing query: {e}")
-    
  
-
-# @st.cache_data(ttl=600)
-# def run_query_as_text(query):
-#     # Use SQLAlchemy connection and execute query
-#     result = conn.execute(text(query))
-#     rows = result.fetchall()  # Fetch all results
-
-#     if not rows:  # Check if rows are empty
-#         return "No data was returned for the given query."
-
-#     # Get column names
-#     columns = result.keys()
-
-#     # Format rows as text
-#     text_output = "Query Results:\n"
-#     text_output += "\t".join(columns) + "\n"  # Add column headers
-#     text_output += "-" * 40 + "\n"  # Add a separator
-#     for row in rows:
-#         text_output += "\t".join(map(str, row)) + "\n"  # Add each row of data
-
-#     return text_output
 
 def main():
     # Ask the user if they want a new quote
@@ -435,7 +395,6 @@ def main():
 
         try:
             rows = run_query(query)              
-                        #st.write(rows)  # Display the DataFrame
         except Exception as e:
                     st.error(f"An error occurred while retrieving bookings: {e}")
         if rows.empty:
@@ -444,7 +403,7 @@ def main():
              st.success("Here are the details of your bookings:")  
 
         options = []
-                #st.write("Booking ID | Event State  |   Event Date   |   Event Type ")
+           
         for index, row in rows.iterrows():
                     option_text = f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']}"
                     options.append(option_text)
@@ -476,9 +435,10 @@ def main():
 
                         # Display the DataFrame
                     if not df.empty:
-                            
+                            st.subheader("Event Estimate:")
+                            st.warning("We are ready to match or beat any offer—reach out to us today!")  
                             st.write(df) # Display the first few rows for verification
-                            st.warning("This is just an estimate. We are ready to match or beat any offer—reach out to us today!")  
+                            
                     else:
                             st.write("No data was returned for the given query.")
                              
@@ -525,13 +485,9 @@ def main():
                         discount_code
                         FROM f_get_booking_details('{booking}')
                         """
-                        #try:
-                            #conn = init_connection()
-                        # Run the query and store the results in a DataFrame
+
                     df = run_query(query)
-                            # Convert boolean columns to integers (0 for True, 1 for False)
-                        #finally:
-                            #conn.close()
+   
                     df = df.applymap(lambda x: 0 if x is True else 1 if x is False else x)
                     default_service_types = df['service_types'][0]
                     billing_status = df['billing_status'][0]
@@ -641,7 +597,7 @@ def main():
                                 if submitted:
                                     # Check if all required fields are filled
                                     st.session_state["my_input"] = first_name
-                                    #try: 
+                      
                                     if email and phone_number and first_name and event_date and service_hours and event_type:
                                             booking_id = next(iter(booking_id)) if isinstance(booking_id, set) else booking_id
                                             execute_procedure_update(booking_id, event_status, first_name, last_name, phone_number, email, best_time, event_date, start_time, 
@@ -650,8 +606,7 @@ def main():
                                                                     backdrop_props, back_drop_type,  service_hours, service_types, cold_sparks, microphone, monogram, price_override, discount_code)
                                     else:
                                             st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
-                                    #finally:
-                                        #conn.close()
+ 
 
  
 
