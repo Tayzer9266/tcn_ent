@@ -215,12 +215,7 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
         st.success('Your event has been updated', icon="✅")
     except Exception as e:
         st.error(f"Error connecting to the database: {e}")
-
-
- 
-
- 
-#     #     conn.close()  # Ensure the connection is closed
+ # Ensure the connection is closed
 def run_query(query):
     try:
         # Begin a transaction using the context manager
@@ -257,7 +252,7 @@ def main():
     created_by=""
     option = st.radio(
                 "Select a quote",
-                ('New', 'Current'),
+                ('New', 'Your Bookings'),
                 index=0)
  
     if option == "New": 
@@ -370,7 +365,7 @@ def main():
  
  
 
-    elif option == "Current":
+    elif option == "Your Bookings":
         # Add your logic to preview existing quotes here
         email = st.text_input("Email Address*", "") 
         # Add a submit button
@@ -433,12 +428,33 @@ def main():
                         # Execute the query and create a DataFrame
                     df = run_query(query)
 
-                        # Display the DataFrame
+ 
+
                     if not df.empty:
-                            st.subheader("Event Estimate:")
-                            st.warning("We are ready to match or beat any offer—reach out to us today!")  
-                            st.write(df) # Display the first few rows for verification
-                            
+                        st.subheader("Event Estimate:")
+                        st.warning("We are ready to match or beat any offer—reach out to us today!")
+
+                        # Ensure the first column remains as a string
+                        first_column = df.iloc[:, 0]  # Extract the first column
+
+                        # Convert the rest of the columns to numeric and round them to two decimal places
+                        numeric_columns = df.iloc[:, 1:].apply(pd.to_numeric, errors='coerce').round(2)
+
+                        # Recombine the first column and numeric columns
+                        updated_df = pd.concat([first_column, numeric_columns], axis=1)
+
+                        # Apply styles: Bold header and first column
+                        styled_df = updated_df.style.format("{:.2f}", subset=updated_df.columns[1:]).set_table_styles([
+                            {'selector': 'th', 'props': [('font-weight', 'bold')]},  # Bold headers
+                            {'selector': 'td:first-child', 'props': [('font-weight', 'bold')]}  # Bold the first column
+                        ])
+
+                        # Display the styled DataFrame
+                        st.dataframe(styled_df)
+
+
+                                                                
+ 
                     else:
                             st.write("No data was returned for the given query.")
                              
