@@ -245,7 +245,22 @@ def run_query2(query):
     # finally:
     #     conn.close()  # Ensure the connection is closed
 
-
+def run_query3(query):
+    #try:
+        # Use SQLAlchemy connection and execute query
+        result = conn.execute(text(query))
+        # Fetch all results and load them into a pandas DataFrame
+        rows = result.fetchall()
+        if rows is None:
+            return pd.DataFrame()  # Return an empty DataFrame instead of None
+        columns = result.keys()  # Get column names
+        df = pd.DataFrame(rows, columns=columns)
+        # Exclude the index (reset the index to avoid displaying it)
+        #df = df.reset_index(drop=True)
+    
+        return df
+    # finally:
+    #     conn.close()  # Ensure the connection is closed
 
 @st.cache_data(ttl=600)
 def run_query_as_text(query):
@@ -490,7 +505,7 @@ def main():
                         """
 
                         # Run the query and store the results in a DataFrame
-                        df = run_query(query)
+                        df = run_query3(query)
                         # Convert boolean columns to integers (0 for True, 1 for False)
                         df = df.applymap(lambda x: 0 if x is True else 1 if x is False else x)
                         default_service_types = df['service_types'][0]
