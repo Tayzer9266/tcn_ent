@@ -65,7 +65,7 @@ conn = init_connection()
 
 
 # Uses st.cache_data to only rerun when the query changes or after 10 min.
-@st.cache_data(ttl=600)
+# @st.cache_data(ttl=600)
 # def run_query(query):
 #     # Use SQLAlchemy connection and execute query
 #     result = conn.execute(text(query))
@@ -83,28 +83,28 @@ conn = init_connection()
 #     return df
 
 
-def run_query(query):
-    try:
-        # Begin a transaction
-        with conn.begin() as transaction:
-            # Execute the query
-            result = conn.execute(text(query))
+# def run_query(query):
+#     try:
+#         # Begin a transaction
+#         with conn.begin() as transaction:
+#             # Execute the query
+#             result = conn.execute(text(query))
             
-            # Fetch all results and load them into a pandas DataFrame
-            rows = result.fetchall()
-            if not rows:
-                return pd.DataFrame()  # Return an empty DataFrame if no rows
+#             # Fetch all results and load them into a pandas DataFrame
+#             rows = result.fetchall()
+#             if not rows:
+#                 return pd.DataFrame()  # Return an empty DataFrame if no rows
             
-            columns = result.keys()  # Get column names
-            df = pd.DataFrame(rows, columns=columns)
-            df = df.reset_index(drop=True)  # Reset index to avoid displaying it
+#             columns = result.keys()  # Get column names
+#             df = pd.DataFrame(rows, columns=columns)
+#             df = df.reset_index(drop=True)  # Reset index to avoid displaying it
             
-            # If no exception occurred, the transaction will auto-commit
-            return df
-    except Exception as e:
-        # Rollback the transaction on error
-        transaction.rollback()
-        raise RuntimeError(f"Error executing query: {e}")
+#             # If no exception occurred, the transaction will auto-commit
+#             return df
+#     except Exception as e:
+#         # Rollback the transaction on error
+#         transaction.rollback()
+#         raise RuntimeError(f"Error executing query: {e}")
 
 # Sumamry Section
 with open("pages/style/style.css") as source_style:
