@@ -212,17 +212,25 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
 @st.cache_data(ttl=10)
 
 def run_query(query):
-    # Use SQLAlchemy connection and execute query
-    result = conn.execute(text(query))
-    # Fetch all results and load them into a pandas DataFrame
-    rows = result.fetchall()
-    if rows is None:
-        return pd.DataFrame()  # Return an empty DataFrame instead of None
-    columns = result.keys()  # Get column names
-    df = pd.DataFrame(rows, columns=columns)
-    # Exclude the index (reset the index to avoid displaying it)
-    #df = df.reset_index(drop=True)
-    return df
+    try:
+        # Use SQLAlchemy connection and execute query
+        result = conn.execute(text(query))
+        # Fetch all results and load them into a pandas DataFrame
+        rows = result.fetchall()
+        if rows is None:
+            return pd.DataFrame()  # Return an empty DataFrame instead of None
+        columns = result.keys()  # Get column names
+        df = pd.DataFrame(rows, columns=columns)
+        # Exclude the index (reset the index to avoid displaying it)
+        #df = df.reset_index(drop=True)
+    
+        return df
+    finally:
+        conn.close()  # Ensure the connection is closed
+ 
+
+
+
 
 @st.cache_data(ttl=600)
 def run_query_as_text(query):
