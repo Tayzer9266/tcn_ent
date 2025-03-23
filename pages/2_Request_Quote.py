@@ -91,7 +91,7 @@ conn = init_connection()
 def execute_procedure(first_name, last_name, phone_number, email, best_time, event_date, start_time,
                       estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball,
                       uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location,
-                      comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types, cold_sparks, microphone):
+                      comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types, cold_sparks, microphone, monogram):
     try:
         # Convert boolean radio button responses to True/False
         pa_system = pa_system == 'Yes'
@@ -193,6 +193,7 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
                 "created_by": created_by, "uplight_ct": uplight_ct, "backdrop_props": backdrop_props,
                 "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types, "cold_sparks": cold_sparks, "microphone": microphone, "monogram": monogram
             })
+
 
         # Show success message
         st.success('You event has been updated', icon="✅")
@@ -472,8 +473,12 @@ def main():
                         booking_id = booking
                         with st.form("my_form"):
                             st.subheader("Booking# " + str(booking_id))
-             
-                            event_status = st.selectbox("Booking Status", (df['event_status'][0],"Canceled")) 
+
+                            if email == "5003":
+                                event_status = st.selectbox("Booking Status", (df['event_status'][0], "Ongoing","Canceled","Scheduled")) 
+                            else:
+                                event_status = st.selectbox("Booking Status", (df['event_status'][0],"Ongoing","Canceled")) 
+
                             service_types = st.multiselect(
                                 "Service Type?*",
                                 options=["", "DJ", "MC", "Karaoke"],
@@ -534,7 +539,7 @@ def main():
                                 index=int(df['low_fog_machine'][0]))
                             photo_booth = st.selectbox(
                                         "Select a photo booth",
-                                        (str(df['photo_booth'][0]), "DSLR Photo Booth", "IPad Photo Booth"),
+                                        (str(df['photo_booth'][0]), "", "DSLR Photo Booth", "IPad Photo Booth"),
                                         index=0
                                     )
                             
@@ -574,7 +579,7 @@ def main():
                             if submitted:
                                 # Check if all required fields are filled
                                 st.session_state["my_input"] = first_name
-                               
+                                st.write(event_status)
                                 if email and phone_number and first_name and event_date and service_hours and event_type:
                                     booking_id = next(iter(booking_id)) if isinstance(booking_id, set) else booking_id
                                     execute_procedure_update(booking_id, event_status, first_name, last_name, phone_number, email, best_time, event_date, start_time, 

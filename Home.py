@@ -1,8 +1,10 @@
 import streamlit as st
 import base64
 import streamlit.components.v1 as components
- 
- 
+from sqlalchemy import create_engine
+from sqlalchemy import text
+import pandas as pd
+
 # Page Tab
 st.set_page_config(
     page_title="Home",
@@ -50,6 +52,35 @@ page_bg_img = """
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
 
+# Load database credentials from Streamlit secrets
+db_config = st.secrets["postgres"]
+
+# Create the SQLAlchemy engine using connection string format
+def init_connection():
+    connection_string = f"postgresql://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['dbname']}"
+    engine = create_engine(connection_string)
+    return engine.connect()
+
+conn = init_connection()
+
+
+# Uses st.cache_data to only rerun when the query changes or after 10 min.
+@st.cache_data(ttl=600)
+def run_query(query):
+    # Use SQLAlchemy connection and execute query
+    result = conn.execute(text(query))
+    # Fetch all results and load them into a pandas DataFrame
+    rows = result.fetchall()
+    if rows is None:
+        return pd.DataFrame()  # Return an empty DataFrame instead of None
+
+    columns = result.keys()  # Get column names
+    df = pd.DataFrame(rows, columns=columns)
+
+    # Exclude the index (reset the index to avoid displaying it)
+    df = df.reset_index(drop=True)
+
+    return df
 
 # Sumamry Section
 with open("pages/style/style.css") as source_style:
@@ -149,6 +180,9 @@ with st.container():
         st.write("[Learn More >](/Song_Requests)")
  
 
+
+
+
 # Sumamry Section
 with st.container():
     st.write("---")
@@ -178,7 +212,40 @@ html_content = """
 """
 
 # Display the HTML content
-components.html(html_content, height=2000)
+components.html(html_content, height=900)
+st.write("[Get an instant estimate>](Request_Quote)")
+
+
+
+# Sumamry Section
+with st.container():
+    st.write("---")
+    left_column, right_column = st.columns(2)
+    with left_column:
+        st.header("Upcoming Events")
+        st.write("##")
+
+        query = """
+            select event_date::date  as event_date
+            , a.event_name 
+            , a.event_status
+            from events a
+            where event_status in ('Scheduled','Ongoing')
+            and a.deleted_at is null 
+            and event_date >= now()::date
+            order by event_date 
+        """
+        # Execute the query and create a DataFrame
+        df = run_query(query)
+
+        # Display the query results as text rows
+        if not df.empty:
+            for index, row in df.iterrows():
+                st.text(f" {row['event_date']} - {row['event_status']} - {row['event_name']} ")
+        else:
+            st.text("No scheduled events found.")
+
+
 
 
 
