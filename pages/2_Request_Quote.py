@@ -430,25 +430,28 @@ def main():
                         last_name
                     FROM f_get_bookings('{email}')
                 """
-        rows = run_query(query)
+        
+
+
+        try:
+            rows = run_query(query)              
+                        #st.write(rows)  # Display the DataFrame
+        except Exception as e:
+                    st.error(f"An error occurred while retrieving bookings: {e}")
         if rows.empty:
-                st.error("No bookings found for the given email address.")
+            st.error("Please enter a email address.")
         else:
-                st.success("Here are the details of your bookings:")
-                st.write(rows)  # Display the DataFrame
-        # except Exception as e:
-        #     st.error(f"An error occurred while retrieving bookings: {e}")
-      
-                
-                options = []
-                st.write("Booking ID | Event State  |   Event Date   |   Event Type ")
-                for index, row in rows.iterrows():
+             st.success("Here are the details of your bookings:")  
+
+        options = []
+                #st.write("Booking ID | Event State  |   Event Date   |   Event Type ")
+        for index, row in rows.iterrows():
                     option_text = f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']}"
                     options.append(option_text)
 
-                selected_option = st.radio("", options)
+        selected_option = st.radio("", options)
 
-                if selected_option:
+        if selected_option:
                     
                     for index, row in rows.iterrows():
                         if selected_option == f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']}":
