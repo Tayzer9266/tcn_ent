@@ -141,6 +141,7 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
                     "monogram": monogram, "discount_code": discount_code
                 })
                 transaction.commit()  # Explicitly commit the transaction
+                conn.close()
                 st.success('Thank you! We will be in touch shortly.', icon="✅")
             except Exception as e:
                 transaction.rollback()  # Rollback the transaction if an error occurs
@@ -189,6 +190,7 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
                      ":service_hours, :service_types, :cold_sparks, :microphone, :monogram, :price_override, :discount_code)")
 
         # Execute the procedure with the parameters as named arguments
+        conn = init_connection()
         with conn.begin():  # Start a transaction block
             transaction = conn.begin()
             try:
@@ -204,6 +206,7 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
                     "price_override": price_override, "discount_code": discount_code
                 })
                 transaction.commit()  # Explicitly commit the transaction
+                conn.close()
                 st.success('Your event has been updated', icon="✅")
             except Exception as e:
                 transaction.rollback()  # Rollback if there's an error
@@ -422,7 +425,6 @@ def main():
             rows = run_query(query)
         finally:
             conn.close()
-            
         if rows.empty:
                 if email:
                     st.write("Loading...")
