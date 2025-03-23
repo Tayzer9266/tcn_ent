@@ -146,7 +146,7 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
 def execute_procedure_update(booking_id, event_status, first_name, last_name, phone_number, email, best_time, event_date, start_time,
                       estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball,
                       uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location,
-                      comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types, cold_sparks, microphone, monogram):
+                      comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types, cold_sparks, microphone, monogram, price_override):
     try:
         # Convert boolean radio button responses to True/False
         pa_system = pa_system == 'Yes'
@@ -179,7 +179,7 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
                      ":dancing_lights, :disco_ball, :uplighting, :fog_machine, " +
                      ":low_fog_machine, :photo_booth, :photo_booth_prints, :booth_location, " +
                      ":comments, :created_by, :uplight_ct, :backdrop_props, :back_drop_type, " +
-                     ":service_hours, :service_types, :cold_sparks, :microphone, :monogram)")
+                     ":service_hours, :service_types, :cold_sparks, :microphone, :monogram, :price_override)")
 
         # Execute the procedure with the parameters as named arguments
         with conn.begin():  # Start a transaction block
@@ -191,7 +191,8 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
                 "uplighting": uplighting, "fog_machine": fog_machine, "low_fog_machine": low_fog_machine, "photo_booth": photo_booth,
                 "photo_booth_prints": photo_booth_prints, "booth_location": booth_location, "comments": comments,
                 "created_by": created_by, "uplight_ct": uplight_ct, "backdrop_props": backdrop_props,
-                "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types, "cold_sparks": cold_sparks, "microphone": microphone, "monogram": monogram
+                "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types, "cold_sparks": cold_sparks, "microphone": microphone, "monogram": monogram,
+                "price_override": price_override
             })
 
 
@@ -456,7 +457,8 @@ def main():
                         actual_cost ,
                         cold_sparks,
                         microphone,
-                        monogram
+                        monogram,
+                        price_override
                         FROM f_get_booking_details('{booking}')
                         """
 
@@ -484,6 +486,9 @@ def main():
                                 options=["", "DJ", "MC", "Karaoke"],
                                 default=default_service_types
                             )
+                            if email == "5003":
+                                price_override = st.text_input("Override Price", df['price_override'][0])
+
                             first_name = st.text_input("First Name*", df['first_name'][0])  #FirstName
                             last_name = st.text_input("Last Name*", df['last_name'][0]) #LastName
                             phone_number = st.text_input("Phone Number*", df['phone_number'][0]) #Phone
@@ -542,29 +547,16 @@ def main():
                                         (str(df['photo_booth'][0]), "", "DSLR Photo Booth", "IPad Photo Booth"),
                                         index=0
                                     )
-                            
-                            # photo_booth = st.radio(
-                            #     "Do you need a photo booth?",
-                            #     ('Yes', 'No'),
-                            #     index=int(df['photo_booth'][0]))
-                    
                             photo_booth_prints = st.radio(
                                     "If yes, do you need photo prints?",
                                     ('Yes', 'No'),
                                     index=int(df['photo_booth_prints'][0])
                                 )
-                            # backdrop = st.radio(
-                            #         "If yes, do you need a backdrop?",
-                            #         ('Yes', 'No'),
-                            #         index=back_drop_needed
-                            #     )
                             back_drop_type = st.selectbox(
                                 "Select a backdrop",
                                 (str(df['back_drop_type'][0]), "White", "Shimmering Black"),
                                 index=0
-                       
                             )
-                
 
                             backdrop_props = st.radio(
                                     "If yes, do you need photo booth props?",
@@ -585,7 +577,7 @@ def main():
                                     execute_procedure_update(booking_id, event_status, first_name, last_name, phone_number, email, best_time, event_date, start_time, 
                                                              estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting, 
                                                              fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct, 
-                                                             backdrop_props, back_drop_type,  service_hours, service_types, cold_sparks, microphone, monogram)
+                                                             backdrop_props, back_drop_type,  service_hours, service_types, cold_sparks, microphone, monogram, price_override)
                                 else:
                                     st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
 
