@@ -414,8 +414,8 @@ def main():
         # Add your logic to preview existing quotes here
         email = st.text_input("Email Address*", "") 
         # Add a submit button
-        try:
-            query = f"""
+        #try:
+        query = f"""
                     SELECT booking_id, 
                         event_status, 
                         event_date, 
@@ -430,10 +430,10 @@ def main():
                         last_name
                     FROM f_get_bookings('{email}')
                 """
-            rows = run_query(query)
-            if rows.empty:
+        rows = run_query(query)
+        if rows.empty:
                 st.error("No bookings found for the given email address.")
-            else:
+        else:
                 st.success("Here are the details of your bookings:")
                 st.write(rows)  # Display the DataFrame
         # except Exception as e:
