@@ -457,34 +457,34 @@ def main():
                         if selected_option == f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']}":
                             selected_bookings.append(row['booking_id'])
 
-                    #booking = selected_bookings[0]
-                    for booking in selected_bookings:
+                    booking = selected_bookings[0]
+                    #for booking in selected_bookings:
                       
 
-                        # query = f"""
-                        # SELECT a.product as items,
-                        #     a.units,
-                        #     a.market_total AS market_price,
-                        #     a.savings as  savings, 
-                        #     a.amount AS total
-                        # FROM f_service_product_total('{booking}') as a
-                        # """
+                    query = f"""
+                    SELECT a.product as items,
+                            a.units,
+                            a.market_total AS market_price,
+                            a.savings as  savings, 
+                            a.amount AS total
+                        FROM f_service_product_total('{booking}') as a
+                        """
 
 
-                        # # Execute the query and create a DataFrame
-                        # df = run_query(query)
+                        # Execute the query and create a DataFrame
+                    df = run_query(query)
 
-                        # # Display the DataFrame
-                        # if not df.empty:
-                        #     st.write('*This is just an estimate. We are ready to match or beat any offer—reach out to us today!')
-                        #     st.write(df) # Display the first few rows for verification
+                        # Display the DataFrame
+                    if not df.empty:
+                            st.write('*This is just an estimate. We are ready to match or beat any offer—reach out to us today!')
+                            st.write(df) # Display the first few rows for verification
                             
-                        # else:
-                        #     st.write("No data was returned for the given query.")
+                    else:
+                            st.write("No data was returned for the given query.")
                              
 
                         # Define your query
-                        query = f"""
+                    query = f"""
                         SELECT 
                         booking_id,
                         first_name,
@@ -528,19 +528,19 @@ def main():
                         #try:
                             #conn = init_connection()
                         # Run the query and store the results in a DataFrame
-                        df = run_query(query)
+                    df = run_query(query)
                             # Convert boolean columns to integers (0 for True, 1 for False)
                         #finally:
                             #conn.close()
-                        df = df.applymap(lambda x: 0 if x is True else 1 if x is False else x)
-                        default_service_types = df['service_types'][0]
-                        billing_status = df['billing_status'][0]
-                        payment_due_date = df['payment_due_date'][0]
-                        actual_cost = df['actual_cost'][0]
+                    df = df.applymap(lambda x: 0 if x is True else 1 if x is False else x)
+                    default_service_types = df['service_types'][0]
+                    billing_status = df['billing_status'][0]
+                    payment_due_date = df['payment_due_date'][0]
+                    actual_cost = df['actual_cost'][0]
                   
-                        back_drop_needed = 1 if not df['back_drop_type'][0] else 0
-                        booking_id = booking
-                        if df['event_status'][0] != 'Scheduled' or email == "5003":
+                    back_drop_needed = 1 if not df['back_drop_type'][0] else 0
+                    booking_id = booking
+                    if df['event_status'][0] != 'Scheduled' or email == "5003":
                             with st.form("my_form"):
                                 st.subheader("Booking# " + str(booking_id))
 
