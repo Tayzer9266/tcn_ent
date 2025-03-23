@@ -141,7 +141,7 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
                     "monogram": monogram, "discount_code": discount_code
                 })
                 transaction.commit()  # Explicitly commit the transaction
-                conn.close()
+                #conn.close()
                 st.success('Thank you! We will be in touch shortly.', icon="✅")
             except Exception as e:
                 transaction.rollback()  # Rollback the transaction if an error occurs
@@ -206,7 +206,7 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
                     "price_override": price_override, "discount_code": discount_code
                 })
                 transaction.commit()  # Explicitly commit the transaction
-                conn.close()
+                #conn.close()
                 st.success('Your event has been updated', icon="✅")
             except Exception as e:
                 transaction.rollback()  # Rollback if there's an error
@@ -220,7 +220,7 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
 
 # Uses st.cache_data to only rerun when the query changes or after 10 min.
 #@st.cache_data.clear()
-@st.cache_data(ttl=10)
+#@st.cache_data(ttl=10)
 
 # def run_query(query):
 #     #try:
@@ -263,26 +263,26 @@ def run_query(query):
     
  
 
-@st.cache_data(ttl=600)
-def run_query_as_text(query):
-    # Use SQLAlchemy connection and execute query
-    result = conn.execute(text(query))
-    rows = result.fetchall()  # Fetch all results
+# @st.cache_data(ttl=600)
+# def run_query_as_text(query):
+#     # Use SQLAlchemy connection and execute query
+#     result = conn.execute(text(query))
+#     rows = result.fetchall()  # Fetch all results
 
-    if not rows:  # Check if rows are empty
-        return "No data was returned for the given query."
+#     if not rows:  # Check if rows are empty
+#         return "No data was returned for the given query."
 
-    # Get column names
-    columns = result.keys()
+#     # Get column names
+#     columns = result.keys()
 
-    # Format rows as text
-    text_output = "Query Results:\n"
-    text_output += "\t".join(columns) + "\n"  # Add column headers
-    text_output += "-" * 40 + "\n"  # Add a separator
-    for row in rows:
-        text_output += "\t".join(map(str, row)) + "\n"  # Add each row of data
+#     # Format rows as text
+#     text_output = "Query Results:\n"
+#     text_output += "\t".join(columns) + "\n"  # Add column headers
+#     text_output += "-" * 40 + "\n"  # Add a separator
+#     for row in rows:
+#         text_output += "\t".join(map(str, row)) + "\n"  # Add each row of data
 
-    return text_output
+#     return text_output
 
 def main():
     # Ask the user if they want a new quote
@@ -385,17 +385,17 @@ def main():
             if submitted:
                 # Check if all required fields are filled
                 st.session_state["my_input"] = first_name
-                try:
-                    if email and phone_number and first_name and event_date and service_hours and event_type:
-                        conn = init_connection()
-                        execute_procedure(first_name, last_name, phone_number, email, best_time, event_date, start_time, estimated_budget, event_type,
+                #try:
+                if email and phone_number and first_name and event_date and service_hours and event_type:
+                    #conn = init_connection()
+                    execute_procedure(first_name, last_name, phone_number, email, best_time, event_date, start_time, estimated_budget, event_type,
                                         event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting, fog_machine, low_fog_machine, 
                                         photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct, backdrop_props, back_drop_type,  
                                         service_hours, service_types, cold_sparks, microphone, monogram, discount_code)
-                    else:
-                        st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
-                finally:
-                    conn.close()
+                else:
+                    st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
+                #finally:
+                    #conn.close()
  
  
 
@@ -420,11 +420,11 @@ def main():
                 FROM f_get_bookings('{email}')
             """
         
-        try:
-            conn = init_connection()     
-            rows = run_query(query)
-        finally:
-            conn.close()
+        #try:
+            #conn = init_connection()     
+        rows = run_query(query)
+        #finally:
+            #conn.close()
         if rows.empty:
                 if email:
                     st.write("Loading...")
@@ -512,13 +512,13 @@ def main():
                         discount_code
                         FROM f_get_booking_details('{booking}')
                         """
-                        try:
-                            conn = init_connection()
+                        #try:
+                            #conn = init_connection()
                         # Run the query and store the results in a DataFrame
-                            df = run_query(query)
+                        df = run_query(query)
                             # Convert boolean columns to integers (0 for True, 1 for False)
-                        finally:
-                            conn.close()
+                        #finally:
+                            #conn.close()
                         df = df.applymap(lambda x: 0 if x is True else 1 if x is False else x)
                         default_service_types = df['service_types'][0]
                         billing_status = df['billing_status'][0]
@@ -628,17 +628,17 @@ def main():
                                 if submitted:
                                     # Check if all required fields are filled
                                     st.session_state["my_input"] = first_name
-                                    try: 
-                                        if email and phone_number and first_name and event_date and service_hours and event_type:
+                                    #try: 
+                                    if email and phone_number and first_name and event_date and service_hours and event_type:
                                             booking_id = next(iter(booking_id)) if isinstance(booking_id, set) else booking_id
                                             execute_procedure_update(booking_id, event_status, first_name, last_name, phone_number, email, best_time, event_date, start_time, 
                                                                     estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting, 
                                                                     fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct, 
                                                                     backdrop_props, back_drop_type,  service_hours, service_types, cold_sparks, microphone, monogram, price_override, discount_code)
-                                        else:
+                                    else:
                                             st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
-                                    finally:
-                                        conn.close()
+                                    #finally:
+                                        #conn.close()
 
  
 
