@@ -437,26 +437,26 @@ def main():
                     for booking in selected_bookings:
                       
 
-                        query = f"""
-                        SELECT a.product as items,
-                            a.units,
-                            a.market_total AS market_price,
-                            a.savings as  savings, 
-                            a.amount AS total
-                        FROM f_service_product_total('{booking}') as a
-                        """
+                        # query = f"""
+                        # SELECT a.product as items,
+                        #     a.units,
+                        #     a.market_total AS market_price,
+                        #     a.savings as  savings, 
+                        #     a.amount AS total
+                        # FROM f_service_product_total('{booking}') as a
+                        # """
 
 
-                        # Execute the query and create a DataFrame
-                        df = run_query(query)
+                        # # Execute the query and create a DataFrame
+                        # df = run_query(query)
 
-                        # Display the DataFrame
-                        if not df.empty:
-                            st.write('*This is just an estimate. We are ready to match or beat any offer—reach out to us today!')
-                            st.write(df) # Display the first few rows for verification
+                        # # Display the DataFrame
+                        # if not df.empty:
+                        #     st.write('*This is just an estimate. We are ready to match or beat any offer—reach out to us today!')
+                        #     st.write(df) # Display the first few rows for verification
                             
-                        else:
-                            st.write("No data was returned for the given query.")
+                        # else:
+                        #     st.write("No data was returned for the given query.")
                              
 
                         # Define your query
