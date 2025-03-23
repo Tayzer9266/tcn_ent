@@ -212,7 +212,7 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
 @st.cache_data(ttl=10)
 
 def run_query(query):
-    try:
+    #try:
         # Use SQLAlchemy connection and execute query
         result = conn.execute(text(query))
         # Fetch all results and load them into a pandas DataFrame
@@ -225,10 +225,25 @@ def run_query(query):
         #df = df.reset_index(drop=True)
     
         return df
-    finally:
-        conn.close()  # Ensure the connection is closed
+    # finally:
+    #     conn.close()  # Ensure the connection is closed
  
-
+def run_query2(query):
+    #try:
+        # Use SQLAlchemy connection and execute query
+        result = conn.execute(text(query))
+        # Fetch all results and load them into a pandas DataFrame
+        rows = result.fetchall()
+        if rows is None:
+            return pd.DataFrame()  # Return an empty DataFrame instead of None
+        columns = result.keys()  # Get column names
+        df = pd.DataFrame(rows, columns=columns)
+        # Exclude the index (reset the index to avoid displaying it)
+        #df = df.reset_index(drop=True)
+    
+        return df
+    # finally:
+    #     conn.close()  # Ensure the connection is closed
 
 
 
@@ -420,12 +435,12 @@ def main():
 
 
                         # Execute the query and create a DataFrame
-                        df = run_query(query2)
+                        df2 = run_query2(query2)
 
                         # Display the DataFrame
-                        if not df.empty:
+                        if not df2.empty:
                             st.write('*This is just an estimate. We are ready to match or beat any offer—reach out to us today!')
-                            st.write(df) # Display the first few rows for verification
+                            st.write(df2) # Display the first few rows for verification
                             
                         else:
                             st.write("No data was returned for the given query.")
