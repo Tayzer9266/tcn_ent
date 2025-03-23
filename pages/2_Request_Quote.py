@@ -127,6 +127,7 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
                      ":service_hours, :service_types, :cold_sparks, :microphone, :monogram, :discount_code)")
 
         # Execute the procedure with the parameters as named arguments
+ 
         with conn.begin() as transaction:  # Start a transaction block
             try:
                 conn.execute(query, {
@@ -140,12 +141,13 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
                     "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types, "cold_sparks": cold_sparks, "microphone": microphone, 
                     "monogram": monogram, "discount_code": discount_code
                 })
-                transaction.commit()  # Explicitly commit the transaction
+      
                 #conn.close()
-                st.success('Thank you! We will be in touch shortly.', icon="✅")
+                
             except Exception as e:
                 transaction.rollback()  # Rollback the transaction if an error occurs
                 raise e
+        st.success('Thank you! We will be in touch shortly.', icon="✅")
     except Exception as e:
         st.error(f"Error connecting to the database: {e}")
 
@@ -190,9 +192,8 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
                      ":service_hours, :service_types, :cold_sparks, :microphone, :monogram, :price_override, :discount_code)")
 
         # Execute the procedure with the parameters as named arguments
-        conn = init_connection()
-        with conn.begin():  # Start a transaction block
-            transaction = conn.begin()
+ 
+        with conn.begin() as transaction:
             try:
                 conn.execute(query, {
                     "booking_id": booking_id, "event_status": event_status, "first_name": first_name, "last_name": last_name, "phone_number": phone_number, "email": email,
@@ -205,13 +206,13 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
                     "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types, "cold_sparks": cold_sparks, "microphone": microphone, "monogram": monogram,
                     "price_override": price_override, "discount_code": discount_code
                 })
-                transaction.commit()  # Explicitly commit the transaction
+ 
                 #conn.close()
-                st.success('Your event has been updated', icon="✅")
+                
             except Exception as e:
                 transaction.rollback()  # Rollback if there's an error
                 raise e
- 
+        st.success('Your event has been updated', icon="✅")
     except Exception as e:
         st.error(f"Error connecting to the database: {e}")
 
@@ -240,8 +241,8 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
 #     #     conn.close()  # Ensure the connection is closed
 def run_query(query):
     try:
-        # Begin a transaction
-        with conn.begin() as transaction:
+        # Begin a transaction using the context manager
+        with conn.begin():
             # Execute the query
             result = conn.execute(text(query))
             
@@ -250,15 +251,15 @@ def run_query(query):
             if not rows:
                 return pd.DataFrame()  # Return an empty DataFrame if no rows
             
-            columns = result.keys()  # Get column names
+            # Get column names and create the DataFrame
+            columns = result.keys()
             df = pd.DataFrame(rows, columns=columns)
             df = df.reset_index(drop=True)  # Reset index to avoid displaying it
             
-            # If no exception occurred, the transaction will auto-commit
+            # Transaction commits automatically if no exception occurs
             return df
     except Exception as e:
-        # Rollback the transaction on error
-        transaction.rollback()
+        # Log or handle the exception
         raise RuntimeError(f"Error executing query: {e}")
     
  
@@ -382,20 +383,30 @@ def main():
 
             # Submit button
             submitted = st.form_submit_button("Submit")
+
             if submitted:
-                # Check if all required fields are filled
-                st.session_state["my_input"] = first_name
-                #try:
-                if email and phone_number and first_name and event_date and service_hours and event_type:
-                    #conn = init_connection()
-                    execute_procedure(first_name, last_name, phone_number, email, best_time, event_date, start_time, estimated_budget, event_type,
-                                        event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting, fog_machine, low_fog_machine, 
-                                        photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct, backdrop_props, back_drop_type,  
-                                        service_hours, service_types, cold_sparks, microphone, monogram, discount_code)
-                else:
-                    st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
-                #finally:
-                    #conn.close()
+                try:
+                    # Check if all required fields are filled
+                    st.session_state["my_input"] = first_name
+                    
+                    if email and phone_number and first_name and event_date and service_hours and event_type:
+                        # Attempt to execute the procedure
+                        execute_procedure(
+                            first_name, last_name, phone_number, email, best_time, event_date, start_time, 
+                            estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, 
+                            uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, 
+                            comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types, 
+                            cold_sparks, microphone, monogram, discount_code
+                        )
+                        st.success("Your quote has been successfully submitted!", icon="✅")
+                    else:
+                        # Display an error if required fields are missing
+                        st.error("Please fill in all required fields: Name, Phone, Email, Event Date, Service Hours, and Event Type.")
+                except Exception as e:
+                    # Handle any unexpected errors
+                    st.error(f"An error occurred while submitting your quote: {e}")
+               
+          
  
  
 
@@ -403,32 +414,31 @@ def main():
         # Add your logic to preview existing quotes here
         email = st.text_input("Email Address*", "") 
         # Add a submit button
-        #if st.button('View') and email:
-        query = f"""
-                SELECT booking_id, 
-                    event_status, 
-                    event_date, 
-                    event_type, 
-                    estimated_guest, 
-                    event_location, 
-                    start_time, 
-                    service_hours, 
-                    billing_status, 
-                    payment_due_date, 
-                    actual_cost,
-                    last_name
-                FROM f_get_bookings('{email}')
-            """
-        
-        #try:
-            #conn = init_connection()     
-        rows = run_query(query)
-        #finally:
-            #conn.close()
-        if rows.empty:
-                if email:
-                    st.write("Loading...")
-        else:
+        try:
+            query = f"""
+                    SELECT booking_id, 
+                        event_status, 
+                        event_date, 
+                        event_type, 
+                        estimated_guest, 
+                        event_location, 
+                        start_time, 
+                        service_hours, 
+                        billing_status, 
+                        payment_due_date, 
+                        actual_cost,
+                        last_name
+                    FROM f_get_bookings('{email}')
+                """
+            rows = run_query(query)
+            if rows.empty:
+                st.error("No bookings found for the given email address.")
+            else:
+                st.success("Here are the details of your bookings:")
+                st.write(rows)  # Display the DataFrame
+        # except Exception as e:
+        #     st.error(f"An error occurred while retrieving bookings: {e}")
+      
                 
                 options = []
                 st.write("Booking ID | Event State  |   Event Date   |   Event Type ")
