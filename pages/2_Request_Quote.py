@@ -126,21 +126,24 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
                      ":service_hours, :service_types, :cold_sparks, :microphone, :monogram, :discount_code)")
 
         # Execute the procedure with the parameters as named arguments
-        with conn.begin():  # Start a transaction block
-            conn.execute(query, {
-                "first_name": first_name, "last_name": last_name, "phone_number": phone_number, "email": email,
-                "best_time": best_time, "event_date": event_date, "start_time": start_time,
-                "estimated_budget": estimated_budget, "event_type": event_type, "event_location": event_location,
-                "guest_count": guest_count, "pa_system": pa_system, "dancing_lights": dancing_lights, "disco_ball": disco_ball,
-                "uplighting": uplighting, "fog_machine": fog_machine, "low_fog_machine": low_fog_machine, "photo_booth": photo_booth,
-                "photo_booth_prints": photo_booth_prints, "booth_location": booth_location, "comments": comments,
-                "created_by": created_by, "uplight_ct": uplight_ct, "backdrop_props": backdrop_props,
-                "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types, "cold_sparks": cold_sparks, "microphone": microphone, 
-                "monogram": monogram, "discount_code": discount_code
-            })
-
-        # Show success message
-        st.success('Thank you! We will be in touch shortly.', icon="✅")
+        with conn.begin() as transaction:  # Start a transaction block
+            try:
+                conn.execute(query, {
+                    "first_name": first_name, "last_name": last_name, "phone_number": phone_number, "email": email,
+                    "best_time": best_time, "event_date": event_date, "start_time": start_time,
+                    "estimated_budget": estimated_budget, "event_type": event_type, "event_location": event_location,
+                    "guest_count": guest_count, "pa_system": pa_system, "dancing_lights": dancing_lights, "disco_ball": disco_ball,
+                    "uplighting": uplighting, "fog_machine": fog_machine, "low_fog_machine": low_fog_machine, "photo_booth": photo_booth,
+                    "photo_booth_prints": photo_booth_prints, "booth_location": booth_location, "comments": comments,
+                    "created_by": created_by, "uplight_ct": uplight_ct, "backdrop_props": backdrop_props,
+                    "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types, "cold_sparks": cold_sparks, "microphone": microphone, 
+                    "monogram": monogram, "discount_code": discount_code
+                })
+                transaction.commit()  # Explicitly commit the transaction
+                st.success('Thank you! We will be in touch shortly.', icon="✅")
+            except Exception as e:
+                transaction.rollback()  # Rollback the transaction if an error occurs
+                raise e
     except Exception as e:
         st.error(f"Error connecting to the database: {e}")
 
@@ -186,21 +189,25 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
 
         # Execute the procedure with the parameters as named arguments
         with conn.begin():  # Start a transaction block
-            conn.execute(query, {
-                "booking_id": booking_id, "event_status": event_status, "first_name": first_name, "last_name": last_name, "phone_number": phone_number, "email": email,
-                "best_time": best_time, "event_date": event_date, "start_time": start_time,
-                "estimated_budget": estimated_budget, "event_type": event_type, "event_location": event_location,
-                "guest_count": guest_count, "pa_system": pa_system, "dancing_lights": dancing_lights, "disco_ball": disco_ball,
-                "uplighting": uplighting, "fog_machine": fog_machine, "low_fog_machine": low_fog_machine, "photo_booth": photo_booth,
-                "photo_booth_prints": photo_booth_prints, "booth_location": booth_location, "comments": comments,
-                "created_by": created_by, "uplight_ct": uplight_ct, "backdrop_props": backdrop_props,
-                "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types, "cold_sparks": cold_sparks, "microphone": microphone, "monogram": monogram,
-                "price_override": price_override, "discount_code": discount_code
-            })
-
-
-        # Show success message
-        st.success('You event has been updated', icon="✅")
+            transaction = conn.begin()
+            try:
+                conn.execute(query, {
+                    "booking_id": booking_id, "event_status": event_status, "first_name": first_name, "last_name": last_name, "phone_number": phone_number, "email": email,
+                    "best_time": best_time, "event_date": event_date, "start_time": start_time,
+                    "estimated_budget": estimated_budget, "event_type": event_type, "event_location": event_location,
+                    "guest_count": guest_count, "pa_system": pa_system, "dancing_lights": dancing_lights, "disco_ball": disco_ball,
+                    "uplighting": uplighting, "fog_machine": fog_machine, "low_fog_machine": low_fog_machine, "photo_booth": photo_booth,
+                    "photo_booth_prints": photo_booth_prints, "booth_location": booth_location, "comments": comments,
+                    "created_by": created_by, "uplight_ct": uplight_ct, "backdrop_props": backdrop_props,
+                    "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types, "cold_sparks": cold_sparks, "microphone": microphone, "monogram": monogram,
+                    "price_override": price_override, "discount_code": discount_code
+                })
+                transaction.commit()  # Explicitly commit the transaction
+                st.success('Your event has been updated', icon="✅")
+            except Exception as e:
+                transaction.rollback()  # Rollback if there's an error
+                raise e
+ 
     except Exception as e:
         st.error(f"Error connecting to the database: {e}")
 
