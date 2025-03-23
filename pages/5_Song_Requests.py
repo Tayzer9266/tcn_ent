@@ -86,7 +86,7 @@ def execute_procedure(email, song, artist, first_name):
  
 
 # Uses st.cache_data to only rerun when the query changes or after 10 min.
-@st.cache_data(ttl=600)
+@st.cache_data(ttl=20)
 def run_query(query):
     # Use SQLAlchemy connection and execute query
     result = conn.execute(text(query))
