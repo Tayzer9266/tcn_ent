@@ -1,9 +1,9 @@
 import streamlit as st
 import base64
 import streamlit.components.v1 as components
-from sqlalchemy import create_engine
-from sqlalchemy import text
-import pandas as pd
+# from sqlalchemy import create_engine
+# from sqlalchemy import text
+# import pandas as pd
 
 # Page Tab
 st.set_page_config(
