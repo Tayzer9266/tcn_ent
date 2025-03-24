@@ -71,7 +71,7 @@ with st.container():
         st.write( """Get the party started without the hassle! Request your free, no-obligation DJ quote tailored to your event's needs—fast and easy! We're committed to offering unbeatable prices and will match or beat any competitor's offer. Plus, see how our rates compare to the average market price.""")
         st.write( """Follow these simple steps to secure your DJ services in no time:""")
         st.write( """1. Complete our quick and user-friendly request form below""")
-        st.write( """2. Click on "Your Bookings.""")
+        st.write( """2. Click on "Your Bookings".""")
         st.write( """3. Provide your email address to instantly access automated pricing results.""")
         st.write( """Lock in your event date with a small $60 deposit fee—no stress, as full payment isn't due until the day of the event.  Why wait? Elevate your celebration with the perfect DJ experience today! 🎉🎵 """)
         
@@ -334,7 +334,7 @@ with st.container():
         
                     back_drop_type = st.selectbox(
                             "Select a backdrop",
-                            ("", "White", "Shimmering Black"),
+                            ("", "White Backdrop", "Shimmering Black Backdrop"),
                             index=0,
                             placeholder=""
                         )
@@ -606,7 +606,7 @@ with st.container():
                                             )
                                         back_drop_type = st.selectbox(
                                             "Select a backdrop",
-                                            (str(df['back_drop_type'][0]), "White", "Shimmering Black"),
+                                            (str(df['back_drop_type'][0]), "White Backdrop", "Shimmering Black Backdrop"),
                                             index=0
                                         )
 
