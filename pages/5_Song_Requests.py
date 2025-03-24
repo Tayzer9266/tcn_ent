@@ -127,12 +127,7 @@ if st.button("Submit"):
 
 # Run the query to fetch song requests
 query = """
-    SELECT s.Song_Order, c.first_name AS Request_By, s.song_name AS Song_Name, s.artist_name AS Artist_Name
-    FROM song_requests s
-    LEFT JOIN clients c ON c.client_id = s.created_by
-    where s.deleted_at is null
-    and s.created_at::date = now()::date
-    ORDER BY s.song_order
+    select "order", request_by, song_name, artist_name  from f_song_request()
 """
 rows = run_query(query)
 
