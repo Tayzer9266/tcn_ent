@@ -298,11 +298,12 @@ with st.container():
                         "Do you need a disco ball?",
                         ('Yes', 'No'),
                         index=1)
-                    uplighting = st.radio(
-                        "Do you need uplighting?",
-                        ('Yes', 'No'),
-                        index=1)
-                    uplight_ct = st.slider('If yes, How many uplights', 0, 20, value=0)
+                    uplighting = "No"
+                    # uplighting = st.radio(
+                    #     "Do you need uplighting?",
+                    #     ('Yes', 'No'),
+                    #     index=1)
+                    uplight_ct = st.slider('How many uplights do you need?', 0, 20, value=0)
                     fog_machine = st.radio(
                         "Do you need a fog machine?",
                         ('Yes', 'No'),
@@ -327,7 +328,7 @@ with st.container():
                         )
             
                     photo_booth_prints = st.radio(
-                            "If yes, do you need photo prints?",
+                            "Do you need photo prints?",
                             ('Yes', 'No'),
                             index=1
                         )
@@ -339,7 +340,7 @@ with st.container():
                             placeholder=""
                         )
                     backdrop_props = st.radio(
-                            "If yes, do you need photo booth props?",
+                            "Do you need photo booth props?",
                             ('Yes', 'No'),
                             index=1
                         )
@@ -580,12 +581,13 @@ with st.container():
                                             ('Yes', 'No'),
                                             index=int(df['monogram'][0])
                                             )
-                                        uplighting = st.radio(
-                                            "Do you need uplighting?",
-                                            ('Yes', 'No'),
-                                            index=int(df['uplighting'][0])
-                                            )
-                                        uplight_ct = st.slider('If yes, How many uplights', 0, 20, value=df['uplight_ct'][0])
+                                        uplighting = "No"
+                                        # uplighting = st.radio(
+                                        #     "Do you need uplighting?",
+                                        #     ('Yes', 'No'),
+                                        #     index=int(df['uplighting'][0])
+                                        #     )
+                                        uplight_ct = st.slider('How many uplights do you need?', 0, 20, value=df['uplight_ct'][0])
                                         fog_machine = st.radio(
                                             "Do you need a fog machine?",
                                             ('Yes', 'No'),
@@ -600,7 +602,7 @@ with st.container():
                                                     index=0
                                                 )
                                         photo_booth_prints = st.radio(
-                                                "If yes, do you need photo prints?",
+                                                "Do you need photo prints?",
                                                 ('Yes', 'No'),
                                                 index=int(df['photo_booth_prints'][0])
                                             )
@@ -611,7 +613,7 @@ with st.container():
                                         )
 
                                         backdrop_props = st.radio(
-                                                "If yes, do you need photo booth props?",
+                                                "Do you need photo booth props?",
                                                 ('Yes', 'No'),
                                                 index=int(df['photo_booth_props'][0])
                                             )
