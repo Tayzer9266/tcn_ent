@@ -62,12 +62,19 @@ page_bg_img = """
 """
 st.markdown(page_bg_img, unsafe_allow_html=True)
  
-#Event Quote
-# st.title("Questions")
-st.write(
-        """Easily tell us about your upcoming event by filling out our quick and simple form below.  This will ensure that we provide you
-        with an accurate quote. Get started today and make your event one to remember with the best in entertainment!"""
-)
+with st.container():
+    st.write("---")
+    
+    left_column, right_column = st.columns(2)
+    with left_column:
+        st.subheader("3 Easy Steps")
+        st.write( """Get the party started without the hassle! Request your free, no-obligation DJ quote tailored to your event's needs—fast and easy! We're committed to offering unbeatable prices and will match or beat any competitor's offer. Plus, see how our rates compare to the average market price.""")
+        st.write( """Follow these simple steps to secure your DJ services in no time:""")
+        st.write( """1. Complete our quick and user-friendly request form below""")
+        st.write( """2. Click on "Your Bookings.""")
+        st.write( """3. Provide your email address to instantly access automated pricing results.""")
+        st.write( """Lock in your event date with a small $60 deposit fee—no stress, as full payment isn't due until the day of the event.  Why wait? Elevate your celebration with the perfect DJ experience today! 🎉🎵 """)
+        
 
 # # HTML content
 # html_content = """
@@ -239,397 +246,400 @@ def run_query(query):
         # Log or handle the exception
         raise RuntimeError(f"Error executing query: {e}")
  
+with st.container():
+    st.write("---")
+    left_column, right_column = st.columns(2)
+    with left_column:
+        def main():
+            # Ask the user if they want a new quote
+            # Create a drop-down menu for new quote or preview existing quotes
+            global selected_bookings
+            selected_bookings = []
+            if 'selected_bookings' not in st.session_state:
+                st.session_state.selected_bookings = []
+            #photo_booth_options = ['Yes', 'No']
+            booth_location= ""
+            created_by=""
+            option = st.radio(
+                        "Select a quote",
+                        ('New', 'Your Bookings'),
+                        index=0)
+        
+            if option == "New": 
+                with st.form("my_form"):
+                    service_types = st.multiselect("Service Type?*", ("","DJ","MC", "Karaoke"))
+                    first_name = st.text_input("First Name*", "")  #FirstName
+                    last_name = st.text_input("Last Name*", "") #LastName
+                    phone_number = st.text_input("Phone Number*", "") #Phone
+                    email = st.text_input("Email Address*", "") #Email
+                    discount_code = st.text_input("Discount Code", "") #Phone
+                    event_date = st.date_input("Event Date*", value=None) 
+                    event_type = st.selectbox("Event Type?*", ("","Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Other"))
+                    best_time = st.time_input("Best Time to Contact", None) 
+                    service_hours = st.slider('Number of hours professional needed', 2, 24, value=2)
+                    start_time = st.time_input("Estimated Start Time*", None) #Start
+                    estimated_budget = st.number_input("Budget Amount", 0) #Budget
+                    event_location = st.text_input("Venue Location", "") #Location
+                    guest_count = st.slider('Number of guests', 1, 600, value=50)
+                    pa_system = st.radio(
+                        "Do you need PA systems?",
+                        ('Yes', 'No'),
+                        index=0)
+                    microphone = st.radio(
+                        "Do you need microphones?",
+                        ('Yes', 'No'),
+                        index=0)
 
-def main():
-    # Ask the user if they want a new quote
-    # Create a drop-down menu for new quote or preview existing quotes
-    global selected_bookings
-    selected_bookings = []
-    if 'selected_bookings' not in st.session_state:
-        st.session_state.selected_bookings = []
-    #photo_booth_options = ['Yes', 'No']
-    booth_location= ""
-    created_by=""
-    option = st.radio(
-                "Select a quote",
-                ('New', 'Your Bookings'),
-                index=0)
- 
-    if option == "New": 
-        with st.form("my_form"):
-            service_types = st.multiselect("Service Type?*", ("","DJ","MC", "Karaoke"))
-            first_name = st.text_input("First Name*", "")  #FirstName
-            last_name = st.text_input("Last Name*", "") #LastName
-            phone_number = st.text_input("Phone Number*", "") #Phone
-            email = st.text_input("Email Address*", "") #Email
-            discount_code = st.text_input("Discount Code", "") #Phone
-            event_date = st.date_input("Event Date*", value=None) 
-            event_type = st.selectbox("Event Type?*", ("","Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Other"))
-            best_time = st.time_input("Best Time to Contact", None) 
-            service_hours = st.slider('Number of hours professional needed', 2, 24, value=2)
-            start_time = st.time_input("Estimated Start Time*", None) #Start
-            estimated_budget = st.number_input("Budget Amount", 0) #Budget
-            event_location = st.text_input("Venue Location", "") #Location
-            guest_count = st.slider('Number of guests', 1, 600, value=50)
-            pa_system = st.radio(
-                "Do you need PA systems?",
-                ('Yes', 'No'),
-                index=0)
-            microphone = st.radio(
-                "Do you need microphones?",
-                ('Yes', 'No'),
-                index=0)
-
-            dancing_lights = st.radio(
-                "Do you need dance lights?",
-                ('Yes', 'No'),
-                index=0)
-            disco_ball = st.radio(
-                "Do you need a disco ball?",
-                ('Yes', 'No'),
-                index=1)
-            uplighting = st.radio(
-                "Do you need uplighting?",
-                ('Yes', 'No'),
-                index=1)
-            uplight_ct = st.slider('If yes, How many uplights', 0, 20, value=0)
-            fog_machine = st.radio(
-                "Do you need a fog machine?",
-                ('Yes', 'No'),
-                index=1)
-            low_fog_machine = st.radio(
-                "Do you want dancing on the clouds?",
-                ('Yes', 'No'),
-                index=1)
-            monogram = st.radio(
-                "Do you want a projecting monogram?",
-                ('Yes', 'No'),
-                index=1)
-            cold_sparks = st.radio(
-                "Do you need cold sparks?",
-                ('Yes', 'No'),
-                index=1)
-            photo_booth = st.selectbox(
-                    "Select a photo booth",
-                    ("", "DSLR Photo Booth", "IPad Photo Booth"),
-                    index=0,
-                    placeholder=""
-                )
-       
-            photo_booth_prints = st.radio(
-                    "If yes, do you need photo prints?",
-                    ('Yes', 'No'),
-                    index=1
-                )
- 
-            back_drop_type = st.selectbox(
-                    "Select a backdrop",
-                    ("", "White", "Shimmering Black"),
-                    index=0,
-                    placeholder=""
-                )
-            backdrop_props = st.radio(
-                    "If yes, do you need photo booth props?",
-                    ('Yes', 'No'),
-                    index=1
-                )
-            comments = st.text_area("Additional comments", "")   
-            created_by = ""
-
-            # Submit button
-            submitted = st.form_submit_button("Submit")
-
-            if submitted:
-                try:
-                    # Check if all required fields are filled
-                    st.session_state["my_input"] = first_name
-                    
-                    if email and phone_number and first_name and event_date and service_hours and event_type:
-                        # Attempt to execute the procedure
-                        execute_procedure(
-                            first_name, last_name, phone_number, email, best_time, event_date, start_time, 
-                            estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, 
-                            uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, 
-                            comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types, 
-                            cold_sparks, microphone, monogram, discount_code
+                    dancing_lights = st.radio(
+                        "Do you need dance lights?",
+                        ('Yes', 'No'),
+                        index=0)
+                    disco_ball = st.radio(
+                        "Do you need a disco ball?",
+                        ('Yes', 'No'),
+                        index=1)
+                    uplighting = st.radio(
+                        "Do you need uplighting?",
+                        ('Yes', 'No'),
+                        index=1)
+                    uplight_ct = st.slider('If yes, How many uplights', 0, 20, value=0)
+                    fog_machine = st.radio(
+                        "Do you need a fog machine?",
+                        ('Yes', 'No'),
+                        index=1)
+                    low_fog_machine = st.radio(
+                        "Do you want dancing on the clouds?",
+                        ('Yes', 'No'),
+                        index=1)
+                    monogram = st.radio(
+                        "Do you want a projecting monogram?",
+                        ('Yes', 'No'),
+                        index=1)
+                    cold_sparks = st.radio(
+                        "Do you need cold sparks?",
+                        ('Yes', 'No'),
+                        index=1)
+                    photo_booth = st.selectbox(
+                            "Select a photo booth",
+                            ("", "DSLR Photo Booth", "IPad Photo Booth"),
+                            index=0,
+                            placeholder=""
                         )
-                        st.success("Your quote has been successfully submitted!", icon="✅")
-                    else:
-                        # Display an error if required fields are missing
-                        st.error("Please fill in all required fields: Name, Phone, Email, Event Date, Service Hours, and Event Type.")
-                except Exception as e:
-                    # Handle any unexpected errors
-                    st.error(f"An error occurred while submitting your quote: {e}")
-               
-          
- 
- 
+            
+                    photo_booth_prints = st.radio(
+                            "If yes, do you need photo prints?",
+                            ('Yes', 'No'),
+                            index=1
+                        )
+        
+                    back_drop_type = st.selectbox(
+                            "Select a backdrop",
+                            ("", "White", "Shimmering Black"),
+                            index=0,
+                            placeholder=""
+                        )
+                    backdrop_props = st.radio(
+                            "If yes, do you need photo booth props?",
+                            ('Yes', 'No'),
+                            index=1
+                        )
+                    comments = st.text_area("Additional comments", "")   
+                    created_by = ""
 
-    elif option == "Your Bookings":
-        # Add your logic to preview existing quotes here
-        email = st.text_input("Email Address*", "") 
-        # Add a submit button
-        #try:
-        query = f"""
-                    SELECT booking_id, 
-                        event_status, 
-                        event_date, 
-                        event_type, 
-                        estimated_guest, 
-                        event_location, 
-                        start_time, 
-                        service_hours, 
-                        billing_status, 
-                        payment_due_date, 
-                        actual_cost,
-                        last_name
-                    FROM f_get_bookings('{email}')
-                """
+                    # Submit button
+                    submitted = st.form_submit_button("Submit")
+
+                    if submitted:
+                        try:
+                            # Check if all required fields are filled
+                            st.session_state["my_input"] = first_name
+                            
+                            if email and phone_number and first_name and event_date and service_hours and event_type:
+                                # Attempt to execute the procedure
+                                execute_procedure(
+                                    first_name, last_name, phone_number, email, best_time, event_date, start_time, 
+                                    estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, 
+                                    uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, 
+                                    comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types, 
+                                    cold_sparks, microphone, monogram, discount_code
+                                )
+                                st.success("Your quote has been successfully submitted!", icon="✅")
+                            else:
+                                # Display an error if required fields are missing
+                                st.error("Please fill in all required fields: Name, Phone, Email, Event Date, Service Hours, and Event Type.")
+                        except Exception as e:
+                            # Handle any unexpected errors
+                            st.error(f"An error occurred while submitting your quote: {e}")
+                    
+                
+        
         
 
-
-        try:
-            rows = run_query(query)              
-        except Exception as e:
-                    st.error(f"An error occurred while retrieving bookings: {e}")
-        if rows.empty:
-            st.error("Please enter a email address.")
-        else:
-             st.success("Here are the details of your bookings:")  
-
-        options = []
-           
-        for index, row in rows.iterrows():
-                    option_text = f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']}"
-                    options.append(option_text)
-
-        selected_option = st.radio("", options)
-
-        if selected_option:
-                    
-                    for index, row in rows.iterrows():
-                        if selected_option == f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']}":
-                            selected_bookings.append(row['booking_id'])
-
-                    booking = selected_bookings[0]
-                    #for booking in selected_bookings:
-                      
-
-                    query = f"""
-                    SELECT a.product as items,
-                            a.units,
-                            a.market_total AS market_price,
-                            a.savings as  savings, 
-                            a.amount AS total
-                        FROM f_service_product_total('{booking}') as a
+            elif option == "Your Bookings":
+                # Add your logic to preview existing quotes here
+                email = st.text_input("Email Address*", "") 
+                # Add a submit button
+                #try:
+                query = f"""
+                            SELECT booking_id, 
+                                event_status, 
+                                event_date, 
+                                event_type, 
+                                estimated_guest, 
+                                event_location, 
+                                start_time, 
+                                service_hours, 
+                                billing_status, 
+                                payment_due_date, 
+                                actual_cost,
+                                last_name
+                            FROM f_get_bookings('{email}')
                         """
+                
 
 
-                        # Execute the query and create a DataFrame
-                    df = run_query(query)
+                try:
+                    rows = run_query(query)              
+                except Exception as e:
+                            st.error(f"An error occurred while retrieving bookings: {e}")
+                if rows.empty:
+                    st.error("Please enter a email address.")
+                else:
+                    st.success("Here are the details of your bookings:")  
 
- 
+                options = []
+                
+                for index, row in rows.iterrows():
+                            option_text = f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']}"
+                            options.append(option_text)
 
-                    if not df.empty:
-                        st.subheader("Event Estimate:")
-                        st.warning("We are ready to match or beat any offer—reach out to us today!")
+                selected_option = st.radio("", options)
 
-                        # Ensure the first column remains as a string
-                        first_column = df.iloc[:, 0]  # Extract the first column
+                if selected_option:
+                            
+                            for index, row in rows.iterrows():
+                                if selected_option == f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']}":
+                                    selected_bookings.append(row['booking_id'])
 
-                        # Convert the rest of the columns to numeric and round them to two decimal places
-                        numeric_columns = df.iloc[:, 1:].apply(pd.to_numeric, errors='coerce').round(2)
+                            booking = selected_bookings[0]
+                            #for booking in selected_bookings:
+                            
 
-                        # Recombine the first column and numeric columns
-                        updated_df = pd.concat([first_column, numeric_columns], axis=1)
-
-                        # Apply styles: Bold header and first column
-                        styled_df = updated_df.style.format("{:.2f}", subset=updated_df.columns[1:]).set_table_styles([
-                            {'selector': 'th', 'props': [('font-weight', 'bold')]},  # Bold headers
-                            {'selector': 'td:first-child', 'props': [('font-weight', 'bold')]}  # Bold the first column
-                        ])
-
-                        # Display the styled DataFrame
-                        st.dataframe(styled_df)
+                            query = f"""
+                            SELECT a.product as items,
+                                    a.units,
+                                    a.market_total AS market_price,
+                                    a.savings as  savings, 
+                                    a.amount AS total
+                                FROM f_service_product_total('{booking}') as a
+                                """
 
 
-                                                                
- 
-                    else:
-                            st.write("No data was returned for the given query.")
-                             
+                                # Execute the query and create a DataFrame
+                            df = run_query(query)
 
-                        # Define your query
-                    query = f"""
-                        SELECT 
-                        booking_id,
-                        first_name,
-                        last_name,
-                        phone_number,
-                        email,
-                        best_time,
-                        event_date,
-                        start_time,
-                        estimated_budget,
-                        event_type,
-                        event_location,
-                        guest_count,
-                        pa_system,
-                        dancing_lights,
-                        disco_ball,
-                        uplighting,
-                        fog_machine,
-                        low_fog_machine,
-                        photo_booth,
-                        photo_booth_prints,
-                        photo_booth_props,
-                        comments,
-                        created_by,
-                        uplight_ct,
-                        backdrop_props,
-                        back_drop_type,
-                        service_hours,
-                        service_types,
-                        event_status,
-                        billing_status,
-                        payment_due_date,
-                        actual_cost ,
-                        cold_sparks,
-                        microphone,
-                        monogram,
-                        price_override,
-                        discount_code
-                        FROM f_get_booking_details('{booking}')
-                        """
+        
 
-                    df = run_query(query)
-   
-                    df = df.applymap(lambda x: 0 if x is True else 1 if x is False else x)
-                    default_service_types = df['service_types'][0]
-                    billing_status = df['billing_status'][0]
-                    payment_due_date = df['payment_due_date'][0]
-                    actual_cost = df['actual_cost'][0]
-                  
-                    back_drop_needed = 1 if not df['back_drop_type'][0] else 0
-                    booking_id = booking
-                    if df['event_status'][0] != 'Scheduled' or email == "5003":
-                            with st.form("my_form"):
-                                st.subheader("Booking# " + str(booking_id))
+                            if not df.empty:
+                                st.subheader("Event Estimate:")
+                                st.warning("We are ready to match or beat any offer—reach out to us today!")
 
-                                if email == "5003":
-                                    event_status = st.selectbox("Booking Status", (df['event_status'][0], "Ongoing","Canceled","Scheduled")) 
-                                else:
-                                    event_status = st.selectbox("Booking Status", (df['event_status'][0],"Ongoing","Canceled")) 
+                                # Ensure the first column remains as a string
+                                first_column = df.iloc[:, 0]  # Extract the first column
 
-                                service_types = st.multiselect(
-                                    "Service Type?*",
-                                    options=["", "DJ", "MC", "Karaoke"],
-                                    default=default_service_types
-                                )
-                                if email == "5003":
-                                    price_override = st.text_input("Override Price", df['price_override'][0])
+                                # Convert the rest of the columns to numeric and round them to two decimal places
+                                numeric_columns = df.iloc[:, 1:].apply(pd.to_numeric, errors='coerce').round(2)
 
-                                discount_code  = st.text_input("Discount Code", df['discount_code'][0]) 
-           
-                                first_name = st.text_input("First Name*", df['first_name'][0])  #FirstName
-                                last_name = st.text_input("Last Name*", df['last_name'][0]) #LastName
-                                phone_number = st.text_input("Phone Number*", df['phone_number'][0]) #Phone
-                                email = st.text_input("Email Address*", df['email'][0]) #Email
-                                event_date = st.date_input("Event Date*", df['event_date'][0]) 
-                                event_type = st.selectbox("Event Type?*", (df['event_type'][0],"Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Other"))
-                                best_time = st.time_input("Best Time to Contact", df['best_time'][0]) 
-                                service_hours = st.slider('Number of hours professional needed', 2, 24, value=df['service_hours'][0])
-                                start_time = st.time_input("Estimated Start Time*", df['start_time'][0]) #Start
-                                estimated_budget = st.number_input("Budget Amount", ) #Budget
-                                event_location = st.text_input("Venue Location", df['event_location'][0]) #Location
-                                guest_count = st.slider('Number of guests', 1, 600, value=df['guest_count'][0])
+                                # Recombine the first column and numeric columns
+                                updated_df = pd.concat([first_column, numeric_columns], axis=1)
+
+                                # Apply styles: Bold header and first column
+                                styled_df = updated_df.style.format("{:.2f}", subset=updated_df.columns[1:]).set_table_styles([
+                                    {'selector': 'th', 'props': [('font-weight', 'bold')]},  # Bold headers
+                                    {'selector': 'td:first-child', 'props': [('font-weight', 'bold')]}  # Bold the first column
+                                ])
+
+                                # Display the styled DataFrame
+                                st.dataframe(styled_df)
+
+
+                                                                        
+        
+                            else:
+                                    st.write("No data was returned for the given query.")
+                                    
+
+                                # Define your query
+                            query = f"""
+                                SELECT 
+                                booking_id,
+                                first_name,
+                                last_name,
+                                phone_number,
+                                email,
+                                best_time,
+                                event_date,
+                                start_time,
+                                estimated_budget,
+                                event_type,
+                                event_location,
+                                guest_count,
+                                pa_system,
+                                dancing_lights,
+                                disco_ball,
+                                uplighting,
+                                fog_machine,
+                                low_fog_machine,
+                                photo_booth,
+                                photo_booth_prints,
+                                photo_booth_props,
+                                comments,
+                                created_by,
+                                uplight_ct,
+                                backdrop_props,
+                                back_drop_type,
+                                service_hours,
+                                service_types,
+                                event_status,
+                                billing_status,
+                                payment_due_date,
+                                actual_cost ,
+                                cold_sparks,
+                                microphone,
+                                monogram,
+                                price_override,
+                                discount_code
+                                FROM f_get_booking_details('{booking}')
+                                """
+
+                            df = run_query(query)
+        
+                            df = df.applymap(lambda x: 0 if x is True else 1 if x is False else x)
+                            default_service_types = df['service_types'][0]
+                            billing_status = df['billing_status'][0]
+                            payment_due_date = df['payment_due_date'][0]
+                            actual_cost = df['actual_cost'][0]
                         
-                                pa_system = st.radio(
-                                    "Do you need PA systems?",
-                                    ('Yes', 'No'),
-                                    index=int(df['pa_system'][0]))
-                                microphone = st.radio(
-                                    "Do you need microphones?",
-                                    ('Yes', 'No'),
-                                    index=int(df['microphone'][0]))
-                                cold_sparks = st.radio(
-                                    "Do you need cold sparks?",
-                                    ('Yes', 'No'),
-                                    index=int(df['cold_sparks'][0]))
-                                dancing_lights = st.radio(
-                                    "Do you need dance lights?",
-                                    ('Yes', 'No'),
-                                    index=int(df['dancing_lights'][0]))
-                                disco_ball = st.radio(
-                                    "Do you need a disco ball?",
-                                    ('Yes', 'No'),
-                                    index=int(df['disco_ball'][0])
-                                    )
-                                monogram = st.radio(
-                                    "Do you want a projecting monogram?",
-                                    ('Yes', 'No'),
-                                    index=int(df['monogram'][0])
-                                    )
-                                uplighting = st.radio(
-                                    "Do you need uplighting?",
-                                    ('Yes', 'No'),
-                                    index=int(df['uplighting'][0])
-                                    )
-                                uplight_ct = st.slider('If yes, How many uplights', 0, 20, value=df['uplight_ct'][0])
-                                fog_machine = st.radio(
-                                    "Do you need a fog machine?",
-                                    ('Yes', 'No'),
-                                    index=int(df['fog_machine'][0]))
-                                low_fog_machine = st.radio(
-                                    "Do you want dancing on the clouds?",
-                                    ('Yes', 'No'),
-                                    index=int(df['low_fog_machine'][0]))
-                                photo_booth = st.selectbox(
-                                            "Select a photo booth",
-                                            (str(df['photo_booth'][0]), "", "DSLR Photo Booth", "IPad Photo Booth"),
+                            back_drop_needed = 1 if not df['back_drop_type'][0] else 0
+                            booking_id = booking
+                            if df['event_status'][0] != 'Scheduled' or email == "5003":
+                                    with st.form("my_form"):
+                                        st.subheader("Booking# " + str(booking_id))
+
+                                        if email == "5003":
+                                            event_status = st.selectbox("Booking Status", (df['event_status'][0], "Ongoing","Canceled","Scheduled")) 
+                                        else:
+                                            event_status = st.selectbox("Booking Status", (df['event_status'][0],"Ongoing","Canceled")) 
+
+                                        service_types = st.multiselect(
+                                            "Service Type?*",
+                                            options=["", "DJ", "MC", "Karaoke"],
+                                            default=default_service_types
+                                        )
+                                        if email == "5003":
+                                            price_override = st.text_input("Override Price", df['price_override'][0])
+
+                                        discount_code  = st.text_input("Discount Code", df['discount_code'][0]) 
+                
+                                        first_name = st.text_input("First Name*", df['first_name'][0])  #FirstName
+                                        last_name = st.text_input("Last Name*", df['last_name'][0]) #LastName
+                                        phone_number = st.text_input("Phone Number*", df['phone_number'][0]) #Phone
+                                        email = st.text_input("Email Address*", df['email'][0]) #Email
+                                        event_date = st.date_input("Event Date*", df['event_date'][0]) 
+                                        event_type = st.selectbox("Event Type?*", (df['event_type'][0],"Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Other"))
+                                        best_time = st.time_input("Best Time to Contact", df['best_time'][0]) 
+                                        service_hours = st.slider('Number of hours professional needed', 2, 24, value=df['service_hours'][0])
+                                        start_time = st.time_input("Estimated Start Time*", df['start_time'][0]) #Start
+                                        estimated_budget = st.number_input("Budget Amount", ) #Budget
+                                        event_location = st.text_input("Venue Location", df['event_location'][0]) #Location
+                                        guest_count = st.slider('Number of guests', 1, 600, value=df['guest_count'][0])
+                                
+                                        pa_system = st.radio(
+                                            "Do you need PA systems?",
+                                            ('Yes', 'No'),
+                                            index=int(df['pa_system'][0]))
+                                        microphone = st.radio(
+                                            "Do you need microphones?",
+                                            ('Yes', 'No'),
+                                            index=int(df['microphone'][0]))
+                                        cold_sparks = st.radio(
+                                            "Do you need cold sparks?",
+                                            ('Yes', 'No'),
+                                            index=int(df['cold_sparks'][0]))
+                                        dancing_lights = st.radio(
+                                            "Do you need dance lights?",
+                                            ('Yes', 'No'),
+                                            index=int(df['dancing_lights'][0]))
+                                        disco_ball = st.radio(
+                                            "Do you need a disco ball?",
+                                            ('Yes', 'No'),
+                                            index=int(df['disco_ball'][0])
+                                            )
+                                        monogram = st.radio(
+                                            "Do you want a projecting monogram?",
+                                            ('Yes', 'No'),
+                                            index=int(df['monogram'][0])
+                                            )
+                                        uplighting = st.radio(
+                                            "Do you need uplighting?",
+                                            ('Yes', 'No'),
+                                            index=int(df['uplighting'][0])
+                                            )
+                                        uplight_ct = st.slider('If yes, How many uplights', 0, 20, value=df['uplight_ct'][0])
+                                        fog_machine = st.radio(
+                                            "Do you need a fog machine?",
+                                            ('Yes', 'No'),
+                                            index=int(df['fog_machine'][0]))
+                                        low_fog_machine = st.radio(
+                                            "Do you want dancing on the clouds?",
+                                            ('Yes', 'No'),
+                                            index=int(df['low_fog_machine'][0]))
+                                        photo_booth = st.selectbox(
+                                                    "Select a photo booth",
+                                                    (str(df['photo_booth'][0]), "", "DSLR Photo Booth", "IPad Photo Booth"),
+                                                    index=0
+                                                )
+                                        photo_booth_prints = st.radio(
+                                                "If yes, do you need photo prints?",
+                                                ('Yes', 'No'),
+                                                index=int(df['photo_booth_prints'][0])
+                                            )
+                                        back_drop_type = st.selectbox(
+                                            "Select a backdrop",
+                                            (str(df['back_drop_type'][0]), "White", "Shimmering Black"),
                                             index=0
                                         )
-                                photo_booth_prints = st.radio(
-                                        "If yes, do you need photo prints?",
-                                        ('Yes', 'No'),
-                                        index=int(df['photo_booth_prints'][0])
-                                    )
-                                back_drop_type = st.selectbox(
-                                    "Select a backdrop",
-                                    (str(df['back_drop_type'][0]), "White", "Shimmering Black"),
-                                    index=0
-                                )
 
-                                backdrop_props = st.radio(
-                                        "If yes, do you need photo booth props?",
-                                        ('Yes', 'No'),
-                                        index=int(df['photo_booth_props'][0])
-                                    )
-                                comments = st.text_area("Additional comments", df['comments'][0])   
-                                created_by = ""
+                                        backdrop_props = st.radio(
+                                                "If yes, do you need photo booth props?",
+                                                ('Yes', 'No'),
+                                                index=int(df['photo_booth_props'][0])
+                                            )
+                                        comments = st.text_area("Additional comments", df['comments'][0])   
+                                        created_by = ""
 
-                                # Submit button
-                                submitted = st.form_submit_button("Update")
-                                if submitted:
-                                    # Check if all required fields are filled
-                                    st.session_state["my_input"] = first_name
-                      
-                                    if email and phone_number and first_name and event_date and service_hours and event_type:
-                                            booking_id = next(iter(booking_id)) if isinstance(booking_id, set) else booking_id
-                                            execute_procedure_update(booking_id, event_status, first_name, last_name, phone_number, email, best_time, event_date, start_time, 
-                                                                    estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting, 
-                                                                    fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct, 
-                                                                    backdrop_props, back_drop_type,  service_hours, service_types, cold_sparks, microphone, monogram, price_override, discount_code)
-                                    else:
-                                            st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
- 
+                                        # Submit button
+                                        submitted = st.form_submit_button("Update")
+                                        if submitted:
+                                            # Check if all required fields are filled
+                                            st.session_state["my_input"] = first_name
+                            
+                                            if email and phone_number and first_name and event_date and service_hours and event_type:
+                                                    booking_id = next(iter(booking_id)) if isinstance(booking_id, set) else booking_id
+                                                    execute_procedure_update(booking_id, event_status, first_name, last_name, phone_number, email, best_time, event_date, start_time, 
+                                                                            estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting, 
+                                                                            fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct, 
+                                                                            backdrop_props, back_drop_type,  service_hours, service_types, cold_sparks, microphone, monogram, price_override, discount_code)
+                                            else:
+                                                    st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
+        
 
- 
+        
 
-if __name__ == "__main__":
-    main()
- 
- 
- 
+        if __name__ == "__main__":
+            main()
+        
+        
+        
 
- 
+        
