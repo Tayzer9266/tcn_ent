@@ -529,7 +529,7 @@ with st.container():
                             booking_id = booking
                         
                            
-                            if event_date_ct > 0:
+                            if event_date_ct > 1:
                                  st.warning("This date has several bookings. Kindly reach out to us to confirm availability.")   
                                  df['event_status'][0] != 'Scheduled'
 
@@ -538,7 +538,7 @@ with st.container():
                                     with st.form("my_form"):
                                         st.subheader("Booking# " + str(booking_id))
 
-                                        if event_date_ct > 0:
+                                        if event_date_ct > 1:
                                             event_status = st.selectbox("Booking Status", ("conflict"))  
                                         elif email == "5003":
                                             event_status = st.selectbox("Booking Status", (df['event_status'][0], "Ongoing","Canceled","Scheduled")) 
