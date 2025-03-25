@@ -73,7 +73,8 @@ with st.container():
         st.write( """1. Complete our quick and user-friendly request form below""")
         st.write( """2. Click on "Your Bookings".""")
         st.write( """3. Provide your email address to instantly access automated pricing results.""")
-        st.write( """Lock in your event date with a small $60 deposit fee—no stress, as full payment isn't due until the day of the event.  Why wait? Elevate your celebration with the perfect DJ experience today! 🎉🎵 """)
+        st.write( """We will personally contact you to address any questions or concerns you may have. Once you're satisfied, you can lock in the date with a small $60 deposit.""")
+ 
         
 
 # # HTML content
