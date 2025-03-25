@@ -275,7 +275,7 @@ with st.container():
                     email = st.text_input("Email Address*", "") #Email
                     discount_code = st.text_input("Discount Code", "") #Phone
                     event_date = st.date_input("Event Date*", value=None) 
-                    event_type = st.selectbox("Event Type?*", ("","Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Other"))
+                    event_type = st.selectbox("Event Type?*", ("","Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Fundraiser","Other"))
                     best_time = st.time_input("Best Time to Contact", None) 
                     service_hours = st.slider('Number of hours professional needed', 2, 24, value=2)
                     start_time = st.time_input("Estimated Start Time*", None) #Start
@@ -560,7 +560,7 @@ with st.container():
                                         phone_number = st.text_input("Phone Number*", df['phone_number'][0]) #Phone
                                         email = st.text_input("Email Address*", df['email'][0]) #Email
                                         event_date = st.date_input("Event Date*", df['event_date'][0]) 
-                                        event_type = st.selectbox("Event Type?*", (df['event_type'][0],"Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Other"))
+                                        event_type = st.selectbox("Event Type?*", (df['event_type'][0],"Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Fundraiser","Other"))
                                         best_time = st.time_input("Best Time to Contact", df['best_time'][0]) 
                                         service_hours = st.slider('Number of hours professional needed', 2, 24, value=df['service_hours'][0])
                                         start_time = st.time_input("Estimated Start Time*", df['start_time'][0]) #Start
