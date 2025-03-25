@@ -393,7 +393,8 @@ with st.container():
                                 billing_status, 
                                 payment_due_date, 
                                 actual_cost,
-                                last_name
+                                last_name,
+                                event_date_ct
                             FROM f_get_bookings('{email}')
                         """
                 
@@ -509,7 +510,8 @@ with st.container():
                                 microphone,
                                 monogram,
                                 price_override,
-                                discount_code
+                                discount_code,
+                                event_date_ct
                                 FROM f_get_booking_details('{booking}')
                                 """
 
@@ -520,14 +522,24 @@ with st.container():
                             billing_status = df['billing_status'][0]
                             payment_due_date = df['payment_due_date'][0]
                             actual_cost = df['actual_cost'][0]
+                            event_date_ct = df['event_date_ct'][0]
                         
                             back_drop_needed = 1 if not df['back_drop_type'][0] else 0
                             booking_id = booking
+                        
+                           
+                            if event_date_ct > 0:
+                                 st.warning("This date has several bookings. Kindly reach out to us to confirm availability.")   
+                                 df['event_status'][0] != 'Scheduled'
+
                             if df['event_status'][0] != 'Scheduled' or email == "5003":
+                                    
                                     with st.form("my_form"):
                                         st.subheader("Booking# " + str(booking_id))
 
-                                        if email == "5003":
+                                        if event_date_ct > 0:
+                                            event_status = st.selectbox("Booking Status", ("conflict"))  
+                                        elif email == "5003":
                                             event_status = st.selectbox("Booking Status", (df['event_status'][0], "Ongoing","Canceled","Scheduled")) 
                                         else:
                                             event_status = st.selectbox("Booking Status", (df['event_status'][0],"Ongoing","Canceled")) 
