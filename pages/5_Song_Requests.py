@@ -35,23 +35,31 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 # Load the images
 youtube_img = base64.b64encode(open("pages/images/youtube.png", "rb").read()).decode()
 instagram_img = base64.b64encode(open("pages/images/instagram.png", "rb").read()).decode()
+facebook_img = base64.b64encode(open("pages/images/facebook.png", "rb").read()).decode()
 
 # Create columns in the sidebar with less spacing
-col1, col2, col3, col4, col5, col6 = st.sidebar.columns([1, 1, 1, 1, 1, 1])
+col1, col2, col3, col4, col5 , col6  = st.sidebar.columns([1, 1, 1, 1, 1, 1])
 
 with col1:
     st.markdown(
-        f"""<a href="https://www.youtube.com/@djtayzer">
-        <img src="data:image/png;base64,{youtube_img}" width="30">
-        </a>""",
+        """<a href="https://www.youtube.com/@djtayzer">
+        <img src="data:image/png;base64,{}" width="30">
+        </a>""".format(youtube_img),
         unsafe_allow_html=True,
     )
 
 with col2:
     st.markdown(
-        f"""<a href="https://www.instagram.com/tayzer/">
-        <img src="data:image/png;base64,{instagram_img}" width="30">
-        </a>""",
+        """<a href="https://www.instagram.com/tayzer/">
+        <img src="data:image/png;base64,{}" width="30">
+        </a>""".format(instagram_img),
+        unsafe_allow_html=True
+    )
+with col3:
+    st.markdown(
+        """<a href="https://www.facebook.com/profile.php?id=61574735690575">
+        <img src="data:image/png;base64,{}" width="50">
+        </a>""".format(facebook_img),
         unsafe_allow_html=True
     )
 
