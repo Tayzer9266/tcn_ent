@@ -532,7 +532,7 @@ with st.container():
                             payment_due_date = df['payment_due_date'][0]
                             actual_cost = df['actual_cost'][0]
                             event_date_ct = df['event_date_ct'][0]
-                        
+                            price_override2 = df['price_override'][0]
                             back_drop_needed = 1 if not df['back_drop_type'][0] else 0
                             booking_id = booking
                         
@@ -558,11 +558,16 @@ with st.container():
                                             options=["", "DJ", "MC", "Karaoke"],
                                             default=default_service_types
                                         )
+                                        # Default value for price_override
+                                        price_override = df['price_override'][0]
+
+                                        # Conditional assignment if email matches "5003"
                                         if email == "5003":
                                             price_override = st.text_input("Override Price", df['price_override'][0])
+               
 
+                                        
                                         discount_code  = st.text_input("Discount Code", df['discount_code'][0]) 
-                
                                         first_name = st.text_input("First Name*", df['first_name'][0])  #FirstName
                                         last_name = st.text_input("Last Name*", df['last_name'][0]) #LastName
                                         phone_number = st.text_input("Phone Number*", df['phone_number'][0]) #Phone
@@ -584,14 +589,14 @@ with st.container():
                                             "Do you need microphones?",
                                             ('Yes', 'No'),
                                             index=int(df['microphone'][0]))
-                                        cold_sparks = st.radio(
-                                            "Do you need cold sparks?",
-                                            ('Yes', 'No'),
-                                            index=int(df['cold_sparks'][0]))
                                         dancing_lights = st.radio(
                                             "Do you need dance lights?",
                                             ('Yes', 'No'),
                                             index=int(df['dancing_lights'][0]))
+                                        cold_sparks = st.radio(
+                                            "Do you need cold sparks?",
+                                            ('Yes', 'No'),
+                                            index=int(df['cold_sparks'][0]))
                                         disco_ball = st.radio(
                                             "Do you need a disco ball?",
                                             ('Yes', 'No'),
