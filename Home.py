@@ -123,10 +123,13 @@ with open("pages/style/style.css") as source_style:
 # List of image paths
 image_paths = [
     "pages/images/featured_pro.png",
-    "pages/images/featured_pro.png",
-    "pages/images/featured_pro.png",
-    "pages/images/featured_pro.png"
+    "pages/images/reception.jpg",
+    "pages/images/kids.jpg",
 ]
+
+# Placeholder images for Previous and Next actions
+previous_icon = "pages/images/back.jpg"  # Replace with your icon path
+next_icon = "pages/images/forward.jpg"         # Replace with your icon path
 
  
 # Initialize the current index in session state
@@ -164,11 +167,17 @@ with col2:
 with col3:
     st.empty()  
 with col4:
-    if st.button("|<<|", key="previous"):
-        st.session_state.current_index = (st.session_state.current_index - 1) % len(image_paths)
+    if st.button("", key="previous"):
+       st.session_state.current_index = (st.session_state.current_index - 1) % len(image_paths)
+    # Markdown image for "Previous"
+    #if st.markdown(f"[![<<]({previous_icon})](#)"):
+    #    st.session_state.current_index = (st.session_state.current_index - 1) % len(image_paths)
 with col5:
-    if st.button("|>>|", key="next"):
-        st.session_state.current_index = (st.session_state.current_index + 1) % len(image_paths)
+    if st.button("", key="next"):
+       st.session_state.current_index = (st.session_state.current_index + 1) % len(image_paths)
+  # Markdown image for "Next"
+    #if st.markdown(f"[![>>]({next_icon})](#)"):
+    #    st.session_state.current_index = (st.session_state.current_index + 1) % len(image_paths)
 with col6:
     st.empty()   
 with col8:
@@ -177,6 +186,8 @@ with col9:
     st.empty()   
 with col10:
     st.empty()  
+
+
 
 # ---- HEADER SECTION ----
 with st.container():
