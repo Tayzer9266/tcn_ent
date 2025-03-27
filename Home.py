@@ -117,7 +117,67 @@ def run_query(query):
 # Sumamry Section
 with open("pages/style/style.css") as source_style:
     st.markdown(f"<style>{source_style.read()}</style>", unsafe_allow_html=True)
-st.image("pages/images/featured_pro.png", width=1750)  
+
+#st.image("pages/images/featured_pro.png", width=1750)  
+
+# List of image paths
+image_paths = [
+    "pages/images/featured_pro.png",
+    "pages/images/featured_pro.png",
+    "pages/images/featured_pro.png",
+    "pages/images/featured_pro.png"
+]
+
+ 
+# Initialize the current index in session state
+if "current_index" not in st.session_state:
+    st.session_state.current_index = 0
+
+# Display the main image
+st.image(image_paths[st.session_state.current_index], width=1750)
+# Add buttons side by side below the image
+col1, col2, col3, col4, col5, col6, col7, col8, col9, col10 = st.columns([1, 1, 1, 1, 1, 1, 1, 1, 1, 1])  # Three columns with equal width for alignment
+
+# Style for larger buttons
+button_style = """
+    <style>
+        .button {
+            font-size: 30px;
+            font-family: Arial, sans-serif; /* Change font type to Arial */
+            font-weight: bold;      /* Make the font bold */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #f1ecec
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #ddd;
+        }
+    </style>
+"""
+st.markdown(button_style, unsafe_allow_html=True)
+with col1:
+    st.empty()   
+with col2:
+    st.empty()   
+with col3:
+    st.empty()  
+with col4:
+    if st.button("|<<|", key="previous"):
+        st.session_state.current_index = (st.session_state.current_index - 1) % len(image_paths)
+with col5:
+    if st.button("|>>|", key="next"):
+        st.session_state.current_index = (st.session_state.current_index + 1) % len(image_paths)
+with col6:
+    st.empty()   
+with col8:
+    st.empty()  
+with col9:
+    st.empty()   
+with col10:
+    st.empty()  
+
 # ---- HEADER SECTION ----
 with st.container():
     st.subheader("")
