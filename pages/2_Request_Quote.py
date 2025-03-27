@@ -629,7 +629,7 @@ with st.container():
                                             )
                                         back_drop_type = st.selectbox(
                                             "Select a backdrop",
-                                            (str(df['back_drop_type'][0]), "White Backdrop", "Shimmering Black Backdrop"),
+                                            (str(df['back_drop_type'][0]), "", "White Backdrop", "Shimmering Black Backdrop"),
                                             index=0
                                         )
 
@@ -655,6 +655,8 @@ with st.container():
                                                                             backdrop_props, back_drop_type,  service_hours, service_types, cold_sparks, microphone, monogram, price_override, discount_code)
                                             else:
                                                     st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
+
+                                        st.write("[Pay the deposit to lock in your date](https://buy.stripe.com/cN29BFc2F7gqgBGdQQ)")
         
 
         
