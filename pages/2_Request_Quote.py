@@ -472,8 +472,7 @@ with st.container():
                                 # Display the styled DataFrame
                                 st.dataframe(styled_df)
 
-
-                                                                        
+                                              
         
                             else:
                                     st.write("No data was returned for the given query.")

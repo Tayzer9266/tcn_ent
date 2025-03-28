@@ -10,7 +10,7 @@ st.set_page_config(
     page_title="Home",
     page_icon="pages/images/TCN logo black.jpg",
     layout="wide",
-    initial_sidebar_state="collapsed",
+    initial_sidebar_state="expanded",
     menu_items={
         'About': "# Make your dream a reality!"
     }
