@@ -5,7 +5,6 @@ import pandas as pd
 import base64
 from PIL import Image
  
- 
 
 
 st.set_page_config(
@@ -536,7 +535,10 @@ with st.container():
                             back_drop_needed = 1 if not df['back_drop_type'][0] else 0
                             booking_id = booking
                         
-                           
+ 
+        
+
+                                ############################################
                             if event_date_ct > 1:
                                  st.warning("This date has several bookings. Kindly reach out to us to confirm availability.")   
                                  df['event_status'][0] != 'Scheduled'

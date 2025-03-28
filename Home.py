@@ -4,7 +4,7 @@ import streamlit.components.v1 as components
 from sqlalchemy import create_engine
 from sqlalchemy import text
 import pandas as pd
-
+import os
 # Page Tab
 st.set_page_config(
     page_title="Home",
@@ -70,24 +70,7 @@ def init_connection():
 
 conn = init_connection()
 
-
-# Uses st.cache_data to only rerun when the query changes or after 10 min.
-
-# def run_query(query):
-#     # Use SQLAlchemy connection and execute query
-#     result = conn.execute(text(query))
-#     # Fetch all results and load them into a pandas DataFrame
-#     rows = result.fetchall()
-#     if rows is None:
-#         return pd.DataFrame()  # Return an empty DataFrame instead of None
-
-#     columns = result.keys()  # Get column names
-#     df = pd.DataFrame(rows, columns=columns)
-
-#     # Exclude the index (reset the index to avoid displaying it)
-#     df = df.reset_index(drop=True)
-
-#     return df
+ 
 
 @st.cache_data(ttl=10)
  #Ensure the connection is closed
@@ -114,32 +97,36 @@ def run_query(query):
         # Log or handle the exception
         raise RuntimeError(f"Error executing query: {e}")
 
-# Sumamry Section
-with open("pages/style/style.css") as source_style:
-    st.markdown(f"<style>{source_style.read()}</style>", unsafe_allow_html=True)
 
-#st.image("pages/images/featured_pro.png", width=1750)  
-
-# List of image paths
-image_paths = [
-    "pages/images/featured_pro.png",
-    "pages/images/reception.jpg",
-    "pages/images/kids.jpg",
-]
-
-# Placeholder images for Previous and Next actions
-previous_icon = "pages/images/back.jpg"  # Replace with your icon path
-next_icon = "pages/images/forward.jpg"         # Replace with your icon path
-
- 
 # Initialize the current index in session state
 if "current_index" not in st.session_state:
     st.session_state.current_index = 0
 
-# Display the main image
-st.image(image_paths[st.session_state.current_index], width=1750)
-# Add buttons side by side below the image
-col1, col2, col3, col4, col5, col6, col7, col8, col9, col10 = st.columns([1, 1, 1, 1, 1, 1, 1, 1, 1, 1])  # Three columns with equal width for alignment
+# List that contains paths to images or YouTube video links
+media_paths = [
+    "pages/images/featured_pro.png",  # Example image path
+    "https://www.youtube.com/watch?v=lkxEG0kOPaY&t=67s",  # Example YouTube video link
+    "https://www.youtube.com/watch?v=tqCFD7gz88c",
+    "https://www.youtube.com/watch?v=We7YNFjwoTY",
+    "https://www.youtube.com/watch?v=hQcf4HqXaJY",
+    "pages/images/reception.jpg",
+    "pages/images/kids.jpg",
+    "pages/images/work_fund.png",
+    "pages/images/work_karaoke.png",
+    "pages/images/work_night.jpg",
+    "pages/images/work_siepe.jpg"
+]
+
+# Adjust the column width ratios: column 2 is 5 times larger than columns 1 and 3
+col1, col2, col3 = st.columns([1, 10, 1])  # Relative column widths
+
+# Display the main media (image or video) in the larger column (column 2)
+with col2:
+    current_media = media_paths[st.session_state.current_index]
+    if current_media.endswith((".jpg", ".png", ".jpeg", ".gif")):  # Check for image extensions
+        st.image(current_media, width=1750)
+    elif "youtube.com" in current_media or "youtu.be" in current_media:  # Check for YouTube links
+        st.video(current_media)
 
 # Style for larger buttons
 button_style = """
@@ -151,7 +138,7 @@ button_style = """
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
-            background-color: #f1ecec
+            background-color: #f1ecec;
             cursor: pointer;
         }
         .button:hover {
@@ -160,35 +147,20 @@ button_style = """
     </style>
 """
 st.markdown(button_style, unsafe_allow_html=True)
-with col1:
-    st.empty()   
-with col2:
-    st.empty()   
-with col3:
-    st.empty()  
-with col4:
-    if st.button("", key="previous"):
-       st.session_state.current_index = (st.session_state.current_index - 1) % len(image_paths)
-    # Markdown image for "Previous"
-    #if st.markdown(f"[![<<]({previous_icon})](#)"):
-    #    st.session_state.current_index = (st.session_state.current_index - 1) % len(image_paths)
-with col5:
-    if st.button("", key="next"):
-       st.session_state.current_index = (st.session_state.current_index + 1) % len(image_paths)
-  # Markdown image for "Next"
-    #if st.markdown(f"[![>>]({next_icon})](#)"):
-    #    st.session_state.current_index = (st.session_state.current_index + 1) % len(image_paths)
-with col6:
-    st.empty()   
-with col8:
-    st.empty()  
-with col9:
-    st.empty()   
-with col10:
-    st.empty()  
 
 
+coll1, coll2, coll3, coll4 = st.columns([10, 1, 1, 10])  # Relative column widths
+ # Previous button in column 1
+with coll2:
+    if st.button("⬅️", key="previous", use_container_width=False):
+        st.session_state.current_index = (st.session_state.current_index - 1) % len(media_paths)
 
+# Next button in column 3
+with coll3:
+    if st.button("➡️", key="next", use_container_width=False):
+        st.session_state.current_index = (st.session_state.current_index + 1) % len(media_paths)
+
+######################################################################################
 # ---- HEADER SECTION ----
 with st.container():
     st.subheader("")
@@ -359,13 +331,55 @@ with st.container():
 #     # Ensure the connection is closed
 #     conn.close()
 
-
-
-
  
 
+# # Define the path for the main hover image
+# image_path = "https://universemagazine.com/wp-content/uploads/2022/08/zm4nfgq29yi91-1536x1536-1.jpg"  # Main hover image
 
+# # Define CSS for hover effect with "info" text as the trigger
+# hover_style = """
+# <style>
+# .hover-container {
+#     position: relative;
+#     display: inline-block;
+#     cursor: pointer;
+# }
+# .hover-text {
+#     font-size: 16px;
+#     font-weight: bold;
+#     color: #007BFF; /* Blue color for the text */
+#     text-decoration: underline;
+# }
+# .hover-image {
+#     display: none;
+#     position: absolute; /* Position the pop-up relative to the container */
+#     top: 0; /* Align vertically with the text */
+#     left: 120%; /* Position the pop-up to the right of the text */
+#     z-index: 999;
+#     background: #fff;
+#     border: 1px solid #ddd;
+#     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+#     width: 100px; /* Set the pop-up image width */
+#     height: 100px; /* Set the pop-up image height */
+#     object-fit: cover; /* Ensure the image fills the defined dimensions */
+# }
+# .hover-container:hover .hover-image {
+#     display: block;
+# }
+# </style>
+# """
  
- 
+# st.markdown(hover_style, unsafe_allow_html=True)
 
+# # App layout
+# st.title("Image Pop-up Triggered by Text")
 
+# # Use "info" text as the hover trigger
+# st.markdown(f"""
+# <div class="hover-container">
+#     <div>
+#         <span class="hover-text">info</span> <!-- Text trigger -->
+#     </div>
+#     <img src="{image_path}" class="hover-image" alt="popup image" />
+# </div>
+# """, unsafe_allow_html=True)
