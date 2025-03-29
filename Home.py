@@ -150,22 +150,25 @@ st.markdown(button_style, unsafe_allow_html=True)
 
 
 coll1, coll2, coll3, coll4 = st.columns([10, 1, 1, 10])  # Relative column widths
+
  # Previous button in column 1
 with coll2:
-    if st.button("⬅️", key="previous", use_container_width=False):
+ 
+    if st.button("⬅️", key="previous", use_container_width=True):
         st.session_state.current_index = (st.session_state.current_index - 1) % len(media_paths)
+ 
 
 # Next button in column 3
 with coll3:
-    if st.button("➡️", key="next", use_container_width=False):
+ 
+    if st.button("➡️", key="next", use_container_width=True):
         st.session_state.current_index = (st.session_state.current_index + 1) % len(media_paths)
+ 
 
 ######################################################################################
 # ---- HEADER SECTION ----
 with st.container():
-    st.subheader("")
     st.title("Overview")
-    st.write("##")
     st.write(
         """Welcome to TCN Entertainment, where the beats meet the streets and the fun never skips a track! I am your ultimate DJ professional with the top-tier sound and lighting. 
         I'm here to turn your event into an epic celebration that'll have everyone talking long after the music fades. 
@@ -173,9 +176,29 @@ with st.container():
         I'm here to listen, collaborate, and bring your party dreams to life, one beat drop at a time. So, if you're ready to take 
         your event to the next level, let me help you and be your soundtrack to success!"""
     )
-    st.write("[Get a Quote>](Request_Quote)")
+    st.write("---")
+    st.subheader("Exceptional DJ Services for Unforgettable Events")
+    st.write(
+        """As a dedicated and professional DJ based in Dallas, TX, I specialize in delivering the perfect soundtrack to bring every celebration to life. Whether you're planning a once-in-a-lifetime wedding, a private party, a corporate event, or any other special occasion, I create customized playlists that match your vision and keep your guests engaged from start to finish. Here's a closer look at the services I offer:"""
+    )
+    st.subheader("Weddings")
+    st.write("""Your wedding day should be as unique as your love story, and the right music can make every moment unforgettable. With expertise in setting the perfect tone, I ensure the soundtrack flows seamlessly—from your grand entrance to the final dance. I know how to read the crowd, adapt to the energy in the room, and create an atmosphere filled with magic and joy.""")
+    st.subheader("Private Parties")
+    st.write("""From milestone birthdays to intimate anniversary celebrations, your private party deserves a personal touch. I work closely with you to design a playlist that matches the vibe of your event, whether it’s a high-energy dance party or a relaxed gathering with family and friends. Together, we'll create a musical experience that keeps your guests entertained all night long.""")
+    st.subheader("Corporate Events")
+    st.write("""Professional events call for an expert approach to music. Whether it's a networking event, holiday party, or company celebration, I balance sophistication and entertainment to ensure your gathering is both enjoyable and memorable. I’ll work with you to set the perfect tone, ensuring your event runs smoothly and leaves a lasting impression.""")
+    st.subheader("School Dances")
+    st.write("""When it comes to school events like prom or homecoming, it's all about bringing the energy! I craft age-appropriate playlists that keep students on their feet and create an electric atmosphere. From slow dances to chart-topping hits, I’ll make sure the night is unforgettable for everyone.""")
+    st.subheader("Fundraisers")
+    st.write("""Fundraising events thrive on an inviting and upbeat atmosphere. With music that energizes your guests and complements your cause, I help create a positive environment that encourages participation and generosity. Together, we’ll make your fundraiser a success.""")
+    st.subheader("Bar and Bat Mitzvahs")
+    st.write("""Milestone events like bar and bat mitzvahs deserve the perfect blend of tradition and celebration. I specialize in creating playlists that honor the cultural significance of the day while bringing energy and excitement to the dance floor. Let's make it a day to remember for everyone involved.""")
+    st.subheader("Personalized DJ Services for Any Occasion")
+    st.write("""Every event is unique, and I'm committed to bringing your vision to life. Whether you're planning an elegant wedding, a spirited private party, or a milestone celebration, I tailor my services to suit your needs. With a keen ability to read the room and curate the perfect playlist, I’ll ensure your guests are entertained from the first note to the last.
+        Let’s make your event extraordinary. Together, we'll create an unforgettable experience filled with great music, good vibes, and lasting memories.""")
+    st.write("[Get a Quote>](Request_Quote)")  
 
-   
+
 
 # Sumamry Section
 with st.container():
@@ -183,23 +206,9 @@ with st.container():
     left_column, right_column = st.columns(2)
     with left_column:
         st.header("Services")
-        st.write("##")
         st.write(
             """
-            Private Events:
-            - Weddings
-            - Birthdays
-            - Anniversaries
-            - Corporate Functions
-            - Engagement Parties
-            
-            Public Events:
-            - Club Nights
-            - Festivals
-            - Concerts
-            - Product Launches
-            - Holiday Parties
-            
+ 
             Music Genres
 
             - Top 40 / Pop
@@ -227,15 +236,6 @@ with st.container():
             - Wireless Microphones & PA Systems
             - Interactive Crowd Engagement (Games, Requests)
 
-            Special Services
-
-            - Wedding DJ & MC Services
-            - Silent Disco
-            - Custom Playlist Curation (Personalized music themes for your event)
-            - Rehearsal Dinner DJ Services
-            - Event Rehearsal Sessions for Brides & Grooms
-
-            
             """
         )
         st.write("[Learn More >](Services)")
