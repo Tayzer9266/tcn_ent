@@ -104,11 +104,8 @@ if "current_index" not in st.session_state:
 
 # List that contains paths to images or YouTube video links
 media_paths = [
-    "pages/images/featured_pro.png",  # Example image path
-    "https://www.youtube.com/watch?v=lkxEG0kOPaY&t=67s",  # Example YouTube video link
-    "https://www.youtube.com/watch?v=tqCFD7gz88c",
-    "https://www.youtube.com/watch?v=We7YNFjwoTY",
-    "https://www.youtube.com/watch?v=hQcf4HqXaJY",
+    "https://www.youtube.com/watch?v=baTq72zAc-U",  # Example YouTube video link
+    "pages/images/featured_pro.png",
     "pages/images/reception.jpg",
     "pages/images/kids.jpg",
     "pages/images/work_fund.png",
