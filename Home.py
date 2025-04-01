@@ -150,14 +150,12 @@ coll1, coll2, coll3, coll4 = st.columns([10, 1, 1, 10])  # Relative column width
 
  # Previous button in column 1
 with coll2:
- 
     if st.button("⬅️", key="previous", use_container_width=True):
         st.session_state.current_index = (st.session_state.current_index - 1) % len(media_paths)
  
 
 # Next button in column 3
 with coll3:
- 
     if st.button("➡️", key="next", use_container_width=True):
         st.session_state.current_index = (st.session_state.current_index + 1) % len(media_paths)
  

@@ -550,7 +550,7 @@ with st.container():
                                         if event_date_ct > 1:
                                             event_status = st.selectbox("Booking Status", ("conflict"))  
                                         elif email == "5003":
-                                            event_status = st.selectbox("Booking Status", (df['event_status'][0], "Ongoing","Canceled","Scheduled")) 
+                                            event_status = st.selectbox("Booking Status", (df['event_status'][0], "Ongoing","Canceled","Scheduled","Proposal")) 
                                         else:
                                             event_status = st.selectbox("Booking Status", (df['event_status'][0],"Ongoing","Canceled")) 
 
@@ -574,7 +574,7 @@ with st.container():
                                         phone_number = st.text_input("Phone Number*", df['phone_number'][0]) #Phone
                                         email = st.text_input("Email Address*", df['email'][0]) #Email
                                         event_date = st.date_input("Event Date*", df['event_date'][0]) 
-                                        event_type = st.selectbox("Event Type?*", (df['event_type'][0],"Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Fundraiser","Other"))
+                                        event_type = st.selectbox("Event Type?*", (df['event_type'][0],"Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Fundraiser","Graduation","Other"))
                                         best_time = st.time_input("Best Time to Contact", df['best_time'][0]) 
                                         service_hours = st.slider('Number of hours professional needed', 2, 24, value=df['service_hours'][0])
                                         start_time = st.time_input("Estimated Start Time*", df['start_time'][0]) #Start
