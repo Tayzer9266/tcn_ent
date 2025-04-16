@@ -307,7 +307,6 @@ with st.container():
         """
         # Execute the query and create a DataFrame
         df = run_query(query)
-
         # Display the query results as text rows
         if not df.empty:
             for index, row in df.iterrows():
