@@ -305,6 +305,7 @@ with st.container():
             and event_date >= now()::date
             order by event_date 
         """
+        
         # Execute the query and create a DataFrame
         df = run_query(query)
         # Display the query results as text rows
