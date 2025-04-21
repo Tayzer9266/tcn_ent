@@ -314,9 +314,11 @@ with st.container():
         else:
             st.text("No scheduled events found.")
 
+  
 
   
   
+
 # try:
 #     # Execute your query
 #     result = conn.execute("SELECT * FROM your_table")
