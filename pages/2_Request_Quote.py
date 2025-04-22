@@ -549,7 +549,7 @@ with st.container():
                                     with st.form("my_form"):
                                         st.subheader("Booking# " + str(booking_id))
 
-                                        if event_date > 1:
+                                        if event_date_ct > 1:
                                             event_status = st.selectbox("Booking Status", ("Conflict","Canceled"))  
                                         elif email == "5003":
                                             event_status = st.selectbox("Booking Status", (df['event_status'][0], "Ongoing","Canceled","Scheduled","Proposal")) 
