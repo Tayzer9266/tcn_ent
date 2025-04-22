@@ -540,7 +540,7 @@ with st.container():
                                 ############################################
                             if event_date_ct > 1:
                                  st.warning("This date has several bookings. Kindly reach out to us to confirm availability.")   
-                                 df['event_status'][0] != 'Scheduled'
+                   
 
                             if df['event_status'][0] != 'Scheduled' or email == "5003":
                                     
@@ -609,11 +609,6 @@ with st.container():
                                             index=int(df['monogram'][0])
                                             )
                                         uplighting = "No"
-                                        # uplighting = st.radio(
-                                        #     "Do you need uplighting?",
-                                        #     ('Yes', 'No'),
-                                        #     index=int(df['uplighting'][0])
-                                        #     )
                                         uplight_ct = st.slider('How many uplights do you need?', 0, 20, value=df['uplight_ct'][0])
                                         fog_machine = st.radio(
                                             "Do you need a fog machine?",
