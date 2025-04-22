@@ -4,7 +4,7 @@ from sqlalchemy import text
 import pandas as pd
 import base64
 from PIL import Image
- 
+from datetime import datetime
 
 
 st.set_page_config(
@@ -530,6 +530,7 @@ with st.container():
                             payment_due_date = df['payment_due_date'][0]
                             actual_cost = df['actual_cost'][0]
                             event_date_ct = df['event_date_ct'][0]
+                     
                             price_override2 = df['price_override'][0]
                             back_drop_needed = 1 if not df['back_drop_type'][0] else 0
                             booking_id = booking
@@ -547,7 +548,9 @@ with st.container():
                                     with st.form("my_form"):
                                         st.subheader("Booking# " + str(booking_id))
 
-                                        if event_date_ct > 1:
+                                        if datetime(df['event_date'][0]) < datetime.now():
+                                            event_status = st.selectbox("Booking Status", ("Closed")) 
+                                        elif event_date > 1:
                                             event_status = st.selectbox("Booking Status", ("Conflict","Canceled"))  
                                         elif email == "5003":
                                             event_status = st.selectbox("Booking Status", (df['event_status'][0], "Ongoing","Canceled","Scheduled","Proposal")) 
@@ -565,9 +568,7 @@ with st.container():
                                         # Conditional assignment if email matches "5003"
                                         if email == "5003":
                                             price_override = st.text_input("Override Price", df['price_override'][0])
-               
-
-                                        
+ 
                                         discount_code  = st.text_input("Discount Code", df['discount_code'][0]) 
                                         first_name = st.text_input("First Name*", df['first_name'][0])  #FirstName
                                         last_name = st.text_input("Last Name*", df['last_name'][0]) #LastName
