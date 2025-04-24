@@ -537,7 +537,6 @@ with st.container():
                             booking_id = booking
                         
  
-        
 
                                 ############################################
                             if event_date_ct > 1:
