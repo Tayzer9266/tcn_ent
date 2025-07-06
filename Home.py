@@ -208,7 +208,7 @@ with st.container():
 
             - Top 40 / Pop
             - EDM / House / Techno
-            - Hip-Hop / R&B
+            - Hip-Hop / R&B / Afrobeats
             - Classic Rock / 80s / 90s Hits
             - Latin / Reggaeton
             - Jazz / Chillout
@@ -225,7 +225,7 @@ with st.container():
 
             Additional Features
 
-            - Photo Booth Rentals
+            - Photo Booth Rentals (DSLR, IPAD)
             - Custom Music Production
             - Virtual/Live Streaming DJ Sets
             - Wireless Microphones & PA Systems
