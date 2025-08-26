@@ -222,7 +222,8 @@ with coll3:
 
 # ---- HEADER SECTION ----
 with st.container():
-    st.title("Overview")
+    st.markdown('<div class="section-title">Overview</div>', unsafe_allow_html=True) 
+    #st.title("Overview")
     st.markdown(
         """Welcome to TCN Entertainment, where the beats meet the streets and the fun never skips a track! I am your ultimate DJ professional with the top-tier sound and lighting. 
         I'm here to turn your event into an epic celebration that'll have everyone talking long after the music fades. 
@@ -231,7 +232,8 @@ with st.container():
         your event to the next level, let me help you and be your soundtrack to success!"""
     )
     st.markdown("---")
-    st.subheader("Exceptional DJ Services for Unforgettable Events")
+    st.markdown('<div class="section-title">Exceptional DJ Services for Unforgettable Events</div>', unsafe_allow_html=True)
+    #st.subheader("Exceptional DJ Services for Unforgettable Events")
     st.markdown(
         """As a dedicated and professional DJ based in Dallas, TX, I specialize in delivering the perfect soundtrack to bring every celebration to life. Whether you're planning a once-in-a-lifetime wedding, a private party, a corporate event, or any other special occasion, I create customized playlists that match your vision and keep your guests engaged from start to finish. Here's a closer look at the services I offer:"""
     )
