@@ -373,6 +373,38 @@ with st.container():
                                     cold_sparks, microphone, monogram, discount_code
                                 )
                                 st.success("Your quote has been successfully submitted!", icon="✅")
+
+                                # --- PLACE THE SUMMARY CODE HERE ---
+                                # Query and display the quote summary for the user
+                                summary_query = f"""
+                                    SELECT product, units, market_total AS market_price, amount AS total, savings
+                                    FROM f_service_product_total_latest('{email}')
+                                """
+                                summary_df = run_query(summary_query)
+
+                                if not summary_df.empty:
+                                    total_market = summary_df['market_price'].sum()
+                                    total_quote = summary_df['total'].sum()
+                                    total_savings = summary_df['savings'].sum()
+
+                                    st.markdown(f"**Total Market Cost:** ${total_market:,.2f}")
+                                    st.markdown(f"**Your Quote Total:** ${total_quote:,.2f}")
+                                    st.markdown(f"**You Save:** ${total_savings:,.2f}")
+
+                                    st.markdown("**Itemized Products & Services:**")
+                                    st.dataframe(
+                                        summary_df[['product', 'units', 'market_price', 'total', 'savings']].rename(
+                                            columns={
+                                                'product': 'Product/Service',
+                                                'units': 'Units',
+                                                'market_price': 'Market Price',
+                                                'total': 'Your Price',
+                                                'savings': 'Savings'
+                                            }
+                                        )
+                                    )
+
+
                             else:
                                 # Display an error if required fields are missing
                                 st.error("Please fill in all required fields: Name, Phone, Email, Event Date, Service Hours, and Event Type.")
