@@ -285,16 +285,34 @@ html_content = """
 components.html(html_content, height=900)
 st.write("[Get an instant quote>](Request_Quote)")
 
-
-
-# Sumamry Section
+# ---- UPCOMING EVENTS SECTION ----
 with st.container():
     st.write("---")
-    left_column, right_column = st.columns(2)
+    left_column, right_column = st.columns([2, 1])
     with left_column:
-        st.header("Upcoming Events")
-        st.write("##")
-
+        st.markdown(
+            """
+            <style>
+            .section-title {
+                font-size: 1.5em;
+                font-weight: 700;
+                color: #457b9d;
+                margin-top: 1.2em;
+                margin-bottom: 0.5em;
+            }
+            .event-card {
+                background: linear-gradient(90deg, #f8fafc 70%, #e63946 100%);
+                border-radius: 10px;
+                padding: 0.7em 1.2em;
+                margin-bottom: 0.7em;
+                box-shadow: 0 2px 12px rgba(230,57,70,0.08);
+                font-size: 1.1em;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+        st.markdown('<div class="section-title">📅 Upcoming Events</div>', unsafe_allow_html=True)
         query = """
             select event_date::date  as event_date
             , a.event_name 
@@ -305,15 +323,62 @@ with st.container():
             and event_date >= now()::date
             order by event_date 
         """
-        
-        # Execute the query and create a DataFrame
         df = run_query(query)
-        # Display the query results as text rows
         if not df.empty:
             for index, row in df.iterrows():
-                st.text(f" {row['event_date']} - {row['event_status']} - {row['event_name']} ")
+                st.markdown(
+                    f"<div class='event-card'><b>{row['event_date']}</b> &mdash; <span style='color:#e63946;'>{row['event_status']}</span> &mdash; {row['event_name']}</div>",
+                    unsafe_allow_html=True
+                )
         else:
-            st.text("No scheduled events found.")
+            st.markdown(
+                "<div class='event-card'>No scheduled events found.</div>",
+                unsafe_allow_html=True
+            )
+    with right_column:
+        st.image("pages/images/work_fund.png", caption="See you on the dance floor!", use_column_width=True)
+
+# ---- CALL TO ACTION ----
+with st.container():
+    st.write("---")
+    st.markdown(
+        """
+        <div style="text-align:center;">
+            <a href="Request_Quote" style="background:#e63946;color:#fff;padding:1em 2em;border-radius:8px;font-size:1.3em;font-weight:700;text-decoration:none;box-shadow:0 2px 8px rgba(230,57,70,0.12);transition:background 0.2s;">
+                Get an Instant Quote &gt;
+            </a>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+# Sumamry Section
+# with st.container():
+#     st.write("---")
+#     left_column, right_column = st.columns(2)
+#     with left_column:
+#         st.header("Upcoming Events")
+#         st.write("##")
+
+#         query = """
+#             select event_date::date  as event_date
+#             , a.event_name 
+#             , a.event_status
+#             from events a
+#             where event_status in ('Scheduled','Ongoing')
+#             and a.deleted_at is null 
+#             and event_date >= now()::date
+#             order by event_date 
+#         """
+        
+#         # Execute the query and create a DataFrame
+#         df = run_query(query)
+#         # Display the query results as text rows
+#         if not df.empty:
+#             for index, row in df.iterrows():
+#                 st.text(f" {row['event_date']} - {row['event_status']} - {row['event_name']} ")
+#         else:
+#             st.text("No scheduled events found.")
 
   
 
