@@ -125,7 +125,7 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
         microphone = microphone == 'Yes'
         # Set empty string inputs to None
         best_time = best_time if best_time else None
-        start_time = start_time if start_time else None
+        start_time = start_time.strftime("%I:%M %p") if start_time else None
         estimated_budget = estimated_budget if estimated_budget else None
         event_location = event_location if event_location else None
         booth_location = booth_location if booth_location else None
@@ -189,8 +189,8 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
         microphone = microphone == 'Yes'
 
         # Set empty string inputs to None
-        best_time = best_time if best_time else None
-        start_time = start_time if start_time else None
+        best_time = best_time.strftime("%I:%M %p") if best_time else None
+        start_time = start_time.strftime("%I:%M %p") if start_time else None
         estimated_budget = estimated_budget if estimated_budget else None
         event_location = event_location if event_location else None
         booth_location = booth_location if booth_location else None
