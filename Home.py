@@ -335,8 +335,8 @@ with st.container():
                 "<div class='event-card'>No scheduled events found.</div>",
                 unsafe_allow_html=True
             )
-    with right_column:
-        st.image("pages/images/work_fund.png", caption="See you on the dance floor!", use_column_width=True)
+    # with right_column:
+    #     st.image("pages/images/work_fund.png", caption="See you on the dance floor!", use_column_width=True)
 
 # ---- CALL TO ACTION ----
 with st.container():
