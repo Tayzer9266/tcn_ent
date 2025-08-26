@@ -660,65 +660,6 @@ with st.container():
                                         st.write("[Pay the deposit to lock in your date](https://buy.stripe.com/cN29BFc2F7gqgBGdQQ)")
         
 
-            if submitted:
-                try:
-                    # Check if all required fields are filled
-                    st.session_state["my_input"] = first_name
-                    
-                    if email and phone_number and first_name and event_date and service_hours and event_type:
-                        # Attempt to execute the procedure
-                        execute_procedure(
-                            first_name, last_name, phone_number, email, best_time, event_date, start_time, 
-                            estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, 
-                            uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, 
-                            comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types, 
-                            cold_sparks, microphone, monogram, discount_code
-                        )
-                        st.success("Your quote has been successfully submitted!", icon="✅")
-
-                        # --- QUOTE SUMMARY SECTION ---
-                        st.write("---")
-                        st.subheader("Your Quote Summary")
-
-                        # Query to get the latest quote for this email (adjust as needed for your schema)
-                        summary_query = f"""
-                            SELECT product, units, market_total AS market_price, amount AS total, savings
-                            FROM f_service_product_total_latest('{email}')
-                        """
-                        summary_df = run_query(summary_query)
-
-                        if not summary_df.empty:
-                            # Calculate totals
-                            total_market = summary_df['market_price'].sum()
-                            total_quote = summary_df['total'].sum()
-                            total_savings = summary_df['savings'].sum()
-
-                            st.markdown(f"**Total Market Cost:** ${total_market:,.2f}")
-                            st.markdown(f"**Your Quote Total:** ${total_quote:,.2f}")
-                            st.markdown(f"**You Save:** ${total_savings:,.2f}")
-
-                            st.markdown("**Itemized Products & Services:**")
-                            st.dataframe(
-                                summary_df[['product', 'units', 'market_price', 'total', 'savings']].rename(
-                                    columns={
-                                        'product': 'Product/Service',
-                                        'units': 'Units',
-                                        'market_price': 'Market Price',
-                                        'total': 'Your Price',
-                                        'savings': 'Savings'
-                                    }
-                                )
-                            )
-                        else:
-                            st.info("Quote summary is not available yet. Please check 'Your Bookings' for details.")
-
-                    else:
-                        # Display an error if required fields are missing
-                        st.error("Please fill in all required fields: Name, Phone, Email, Event Date, Service Hours, and Event Type.")
-                except Exception as e:
-                    # Handle any unexpected errors
-                    st.error(f"An error occurred while submitting your quote: {e}")
-
  
 
         if __name__ == "__main__":
