@@ -235,55 +235,87 @@ with st.container():
         )
         st.write("[Learn More >](Services)")
 
-# Sumamry Section
-with st.container():
-    st.write("---")
-    left_column, right_column = st.columns(2)
-    with left_column:
-        st.header("Live Song Requests")
-        st.write("##")
-        st.write(
-            """
-            We want to make sure your event has the perfect soundtrack! Our song request form allows you to share your favorite tunes, and let us know any specific songs or genres you'd like to hear. Whether you have a list of must-play tracks or just want to guide us with a vibe, we’ve got you covered. Fill out the form below to submit your requests, and we'll make sure to incorporate them into the mix to keep the party going all night long!
-            """
-        )
-        st.write("[Learn More >](/Song_Requests)")
+# # Sumamry Section
+# with st.container():
+#     st.write("---")
+#     left_column, right_column = st.columns(2)
+#     with left_column:
+#         st.header("Live Song Requests")
+#         st.write("##")
+#         st.write(
+#             """
+#             We want to make sure your event has the perfect soundtrack! Our song request form allows you to share your favorite tunes, and let us know any specific songs or genres you'd like to hear. Whether you have a list of must-play tracks or just want to guide us with a vibe, we’ve got you covered. Fill out the form below to submit your requests, and we'll make sure to incorporate them into the mix to keep the party going all night long!
+#             """
+#         )
+#         st.write("[Learn More >](/Song_Requests)")
  
-
-
-
-
-# Sumamry Section
+# ---- SONG REQUESTS SECTION ----
 with st.container():
     st.write("---")
-    left_column, right_column = st.columns(2)
+    left_column, right_column = st.columns([2, 1])
     with left_column:
-        st.header("Reviews")
-        st.write("##")
+        st.markdown('<div class="section-title">📝 Live Song Requests</div>', unsafe_allow_html=True)
+        st.write(
+            "Share your favorite songs and genres! Fill out our request form and we'll keep the party going all night long."
+        )
+        st.markdown('<a href="/Song_Requests" style="font-weight:700;color:#e63946;">Request a Song &gt;</a>', unsafe_allow_html=True)
+    with right_column:
+        st.image("pages/images/work_karaoke.png", caption="Your playlist. Your party.", use_column_width=True)
+
+# ---- REVIEWS SECTION ----
+with st.container():
+    st.write("---")
+    left_column, right_column = st.columns([2, 1])
+    with left_column:
+        st.markdown('<div class="section-title">🌟 Reviews</div>', unsafe_allow_html=True)
+        st.write("See what clients are saying about TCN Entertainment!")
+        st.markdown(
+            """
+            <a href="https://www.gigsalad.com/tcn_entertainment_dallas" target="_blank">
+                <img src="https://cress.gigsalad.com/images/svg/standalone/promokit-links/top-performer/top-performer--blue.svg" height="64">
+            </a>
+            <a href="https://www.gigsalad.com/tcn_entertainment_dallas" target="_blank">
+                <img src="https://cress.gigsalad.com/images/svg/standalone/promokit-links/read-reviews/read-reviews--dark.svg" height="40">
+            </a>
+            """,
+            unsafe_allow_html=True
+        )
+    with right_column:
+        st.image("pages/images/reception.jpg", caption="Real events. Real memories.", use_column_width=True)
+
+
+
+# # Sumamry Section
+# with st.container():
+#     st.write("---")
+#     left_column, right_column = st.columns(2)
+#     with left_column:
+#         st.header("Reviews")
+#         st.write("##")
     
 
-html_content2 = """
-<div style="display: flex; align-items: center;">
-    <a href="https://www.gigsalad.com/tcn_entertainment_dallas" style="margin-right: 20px;">
-        <img src="https://cress.gigsalad.com/images/svg/standalone/promokit-links/top-performer/top-performer--blue.svg" alt="Top Performer on GigSalad" height="128" width="116">
-    </a>
-    <a href="https://www.gigsalad.com/tcn_entertainment_dallas">
-        <img src="https://cress.gigsalad.com/images/svg/standalone/promokit-links/read-reviews/read-reviews--dark.svg" alt="Read My Reviews on GigSalad" height="100" width="300">
-    </a>
-</div>
-"""
+# html_content2 = """
+# <div style="display: flex; align-items: center;">
+#     <a href="https://www.gigsalad.com/tcn_entertainment_dallas" style="margin-right: 20px;">
+#         <img src="https://cress.gigsalad.com/images/svg/standalone/promokit-links/top-performer/top-performer--blue.svg" alt="Top Performer on GigSalad" height="128" width="116">
+#     </a>
+#     <a href="https://www.gigsalad.com/tcn_entertainment_dallas">
+#         <img src="https://cress.gigsalad.com/images/svg/standalone/promokit-links/read-reviews/read-reviews--dark.svg" alt="Read My Reviews on GigSalad" height="100" width="300">
+#     </a>
+# </div>
+# """
 
-# Display the HTML content
-#components.html(html_content2, height=150)
+# # Display the HTML content
+# #components.html(html_content2, height=150)
 
-# HTML content
-html_content = """
-<div id="gigsalad-reviews-widget"></div><script>var gsReviewWidget;(function(d,t){var s=d.createElement(t),options={path:'254761',maxWidth:600,count:4};s.src='https://www.gigsalad.com/js/gigsalad-reviews-widget.min.js';s.onload=s.onreadystatechange=function(){var rs=this.readyState;if(rs)if(rs!='complete')if(rs!='loaded')return;try{gsReviewWidget=new GsReviewsWidget(options);gsReviewWidget.display();}catch(e){}};var scr=d.getElementsByTagName(t)[0];var par=scr.parentNode;par.insertBefore(s,scr);})(document,'script');</script>
-"""
+# # HTML content
+# html_content = """
+# <div id="gigsalad-reviews-widget"></div><script>var gsReviewWidget;(function(d,t){var s=d.createElement(t),options={path:'254761',maxWidth:600,count:4};s.src='https://www.gigsalad.com/js/gigsalad-reviews-widget.min.js';s.onload=s.onreadystatechange=function(){var rs=this.readyState;if(rs)if(rs!='complete')if(rs!='loaded')return;try{gsReviewWidget=new GsReviewsWidget(options);gsReviewWidget.display();}catch(e){}};var scr=d.getElementsByTagName(t)[0];var par=scr.parentNode;par.insertBefore(s,scr);})(document,'script');</script>
+# """
 
-# Display the HTML content
-components.html(html_content, height=900)
-st.write("[Get an instant quote>](Request_Quote)")
+# # Display the HTML content
+# components.html(html_content, height=900)
+# st.write("[Get an instant quote>](Request_Quote)")
 
 # ---- UPCOMING EVENTS SECTION ----
 with st.container():
