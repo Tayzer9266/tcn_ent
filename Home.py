@@ -223,34 +223,41 @@ with coll3:
 # ---- HEADER SECTION ----
 with st.container():
     st.title("Overview")
-    st.write(
+    st.markdown(
         """Welcome to TCN Entertainment, where the beats meet the streets and the fun never skips a track! I am your ultimate DJ professional with the top-tier sound and lighting. 
         I'm here to turn your event into an epic celebration that'll have everyone talking long after the music fades. 
         But I'm more than just a DJ, I will work closely with you to understand your vision, preferences, and must-play tracks. 
         I'm here to listen, collaborate, and bring your party dreams to life, one beat drop at a time. So, if you're ready to take 
         your event to the next level, let me help you and be your soundtrack to success!"""
     )
-    st.write("---")
+    st.markdown("---")
     st.subheader("Exceptional DJ Services for Unforgettable Events")
-    st.write(
+    st.markdown(
         """As a dedicated and professional DJ based in Dallas, TX, I specialize in delivering the perfect soundtrack to bring every celebration to life. Whether you're planning a once-in-a-lifetime wedding, a private party, a corporate event, or any other special occasion, I create customized playlists that match your vision and keep your guests engaged from start to finish. Here's a closer look at the services I offer:"""
     )
-    st.subheader("Weddings")
-    st.write("""Your wedding day should be as unique as your love story, and the right music can make every moment unforgettable. With expertise in setting the perfect tone, I ensure the soundtrack flows seamlessly—from your grand entrance to the final dance. I know how to read the crowd, adapt to the energy in the room, and create an atmosphere filled with magic and joy.""")
-    st.subheader("Private Parties")
-    st.write("""From milestone birthdays to intimate anniversary celebrations, your private party deserves a personal touch. I work closely with you to design a playlist that matches the vibe of your event, whether it’s a high-energy dance party or a relaxed gathering with family and friends. Together, we'll create a musical experience that keeps your guests entertained all night long.""")
-    st.subheader("Corporate Events")
-    st.write("""Professional events call for an expert approach to music. Whether it's a networking event, holiday party, or company celebration, I balance sophistication and entertainment to ensure your gathering is both enjoyable and memorable. I’ll work with you to set the perfect tone, ensuring your event runs smoothly and leaves a lasting impression.""")
-    st.subheader("School Dances")
+    #st.subheader("Weddings")
+    st.markdown('<div class="section-title">Weddings</div>', unsafe_allow_html=True)
+    st.markdown("""Your wedding day should be as unique as your love story, and the right music can make every moment unforgettable. With expertise in setting the perfect tone, I ensure the soundtrack flows seamlessly—from your grand entrance to the final dance. I know how to read the crowd, adapt to the energy in the room, and create an atmosphere filled with magic and joy.""")
+    #st.subheader("Private Parties")
+    st.markdown('<div class="section-title">Private Parties</div>', unsafe_allow_html=True)
+    st.markdown("""From milestone birthdays to intimate anniversary celebrations, your private party deserves a personal touch. I work closely with you to design a playlist that matches the vibe of your event, whether it’s a high-energy dance party or a relaxed gathering with family and friends. Together, we'll create a musical experience that keeps your guests entertained all night long.""")
+    #st.subheader("Corporate Events")
+    st.markdown('<div class="section-title">Corporate Events</div>', unsafe_allow_html=True)
+    st.markdown("""Professional events call for an expert approach to music. Whether it's a networking event, holiday party, or company celebration, I balance sophistication and entertainment to ensure your gathering is both enjoyable and memorable. I’ll work with you to set the perfect tone, ensuring your event runs smoothly and leaves a lasting impression.""")
+    #st.subheader("School Dances")
+    st.markdown('<div class="section-title">School Dances</div>', unsafe_allow_html=True)
     st.write("""When it comes to school events like prom or homecoming, it's all about bringing the energy! I craft age-appropriate playlists that keep students on their feet and create an electric atmosphere. From slow dances to chart-topping hits, I’ll make sure the night is unforgettable for everyone.""")
-    st.subheader("Fundraisers")
-    st.write("""Fundraising events thrive on an inviting and upbeat atmosphere. With music that energizes your guests and complements your cause, I help create a positive environment that encourages participation and generosity. Together, we’ll make your fundraiser a success.""")
-    st.subheader("Bar and Bat Mitzvahs")
-    st.write("""Milestone events like bar and bat mitzvahs deserve the perfect blend of tradition and celebration. I specialize in creating playlists that honor the cultural significance of the day while bringing energy and excitement to the dance floor. Let's make it a day to remember for everyone involved.""")
-    st.subheader("Personalized DJ Services for Any Occasion")
-    st.write("""Every event is unique, and I'm committed to bringing your vision to life. Whether you're planning an elegant wedding, a spirited private party, or a milestone celebration, I tailor my services to suit your needs. With a keen ability to read the room and curate the perfect playlist, I’ll ensure your guests are entertained from the first note to the last.
+    #st.subheader("Fundraisers")
+    st.markdown('<div class="section-title">Fundraisers</div>', unsafe_allow_html=True)
+    st.markdown("""Fundraising events thrive on an inviting and upbeat atmosphere. With music that energizes your guests and complements your cause, I help create a positive environment that encourages participation and generosity. Together, we’ll make your fundraiser a success.""")
+    #st.subheader("Bar and Bat Mitzvahs")
+    st.markdown('<div class="section-title">Bar and Bat Mitzvahs</div>', unsafe_allow_html=True)
+    st.markdown("""Milestone events like bar and bat mitzvahs deserve the perfect blend of tradition and celebration. I specialize in creating playlists that honor the cultural significance of the day while bringing energy and excitement to the dance floor. Let's make it a day to remember for everyone involved.""")
+    #st.subheader("Personalized DJ Services for Any Occasion")
+    st.markdown('<div class="section-title">Personalized DJ Services for Any Occasion</div>', unsafe_allow_html=True)
+    st.markdown("""Every event is unique, and I'm committed to bringing your vision to life. Whether you're planning an elegant wedding, a spirited private party, or a milestone celebration, I tailor my services to suit your needs. With a keen ability to read the room and curate the perfect playlist, I’ll ensure your guests are entertained from the first note to the last.
         Let’s make your event extraordinary. Together, we'll create an unforgettable experience filled with great music, good vibes, and lasting memories.""")
-    st.write("[Get a Quote>](Request_Quote)")  
+    st.markdown("[Get a Quote>](Request_Quote)")  
 
 
 # ---- SERVICES SECTION ----
