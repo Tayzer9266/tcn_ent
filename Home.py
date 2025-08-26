@@ -182,7 +182,7 @@ with st.container():
             margin-bottom: 0.5em;
         }
         .highlight-box {
-            background: linear-gradient(90deg, #f8fafc 60%, #e63946 100%);
+            background: linear-gradient(90deg, #f8fafc 60%, #f7e7ce 100%);
             border-radius: 12px;
             padding: 1.2em 2em;
             box-shadow: 0 4px 24px rgba(230,57,70,0.08);
@@ -376,7 +376,7 @@ with st.container():
                 margin-bottom: 0.5em;
             }
             .event-card {
-                background: linear-gradient(90deg, #f8fafc 70%, #e63946 100%);
+                background: linear-gradient(90deg, #f8fafc 70%, #f7e7ce 100%);
                 border-radius: 10px;
                 padding: 0.7em 1.2em;
                 margin-bottom: 0.7em;
