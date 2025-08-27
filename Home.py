@@ -5,6 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy import text
 import pandas as pd
 import os
+from datetime import datetime  # Importing datetime module
 # Page Tab
 st.set_page_config(
     page_title="Home",
@@ -418,8 +419,10 @@ with st.container():
                 else:
                     status_color = '#e63946'  # Default red for other statuses
                 
+                event_date = datetime.strptime(str(row['event_date']), '%Y-%m-%d').date()  # Convert string to date
+                day_of_week = event_date.strftime('%A')  # Get the day of the week
                 st.markdown(
-                    f"<div class='event-card'><b>{row['event_date']}</b> &mdash; <span style='color:{status_color};'>{row['event_status']}</span> &mdash; {row['event_name']}</div>",
+                    f"<div class='event-card'><b>{row['event_date']} ({day_of_week})</b> &mdash; <span style='color:{status_color};'>{row['event_status']}</span> &mdash; {row['event_name']}</div>",
                     unsafe_allow_html=True
                 )
         else:
