@@ -410,8 +410,16 @@ with st.container():
         df = run_query(query)
         if not df.empty:
             for index, row in df.iterrows():
+                # Set color based on status
+                if row['event_status'] == 'Ongoing':
+                    status_color = '#e63946'  # Red for Ongoing
+                elif row['event_status'] == 'Scheduled':
+                    status_color = '#28a745'  # Green for Scheduled
+                else:
+                    status_color = '#e63946'  # Default red for other statuses
+                
                 st.markdown(
-                    f"<div class='event-card'><b>{row['event_date']}</b> &mdash; <span style='color:#e63946;'>{row['event_status']}</span> &mdash; {row['event_name']}</div>",
+                    f"<div class='event-card'><b>{row['event_date']}</b> &mdash; <span style='color:{status_color};'>{row['event_status']}</span> &mdash; {row['event_name']}</div>",
                     unsafe_allow_html=True
                 )
         else:
