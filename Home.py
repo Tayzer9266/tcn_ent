@@ -99,66 +99,8 @@ def run_query(query):
         raise RuntimeError(f"Error executing query: {e}")
 
 
-# Initialize the current index in session state
-if "current_index" not in st.session_state:
-    st.session_state.current_index = 0
-
-# List that contains paths to images or YouTube video links
-media_paths = [
-    "https://www.youtube.com/watch?v=baTq72zAc-U",  # Example YouTube video link
-    "pages/images/featured_pro.png",
-    "pages/images/reception.jpg",
-    "pages/images/kids.jpg",
-    "pages/images/work_fund.png",
-    "pages/images/work_karaoke.png",
-    "pages/images/work_night.jpg",
-    "pages/images/work_siepe.jpg"
-]
-
-# Adjust the column width ratios: column 2 is 5 times larger than columns 1 and 3
-col1, col2, col3 = st.columns([1, 10, 1])  # Relative column widths
-
-# Display the main media (image or video) in the larger column (column 2)
-with col2:
-    current_media = media_paths[st.session_state.current_index]
-    if current_media.endswith((".jpg", ".png", ".jpeg", ".gif")):  # Check for image extensions
-        st.image(current_media, width=1750)
-    elif "youtube.com" in current_media or "youtu.be" in current_media:  # Check for YouTube links
-        st.video(current_media)
-
-# Style for larger buttons
-button_style = """
-    <style>
-        .button {
-            font-size: 30px;
-            font-family: Arial, sans-serif; /* Change font type to Arial */
-            font-weight: bold;      /* Make the font bold */
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #f1ecec;
-            cursor: pointer;
-        }
-        .button:hover {
-            background-color: #ddd;
-        }
-    </style>
-"""
-st.markdown(button_style, unsafe_allow_html=True)
-
-
-coll1, coll2, coll3, coll4 = st.columns([10, 1, 1, 10])  # Relative column widths
-
- # Previous button in column 1
-with coll2:
-    if st.button("⬅️", key="previous", use_container_width=True):
-        st.session_state.current_index = (st.session_state.current_index - 1) % len(media_paths)
- 
-
-# Next button in column 3
-with coll3:
-    if st.button("➡️", key="next", use_container_width=True):
-        st.session_state.current_index = (st.session_state.current_index + 1) % len(media_paths)
+# Display the YouTube video directly
+st.video("https://www.youtube.com/watch?v=baTq72zAc-U")
  
 
 ######################################################################################
@@ -239,29 +181,29 @@ with st.container():
         """As a dedicated and professional DJ based in Dallas, TX, I specialize in delivering the perfect soundtrack to bring every celebration to life. Whether you're planning a once-in-a-lifetime wedding, a private party, a corporate event, or any other special occasion, I create customized playlists that match your vision and keep your guests engaged from start to finish. Here's a closer look at the services I offer:"""
     )
     #st.subheader("Weddings")
-    st.image("pages/images/wedding.jpg", width=600, caption="Elegant Wedding Setup")
     st.markdown('<div class="section-title">Weddings</div>', unsafe_allow_html=True)
     st.markdown("""Your wedding day should be as unique as your love story, and the right music can make every moment unforgettable. With expertise in setting the perfect tone, I ensure the soundtrack flows seamlessly—from your grand entrance to the final dance. I know how to read the crowd, adapt to the energy in the room, and create an atmosphere filled with magic and joy.""")
+    st.image("pages/images/wedding.jpg", width=600, caption="Elegant Wedding Setup")
     #st.subheader("Private Parties")
-    st.image("pages/images/private parties.jpg", width=600, caption="Private Party Entertainment")
     st.markdown('<div class="section-title">Private Parties</div>', unsafe_allow_html=True)
+    st.image("pages/images/private parties.jpg", width=600, caption="Private Party Entertainment")
     st.markdown("""From milestone birthdays to intimate anniversary celebrations, your private party deserves a personal touch. I work closely with you to design a playlist that matches the vibe of your event, whether it’s a high-energy dance party or a relaxed gathering with family and friends. Together, we'll create a musical experience that keeps your guests entertained all night long.""")
     #st.subheader("Corporate Events")
-    st.image("pages/images/corporate event.jpg", width=600, caption="Corporate Event DJ Services")
     st.markdown('<div class="section-title">Corporate Events</div>', unsafe_allow_html=True)
+    st.image("pages/images/corporate event.jpg", width=600, caption="Corporate Event DJ Services")
     st.markdown("""Professional events call for an expert approach to music. Whether it's a networking event, holiday party, or company celebration, I balance sophistication and entertainment to ensure your gathering is both enjoyable and memorable. I’ll work with you to set the perfect tone, ensuring your event runs smoothly and leaves a lasting impression.""")
     #st.subheader("School Dances")
-    st.image("pages/images/school prom.jpg", width=600, caption="School Dance Entertainment")
     st.markdown('<div class="section-title">School Dances</div>', unsafe_allow_html=True)
+    st.image("pages/images/school prom.jpg", width=600, caption="School Dance Entertainment")
     st.write("""When it comes to school events like prom or homecoming, it's all about bringing the energy! I craft age-appropriate playlists that keep students on their feet and create an electric atmosphere. From slow dances to chart-topping hits, I’ll make sure the night is unforgettable for everyone.""")
     #st.subheader("Fundraisers")
-    st.image("pages/images/fundraisers.jpg", width=600, caption="Fundraiser Event Entertainment")
     st.markdown('<div class="section-title">Fundraisers</div>', unsafe_allow_html=True)
+    st.image("pages/images/fundraisers.jpg", width=600, caption="Fundraiser Event Entertainment")
     st.markdown("""Fundraising events thrive on an inviting and upbeat atmosphere. With music that energizes your guests and complements your cause, I help create a positive environment that encourages participation and generosity. Together, we’ll make your fundraiser a success.""")
     #st.subheader("Bar and Bat Mitzvahs")
-    st.image("pages/images/Bar Mitzvah.jpg", width=600, caption="Bar/Bat Mitzvah Celebration")
     st.markdown('<div class="section-title">Bar and Bat Mitzvahs</div>', unsafe_allow_html=True)
     st.markdown("""Milestone events like bar and bat mitzvahs deserve the perfect blend of tradition and celebration. I specialize in creating playlists that honor the cultural significance of the day while bringing energy and excitement to the dance floor. Let's make it a day to remember for everyone involved.""")
+    st.image("pages/images/Bar Mitzvah.jpg", width=600, caption="Bar/Bat Mitzvah Celebration")
     #st.subheader("Personalized DJ Services for Any Occasion")
     st.image("pages/images/party.jpg", width=600, caption="Custom DJ Services for Any Event")
     st.markdown('<div class="section-title">Personalized DJ Services for Any Occasion</div>', unsafe_allow_html=True)
