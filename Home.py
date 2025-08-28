@@ -22,8 +22,8 @@ st.set_page_config(
 
 # Load the images
 youtube_img = base64.b64encode(open("pages/images/youtube.png", "rb").read()).decode()
-instagram_img = base64.b64encode(open("c:pages/images/instagram.png", "rb").read()).decode()
-facebook_img = base64.b64encode(open("c:pages/images/facebook.png", "rb").read()).decode()
+instagram_img = base64.b64encode(open("pages/images/instagram.png", "rb").read()).decode()
+facebook_img = base64.b64encode(open("pages/images/facebook.png", "rb").read()).decode()
 
 # Create columns in the sidebar with less spacing
 col1, col2, col3, col4, col5 , col6  = st.sidebar.columns([1, 1, 1, 1, 1, 1])
