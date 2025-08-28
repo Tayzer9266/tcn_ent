@@ -5,7 +5,9 @@ from sqlalchemy import create_engine
 from sqlalchemy import text
 import pandas as pd
 import os
-from datetime import datetime  # Importing datetime module
+from datetime import datetime, date  # Importing datetime and date modules
+import calendar
+from streamlit_calendar import calendar
 # Page Tab
 st.set_page_config(
     page_title="Home",
@@ -99,7 +101,19 @@ def run_query(query):
         raise RuntimeError(f"Error executing query: {e}")
 
 
-# Display the YouTube video directly
+# Function to get all scheduled dates for the current month
+def get_scheduled_dates():
+    query = """
+        SELECT event_date::date AS event_date
+        FROM events
+        WHERE event_status IN ('Scheduled', 'Ongoing')
+        AND deleted_at IS NULL
+        AND event_date >= now()::date
+    """
+    df = run_query(query)
+    return df['event_date'].dt.date.tolist() if not df.empty else []
+
+# ---- UPCOMING EVENTS SECTION ----
 st.video("https://www.youtube.com/watch?v=baTq72zAc-U")
  
 
