@@ -21,7 +21,7 @@ st.set_page_config(
 
 
 # Load the images
-youtube_img = base64.b64encode(open("c:/source/tcn_ent/pages/images/youtube.png", "rb").read()).decode()
+youtube_img = base64.b64encode(open("pages/images/youtube.png", "rb").read()).decode()
 instagram_img = base64.b64encode(open("c:/source/tcn_ent/pages/images/instagram.png", "rb").read()).decode()
 facebook_img = base64.b64encode(open("c:/source/tcn_ent/pages/images/facebook.png", "rb").read()).decode()
 
