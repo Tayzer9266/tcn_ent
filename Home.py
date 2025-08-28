@@ -21,9 +21,9 @@ st.set_page_config(
 
 
 # Load the images
-youtube_img = base64.b64encode(open("pages/images/youtube.png", "rb").read()).decode()
-instagram_img = base64.b64encode(open("pages/images/instagram.png", "rb").read()).decode()
-facebook_img = base64.b64encode(open("pages/images/facebook.png", "rb").read()).decode()
+youtube_img = base64.b64encode(open("c:/source/tcn_ent/pages/images/youtube.png", "rb").read()).decode()
+instagram_img = base64.b64encode(open("c:/source/tcn_ent/pages/images/instagram.png", "rb").read()).decode()
+facebook_img = base64.b64encode(open("c:/source/tcn_ent/pages/images/facebook.png", "rb").read()).decode()
 
 # Create columns in the sidebar with less spacing
 col1, col2, col3, col4, col5 , col6  = st.sidebar.columns([1, 1, 1, 1, 1, 1])
@@ -162,7 +162,6 @@ st.video("https://www.youtube.com/watch?v=baTq72zAc-U")
 #     )
 #     st.markdown('<div class="main-title">🎧 TCN Entertainment</div>', unsafe_allow_html=True)
 #     st.markdown('<div class="subtitle">Dallas\' Premier DJ & Event Experience</div>', unsafe_allow_html=True)
-#     st.image("pages/images/featured_pro.png", use_column_width=True, output_format="PNG", caption="Epic moments. Unforgettable music.")
 #     st.markdown(
 #         """
 #         <div class="highlight-box">
@@ -197,29 +196,29 @@ with st.container():
     #st.subheader("Weddings")
     st.markdown('<div class="section-title">Weddings</div>', unsafe_allow_html=True)
     st.markdown("""Your wedding day should be as unique as your love story, and the right music can make every moment unforgettable. With expertise in setting the perfect tone, I ensure the soundtrack flows seamlessly—from your grand entrance to the final dance. I know how to read the crowd, adapt to the energy in the room, and create an atmosphere filled with magic and joy.""")
-    st.image("pages/images/wedding.jpg", width=600, caption="Elegant Wedding Setup")
+    st.image("c:/source/tcn_ent/pages/images/wedding.jpg", width=600, caption="Elegant Wedding Setup")
     #st.subheader("Private Parties")
     st.markdown('<div class="section-title">Private Parties</div>', unsafe_allow_html=True)
-    st.image("pages/images/private parties.jpg", width=600, caption="Private Party Entertainment")
+    st.image("c:/source/tcn_ent/pages/images/private parties.jpg", width=600, caption="Private Party Entertainment")
     st.markdown("""From milestone birthdays to intimate anniversary celebrations, your private party deserves a personal touch. I work closely with you to design a playlist that matches the vibe of your event, whether it’s a high-energy dance party or a relaxed gathering with family and friends. Together, we'll create a musical experience that keeps your guests entertained all night long.""")
     #st.subheader("Corporate Events")
     st.markdown('<div class="section-title">Corporate Events</div>', unsafe_allow_html=True)
-    st.image("pages/images/corporate event.jpg", width=600, caption="Corporate Event DJ Services")
+    st.image("c:/source/tcn_ent/pages/images/corporate event.jpg", width=600, caption="Corporate Event DJ Services")
     st.markdown("""Professional events call for an expert approach to music. Whether it's a networking event, holiday party, or company celebration, I balance sophistication and entertainment to ensure your gathering is both enjoyable and memorable. I’ll work with you to set the perfect tone, ensuring your event runs smoothly and leaves a lasting impression.""")
     #st.subheader("School Dances")
     st.markdown('<div class="section-title">School Dances</div>', unsafe_allow_html=True)
-    st.image("pages/images/school prom.jpg", width=600, caption="School Dance Entertainment")
+    st.image("c:/source/tcn_ent/pages/images/school prom.jpg", width=600, caption="School Dance Entertainment")
     st.write("""When it comes to school events like prom or homecoming, it's all about bringing the energy! I craft age-appropriate playlists that keep students on their feet and create an electric atmosphere. From slow dances to chart-topping hits, I’ll make sure the night is unforgettable for everyone.""")
     #st.subheader("Fundraisers")
     st.markdown('<div class="section-title">Fundraisers</div>', unsafe_allow_html=True)
-    st.image("pages/images/fundraisers.jpg", width=600, caption="Fundraiser Event Entertainment")
+    st.image("c:/source/tcn_ent/pages/images/fundraisers.jpg", width=600, caption="Fundraiser Event Entertainment")
     st.markdown("""Fundraising events thrive on an inviting and upbeat atmosphere. With music that energizes your guests and complements your cause, I help create a positive environment that encourages participation and generosity. Together, we’ll make your fundraiser a success.""")
     #st.subheader("Bar and Bat Mitzvahs")
     st.markdown('<div class="section-title">Bar and Bat Mitzvahs</div>', unsafe_allow_html=True)
     st.markdown("""Milestone events like bar and bat mitzvahs deserve the perfect blend of tradition and celebration. I specialize in creating playlists that honor the cultural significance of the day while bringing energy and excitement to the dance floor. Let's make it a day to remember for everyone involved.""")
-    st.image("pages/images/Bar Mitzvah.jpg", width=600, caption="Bar/Bat Mitzvah Celebration")
+    st.image("c:/source/tcn_ent/pages/images/Bar Mitzvah.jpg", width=600, caption="Bar/Bat Mitzvah Celebration")
     #st.subheader("Personalized DJ Services for Any Occasion")
-    st.image("pages/images/party.jpg", width=600, caption="Custom DJ Services for Any Event")
+    st.image("c:/source/tcn_ent/pages/images/party.jpg", width=600, caption="Custom DJ Services for Any Event")
     st.markdown('<div class="section-title">Personalized DJ Services for Any Occasion</div>', unsafe_allow_html=True)
     st.markdown("""Every event is unique, and I'm committed to bringing your vision to life. Whether you're planning an elegant wedding, a spirited private party, or a milestone celebration, I tailor my services to suit your needs. With a keen ability to read the room and curate the perfect playlist, I’ll ensure your guests are entertained from the first note to the last.
         Let’s make your event extraordinary. Together, we'll create an unforgettable experience filled with great music, good vibes, and lasting memories.""")
@@ -394,7 +393,7 @@ with st.container():
                 unsafe_allow_html=True
             )
     # with right_column:
-    #     st.image("pages/images/work_fund.png", caption="See you on the dance floor!", use_column_width=True)
+    #     st.image("c:/source/tcn_ent/pages/images/work_fund.png", caption="See you on the dance floor!", use_column_width=True)
 
 # ---- CALL TO ACTION ----
 with st.container():
