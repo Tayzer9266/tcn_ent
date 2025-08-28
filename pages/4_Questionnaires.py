@@ -48,7 +48,7 @@ with open("pages/style/style.css") as source_style:
 
 st.image("pages/images/event_questionnaire.png", width=1750)  
 
-# Inject CSS for background color and enhanced card styling
+# Inject CSS for background color and enhanced card styling 717171
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
@@ -60,7 +60,7 @@ page_bg_img = """
     padding: 25px;
     margin: 20px 0;
     box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    border-left: 5px solid #d3d3d3; /* Changed to light grey */
+    border-left: 5px solid #717171; /* Changed to light grey */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .questionnaire-card:hover {
@@ -68,7 +68,7 @@ page_bg_img = """
     box-shadow: 0 12px 30px rgba(0,0,0,0.15);
 }
 .questionnaire-card h3 {
-    color: #d3d3d3; /* Changed to light grey */
+    color: #717171; /* Changed to light grey */
     margin-bottom: 15px;
     font-size: 1.4em;
 }
@@ -78,7 +78,7 @@ page_bg_img = """
     margin-bottom: 20px;
 }
 .questionnaire-button {
-    background: linear-gradient(135deg, #d3d3d3 0%, #b0b0b0 100%); /* Changed to light grey */
+    background: linear-gradient(135deg, #717171 0%, #b0b0b0 100%); /* Changed to light grey */
     color: white;
     border: none;
     padding: 12px 25px;
@@ -102,7 +102,7 @@ page_bg_img = """
     transform: translateY(1px);
 }
 .section-title {
-    color: #d3d3d3; /* Changed to light grey */
+    color: #717171; /* Changed to light grey */
     font-size: 2em;
     font-weight: 700;
     margin-bottom: 20px;
