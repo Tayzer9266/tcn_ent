@@ -1,14 +1,5 @@
 import streamlit as st
-# import firebase_admin
-# from firebase_admin import credentials #pip install firebase_admin
-# from firebase_admin import auth
-import io
-from PIL import Image
 import base64
-# import pandas as pd
-# from st_aggrid import AgGrid, GridOptionsBuilder  #add import for GridOptionsBuilder
-# import psycopg2
- 
 
 # ---- HEADER SECTION ----
 st.set_page_config(
@@ -56,8 +47,6 @@ with col3:
 with open("pages/style/style.css") as source_style:
     st.markdown(f"<style>{source_style.read()}</style>", unsafe_allow_html=True)
 
-with open("pages/style/style.css") as source_style:
-    st.markdown(f"<style>{source_style.read()}</style>", unsafe_allow_html=True)
 st.image("pages/images/services.png", width=1750) 
 
 # Inject CSS for background color
@@ -66,81 +55,265 @@ page_bg_img = """
 [data-testid="stAppViewContainer"] {
     background-color: #f1ecec;
 }
+.service-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    margin: 20px 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    border-left: 5px solid #e63946;
+}
+.service-feature {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px 0;
+    border-left: 3px solid #457b9d;
+}
+.feature-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+.feature-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+.feature-list li:last-child {
+    border-bottom: none;
+}
 </style>
 """
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
+# ---- SERVICES INTRODUCTION ----
+with st.container():
+    st.markdown('<div class="section-title">🌟 Premium Entertainment Services</div>', unsafe_allow_html=True)
+    st.markdown("""
+    At TCN Entertainment, we transform ordinary events into extraordinary experiences with our comprehensive range of professional entertainment services. 
+    From stunning lighting effects to interactive entertainment options, we have everything you need to create unforgettable memories.
+    """)
+    st.markdown("---")
 
+# ---- LIGHTING EFFECTS SECTION ----
+with st.container():
+    st.markdown('<div class="section-title">💡 Professional Lighting Effects</div>', unsafe_allow_html=True)
+    
+    # Disco Ball
+    with st.container():
+        col1, col2 = st.columns([2, 1])
+        with col1:
+            st.markdown("### 🪩 Mirror Ball / Disco Ball")
+            st.markdown("""
+            Create that classic disco atmosphere with our professional mirror ball setup. The rotating mirror ball casts thousands of sparkling lights 
+            across your venue, creating a magical, retro-inspired dance floor experience that gets everyone moving.
+            
+            **Features:**
+            - Professional-grade mirror ball with motorized rotation
+            - Multiple lighting patterns and speeds
+            - Creates sparkling light effects throughout the venue
+            - Perfect for retro-themed parties and dance events
+            - Complements any music genre
+            """)
+        with col2:
+            st.image("pages/images/lighting_effects.png", caption="Professional Lighting Effects", use_column_width=True)
+    
+    st.markdown("---")
+    
+    # Moving Heads
+    with st.container():
+        col1, col2 = st.columns([1, 2])
+        with col1:
+            st.image("pages/images/featureddj.png", caption="Moving Head Lighting", use_column_width=True)
+        with col2:
+            st.markdown("### 🤖 Intelligent Moving Heads")
+            st.markdown("""
+            Our intelligent moving head lights are the pinnacle of modern lighting technology. These robotic fixtures can pan, tilt, change colors, 
+            and create dynamic patterns automatically or follow the beat of the music for a truly immersive experience.
+            
+            **Capabilities:**
+            - 360-degree pan and tilt movement
+            - RGBW color mixing with millions of colors
+            - Pattern projection and gobo effects
+            - Sound-activated and DMX controlled
+            - Create aerial effects and beam shows
+            """)
+    
+    st.markdown("---")
+    
+    # Wash Lighting
+    with st.container():
+        st.markdown("### 🌈 Wash Lighting")
+        st.markdown("""
+        Transform your entire venue with beautiful, even color washing. Our wash lights bathe your space in vibrant colors, creating the perfect 
+        ambiance for any event theme or mood. From soft pastels to bold primaries, set the tone for your celebration.
+        
+        **Benefits:**
+        - Even, consistent color coverage
+        - Smooth color fading and transitions
+        - Create mood lighting for any occasion
+        - Complement architectural features
+        - Energy-efficient LED technology
+        """)
+    
+    st.markdown("---")
+    
+    # Venue Uplighting
+    with st.container():
+        col1, col2 = st.columns([2, 1])
+        with col1:
+            st.markdown("### 🏛️ Venue Uplighting")
+            st.markdown("""
+            Elevate your venue's architecture and create a sophisticated atmosphere with professional uplighting. Strategically placed lights 
+            highlight architectural features, create depth, and transform ordinary spaces into extraordinary environments.
+            
+            **Applications:**
+            - Highlight walls, columns, and architectural details
+            - Create color themes matching your event
+            - Wireless and battery-operated options available
+            - DMX control for synchronized effects
+            - Perfect for weddings, galas, and corporate events
+            """)
+        with col2:
+            st.image("pages/images/work_wedding.JPG", caption="Venue Uplighting Example", use_column_width=True)
 
+# ---- SPECIAL EFFECTS SECTION ----
+with st.container():
+    st.markdown("---")
+    st.markdown('<div class="section-title">✨ Special Effects & Atmosphere</div>', unsafe_allow_html=True)
+    
+    # Dancing on Clouds
+    with st.container():
+        st.markdown("### ☁️ Dancing on Clouds (Fog/Smoke Effects)")
+        st.markdown("""
+        Create an ethereal, magical atmosphere with our professional fog and haze machines. The "dancing on clouds" effect adds depth to lighting, 
+        makes laser beams visible, and creates a dreamlike environment that enchants your guests.
+        
+        **Features:**
+        - Professional haze machines for subtle atmosphere
+        - Low-lying fog for dramatic floor effects
+        - Odorless, non-toxic fog fluid
+        - DMX controlled for precise timing
+        - Perfect for first dances and special moments
+        """)
+    
+    st.markdown("---")
+    
+    # Cold Sparks
+    with st.container():
+        col1, col2 = st.columns([1, 2])
+        with col1:
+            st.image("pages/images/featureddj2.png", caption="Special Effects", use_column_width=True)
+        with col2:
+            st.markdown("### ✨ Cold Spark Machines")
+            st.markdown("""
+            Make a grand entrance or highlight special moments with our cold spark machines. These pyrotechnic effects create spectacular showers of 
+            sparks without the heat or fire hazard of traditional fireworks, making them safe for indoor use.
+            
+            **Safety & Features:**
+            - Cold sparks (no heat, safe for indoor use)
+            - Multiple firing patterns and durations
+            - Wireless remote control
+            - ADA compliant and venue-friendly
+            - Perfect for grand entrances, first dances, countdowns
+            """)
 
+# ---- ENTERTAINMENT SECTION ----
+with st.container():
+    st.markdown("---")
+    st.markdown('<div class="section-title">🎤 Interactive Entertainment</div>', unsafe_allow_html=True)
+    
+    # Karaoke
+    with st.container():
+        col1, col2 = st.columns([2, 1])
+        with col1:
+            st.markdown("### 🎵 Professional Karaoke Setup")
+            st.markdown("""
+            Get the party singing with our complete karaoke system! We provide everything needed for hours of singing entertainment, from current 
+            hits to classic favorites. Perfect for breaking the ice and getting everyone involved.
+            
+            **Complete Package Includes:**
+            - Professional wireless microphones
+            - Extensive song library (50,000+ songs)
+            - HD display with lyrics
+            - Sound system optimized for vocals
+            - Song request management system
+            - Host/MC services available
+            """)
+        with col2:
+            st.image("pages/images/work_karaoke.png", caption="Karaoke Entertainment", use_column_width=True)
 
- 
+# ---- PHOTO SERVICES SECTION ----
+with st.container():
+    st.markdown("---")
+    st.markdown('<div class="section-title">📸 Photo & Memory Services</div>', unsafe_allow_html=True)
+    
+    # DSLR Photo Booth
+    with st.container():
+        st.markdown("### 📷 DSLR Photo Booth Experience")
+        st.markdown("""
+        Capture unforgettable moments with our professional DSLR photo booth service. Unlike basic photo booths, we use high-quality DSLR cameras 
+        and professional lighting to ensure stunning, print-ready photos that your guests will treasure.
+        
+        **Premium Features:**
+            - Professional DSLR camera with high-resolution output
+            - Studio-quality lighting setup
+            - Instant 4x6 prints on premium photo paper
+            - Custom branding and templates
+            - Digital copies with online gallery
+            - Props and backdrops included
+            - Social media sharing station
+            - Attendant included for seamless operation
+        """)
+    
+    st.markdown("---")
+    
+    # Custom Monogram
+    with st.container():
+        col1, col2 = st.columns([1, 2])
+        with col1:
+            st.image("pages/images/company_logo_icon.png", caption="Custom Monogram Projection", use_column_width=True)
+        with col2:
+            st.markdown("### 🔤 Custom Monogram & Logo Projection")
+            st.markdown("""
+            Personalize your event with custom monogram projection services. We project your names, wedding date, logo, or custom design onto walls, 
+            floors, or dance floors, creating a truly personalized experience.
+            
+            **Customization Options:**
+            - Custom designed monograms and logos
+            - Wedding date and names projection
+            - Company branding for corporate events
+            - Color matching to your theme
+            - Multiple projection surfaces available
+            - Digital files accepted (AI, EPS, PNG, JPG)
+            """)
 
-
-
-
-
-# # Uses st.cache_resource to only run once.
-# @st.cache_resource
-# def init_connection():
-#     return psycopg2.connect(**st.secrets["postgres"])
-
-# conn = init_connection()
-
- 
-# # Uses st.cache_data to only rerun when the query changes or after 10 min.
-# @st.cache_data(ttl=600)
-# def run_query(query):
-#     with conn.cursor() as cur:
-#         cur.execute(query)
-#         return cur.fetchall()
-
- 
-
-# st.sidebar.write("Products")
-# _property_type = ""; _occupancy = ""; _credit_score_est_result = ""; _refi_purpose = ""; _property_value = ""; _borrow_amount = ""; _property_balance = ""; 
- 
-# _loan_type = st.sidebar.selectbox('What services?', ['Purchase','Refinance','Home Equity'])
-# if _loan_type == "Refinance" or _loan_type == "Home Equity":
-#     _property_type = st.sidebar.radio( "What type of property do you own?",('Single Family Home','Townhome', 'Condominium','Multi Family Home', 'Manufactured or Mobile Home'))
-#     _occupancy = st.sidebar.radio( "What is the property use?",('Primary Home', 'Secondary Home', 'Rental Property'))
-#     _credit_score_est_result = st.sidebar.selectbox('What is your fico score?', ['Excellent > 719','Good 680 - 719', 'Fair 640 - 679', 'Poor 620 - 639', 'Bad 580 - 619'])
-#     _refi_purpose = st.sidebar.radio("What is the loan purpose?",('Home Improvement', 'Retirement Income', 'Debt Consolidation', 'Investment Purposes' ,'Other'))
-#     _property_value = st.sidebar.slider('What is the property estimated value?', 0, 10000000, 600000)
-#     _borrow_amount = st.sidebar.slider('How much do you want to borrow?', 0, 10000000, 500000)
-#     _property_balance = st.sidebar.slider('What is the current balance?', 0, 10000000, 300000)
-#     _ltv = int((int(_borrow_amount)) / int(_property_value) * 100)
-# elif _loan_type == "Purchase":
-#    _property_type = st.sidebar.radio( "What type of property are you looking to purchase?",('Single Family Home','Townhome', 'Condominium','Multi Family Home', 'Manufactured or Mobile Home'))
-#    _occupancy = st.sidebar.radio( "What is the property use?",('Primary Home', 'Secondary Home', 'Rental Property'))
-#    _credit_score_est_result = st.sidebar.selectbox('What is your fico score?', ['Excellent > 719','Good 680 - 719', 'Fair 640 - 679', 'Poor 620 - 639', 'Bad 580 - 619'])
-#    _sale_amount = st.sidebar.slider('What is the sales price?', 0, 10000000, 600000)
-#    _borrow_amount = st.sidebar.slider('How much do you want to borrow?', 0, 10000000, 500000)
-#    _ltv = int(((_borrow_amount) / (_sale_amount)) * 100)
-
-# _temp_list = []
-# _temp_list.append(_property_type)
-# _temp_list.append(_occupancy)
-# _temp_list.append(_loan_type)
-
-# if _credit_score_est_result == "Excellent > 719":
-#     _fico = 720
-# elif _credit_score_est_result == "Good 680 - 719":
-#     _fico = 680
-# elif _credit_score_est_result == "Fair 640 - 679":
-#     _fico = 640
-# elif _credit_score_est_result == "Poor 620 - 639":
-#     _fico = 620
-# elif _credit_score_est_result == "Bad 580 - 619":
-#     _fico = 580
- 
-# rows = run_query("select lender, trunc(int_rate,2) as int_rate, trunc(base,2) as base, trunc(adj,2) as adj from lwn_qualify_company_rates(_fico:="+ str(_fico) + ",_ltv:="+ str(_ltv) + ",_attribute_names:=array" + str(_temp_list) + ");")
-
-# data=pd.DataFrame(rows)
-# if len(data.columns) == 0:
-#     st.write("Product not available")
-# else:
-#     data.columns=['Lender','Int Rate','Base','Adjustment']
-#     st.table(data)
+# ---- CALL TO ACTION ----
+with st.container():
+    st.markdown("---")
+    st.markdown('<div class="section-title">🚀 Ready to Create Magic?</div>', unsafe_allow_html=True)
+    st.markdown("""
+    Each of our services can be customized to fit your specific event needs. Whether you're planning an intimate gathering or a large-scale production, 
+    we have the equipment and expertise to make it unforgettable.
+    """)
+    
+    st.markdown(
+        """
+        <div style="text-align:center; margin: 40px 0;">
+            <a href="Request_Quote" style="background:#e63946;color:#fff;padding:1em 2em;border-radius:8px;font-size:1.3em;font-weight:700;text-decoration:none;box-shadow:0 4px 12px rgba(230,57,70,0.2);transition:all 0.3s ease;">
+                📩 Get a Custom Quote Today!
+            </a>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    
+    st.markdown(
+        """
+        <div style="text-align:center; color:#666; font-size:0.9em;">
+            All services include professional setup, operation, and breakdown by experienced technicians
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
  
