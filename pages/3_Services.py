@@ -258,7 +258,7 @@ with st.container():
         **Premium Features:**
         - Professional DSLR camera with high-resolution output
         - Studio-quality lighting setup
-        - Instant 4x6 prints on premium photo paper
+        - Instant 4x6 or 2x6 prints on premium photo paper
         - Custom branding and templates
         - Digital copies with online gallery
         - Props and backdrops included
