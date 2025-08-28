@@ -118,6 +118,7 @@ with st.container():
     # Moving Heads
     with st.container():
         st.markdown("### 🤖 Intelligent Moving Heads")
+        st.image("pages/images/moving_heads.jpg", width=500)
         st.markdown("""
         Our intelligent moving head lights are the pinnacle of modern lighting technology. These robotic fixtures can pan, tilt, change colors, 
         and create dynamic patterns automatically or follow the beat of the music for a truly immersive experience.
@@ -152,7 +153,6 @@ with st.container():
     # Venue Uplighting
     with st.container():
         st.markdown("### 🏛️ Venue Uplighting")
-        st.image("pages/images/uplighting_main.png", width=700)
         st.markdown("""
         Elevate your venue's architecture and create a sophisticated atmosphere with professional uplighting. Strategically placed lights 
         highlight architectural features, create depth, and transform ordinary spaces into extraordinary environments.
@@ -173,7 +173,7 @@ with st.container():
     # Dancing on Clouds
     with st.container():
         st.markdown("### ☁️ Dancing on Clouds (Fog/Smoke Effects)")
-        st.image("pages/images/dancing_clouds.jpg", width=700)
+        st.image("pages/images/dancing_clouds.jpg", width=500)
         st.markdown("""
         Create an ethereal, magical atmosphere with our professional fog and haze machines. The "dancing on clouds" effect adds depth to lighting, 
         makes laser beams visible, and creates a dreamlike environment that enchants your guests.
@@ -232,7 +232,7 @@ with st.container():
     # Lapel Mics for Officiant
     with st.container():
         st.markdown("### 🎙️ Lapel Mics for Officiant")
-        st.image("pages/images/lapel_mic.jpg", width=700)
+        st.image("pages/images/lapel_mic.jpg", width=500)
         st.markdown("""
         Ensure clear and crisp audio for your officiant with our professional lapel microphones. Perfect for weddings, ceremonies, and events where clear speech is paramount.
         
@@ -256,15 +256,23 @@ with st.container():
         and professional lighting to ensure stunning, print-ready photos that your guests will treasure.
         
         **Premium Features:**
-            - Professional DSLR camera with high-resolution output
-            - Studio-quality lighting setup
-            - Instant 4x6 prints on premium photo paper
-            - Custom branding and templates
-            - Digital copies with online gallery
-            - Props and backdrops included
-            - Social media sharing station
-            - Attendant included for seamless operation
+        - Professional DSLR camera with high-resolution output
+        - Studio-quality lighting setup
+        - Instant 4x6 prints on premium photo paper
+        - Custom branding and templates
+        - Digital copies with online gallery
+        - Props and backdrops included
+        - Social media sharing station
+        - Attendant included for seamless operation
         """)
+        
+        # Add YouTube video
+        st.markdown(
+            """
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/5QJF-xi3Tog" frameborder="0" allowfullscreen></iframe>
+            """,
+            unsafe_allow_html=True
+        )
     
     st.markdown("---")
     
@@ -312,5 +320,6 @@ with st.container():
         """,
         unsafe_allow_html=True
     )
+
 
  
