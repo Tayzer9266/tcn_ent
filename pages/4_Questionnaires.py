@@ -60,7 +60,7 @@ page_bg_img = """
     padding: 25px;
     margin: 20px 0;
     box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    border-left: 5px solid #e63946;
+    border-left: 5px solid #d3d3d3; /* Changed to light grey */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .questionnaire-card:hover {
@@ -68,7 +68,7 @@ page_bg_img = """
     box-shadow: 0 12px 30px rgba(0,0,0,0.15);
 }
 .questionnaire-card h3 {
-    color: #e63946;
+    color: #d3d3d3; /* Changed to light grey */
     margin-bottom: 15px;
     font-size: 1.4em;
 }
@@ -78,7 +78,7 @@ page_bg_img = """
     margin-bottom: 20px;
 }
 .questionnaire-button {
-    background: linear-gradient(135deg, #e63946 0%, #d62839 100%);
+    background: linear-gradient(135deg, #d3d3d3 0%, #b0b0b0 100%); /* Changed to light grey */
     color: white;
     border: none;
     padding: 12px 25px;
@@ -94,7 +94,7 @@ page_bg_img = """
     width: 100%;
 }
 .questionnaire-button:hover {
-    background: linear-gradient(135deg, #d62839 0%, #b01c2d 100%);
+    background: linear-gradient(135deg, #b0b0b0 0%, #a0a0a0 100%);
     box-shadow: 0 6px 15px rgba(230, 57, 70, 0.4);
     transform: translateY(-2px);
 }
@@ -102,7 +102,7 @@ page_bg_img = """
     transform: translateY(1px);
 }
 .section-title {
-    color: #e63946;
+    color: #d3d3d3; /* Changed to light grey */
     font-size: 2em;
     font-weight: 700;
     margin-bottom: 20px;
@@ -113,7 +113,7 @@ page_bg_img = """
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
 # Page title and introduction
-st.markdown('<div class="section-title">📝 Event Questionnaires</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-title"></div>', unsafe_allow_html=True)
 st.markdown(
     """
     Help us tailor the ultimate experience just for you! We're passionate about making your event unforgettable. 
