@@ -163,10 +163,11 @@ with st.container():
     st.markdown("""Milestone events like bar and bat mitzvahs deserve the perfect blend of tradition and celebration. I specialize in creating playlists that honor the cultural significance of the day while bringing energy and excitement to the dance floor. Let's make it a day to remember for everyone involved.""")
     st.image("pages/images/Bar Mitzvah.jpg", width=600, caption="Bar/Bat Mitzvah Celebration")
     #st.subheader("Personalized DJ Services for Any Occasion")
-    st.image("pages/images/party.jpg", width=600, caption="Custom DJ Services for Any Event")
+
     st.markdown('<div class="section-title">Personalized DJ Services for Any Occasion</div>', unsafe_allow_html=True)
     st.markdown("""Every event is unique, and I'm committed to bringing your vision to life. Whether you're planning an elegant wedding, a spirited private party, or a milestone celebration, I tailor my services to suit your needs. With a keen ability to read the room and curate the perfect playlist, I’ll ensure your guests are entertained from the first note to the last.
         Let’s make your event extraordinary. Together, we'll create an unforgettable experience filled with great music, good vibes, and lasting memories.""")
+    st.image("pages/images/party.jpg", width=600, caption="Custom DJ Services for Any Event")
     st.markdown("[Get a Quote>](Request_Quote)")  
 
 
@@ -189,45 +190,7 @@ with st.container():
         
         )
         st.write("[Learn More >](Services)")
-# # Sumamry Section
-# with st.container():
-#     st.write("---")
-#     left_column, right_column = st.columns(2)
-#     with left_column:
-#         st.header("Services")
-#         st.write(
-#             """
- 
-#             Music Genres
 
-#             - Top 40 / Pop
-#             - EDM / House / Techno
-#             - Hip-Hop / R&B / Afrobeats
-#             - Classic Rock / 80s / 90s Hits
-#             - Latin / Reggaeton
-#             - Jazz / Chillout
-#             - Custom Playlist Creation
-
-#             Event Services
-
-#             - Event Coordination with Venue & Planner
-#             - On-Site Setup & Breakdown
-#             - Full Sound & Lighting Packages
-#             - Visual Effects (LED, Projection Mapping)
-#             - Live Remixing & Mashups
-#             - Karaoke Setup
-
-#             Additional Features
-
-#             - Photo Booth Rentals (DSLR, IPAD)
-#             - Custom Music Production
-#             - Virtual/Live Streaming DJ Sets
-#             - Wireless Microphones & PA Systems
-#             - Interactive Crowd Engagement (Games, Requests)
-
-#             """
-#         )
-#         st.write("[Learn More >](Services)")
 
 # ---- SONG REQUESTS SECTION ----
 with st.container():
