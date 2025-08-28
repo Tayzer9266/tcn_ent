@@ -212,7 +212,7 @@ st.markdown(
     """
     If you have any questions about filling out the questionnaire or need assistance, 
     please don't hesitate to contact us:
-    - 📧 Email: info@tcnentertainment.com
-    - 📞 Phone: (555) 123-4567
+    - 📧 Email: tcnentertainmen7@gmail.com
+    - 📞 Phone: (714) 260-5003
     """
 )
