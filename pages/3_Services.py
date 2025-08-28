@@ -152,6 +152,7 @@ with st.container():
     # Venue Uplighting
     with st.container():
         st.markdown("### 🏛️ Venue Uplighting")
+        st.image("pages/images/uplighting_main.png", width=700)
         st.markdown("""
         Elevate your venue's architecture and create a sophisticated atmosphere with professional uplighting. Strategically placed lights 
         highlight architectural features, create depth, and transform ordinary spaces into extraordinary environments.
@@ -172,6 +173,7 @@ with st.container():
     # Dancing on Clouds
     with st.container():
         st.markdown("### ☁️ Dancing on Clouds (Fog/Smoke Effects)")
+        st.image("pages/images/dancing_clouds.jpg", width=700)
         st.markdown("""
         Create an ethereal, magical atmosphere with our professional fog and haze machines. The "dancing on clouds" effect adds depth to lighting, 
         makes laser beams visible, and creates a dreamlike environment that enchants your guests.
@@ -220,6 +222,25 @@ with st.container():
         - Sound system optimized for vocals
         - Song request management system
         - Host/MC services available
+        """)
+
+# ---- MICROPHONES SECTION ----
+with st.container():
+    st.markdown("---")
+    st.markdown('<div class="section-title">🎤 Microphones</div>', unsafe_allow_html=True)
+    
+    # Lapel Mics for Officiant
+    with st.container():
+        st.markdown("### 🎙️ Lapel Mics for Officiant")
+        st.image("pages/images/lapel_mic.jpg", width=700)
+        st.markdown("""
+        Ensure clear and crisp audio for your officiant with our professional lapel microphones. Perfect for weddings, ceremonies, and events where clear speech is paramount.
+        
+        **Features:**
+        - Wireless lapel microphones
+        - Crystal clear audio quality
+        - Easy to use and setup
+        - Perfect for officiants, speakers, and presenters
         """)
 
 # ---- PHOTO SERVICES SECTION ----
