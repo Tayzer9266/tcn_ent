@@ -48,37 +48,65 @@ with open("pages/style/style.css") as source_style:
 
 st.image("pages/images/event_questionnaire.png", width=1750)  
 
-# Inject CSS for background color
+# Inject CSS for background color and enhanced card styling
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
     background-color: #f1ecec;
 }
 .questionnaire-card {
-    background: white;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
     border-radius: 15px;
     padding: 25px;
     margin: 20px 0;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
     border-left: 5px solid #e63946;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.questionnaire-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+.questionnaire-card h3 {
+    color: #e63946;
+    margin-bottom: 15px;
+    font-size: 1.4em;
+}
+.questionnaire-card p {
+    color: #555;
+    font-size: 1em;
+    margin-bottom: 20px;
 }
 .questionnaire-button {
-    background-color: #e63946;
+    background: linear-gradient(135deg, #e63946 0%, #d62839 100%);
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 12px 25px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+    font-weight: 600;
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 8px;
-    transition: 0.3s;
+    transition: all 0.3s ease;
+    width: 100%;
 }
 .questionnaire-button:hover {
-    background-color: #457b9d;
-    color: white;
+    background: linear-gradient(135deg, #d62839 0%, #b01c2d 100%);
+    box-shadow: 0 6px 15px rgba(230, 57, 70, 0.4);
+    transform: translateY(-2px);
+}
+.questionnaire-button:active {
+    transform: translateY(1px);
+}
+.section-title {
+    color: #e63946;
+    font-size: 2em;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-align: center;
 }
 </style>
 """
@@ -184,7 +212,7 @@ st.markdown(
     """
     If you have any questions about filling out the questionnaire or need assistance, 
     please don't hesitate to contact us:
-    - 📧 Email: tcnentertainmen7@gmail.com
-    - 📞 Phone: (714) 260-5003
+    - 📧 Email: info@tcnentertainment.com
+    - 📞 Phone: (555) 123-4567
     """
 )
