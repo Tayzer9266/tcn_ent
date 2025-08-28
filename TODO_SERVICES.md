@@ -8,8 +8,8 @@
 - [x] Add Entertainment section (Karaoke)
 - [x] Add Photo Services section (DSLR Photo Booth)
 - [x] Add Customization section (Custom Monogram)
+- [x] Remove all images as requested (text-only version)
 - [ ] Test the page layout and functionality
-- [ ] Verify all images display correctly
 
 ## Service Sections Implemented:
 1. **Lighting Effects** ✅

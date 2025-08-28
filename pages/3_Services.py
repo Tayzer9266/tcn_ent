@@ -208,23 +208,19 @@ with st.container():
     
     # Karaoke
     with st.container():
-        col1, col2 = st.columns([2, 1])
-        with col1:
-            st.markdown("### 🎵 Professional Karaoke Setup")
-            st.markdown("""
-            Get the party singing with our complete karaoke system! We provide everything needed for hours of singing entertainment, from current 
-            hits to classic favorites. Perfect for breaking the ice and getting everyone involved.
-            
-            **Complete Package Includes:**
-            - Professional wireless microphones
-            - Extensive song library (50,000+ songs)
-            - HD display with lyrics
-            - Sound system optimized for vocals
-            - Song request management system
-            - Host/MC services available
-            """)
-        with col2:
-            st.image("pages/images/work_karaoke.png", caption="Karaoke Entertainment", use_column_width=True)
+        st.markdown("### 🎵 Professional Karaoke Setup")
+        st.markdown("""
+        Get the party singing with our complete karaoke system! We provide everything needed for hours of singing entertainment, from current 
+        hits to classic favorites. Perfect for breaking the ice and getting everyone involved.
+        
+        **Complete Package Includes:**
+        - Professional wireless microphones
+        - Extensive song library (50,000+ songs)
+        - HD display with lyrics
+        - Sound system optimized for vocals
+        - Song request management system
+        - Host/MC services available
+        """)
 
 # ---- PHOTO SERVICES SECTION ----
 with st.container():
@@ -253,23 +249,19 @@ with st.container():
     
     # Custom Monogram
     with st.container():
-        col1, col2 = st.columns([1, 2])
-        with col1:
-            st.image("pages/images/company_logo_icon.png", caption="Custom Monogram Projection", use_column_width=True)
-        with col2:
-            st.markdown("### 🔤 Custom Monogram & Logo Projection")
-            st.markdown("""
-            Personalize your event with custom monogram projection services. We project your names, wedding date, logo, or custom design onto walls, 
-            floors, or dance floors, creating a truly personalized experience.
-            
-            **Customization Options:**
-            - Custom designed monograms and logos
-            - Wedding date and names projection
-            - Company branding for corporate events
-            - Color matching to your theme
-            - Multiple projection surfaces available
-            - Digital files accepted (AI, EPS, PNG, JPG)
-            """)
+        st.markdown("### 🔤 Custom Monogram & Logo Projection")
+        st.markdown("""
+        Personalize your event with custom monogram projection services. We project your names, wedding date, logo, or custom design onto walls, 
+        floors, or dance floors, creating a truly personalized experience.
+        
+        **Customization Options:**
+        - Custom designed monograms and logos
+        - Wedding date and names projection
+        - Company branding for corporate events
+        - Color matching to your theme
+        - Multiple projection surfaces available
+        - Digital files accepted (AI, EPS, PNG, JPG)
+        """)
 
 # ---- CALL TO ACTION ----
 with st.container():
