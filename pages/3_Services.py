@@ -100,43 +100,35 @@ with st.container():
     
     # Disco Ball
     with st.container():
-        col1, col2 = st.columns([2, 1])
-        with col1:
-            st.markdown("### 🪩 Mirror Ball / Disco Ball")
-            st.markdown("""
-            Create that classic disco atmosphere with our professional mirror ball setup. The rotating mirror ball casts thousands of sparkling lights 
-            across your venue, creating a magical, retro-inspired dance floor experience that gets everyone moving.
-            
-            **Features:**
-            - Professional-grade mirror ball with motorized rotation
-            - Multiple lighting patterns and speeds
-            - Creates sparkling light effects throughout the venue
-            - Perfect for retro-themed parties and dance events
-            - Complements any music genre
-            """)
-        with col2:
-            st.image("pages/images/lighting_effects.png", caption="Professional Lighting Effects", use_column_width=True)
+        st.markdown("### 🪩 Mirror Ball / Disco Ball")
+        st.markdown("""
+        Create that classic disco atmosphere with our professional mirror ball setup. The rotating mirror ball casts thousands of sparkling lights 
+        across your venue, creating a magical, retro-inspired dance floor experience that gets everyone moving.
+        
+        **Features:**
+        - Professional-grade mirror ball with motorized rotation
+        - Multiple lighting patterns and speeds
+        - Creates sparkling light effects throughout the venue
+        - Perfect for retro-themed parties and dance events
+        - Complements any music genre
+        """)
     
     st.markdown("---")
     
     # Moving Heads
     with st.container():
-        col1, col2 = st.columns([1, 2])
-        with col1:
-            st.image("pages/images/featureddj.png", caption="Moving Head Lighting", use_column_width=True)
-        with col2:
-            st.markdown("### 🤖 Intelligent Moving Heads")
-            st.markdown("""
-            Our intelligent moving head lights are the pinnacle of modern lighting technology. These robotic fixtures can pan, tilt, change colors, 
-            and create dynamic patterns automatically or follow the beat of the music for a truly immersive experience.
-            
-            **Capabilities:**
-            - 360-degree pan and tilt movement
-            - RGBW color mixing with millions of colors
-            - Pattern projection and gobo effects
-            - Sound-activated and DMX controlled
-            - Create aerial effects and beam shows
-            """)
+        st.markdown("### 🤖 Intelligent Moving Heads")
+        st.markdown("""
+        Our intelligent moving head lights are the pinnacle of modern lighting technology. These robotic fixtures can pan, tilt, change colors, 
+        and create dynamic patterns automatically or follow the beat of the music for a truly immersive experience.
+        
+        **Capabilities:**
+        - 360-degree pan and tilt movement
+        - RGBW color mixing with millions of colors
+        - Pattern projection and gobo effects
+        - Sound-activated and DMX controlled
+        - Create aerial effects and beam shows
+        """)
     
     st.markdown("---")
     
@@ -159,22 +151,18 @@ with st.container():
     
     # Venue Uplighting
     with st.container():
-        col1, col2 = st.columns([2, 1])
-        with col1:
-            st.markdown("### 🏛️ Venue Uplighting")
-            st.markdown("""
-            Elevate your venue's architecture and create a sophisticated atmosphere with professional uplighting. Strategically placed lights 
-            highlight architectural features, create depth, and transform ordinary spaces into extraordinary environments.
-            
-            **Applications:**
-            - Highlight walls, columns, and architectural details
-            - Create color themes matching your event
-            - Wireless and battery-operated options available
-            - DMX control for synchronized effects
-            - Perfect for weddings, galas, and corporate events
-            """)
-        with col2:
-            st.image("pages/images/work_wedding.JPG", caption="Venue Uplighting Example", use_column_width=True)
+        st.markdown("### 🏛️ Venue Uplighting")
+        st.markdown("""
+        Elevate your venue's architecture and create a sophisticated atmosphere with professional uplighting. Strategically placed lights 
+        highlight architectural features, create depth, and transform ordinary spaces into extraordinary environments.
+        
+        **Applications:**
+        - Highlight walls, columns, and architectural details
+        - Create color themes matching your event
+        - Wireless and battery-operated options available
+        - DMX control for synchronized effects
+        - Perfect for weddings, galas, and corporate events
+        """)
 
 # ---- SPECIAL EFFECTS SECTION ----
 with st.container():
@@ -200,22 +188,18 @@ with st.container():
     
     # Cold Sparks
     with st.container():
-        col1, col2 = st.columns([1, 2])
-        with col1:
-            st.image("pages/images/featureddj2.png", caption="Special Effects", use_column_width=True)
-        with col2:
-            st.markdown("### ✨ Cold Spark Machines")
-            st.markdown("""
-            Make a grand entrance or highlight special moments with our cold spark machines. These pyrotechnic effects create spectacular showers of 
-            sparks without the heat or fire hazard of traditional fireworks, making them safe for indoor use.
-            
-            **Safety & Features:**
-            - Cold sparks (no heat, safe for indoor use)
-            - Multiple firing patterns and durations
-            - Wireless remote control
-            - ADA compliant and venue-friendly
-            - Perfect for grand entrances, first dances, countdowns
-            """)
+        st.markdown("### ✨ Cold Spark Machines")
+        st.markdown("""
+        Make a grand entrance or highlight special moments with our cold spark machines. These pyrotechnic effects create spectacular showers of 
+        sparks without the heat or fire hazard of traditional fireworks, making them safe for indoor use.
+        
+        **Safety & Features:**
+        - Cold sparks (no heat, safe for indoor use)
+        - Multiple firing patterns and durations
+        - Wireless remote control
+        - ADA compliant and venue-friendly
+        - Perfect for grand entrances, first dances, countdowns
+        """)
 
 # ---- ENTERTAINMENT SECTION ----
 with st.container():
