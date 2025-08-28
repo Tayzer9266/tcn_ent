@@ -22,8 +22,8 @@ st.set_page_config(
 
 # Load the images
 youtube_img = base64.b64encode(open("pages/images/youtube.png", "rb").read()).decode()
-instagram_img = base64.b64encode(open("c:/source/tcn_ent/pages/images/instagram.png", "rb").read()).decode()
-facebook_img = base64.b64encode(open("c:/source/tcn_ent/pages/images/facebook.png", "rb").read()).decode()
+instagram_img = base64.b64encode(open("c:pages/images/instagram.png", "rb").read()).decode()
+facebook_img = base64.b64encode(open("c:pages/images/facebook.png", "rb").read()).decode()
 
 # Create columns in the sidebar with less spacing
 col1, col2, col3, col4, col5 , col6  = st.sidebar.columns([1, 1, 1, 1, 1, 1])
@@ -119,62 +119,7 @@ st.video("https://www.youtube.com/watch?v=baTq72zAc-U")
 
 ######################################################################################
 
-# # ---- HEADER SECTION ----
-# with st.container():
-#     st.markdown(
-#         """
-#         <style>
-#         .main-title {
-#             font-size: 3.2em;
-#             font-weight: 900;
-#             color: #2d2d2d;
-#             letter-spacing: 2px;
-#             margin-bottom: 0.2em;
-#             font-family: 'Segoe UI', Arial, sans-serif;
-#         }
-#         .subtitle {
-#             font-size: 1.5em;
-#             color: #e63946;
-#             font-weight: 700;
-#             margin-bottom: 0.5em;
-#         }
-#         .highlight-box {
-#             background: linear-gradient(90deg, #f8fafc 60%, #f7e7ce 100%);
-#             border-radius: 12px;
-#             padding: 1.2em 2em;
-#             box-shadow: 0 4px 24px rgba(230,57,70,0.08);
-#             margin-bottom: 1.5em;
-#         }
-#         .dj-img {
-#             border-radius: 18px;
-#             box-shadow: 0 2px 16px rgba(44,62,80,0.12);
-#             margin-bottom: 1em;
-#         }
-#         .section-title {
-#             font-size: 1.3em;
-#             font-weight: 700;
-#             color: #457b9d;
-#             margin-top: 1.2em;
-#         }
-#         </style>
-#         """,
-#         unsafe_allow_html=True
-#     )
-#     st.markdown('<div class="main-title">🎧 TCN Entertainment</div>', unsafe_allow_html=True)
-#     st.markdown('<div class="subtitle">Dallas\' Premier DJ & Event Experience</div>', unsafe_allow_html=True)
-#     st.markdown(
-#         """
-#         <div class="highlight-box">
-#         Welcome to <b>TCN Entertainment</b>, where every beat is tailored to your vibe and every event is a celebration! 
-#         <br><br>
-#         <b>DJ Tayzer</b> brings top-tier sound, lighting, and energy to weddings, parties, corporate events, and more. 
-#         <br>
-#         <span style="color:#e63946;font-weight:700;">Let’s make your event legendary!</span>
-#         </div>
-#         """,
-#         unsafe_allow_html=True
-#     )
-
+ 
 
 # ---- HEADER SECTION ----
 with st.container():
@@ -409,98 +354,4 @@ with st.container():
         unsafe_allow_html=True
     )
 
-# Sumamry Section
-# with st.container():
-#     st.write("---")
-#     left_column, right_column = st.columns(2)
-#     with left_column:
-#         st.header("Upcoming Events")
-#         st.write("##")
-
-#         query = """
-#             select event_date::date  as event_date
-#             , a.event_name 
-#             , a.event_status
-#             from events a
-#             where event_status in ('Scheduled','Ongoing')
-#             and a.deleted_at is null 
-#             and event_date >= now()::date
-#             order by event_date 
-#         """
-        
-#         # Execute the query and create a DataFrame
-#         df = run_query(query)
-#         # Display the query results as text rows
-#         if not df.empty:
-#             for index, row in df.iterrows():
-#                 st.text(f" {row['event_date']} - {row['event_status']} - {row['event_name']} ")
-#         else:
-#             st.text("No scheduled events found.")
-
-  
-
-  
-  
-
-# try:
-#     # Execute your query
-#     result = conn.execute("SELECT * FROM your_table")
-#     # Process the results here
-#     for row in result:
-#         print(row)
-# finally:
-#     # Ensure the connection is closed
-#     conn.close()
-
  
-
-# # Define the path for the main hover image
-# image_path = "https://universemagazine.com/wp-content/uploads/2022/08/zm4nfgq29yi91-1536x1536-1.jpg"  # Main hover image
-
-# # Define CSS for hover effect with "info" text as the trigger
-# hover_style = """
-# <style>
-# .hover-container {
-#     position: relative;
-#     display: inline-block;
-#     cursor: pointer;
-# }
-# .hover-text {
-#     font-size: 16px;
-#     font-weight: bold;
-#     color: #007BFF; /* Blue color for the text */
-#     text-decoration: underline;
-# }
-# .hover-image {
-#     display: none;
-#     position: absolute; /* Position the pop-up relative to the container */
-#     top: 0; /* Align vertically with the text */
-#     left: 120%; /* Position the pop-up to the right of the text */
-#     z-index: 999;
-#     background: #fff;
-#     border: 1px solid #ddd;
-#     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-#     width: 100px; /* Set the pop-up image width */
-#     height: 100px; /* Set the pop-up image height */
-#     object-fit: cover; /* Ensure the image fills the defined dimensions */
-# }
-# .hover-container:hover .hover-image {
-#     display: block;
-# }
-# </style>
-# """
- 
-# st.markdown(hover_style, unsafe_allow_html=True)
-
-# # App layout
-# st.title("Image Pop-up Triggered by Text")
-
-# # Use "info" text as the hover trigger
-# st.markdown(f"""
-# <div class="hover-container">
-#     <div>
-#         <span class="hover-text">info</span> <!-- Text trigger -->
-#     </div>
-#     <img src="{image_path}" class="hover-image" alt="popup image" />
-# </div>
-# """, unsafe_allow_html=True)
