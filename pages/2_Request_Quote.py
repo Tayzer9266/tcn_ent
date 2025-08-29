@@ -468,6 +468,7 @@ with st.container():
                                     a.savings as  savings, 
                                     a.amount AS total
                                 FROM f_service_product_total('{booking}') as a
+                                where a.product not in ('Discount','Savings Total','Grand Total')
                                 """
 
 
