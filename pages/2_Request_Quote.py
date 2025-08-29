@@ -5,7 +5,7 @@ import pandas as pd
 import base64
 from PIL import Image
 from datetime import datetime
-from utils.pdf_generator import generate_quote_pdf_response
+#from utils.pdf_generator import generate_quote_pdf_response
 
 
 st.set_page_config(
