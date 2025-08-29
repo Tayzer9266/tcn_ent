@@ -481,23 +481,75 @@ with st.container():
                                 st.subheader("Event Estimate:")
                                 st.warning("We are ready to match or beat any offer—reach out to us today!")
 
-                                # Display the quote summary using dataframe
+                                # Display the quote summary using custom HTML table with left-aligned columns
                                 st.markdown(f"**Total Market Cost:** ${df['market_price'].sum():,.2f}")
                                 st.markdown(f"**Your Quote Total:** ${df['total'].sum():,.2f}")
                                 st.markdown(f"**You Save:** ${df['savings'].sum():,.2f}")
 
                                 st.markdown("**Itemized Products & Services:**")
-                                st.dataframe(
-                                    df[['items', 'units', 'market_price', 'total', 'savings']].rename(
-                                        columns={
-                                            'items': 'Product/Service',
-                                            'units': 'Units',
-                                            'market_price': 'Market Price',
-                                            'total': 'Your Price',
-                                            'savings': 'Savings'
-                                        }
-                                    )
-                                )
+                                
+                                # Create HTML table with left-aligned columns
+                                html = """
+                                <style>
+                                table.quote-grid {
+                                    width: 100%;
+                                    border-collapse: collapse;
+                                    font-family: Arial, sans-serif;
+                                }
+                                table.quote-grid th, table.quote-grid td {
+                                    border: 1px solid #ddd;
+                                    padding: 8px;
+                                    text-align: left;
+                                }
+                                table.quote-grid th {
+                                    background-color: #f2f2f2;
+                                    font-weight: bold;
+                                }
+                                table.quote-grid tr:nth-child(even) {
+                                    background-color: #f9f9f9;
+                                }
+                                table.quote-grid tr:hover {
+                                    background-color: #ddd;
+                                }
+                                .left-align {
+                                    text-align: left;
+                                }
+                                </style>
+                                <table class="quote-grid">
+                                    <thead>
+                                        <tr>
+                                            <th>Product/Service</th>
+                                            <th class="left-align">Units</th>
+                                            <th class="left-align">Market Price</th>
+                                            <th class="left-align">Your Price</th>
+                                            <th class="left-align">Savings</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                """
+                                
+                                # Convert numeric columns to float to ensure proper formatting
+                                df['market_price'] = pd.to_numeric(df['market_price'], errors='coerce')
+                                df['total'] = pd.to_numeric(df['total'], errors='coerce')
+                                df['savings'] = pd.to_numeric(df['savings'], errors='coerce')
+                                
+                                for index, row in df.iterrows():
+                                    html += f"""
+                                    <tr>
+                                        <td>{row['items']}</td>
+                                        <td class="left-align">{row['units']}</td>
+                                        <td class="left-align">${row['market_price']:.2f}</td>
+                                        <td class="left-align">${row['total']:.2f}</td>
+                                        <td class="left-align">${row['savings']:.2f}</td>
+                                    </tr>
+                                    """
+                                
+                                html += """
+                                    </tbody>
+                                </table>
+                                """
+                                
+                                st.markdown(html, unsafe_allow_html=True)
 
                                               
         
