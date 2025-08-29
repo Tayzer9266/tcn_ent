@@ -155,3 +155,62 @@ def generate_wedding_pdf_response(form_data):
     """Generate a PDF from wedding form data"""
     generator = PDFGenerator()
     return generator.generate_wedding_pdf(form_data)
+
+class QuotePDFGenerator:
+    def __init__(self):
+        self.pdf = FPDF()
+        self.pdf.set_auto_page_break(auto=True, margin=15)
+        
+    def generate_quote_pdf(self, quote_data, itemized_df, booking_id, customer_name, event_date, event_type):
+        """Generate a PDF from quote data"""
+        self.pdf.add_page()
+        
+        # Header
+        self.pdf.set_font("Arial", 'B', 16)
+        self.pdf.cell(0, 10, "Event Quote Estimate", 0, 1, 'C')
+        self.pdf.ln(5)
+        
+        # Quote Information
+        self._add_section_header("Quote Information")
+        self._add_field("Booking ID", booking_id)
+        self._add_field("Customer Name", customer_name)
+        self._add_field("Event Date", event_date.strftime('%Y-%m-%d') if event_date else 'Not provided')
+        self._add_field("Event Type", event_type)
+        
+        # Summary Totals
+        self._add_section_header("Price Summary")
+        self._add_field("Total Market Cost", f"${quote_data.get('total_market', 0):,.2f}")
+        self._add_field("Your Quote Total", f"${quote_data.get('total_quote', 0):,.2f}")
+        self._add_field("Total Savings", f"${quote_data.get('total_savings', 0):,.2f}")
+        
+        # Itemized Products & Services
+        self._add_section_header("Itemized Products & Services")
+        
+        # Add table headers
+        self.pdf.set_font("Arial", 'B', 10)
+        self.pdf.cell(80, 8, "Product/Service", 1, 0, 'L')
+        self.pdf.cell(20, 8, "Units", 1, 0, 'C')
+        self.pdf.cell(30, 8, "Market Price", 1, 0, 'R')
+        self.pdf.cell(30, 8, "Your Price", 1, 0, 'R')
+        self.pdf.cell(30, 8, "Savings", 1, 1, 'R')
+        
+        # Add table rows
+        self.pdf.set_font("Arial", '', 10)
+        for _, row in itemized_df.iterrows():
+            self.pdf.cell(80, 8, str(row.get('items', '')), 1, 0, 'L')
+            self.pdf.cell(20, 8, str(row.get('units', '')), 1, 0, 'C')
+            self.pdf.cell(30, 8, f"${float(row.get('market_price', 0)):,.2f}", 1, 0, 'R')
+            self.pdf.cell(30, 8, f"${float(row.get('total', 0)):,.2f}", 1, 0, 'R')
+            self.pdf.cell(30, 8, f"${float(row.get('savings', 0)):,.2f}", 1, 1, 'R')
+        
+        # Footer
+        self.pdf.ln(10)
+        self.pdf.set_font("Arial", 'I', 8)
+        self.pdf.cell(0, 10, f"Generated on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", 0, 1, 'C')
+        
+        return self.pdf.output(dest='S').encode('utf-8')
+
+def generate_quote_pdf_response(quote_data, itemized_df, booking_id, customer_name, event_date, event_type):
+    """Generate a PDF from quote data"""
+    generator = QuotePDFGenerator()
+    return generator.generate_quote_pdf(quote_data, itemized_df, booking_id, customer_name, event_date, event_type)
