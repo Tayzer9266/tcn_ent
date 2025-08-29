@@ -1,4 +1,6 @@
 import streamlit as st
+from utils.pdf_generator import generate_wedding_pdf_response
+from datetime import datetime
 
 def render():
     st.header("💍 Wedding Questionnaire")
@@ -166,3 +168,98 @@ def render():
     additional_notes = st.text_area("Any additional notes or special requests")
     
     st.info("💡 All fields marked with * are required. Your information helps us create the perfect celebration!")
+    
+    # PDF Download Button
+    st.markdown("---")
+    st.subheader("📄 Download Your Responses")
+    
+    if st.button("📥 Download Responses as PDF", use_container_width=True, key="download_pdf_btn"):
+        # Collect all form data
+        form_data = {
+            'event_date': str(event_date) if event_date else None,
+            'host_name': host_name,
+            'host_phone': host_phone,
+            'host_email': host_email,
+            'start_time': str(start_time) if start_time else None,
+            'end_time': str(end_time) if end_time else None,
+            'num_guests': num_guests,
+            'venue_name': venue_name,
+            'venue_address': venue_address,
+            'venue_phone': venue_phone,
+            'bride_name': bride_name,
+            'groom_name': groom_name,
+            'ceremony_venue': ceremony_venue,
+            'ceremony_address': ceremony_address,
+            'ceremony_phone': ceremony_phone,
+            'has_ceremony': has_ceremony,
+            'ceremony_time': str(ceremony_time) if ceremony_time else None,
+            'uplighting': uplighting,
+            'uplighting_count': uplighting_count if uplighting == "Yes" else None,
+            'uplighting_color': uplighting_color if uplighting == "Yes" else None,
+            'projection': projection,
+            'photobooth': photobooth,
+            'photobooth_template': photobooth_template if photobooth == "Yes" else None,
+            'photobooth_images': photobooth_images if photobooth == "Yes" else None,
+            'photobooth_props': photobooth_props if photobooth == "Yes" else None,
+            'photobooth_backdrop': photobooth_backdrop if photobooth == "Yes" else None,
+            'cocktail_music': cocktail_music,
+            'dinner_music': dinner_music,
+            'dinner_time': str(dinner_time) if dinner_time else None,
+            'dinner_style': dinner_style,
+            'music_genres': music_genres,
+            'custom_playlist': custom_playlist,
+            'must_play': must_play,
+            'do_not_play': do_not_play,
+            'guest_requests': guest_requests,
+            'fade_songs': fade_songs,
+            'first_dance': first_dance,
+            'first_dance_time': str(first_dance_time) if first_dance_time else None,
+            'father_dance': father_dance,
+            'father_name': father_name,
+            'father_dance_time': str(father_dance_time) if father_dance_time else None,
+            'bridal_dance': bridal_dance,
+            'mother_dance': mother_dance,
+            'mother_name': mother_name,
+            'mother_dance_time': str(mother_dance_time) if mother_dance_time else None,
+            'anniversary_dance': anniversary_dance,
+            'cake_song': cake_song,
+            'cake_time': str(cake_time) if cake_time else None,
+            'garter_removal': garter_removal,
+            'garter_removal_time': str(garter_removal_time) if garter_removal_time else None,
+            'garter_toss': garter_toss,
+            'garter_toss_time': str(garter_toss_time) if garter_toss_time else None,
+            'bouquet_toss': bouquet_toss,
+            'bouquet_toss_time': str(bouquet_toss_time) if bouquet_toss_time else None,
+            'banquet_manager': banquet_manager,
+            'photographer': photographer,
+            'videographer': videographer,
+            'other_vendors': other_vendors,
+            'announce_requests': announce_requests,
+            'announce_photobooth': announce_photobooth,
+            'announce_guestbook': announce_guestbook,
+            'snack_time': str(snack_time) if snack_time else None,
+            'last_call': str(last_call) if last_call else None,
+            'photobooth_warning': photobooth_warning,
+            'last_song': last_song,
+            'private_dance': private_dance,
+            'memory_book': memory_book,
+            'additional_notes': additional_notes
+        }
+        
+        try:
+            # Generate PDF
+            pdf_bytes = generate_wedding_pdf_response(form_data)
+            
+            # Create download button
+            st.download_button(
+                label="⬇️ Download PDF Now",
+                data=pdf_bytes,
+                file_name=f"Wedding_Questionnaire_Responses_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf",
+                mime="application/pdf",
+                key="wedding_responses_pdf"
+            )
+            st.success("✅ PDF generated successfully! Click the download button above to save your responses.")
+            
+        except Exception as e:
+            st.error(f"❌ Error generating PDF: {str(e)}")
+            st.info("Please try again or contact support if the issue persists.")
