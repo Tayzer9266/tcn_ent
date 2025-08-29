@@ -480,12 +480,7 @@ with st.container():
                                 st.subheader("Event Estimate:")
                                 st.warning("We are ready to match or beat any offer—reach out to us today!")
 
-                                # Separate special rows from main items
-                                special_rows = ['Discount', 'Savings Total', 'Grand Total']
-                                main_items_df = df[~df['items'].isin(special_rows)]
-                                special_items_df = df[df['items'].isin(special_rows)]
-
-                                # Build HTML table for main quote items
+                                # Build HTML table for quote form
                                 html = """
                                 <style>
                                 table.quote-table {
@@ -533,11 +528,11 @@ with st.container():
                                 total_savings = 0
                                 
                                 # Convert numeric columns to float to ensure proper formatting
-                                main_items_df['market_price'] = pd.to_numeric(main_items_df['market_price'], errors='coerce')
-                                main_items_df['total'] = pd.to_numeric(main_items_df['total'], errors='coerce')
-                                main_items_df['savings'] = pd.to_numeric(main_items_df['savings'], errors='coerce')
+                                df['market_price'] = pd.to_numeric(df['market_price'], errors='coerce')
+                                df['total'] = pd.to_numeric(df['total'], errors='coerce')
+                                df['savings'] = pd.to_numeric(df['savings'], errors='coerce')
                                 
-                                for index, row in main_items_df.iterrows():
+                                for index, row in df.iterrows():
                                     html += f"""
                                     <tr>
                                         <td>{row['items']}</td>
@@ -553,18 +548,12 @@ with st.container():
                                 html += """
                                     </tbody>
                                 </table>
-                                """
-
-                                # Build HTML for special summary rows
-                                html += '<div class="quote-summary">'
-                                for index, row in special_items_df.iterrows():
-                                    # Format numeric values or show as is if NaN
-                                    units = '' if pd.isna(row['units']) else row['units']
-                                    market_price = '' if pd.isna(row['market_price']) else f"${float(row['market_price']):,.2f}"
-                                    total = '' if pd.isna(row['total']) else f"${float(row['total']):,.2f}"
-                                    savings = '' if pd.isna(row['savings']) else f"${float(row['savings']):,.2f}"
-                                    html += f"<p><strong>{row['items']}:</strong> Units: {units}, Market Price: {market_price}, Your Price: {total}, Savings: {savings}</p>"
-                                html += '</div>'
+                                <div class="quote-summary">
+                                    <p><strong>Total Market Cost:</strong> ${:,.2f}</p>
+                                    <p><strong>Your Quote Total:</strong> ${:,.2f}</p>
+                                    <p><strong>You Save:</strong> ${:,.2f}</p>
+                                </div>
+                                """.format(total_market, total_quote, total_savings)
 
                                 st.markdown(html, unsafe_allow_html=True)
 
