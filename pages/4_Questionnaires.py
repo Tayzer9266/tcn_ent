@@ -156,7 +156,7 @@ st.markdown(
     We're here to help!
     """
 )
-
+st.markdown("---")
 # Questionnaire download section (existing PDF downloads)
 st.markdown('<div class="section-title">📥 Download Editable PDF Questionnaires</div>', unsafe_allow_html=True)
 st.markdown(
