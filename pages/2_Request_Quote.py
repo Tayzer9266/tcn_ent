@@ -526,6 +526,12 @@ with st.container():
                                 total_market = 0
                                 total_quote = 0
                                 total_savings = 0
+                                
+                                # Convert numeric columns to float to ensure proper formatting
+                                df['market_price'] = pd.to_numeric(df['market_price'], errors='coerce')
+                                df['total'] = pd.to_numeric(df['total'], errors='coerce')
+                                df['savings'] = pd.to_numeric(df['savings'], errors='coerce')
+                                
                                 for index, row in df.iterrows():
                                     html += f"""
                                     <tr>
@@ -536,9 +542,9 @@ with st.container():
                                         <td>${row['savings']:.2f}</td>
                                     </tr>
                                     """
-                                    total_market += row['market_price']
-                                    total_quote += row['total']
-                                    total_savings += row['savings']
+                                    total_market += float(row['market_price']) if pd.notna(row['market_price']) else 0
+                                    total_quote += float(row['total']) if pd.notna(row['total']) else 0
+                                    total_savings += float(row['savings']) if pd.notna(row['savings']) else 0
                                 html += """
                                     </tbody>
                                 </table>
