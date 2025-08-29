@@ -5,9 +5,6 @@ import pandas as pd
 import base64
 from PIL import Image
 from datetime import datetime
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from utils.pdf_generator import generate_quote_pdf_response
 
 
@@ -559,38 +556,6 @@ with st.container():
                                 
                                 st.markdown(html, unsafe_allow_html=True)
 
-                                # Add PDF download button
-                                quote_data = {
-                                    'total_market': df['market_price'].sum(),
-                                    'total_quote': df['total'].sum(),
-                                    'total_savings': df['savings'].sum()
-                                }
-                                
-                                # Get customer details for the PDF
-                                customer_query = f"""
-                                    SELECT first_name, last_name, event_date, event_type
-                                    FROM f_get_booking_details('{booking}')
-                                """
-                                customer_df = run_query(customer_query)
-                                
-                                if not customer_df.empty:
-                                    customer_name = f"{customer_df['first_name'][0]} {customer_df['last_name'][0]}"
-                                    event_date = customer_df['event_date'][0]
-                                    event_type = customer_df['event_type'][0]
-                                    
-                                    # Generate PDF
-                                    pdf_bytes = generate_quote_pdf_response(
-                                        quote_data, df, booking, customer_name, event_date, event_type
-                                    )
-                                    
-                                    # Create download button
-                                    st.download_button(
-                                        label="📄 Download Quote as PDF",
-                                        data=pdf_bytes,
-                                        file_name=f"quote_estimate_{booking}.pdf",
-                                        mime="application/pdf",
-                                        help="Download a PDF version of your quote estimate"
-                                    )
                                               
         
                             else:
