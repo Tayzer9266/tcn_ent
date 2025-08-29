@@ -278,8 +278,12 @@ with st.container():
                     event_date = st.date_input("Event Date*", value=None) 
                     event_type = st.selectbox("Event Type?*", ("","Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Fundraiser","Other"))
                     best_time = st.time_input("Best Time to Contact", None) 
+                    if best_time:
+                        st.write(f"Selected: {best_time.strftime('%I:%M %p')}")
                     service_hours = st.slider('Number of hours professional needed', 2, 24, value=2)
                     start_time = st.time_input("Estimated Start Time*", None) #Start
+                    if start_time:
+                        st.write(f"Selected: {start_time.strftime('%I:%M %p')}")
                     estimated_budget = st.number_input("Budget Amount", 0) #Budget
                     event_location = st.text_input("Venue Location", "") #Location
                     guest_count = st.slider('Number of guests', 1, 600, value=50)
@@ -655,8 +659,12 @@ with st.container():
                                         event_date = st.date_input("Event Date*", df['event_date'][0]) 
                                         event_type = st.selectbox("Event Type?*", (df['event_type'][0],"Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Fundraiser","Graduation","Other"))
                                         best_time = st.time_input("Best Time to Contact", df['best_time'][0]) 
+                                        if best_time:
+                                            st.write(f"Selected: {best_time.strftime('%I:%M %p')}")
                                         service_hours = st.slider('Number of hours professional needed', 2, 24, value=df['service_hours'][0])
                                         start_time = st.time_input("Estimated Start Time*", df['start_time'][0]) #Start
+                                        if start_time:
+                                            st.write(f"Selected: {start_time.strftime('%I:%M %p')}")
                                         estimated_budget = st.number_input("Budget Amount", ) #Budget
                                         event_location = st.text_input("Venue Location", df['event_location'][0]) #Location
                                         guest_count = st.slider('Number of guests', 1, 600, value=df['guest_count'][0])

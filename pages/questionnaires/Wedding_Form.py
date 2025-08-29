@@ -14,7 +14,11 @@ def render():
     with col2:
         host_email = st.text_input("Host Email Address*", value=st.session_state.get('user_email', ''))
         start_time = st.time_input("Event Start Time*")
+        if start_time:
+            st.write(f"Selected: {start_time.strftime('%I:%M %p')}")
         end_time = st.time_input("Event End Time*")
+        if end_time:
+            st.write(f"Selected: {end_time.strftime('%I:%M %p')}")
     num_guests = st.number_input("Number of Guests*", min_value=1, step=1)
     
     # Venue Information
@@ -38,6 +42,8 @@ def render():
     ceremony_phone = st.text_input("Ceremony Phone")
     has_ceremony = st.radio("Ceremony Music?", ["Yes", "No"], horizontal=True)
     ceremony_time = st.time_input("Ceremony Start Time") if has_ceremony == "Yes" else None
+    if has_ceremony == "Yes" and ceremony_time:
+        st.write(f"Selected: {ceremony_time.strftime('%I:%M %p')}")
     
     # Equipment & Services
     st.subheader("🎛️ Equipment & Services")
@@ -70,6 +76,8 @@ def render():
         "Vitamin String Quartet", "Afrobeats"
     ])
     dinner_time = st.time_input("Dinner Time")
+    if dinner_time:
+        st.write(f"Selected: {dinner_time.strftime('%I:%M %p')}")
     dinner_style = st.selectbox("Dinner Style", ["Plated", "Buffet", "Family Style"])
     
     # General Music Preferences
@@ -91,27 +99,41 @@ def render():
     with col1:
         first_dance = st.text_input("First dance song")
         first_dance_time = st.time_input("First dance time")
+        if first_dance_time:
+            st.write(f"Selected: {first_dance_time.strftime('%I:%M %p')}")
         father_dance = st.text_input("Father-bride dance song")
         father_name = st.text_input("Father's name")
         father_dance_time = st.time_input("Father-bride dance time")
+        if father_dance_time:
+            st.write(f"Selected: {father_dance_time.strftime('%I:%M %p')}")
     with col2:
         bridal_dance = st.text_input("Bridal party dance song")
         mother_dance = st.text_input("Mother-groom dance song")
         mother_name = st.text_input("Mother's name")
         mother_dance_time = st.time_input("Mother-groom dance time")
+        if mother_dance_time:
+            st.write(f"Selected: {mother_dance_time.strftime('%I:%M %p')}")
     
     anniversary_dance = st.radio("Anniversary dance?", ["Yes", "No"], horizontal=True)
     cake_song = st.text_input("Cake cutting song")
     cake_time = st.time_input("Cake cutting time")
+    if cake_time:
+        st.write(f"Selected: {cake_time.strftime('%I:%M %p')}")
     
     # Wedding Ceremonies
     st.subheader("🎭 Wedding Ceremonies")
     garter_removal = st.text_input("Garter removal ceremony song")
     garter_removal_time = st.time_input("Garter removal time")
+    if garter_removal_time:
+        st.write(f"Selected: {garter_removal_time.strftime('%I:%M %p')}")
     garter_toss = st.text_input("Garter toss song")
     garter_toss_time = st.time_input("Garter toss time")
+    if garter_toss_time:
+        st.write(f"Selected: {garter_toss_time.strftime('%I:%M %p')}")
     bouquet_toss = st.text_input("Bouquet toss song")
     bouquet_toss_time = st.time_input("Bouquet toss time")
+    if bouquet_toss_time:
+        st.write(f"Selected: {bouquet_toss_time.strftime('%I:%M %p')}")
     
     # Event Coordination
     st.subheader("🤝 Event Coordination")
@@ -129,7 +151,11 @@ def render():
         announce_guestbook = st.radio("Announce guest book signing?", ["Yes", "No"], horizontal=True)
     with col2:
         snack_time = st.time_input("Late night snack announcement time")
+        if snack_time:
+            st.write(f"Selected: {snack_time.strftime('%I:%M %p')}")
         last_call = st.time_input("Last call for alcohol time")
+        if last_call:
+            st.write(f"Selected: {last_call.strftime('%I:%M %p')}")
         photobooth_warning = st.radio("15-minute photo booth warning?", ["Yes", "No"], horizontal=True)
     
     # Final Notes

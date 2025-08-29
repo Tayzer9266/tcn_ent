@@ -14,7 +14,11 @@ def render():
     with col2:
         host_email = st.text_input("Host Email Address*", value=st.session_state.get('user_email', ''))
         start_time = st.time_input("Event Start Time*")
+        if start_time:
+            st.write(f"Selected: {start_time.strftime('%I:%M %p')}")
         end_time = st.time_input("Event End Time*")
+        if end_time:
+            st.write(f"Selected: {end_time.strftime('%I:%M %p')}")
     num_guests = st.number_input("Number of Guests*", min_value=1, step=1)
     
     # Venue Information
@@ -37,6 +41,8 @@ def render():
     temple_name = st.text_input("Temple/Synagogue Name*")
     ceremony_address = st.text_input("Ceremony Address*")
     ceremony_time = st.time_input("Ceremony Start Time*")
+    if ceremony_time:
+        st.write(f"Selected: {ceremony_time.strftime('%I:%M %p')}")
     rabbi_name = st.text_input("Rabbi/Cantor Name & Contact")
     
     # Jewish Traditions

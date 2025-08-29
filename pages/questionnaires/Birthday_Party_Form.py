@@ -14,7 +14,11 @@ def render():
     with col2:
         host_email = st.text_input("Host Email Address*", value=st.session_state.get('user_email', ''))
         start_time = st.time_input("Event Start Time*")
+        if start_time:
+            st.write(f"Selected: {start_time.strftime('%I:%M %p')}")
         end_time = st.time_input("Event End Time*")
+        if end_time:
+            st.write(f"Selected: {end_time.strftime('%I:%M %p')}")
     num_guests = st.number_input("Number of Guests*", min_value=1, step=1)
     
     # Venue Information
@@ -102,6 +106,8 @@ def render():
         "Vitamin String Quartet", "Afrobeats"
     ])
     dinner_time = st.time_input("Dinner Time")
+    if dinner_time:
+        st.write(f"Selected: {dinner_time.strftime('%I:%M %p')}")
     dinner_style = st.selectbox("Dinner Style", ["Plated", "Buffet", "Family Style"])
     
     # General Music Preferences
@@ -158,7 +164,11 @@ def render():
         announce_guestbook = st.radio("Announce guest book signing?", ["Yes", "No"], horizontal=True)
     with col2:
         snack_time = st.time_input("Late night snack announcement time")
+        if snack_time:
+            st.write(f"Selected: {snack_time.strftime('%I:%M %p')}")
         last_call = st.time_input("Last call for alcohol time")
+        if last_call:
+            st.write(f"Selected: {last_call.strftime('%I:%M %p')}")
         photobooth_warning = st.radio("15-minute photo booth warning?", ["Yes", "No"], horizontal=True)
     
     # Final Notes
