@@ -5,6 +5,9 @@ import pandas as pd
 import base64
 from PIL import Image
 from datetime import datetime
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from utils.pdf_generator import generate_quote_pdf_response
 
 
