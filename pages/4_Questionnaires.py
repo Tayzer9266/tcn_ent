@@ -165,7 +165,7 @@ st.markdown(
     Once completed, you can return it to us via email or bring it to our consultation meeting.
     """
 )
-st.markdown("---")
+
 # Create columns for better layout
 col1, col2, col3 = st.columns(3)
 
@@ -312,9 +312,7 @@ if st.session_state.selected_form:
 
 st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown("---")
-
-
+ 
 
 st.markdown("---")
 
