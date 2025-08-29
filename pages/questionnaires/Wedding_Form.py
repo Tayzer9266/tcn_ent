@@ -42,7 +42,7 @@ def render():
     ceremony_venue = st.text_input("Wedding Ceremony Facility Name (Optional)")
     ceremony_address = st.text_input("Ceremony Address")
     ceremony_phone = st.text_input("Ceremony Phone")
-    has_ceremony = st.radio("Ceremony Music?", ["Yes", "No"], horizontal=True)
+    has_ceremony = st.radio("Ceremony Music?", ["Yes", "No"], horizontal=True, index=1)
     ceremony_time = st.time_input("Ceremony Start Time") if has_ceremony == "Yes" else None
     if has_ceremony == "Yes" and ceremony_time:
         st.write(f"Selected: {ceremony_time.strftime('%I:%M %p')}")
@@ -51,18 +51,18 @@ def render():
     st.subheader("🎛️ Equipment & Services")
     col1, col2, col3 = st.columns(3)
     with col1:
-        uplighting = st.radio("Up-Lighting?", ["Yes", "No"], horizontal=True)
+        uplighting = st.radio("Up-Lighting?", ["Yes", "No"], horizontal=True, index=1)
         if uplighting == "Yes":
             uplighting_count = st.number_input("How many?", min_value=1, step=1)
             uplighting_color = st.text_input("What color?")
     with col2:
-        projection = st.radio("Projection Screen?", ["Yes", "No"], horizontal=True)
+        projection = st.radio("Projection Screen?", ["Yes", "No"], horizontal=True, index=1)
     with col3:
-        photobooth = st.radio("Photo Booth?", ["Yes", "No"], horizontal=True)
+        photobooth = st.radio("Photo Booth?", ["Yes", "No"], horizontal=True, index=1)
         if photobooth == "Yes":
             photobooth_template = st.selectbox("Template selection", ["Standard", "Custom"])
             photobooth_images = st.number_input("Number of images", min_value=1, step=1)
-            photobooth_props = st.radio("Props?", ["Yes", "No"], horizontal=True)
+            photobooth_props = st.radio("Props?", ["Yes", "No"], horizontal=True, index=1)
             photobooth_backdrop = st.selectbox("Backdrop color", ["White", "Shimmering", "Black", "Other"])
     
     # Music Programming
@@ -92,8 +92,8 @@ def render():
     custom_playlist = st.text_input("Custom genres or playlist URLs")
     must_play = st.text_area("Must-play songs (up to 20)", placeholder="Enter one song per line")
     do_not_play = st.text_area("Do not play songs", placeholder="Enter one song per line")
-    guest_requests = st.radio("Allow guest song requests?", ["Yes", "No"], horizontal=True)
-    fade_songs = st.radio("Can DJ fade out songs that aren't working?", ["Yes", "No"], horizontal=True)
+    guest_requests = st.radio("Allow guest song requests?", ["Yes", "No"], horizontal=True, index=1)
+    fade_songs = st.radio("Can DJ fade out songs that aren't working?", ["Yes", "No"], horizontal=True, index=1)
     
     # Special Wedding Moments
     st.subheader("💫 Special Wedding Moments")
@@ -148,9 +148,9 @@ def render():
     st.subheader("📢 Announcements")
     col1, col2 = st.columns(2)
     with col1:
-        announce_requests = st.radio("Announce that guests can request songs?", ["Yes", "No"], horizontal=True)
-        announce_photobooth = st.radio("Announce photo booth?", ["Yes", "No"], horizontal=True)
-        announce_guestbook = st.radio("Announce guest book signing?", ["Yes", "No"], horizontal=True)
+        announce_requests = st.radio("Announce that guests can request songs?", ["Yes", "No"], horizontal=True, index=1)
+        announce_photobooth = st.radio("Announce photo booth?", ["Yes", "No"], horizontal=True, index=1)
+        announce_guestbook = st.radio("Announce guest book signing?", ["Yes", "No"], horizontal=True, index=1)
     with col2:
         snack_time = st.time_input("Late night snack announcement time")
         if snack_time:
@@ -158,7 +158,7 @@ def render():
         last_call = st.time_input("Last call for alcohol time")
         if last_call:
             st.write(f"Selected: {last_call.strftime('%I:%M %p')}")
-        photobooth_warning = st.radio("15-minute photo booth warning?", ["Yes", "No"], horizontal=True)
+        photobooth_warning = st.radio("15-minute photo booth warning?", ["Yes", "No"], horizontal=True, index=1)
     
     # Final Notes
     st.subheader("📝 Final Notes")

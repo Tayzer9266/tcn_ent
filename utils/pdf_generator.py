@@ -13,11 +13,11 @@ class PDFGenerator:
         
         # Header
         self.pdf.set_font("Arial", 'B', 16)
-        self.pdf.cell(0, 10, "💍 Wedding Questionnaire Responses", 0, 1, 'C')
+        self.pdf.cell(0, 10, "Wedding Questionnaire Responses", 0, 1, 'C')
         self.pdf.ln(5)
         
         # Event Information
-        self._add_section_header("📋 Basic Event Information")
+        self._add_section_header("Basic Event Information")
         self._add_field("Event Date", form_data.get('event_date', 'Not provided'))
         self._add_field("Host Name", form_data.get('host_name', 'Not provided'))
         self._add_field("Host Phone", form_data.get('host_phone', 'Not provided'))
@@ -27,18 +27,18 @@ class PDFGenerator:
         self._add_field("Number of Guests", form_data.get('num_guests', 'Not provided'))
         
         # Venue Information
-        self._add_section_header("🏛️ Venue Information")
+        self._add_section_header("Venue Information")
         self._add_field("Venue Name", form_data.get('venue_name', 'Not provided'))
         self._add_field("Venue Address", form_data.get('venue_address', 'Not provided'))
         self._add_field("Venue Phone", form_data.get('venue_phone', 'Not provided'))
         
         # Couple Information
-        self._add_section_header("👰‍♀️🤵‍♂️ Couple Information")
+        self._add_section_header("Couple Information")
         self._add_field("Bride's Name", form_data.get('bride_name', 'Not provided'))
         self._add_field("Groom's Name", form_data.get('groom_name', 'Not provided'))
         
         # Ceremony Details
-        self._add_section_header("⛪ Ceremony Details")
+        self._add_section_header("Ceremony Details")
         self._add_field("Ceremony Venue", form_data.get('ceremony_venue', 'Not provided'))
         self._add_field("Ceremony Address", form_data.get('ceremony_address', 'Not provided'))
         self._add_field("Ceremony Phone", form_data.get('ceremony_phone', 'Not provided'))
@@ -46,7 +46,7 @@ class PDFGenerator:
         self._add_field("Ceremony Time", form_data.get('ceremony_time', 'Not provided'))
         
         # Equipment & Services
-        self._add_section_header("🎛️ Equipment & Services")
+        self._add_section_header("Equipment & Services")
         self._add_field("Up-Lighting", form_data.get('uplighting', 'Not provided'))
         if form_data.get('uplighting') == 'Yes':
             self._add_field("Up-Lighting Count", form_data.get('uplighting_count', 'Not specified'))
@@ -60,14 +60,14 @@ class PDFGenerator:
             self._add_field("Backdrop Color", form_data.get('photobooth_backdrop', 'Not specified'))
         
         # Music Programming
-        self._add_section_header("🎵 Music Programming")
+        self._add_section_header("Music Programming")
         self._add_field("Cocktail Music", ', '.join(form_data.get('cocktail_music', [])) or 'Not specified')
         self._add_field("Dinner Music", ', '.join(form_data.get('dinner_music', [])) or 'Not specified')
         self._add_field("Dinner Time", form_data.get('dinner_time', 'Not provided'))
         self._add_field("Dinner Style", form_data.get('dinner_style', 'Not provided'))
         
         # General Music Preferences
-        self._add_section_header("🎶 General Music Preferences")
+        self._add_section_header("General Music Preferences")
         self._add_field("Music Genres", ', '.join(form_data.get('music_genres', [])) or 'Not specified')
         self._add_field("Custom Playlist", form_data.get('custom_playlist', 'Not provided'))
         self._add_field("Must-Play Songs", form_data.get('must_play', 'Not provided'))
@@ -76,7 +76,7 @@ class PDFGenerator:
         self._add_field("Fade Songs", form_data.get('fade_songs', 'Not provided'))
         
         # Special Wedding Moments
-        self._add_section_header("💫 Special Wedding Moments")
+        self._add_section_header("Special Wedding Moments")
         self._add_field("First Dance Song", form_data.get('first_dance', 'Not provided'))
         self._add_field("First Dance Time", form_data.get('first_dance_time', 'Not provided'))
         self._add_field("Father-Bride Dance Song", form_data.get('father_dance', 'Not provided'))
@@ -91,7 +91,7 @@ class PDFGenerator:
         self._add_field("Cake Cutting Time", form_data.get('cake_time', 'Not provided'))
         
         # Wedding Ceremonies
-        self._add_section_header("🎭 Wedding Ceremonies")
+        self._add_section_header("Wedding Ceremonies")
         self._add_field("Garter Removal Song", form_data.get('garter_removal', 'Not provided'))
         self._add_field("Garter Removal Time", form_data.get('garter_removal_time', 'Not provided'))
         self._add_field("Garter Toss Song", form_data.get('garter_toss', 'Not provided'))
@@ -100,14 +100,14 @@ class PDFGenerator:
         self._add_field("Bouquet Toss Time", form_data.get('bouquet_toss_time', 'Not provided'))
         
         # Event Coordination
-        self._add_section_header("🤝 Event Coordination")
+        self._add_section_header("Event Coordination")
         self._add_field("Banquet Manager", form_data.get('banquet_manager', 'Not provided'))
         self._add_field("Photographer", form_data.get('photographer', 'Not provided'))
         self._add_field("Videographer", form_data.get('videographer', 'Not provided'))
         self._add_field("Other Vendors", form_data.get('other_vendors', 'Not provided'))
         
         # Announcements
-        self._add_section_header("📢 Announcements")
+        self._add_section_header("Announcements")
         self._add_field("Announce Song Requests", form_data.get('announce_requests', 'Not provided'))
         self._add_field("Announce Photo Booth", form_data.get('announce_photobooth', 'Not provided'))
         self._add_field("Announce Guest Book", form_data.get('announce_guestbook', 'Not provided'))
@@ -116,7 +116,7 @@ class PDFGenerator:
         self._add_field("Photo Booth Warning", form_data.get('photobooth_warning', 'Not provided'))
         
         # Final Notes
-        self._add_section_header("📝 Final Notes")
+        self._add_section_header("Final Notes")
         self._add_field("Last Song", form_data.get('last_song', 'Not provided'))
         self._add_field("Private Dance Song", form_data.get('private_dance', 'Not provided'))
         self._add_field("Memory Book", form_data.get('memory_book', 'Not provided'))
@@ -127,7 +127,8 @@ class PDFGenerator:
         self.pdf.set_font("Arial", 'I', 8)
         self.pdf.cell(0, 10, f"Generated on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", 0, 1, 'C')
         
-        return self.pdf.output(dest='S').encode('latin1')
+        # Use UTF-8 encoding instead of latin1
+        return self.pdf.output(dest='S').encode('utf-8')
     
     def _add_section_header(self, title):
         """Add a section header to the PDF"""
