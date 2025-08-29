@@ -84,13 +84,7 @@ with st.container():
  
         
 
-# # HTML content
-# html_content = """
-# <a href="https://www.gigsalad.com/tcn_entertainment_dallas"><img src="https://cress.gigsalad.com/images/svg/standalone/promokit-links/book-securely/book-securely--dark.svg" alt="Hire me on GigSalad" height="100" width="300"></a>
-# """
-# # Display the HTML content
-# components.html(html_content, height=100)
-
+ 
 ################################################## DATABASE CONNECTION ############################################################################
 
 # Load database credentials from Streamlit secrets
@@ -486,23 +480,76 @@ with st.container():
                                 st.subheader("Event Estimate:")
                                 st.warning("We are ready to match or beat any offer—reach out to us today!")
 
-                                # Ensure the first column remains as a string
-                                first_column = df.iloc[:, 0]  # Extract the first column
+                                # Build HTML table for quote form
+                                html = """
+                                <style>
+                                table.quote-table {
+                                    width: 100%;
+                                    border-collapse: collapse;
+                                    font-family: Arial, sans-serif;
+                                }
+                                table.quote-table th, table.quote-table td {
+                                    border: 1px solid #ddd;
+                                    padding: 8px;
+                                    text-align: left;
+                                }
+                                table.quote-table th {
+                                    background-color: #f2f2f2;
+                                    font-weight: bold;
+                                }
+                                table.quote-table tr:nth-child(even) {
+                                    background-color: #f9f9f9;
+                                }
+                                table.quote-table tr:hover {
+                                    background-color: #ddd;
+                                }
+                                .quote-summary {
+                                    font-family: Arial, sans-serif;
+                                    margin-top: 15px;
+                                }
+                                .quote-summary strong {
+                                    font-size: 1.1em;
+                                }
+                                </style>
+                                <table class="quote-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Units</th>
+                                            <th>Market Price</th>
+                                            <th>Your Price</th>
+                                            <th>Savings</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                """
+                                total_market = 0
+                                total_quote = 0
+                                total_savings = 0
+                                for index, row in df.iterrows():
+                                    html += f"""
+                                    <tr>
+                                        <td>{row['items']}</td>
+                                        <td>{row['units']}</td>
+                                        <td>${row['market_price']:.2f}</td>
+                                        <td>${row['total']:.2f}</td>
+                                        <td>${row['savings']:.2f}</td>
+                                    </tr>
+                                    """
+                                    total_market += row['market_price']
+                                    total_quote += row['total']
+                                    total_savings += row['savings']
+                                html += """
+                                    </tbody>
+                                </table>
+                                <div class="quote-summary">
+                                    <p><strong>Total Market Cost:</strong> ${:,.2f}</p>
+                                    <p><strong>Your Quote Total:</strong> ${:,.2f}</p>
+                                    <p><strong>You Save:</strong> ${:,.2f}</p>
+                                </div>
+                                """.format(total_market, total_quote, total_savings)
 
-                                # Convert the rest of the columns to numeric and round them to two decimal places
-                                numeric_columns = df.iloc[:, 1:].apply(pd.to_numeric, errors='coerce').round(2)
-
-                                # Recombine the first column and numeric columns
-                                updated_df = pd.concat([first_column, numeric_columns], axis=1)
-
-                                # Apply styles: Bold header and first column
-                                styled_df = updated_df.style.format("{:.2f}", subset=updated_df.columns[1:]).set_table_styles([
-                                    {'selector': 'th', 'props': [('font-weight', 'bold')]},  # Bold headers
-                                    {'selector': 'td:first-child', 'props': [('font-weight', 'bold')]}  # Bold the first column
-                                ])
-
-                                # Display the styled DataFrame
-                                st.dataframe(styled_df)
+                                st.markdown(html, unsafe_allow_html=True)
 
                                               
         
