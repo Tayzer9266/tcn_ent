@@ -539,6 +539,22 @@ with st.container():
                                 df['savings'] = pd.to_numeric(df['savings'], errors='coerce')
                                 
                                 for index, row in df.iterrows():
+                                    # Skip the specified rows to be removed
+                                    if (row['items'] == 'DJ x 7 hr' and row['units'] == 1 and
+                                        abs(row['market_price'] - 1260.00) < 0.01 and
+                                        abs(row['total'] - 770.00) < 0.01 and
+                                        abs(row['savings'] - 490.00) < 0.01):
+                                        continue
+                                    if (row['items'] == 'PA System' and row['units'] == 1 and
+                                        abs(row['market_price'] - 400.00) < 0.01 and
+                                        abs(row['total'] - 100.00) < 0.01 and
+                                        abs(row['savings'] - 300.00) < 0.01):
+                                        continue
+                                    if (row['items'] == 'Dance Lighting' and row['units'] == 1 and
+                                        abs(row['market_price'] - 150.00) < 0.01 and
+                                        abs(row['total'] - 75.00) < 0.01 and
+                                        abs(row['savings'] - 75.00) < 0.01):
+                                        continue
                                     html += f"""
                                     <tr>
                                         <td>{row['items']}</td>
