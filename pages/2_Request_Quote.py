@@ -480,82 +480,23 @@ with st.container():
                                 st.subheader("Event Estimate:")
                                 st.warning("We are ready to match or beat any offer—reach out to us today!")
 
-                                # Build HTML table for quote form
-                                html = """
-                                <style>
-                                table.quote-table {
-                                    width: 100%;
-                                    border-collapse: collapse;
-                                    font-family: Arial, sans-serif;
-                                }
-                                table.quote-table th, table.quote-table td {
-                                    border: 1px solid #ddd;
-                                    padding: 8px;
-                                    text-align: left;
-                                }
-                                table.quote-table th {
-                                    background-color: #f2f2f2;
-                                    font-weight: bold;
-                                }
-                                table.quote-table tr:nth-child(even) {
-                                    background-color: #f9f9f9;
-                                }
-                                table.quote-table tr:hover {
-                                    background-color: #ddd;
-                                }
-                                .quote-summary {
-                                    font-family: Arial, sans-serif;
-                                    margin-top: 15px;
-                                }
-                                .quote-summary strong {
-                                    font-size: 1.1em;
-                                }
-                                </style>
-                                <table class="quote-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Item</th>
-                                            <th>Units</th>
-                                            <th>Market Price</th>
-                                            <th>Your Price</th>
-                                            <th>Savings</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                """
-                                total_market = 0
-                                total_quote = 0
-                                total_savings = 0
-                                
-                                # Convert numeric columns to float to ensure proper formatting
-                                df['market_price'] = pd.to_numeric(df['market_price'], errors='coerce')
-                                df['total'] = pd.to_numeric(df['total'], errors='coerce')
-                                df['savings'] = pd.to_numeric(df['savings'], errors='coerce')
-                                
-                                for index, row in df.iterrows():
-                                    html += f"""
-                                    <tr>
-                                        <td>{row['items']}</td>
-                                        <td>{row['units']}</td>
-                                        <td>${row['market_price']:.2f}</td>
-                                        <td>${row['total']:.2f}</td>
-                                        <td>${row['savings']:.2f}</td>
-                                    </tr>
-                                    """
-                                    total_market += float(row['market_price']) if pd.notna(row['market_price']) else 0
-                                    total_quote += float(row['total']) if pd.notna(row['total']) else 0
-                                    total_savings += float(row['savings']) if pd.notna(row['savings']) else 0
-                                html += """
-                                    </tbody>
-                                </table>
-                                <div class="quote-summary">
-                                    <p><strong>Total Market Cost:</strong> ${:,.2f}</p>
-                                    <p><strong>Your Quote Total:</strong> ${:,.2f}</p>
-                                    <p><strong>You Save:</strong> ${:,.2f}</p>
-                                </div>
-                                """.format(total_market, total_quote, total_savings)
+                                # Display the quote summary using dataframe
+                                st.markdown(f"**Total Market Cost:** ${df['market_price'].sum():,.2f}")
+                                st.markdown(f"**Your Quote Total:** ${df['total'].sum():,.2f}")
+                                st.markdown(f"**You Save:** ${df['savings'].sum():,.2f}")
 
-                                st.markdown(html, unsafe_allow_html=True)
+                                st.markdown("**Itemized Products & Services:**")
+                                st.dataframe(
+                                    df[['items', 'units', 'market_price', 'total', 'savings']].rename(
+                                        columns={
+                                            'items': 'Product/Service',
+                                            'units': 'Units',
+                                            'market_price': 'Market Price',
+                                            'total': 'Your Price',
+                                            'savings': 'Savings'
+                                        }
+                                    )
+                                )
 
                                               
         
