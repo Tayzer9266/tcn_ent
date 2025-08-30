@@ -5,7 +5,6 @@ import pandas as pd
 import base64
 from PIL import Image
 from datetime import datetime
-#from utils.pdf_generator import generate_quote_pdf_response
 
 
 st.set_page_config(
@@ -85,7 +84,13 @@ with st.container():
  
         
 
- 
+# # HTML content
+# html_content = """
+# <a href="https://www.gigsalad.com/tcn_entertainment_dallas"><img src="https://cress.gigsalad.com/images/svg/standalone/promokit-links/book-securely/book-securely--dark.svg" alt="Hire me on GigSalad" height="100" width="300"></a>
+# """
+# # Display the HTML content
+# components.html(html_content, height=100)
+
 ################################################## DATABASE CONNECTION ############################################################################
 
 # Load database credentials from Streamlit secrets
@@ -120,7 +125,7 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
         microphone = microphone == 'Yes'
         # Set empty string inputs to None
         best_time = best_time if best_time else None
-        start_time = start_time.strftime("%I:%M %p") if start_time else None
+        start_time = start_time if start_time else None
         estimated_budget = estimated_budget if estimated_budget else None
         event_location = event_location if event_location else None
         booth_location = booth_location if booth_location else None
@@ -184,8 +189,8 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
         microphone = microphone == 'Yes'
 
         # Set empty string inputs to None
-        best_time = best_time.strftime("%I:%M %p") if best_time else None
-        start_time = start_time.strftime("%I:%M %p") if start_time else None
+        best_time = best_time if best_time else None
+        start_time = start_time if start_time else None
         estimated_budget = estimated_budget if estimated_budget else None
         event_location = event_location if event_location else None
         booth_location = booth_location if booth_location else None
@@ -279,12 +284,8 @@ with st.container():
                     event_date = st.date_input("Event Date*", value=None) 
                     event_type = st.selectbox("Event Type?*", ("","Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Fundraiser","Other"))
                     best_time = st.time_input("Best Time to Contact", None) 
-                    if best_time:
-                        st.write(f"Selected: {best_time.strftime('%I:%M %p')}")
                     service_hours = st.slider('Number of hours professional needed', 2, 24, value=2)
                     start_time = st.time_input("Estimated Start Time*", None) #Start
-                    if start_time:
-                        st.write(f"Selected: {start_time.strftime('%I:%M %p')}")
                     estimated_budget = st.number_input("Budget Amount", 0) #Budget
                     event_location = st.text_input("Venue Location", "") #Location
                     guest_count = st.slider('Number of guests', 1, 600, value=50)
@@ -372,43 +373,6 @@ with st.container():
                                     cold_sparks, microphone, monogram, discount_code
                                 )
                                 st.success("Your quote has been successfully submitted!", icon="✅")
-
-                                # --- PLACE THE SUMMARY CODE HERE ---
-                                # Query and display the quote summary for the user
-                                summary_query = f"""
-                                    SELECT product, units, market_total AS market_price, amount AS total, savings
-                                    FROM f_service_product_total_latest('{email}')
-                                """
-                                summary_df = run_query(summary_query)
-
-                                if not summary_df.empty:
-                                    # Convert numeric columns to float for proper formatting
-                                    summary_df['market_price'] = pd.to_numeric(summary_df['market_price'], errors='coerce')
-                                    summary_df['total'] = pd.to_numeric(summary_df['total'], errors='coerce')
-                                    summary_df['savings'] = pd.to_numeric(summary_df['savings'], errors='coerce')
-                                    
-                                    total_market = summary_df['market_price'].sum()
-                                    total_quote = summary_df['total'].sum()
-                                    total_savings = summary_df['savings'].sum()
-
-                                    st.markdown(f"**Total Market Cost:** ${total_market:,.2f}")
-                                    st.markdown(f"**Your Quote Total:** ${total_quote:,.2f}")
-                                    st.markdown(f"**You Save:** ${total_savings:,.2f}")
-
-                                    st.markdown("**Itemized Products & Services:**")
-                                    
-                                    # Create a clean display dataframe with consistent column names
-                                    display_df = summary_df[['product', 'units', 'market_price', 'total', 'savings']].copy()
-                                    display_df.columns = ['Product/Service', 'Units', 'Market Price', 'Your Price', 'Savings']
-                                    
-                                    # Format numeric columns for display
-                                    display_df['Market Price'] = display_df['Market Price'].apply(lambda x: f"${x:,.2f}" if pd.notnull(x) else "$0.00")
-                                    display_df['Your Price'] = display_df['Your Price'].apply(lambda x: f"${x:,.2f}" if pd.notnull(x) else "$0.00")
-                                    display_df['Savings'] = display_df['Savings'].apply(lambda x: f"${x:,.2f}" if pd.notnull(x) else "$0.00")
-                                    
-                                    st.dataframe(display_df, use_container_width=True)
-
-
                             else:
                                 # Display an error if required fields are missing
                                 st.error("Please fill in all required fields: Name, Phone, Email, Event Date, Service Hours, and Event Type.")
@@ -478,74 +442,35 @@ with st.container():
                                     a.savings as  savings, 
                                     a.amount AS total
                                 FROM f_service_product_total('{booking}') as a
-                                where a.product not in ('Discount','Savings Total','Grand Total')
                                 """
 
 
                                 # Execute the query and create a DataFrame
                             df = run_query(query)
- 
+
+        
 
                             if not df.empty:
                                 st.subheader("Event Estimate:")
                                 st.warning("We are ready to match or beat any offer—reach out to us today!")
 
-                                # Display the quote summary using custom HTML table with left-aligned columns
-                                st.markdown(f"**Total Market Cost:** ${df['market_price'].sum():,.2f}")
-                                st.markdown(f"**Your Quote Total:** ${df['total'].sum():,.2f}")
-                                st.markdown(f"**You Save:** ${df['savings'].sum():,.2f}")
+                                # Ensure the first column remains as a string
+                                first_column = df.iloc[:, 0]  # Extract the first column
 
-                                st.markdown("**Itemized Products & Services:**")
-                                
-                                # Convert numeric columns to float to ensure proper formatting
-                                df['market_price'] = pd.to_numeric(df['market_price'], errors='coerce')
-                                df['total'] = pd.to_numeric(df['total'], errors='coerce')
-                                df['savings'] = pd.to_numeric(df['savings'], errors='coerce')
+                                # Convert the rest of the columns to numeric and round them to two decimal places
+                                numeric_columns = df.iloc[:, 1:].apply(pd.to_numeric, errors='coerce').round(2)
 
-                                result = conn.execute(text(query))
-                                
-                                # Fetch all results and load them into a pandas DataFrame
-                                rows = result.fetchall()
-                                if not rows:
-                                    #return pd.DataFrame()  # Return an empty DataFrame if no rows
-                               # Get column names and create the DataFrame
-                                columns = result.keys()
-                                df = pd.DataFrame(rows, columns=columns)
-                                df = df.reset_index(drop=True)  # Reset index to avoid displaying it
-                                #return df
-                                # for index, row in df.iterrows():
-                                #     # Skip the specified rows to be removed
-                                #     if (row['items'] == 'DJ x 7 hr' and row['units'] == 1 and
-                                #         abs(row['market_price'] - 1260.00) < 0.01 and
-                                #         abs(row['total'] - 770.00) < 0.01 and
-                                #         abs(row['savings'] - 490.00) < 0.01):
-                                #         continue
-                                #     if (row['items'] == 'PA System' and row['units'] == 1 and
-                                #         abs(row['market_price'] - 400.00) < 0.01 and
-                                #         abs(row['total'] - 100.00) < 0.01 and
-                                #         abs(row['savings'] - 300.00) < 0.01):
-                                #         continue
-                                #     if (row['items'] == 'Dance Lighting' and row['units'] == 1 and
-                                #         abs(row['market_price'] - 150.00) < 0.01 and
-                                #         abs(row['total'] - 75.00) < 0.01 and
-                                #         abs(row['savings'] - 75.00) < 0.01):
-                                #         continue
-                                #     html += f"""
-                                #     <tr>
-                                #         <td>{row['items']}</td>
-                                #         <td class="left-align">{row['units']}</td>
-                                #         <td class="left-align">${row['market_price']:.2f}</td>
-                                #         <td class="left-align">${row['total']:.2f}</td>
-                                #         <td class="left-align">${row['savings']:.2f}</td>
-                                #     </tr>
-                                #     """
-                                
-                                # html += """
-                                #     </tbody>
-                                # </table>
-                                # """
-                                
-                                st.markdown(html, unsafe_allow_html=True)
+                                # Recombine the first column and numeric columns
+                                updated_df = pd.concat([first_column, numeric_columns], axis=1)
+
+                                # Apply styles: Bold header and first column
+                                styled_df = updated_df.style.format("{:.2f}", subset=updated_df.columns[1:]).set_table_styles([
+                                    {'selector': 'th', 'props': [('font-weight', 'bold')]},  # Bold headers
+                                    {'selector': 'td:first-child', 'props': [('font-weight', 'bold')]}  # Bold the first column
+                                ])
+
+                                # Display the styled DataFrame
+                                st.dataframe(styled_df)
 
                                               
         
@@ -651,12 +576,8 @@ with st.container():
                                         event_date = st.date_input("Event Date*", df['event_date'][0]) 
                                         event_type = st.selectbox("Event Type?*", (df['event_type'][0],"Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Fundraiser","Graduation","Other"))
                                         best_time = st.time_input("Best Time to Contact", df['best_time'][0]) 
-                                        if best_time:
-                                            st.write(f"Selected: {best_time.strftime('%I:%M %p')}")
                                         service_hours = st.slider('Number of hours professional needed', 2, 24, value=df['service_hours'][0])
                                         start_time = st.time_input("Estimated Start Time*", df['start_time'][0]) #Start
-                                        if start_time:
-                                            st.write(f"Selected: {start_time.strftime('%I:%M %p')}")
                                         estimated_budget = st.number_input("Budget Amount", ) #Budget
                                         event_location = st.text_input("Venue Location", df['event_location'][0]) #Location
                                         guest_count = st.slider('Number of guests', 1, 600, value=df['guest_count'][0])
@@ -739,12 +660,8 @@ with st.container():
                                         st.write("[Pay the deposit to lock in your date](https://buy.stripe.com/cN29BFc2F7gqgBGdQQ)")
         
 
- 
+        
 
         if __name__ == "__main__":
             main()
-        
-        
-        
-
         
