@@ -382,6 +382,11 @@ with st.container():
                                 summary_df = run_query(summary_query)
 
                                 if not summary_df.empty:
+                                    # Convert numeric columns to float for proper formatting
+                                    summary_df['market_price'] = pd.to_numeric(summary_df['market_price'], errors='coerce')
+                                    summary_df['total'] = pd.to_numeric(summary_df['total'], errors='coerce')
+                                    summary_df['savings'] = pd.to_numeric(summary_df['savings'], errors='coerce')
+                                    
                                     total_market = summary_df['market_price'].sum()
                                     total_quote = summary_df['total'].sum()
                                     total_savings = summary_df['savings'].sum()
@@ -391,17 +396,17 @@ with st.container():
                                     st.markdown(f"**You Save:** ${total_savings:,.2f}")
 
                                     st.markdown("**Itemized Products & Services:**")
-                                    st.dataframe(
-                                        summary_df[['product', 'units', 'market_price', 'total', 'savings']].rename(
-                                            columns={
-                                                'product': 'Product/Service',
-                                                'units': 'Units',
-                                                'market_price': 'Market Price',
-                                                'total': 'Your Price',
-                                                'savings': 'Savings'
-                                            }
-                                        )
-                                    )
+                                    
+                                    # Create a clean display dataframe with consistent column names
+                                    display_df = summary_df[['product', 'units', 'market_price', 'total', 'savings']].copy()
+                                    display_df.columns = ['Product/Service', 'Units', 'Market Price', 'Your Price', 'Savings']
+                                    
+                                    # Format numeric columns for display
+                                    display_df['Market Price'] = display_df['Market Price'].apply(lambda x: f"${x:,.2f}" if pd.notnull(x) else "$0.00")
+                                    display_df['Your Price'] = display_df['Your Price'].apply(lambda x: f"${x:,.2f}" if pd.notnull(x) else "$0.00")
+                                    display_df['Savings'] = display_df['Savings'].apply(lambda x: f"${x:,.2f}" if pd.notnull(x) else "$0.00")
+                                    
+                                    st.dataframe(display_df, use_container_width=True)
 
 
                             else:
@@ -479,8 +484,7 @@ with st.container():
 
                                 # Execute the query and create a DataFrame
                             df = run_query(query)
-
-        
+ 
 
                             if not df.empty:
                                 st.subheader("Event Estimate:")
@@ -493,82 +497,53 @@ with st.container():
 
                                 st.markdown("**Itemized Products & Services:**")
                                 
-                                # Create HTML table with left-aligned columns
-                                html = """
-                                <style>
-                                table.quote-grid {
-                                    width: 100%;
-                                    border-collapse: collapse;
-                                    font-family: Arial, sans-serif;
-                                }
-                                table.quote-grid th, table.quote-grid td {
-                                    border: 1px solid #ddd;
-                                    padding: 8px;
-                                    text-align: left;
-                                }
-                                table.quote-grid th {
-                                    background-color: #f2f2f2;
-                                    font-weight: bold;
-                                }
-                                table.quote-grid tr:nth-child(even) {
-                                    background-color: #f9f9f9;
-                                }
-                                table.quote-grid tr:hover {
-                                    background-color: #ddd;
-                                }
-                                .left-align {
-                                    text-align: left;
-                                }
-                                </style>
-                                <table class="quote-grid">
-                                    <thead>
-                                        <tr>
-                                            <th>Product/Service</th>
-                                            <th class="left-align">Units</th>
-                                            <th class="left-align">Market Price</th>
-                                            <th class="left-align">Your Price</th>
-                                            <th class="left-align">Savings</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                """
-                                
                                 # Convert numeric columns to float to ensure proper formatting
                                 df['market_price'] = pd.to_numeric(df['market_price'], errors='coerce')
                                 df['total'] = pd.to_numeric(df['total'], errors='coerce')
                                 df['savings'] = pd.to_numeric(df['savings'], errors='coerce')
+
+                                result = conn.execute(text(query))
                                 
-                                for index, row in df.iterrows():
-                                    # Skip the specified rows to be removed
-                                    if (row['items'] == 'DJ x 7 hr' and row['units'] == 1 and
-                                        abs(row['market_price'] - 1260.00) < 0.01 and
-                                        abs(row['total'] - 770.00) < 0.01 and
-                                        abs(row['savings'] - 490.00) < 0.01):
-                                        continue
-                                    if (row['items'] == 'PA System' and row['units'] == 1 and
-                                        abs(row['market_price'] - 400.00) < 0.01 and
-                                        abs(row['total'] - 100.00) < 0.01 and
-                                        abs(row['savings'] - 300.00) < 0.01):
-                                        continue
-                                    if (row['items'] == 'Dance Lighting' and row['units'] == 1 and
-                                        abs(row['market_price'] - 150.00) < 0.01 and
-                                        abs(row['total'] - 75.00) < 0.01 and
-                                        abs(row['savings'] - 75.00) < 0.01):
-                                        continue
-                                    html += f"""
-                                    <tr>
-                                        <td>{row['items']}</td>
-                                        <td class="left-align">{row['units']}</td>
-                                        <td class="left-align">${row['market_price']:.2f}</td>
-                                        <td class="left-align">${row['total']:.2f}</td>
-                                        <td class="left-align">${row['savings']:.2f}</td>
-                                    </tr>
-                                    """
+                                # Fetch all results and load them into a pandas DataFrame
+                                rows = result.fetchall()
+                                if not rows:
+                                    #return pd.DataFrame()  # Return an empty DataFrame if no rows
+                               # Get column names and create the DataFrame
+                                columns = result.keys()
+                                df = pd.DataFrame(rows, columns=columns)
+                                df = df.reset_index(drop=True)  # Reset index to avoid displaying it
+                                #return df
+                                # for index, row in df.iterrows():
+                                #     # Skip the specified rows to be removed
+                                #     if (row['items'] == 'DJ x 7 hr' and row['units'] == 1 and
+                                #         abs(row['market_price'] - 1260.00) < 0.01 and
+                                #         abs(row['total'] - 770.00) < 0.01 and
+                                #         abs(row['savings'] - 490.00) < 0.01):
+                                #         continue
+                                #     if (row['items'] == 'PA System' and row['units'] == 1 and
+                                #         abs(row['market_price'] - 400.00) < 0.01 and
+                                #         abs(row['total'] - 100.00) < 0.01 and
+                                #         abs(row['savings'] - 300.00) < 0.01):
+                                #         continue
+                                #     if (row['items'] == 'Dance Lighting' and row['units'] == 1 and
+                                #         abs(row['market_price'] - 150.00) < 0.01 and
+                                #         abs(row['total'] - 75.00) < 0.01 and
+                                #         abs(row['savings'] - 75.00) < 0.01):
+                                #         continue
+                                #     html += f"""
+                                #     <tr>
+                                #         <td>{row['items']}</td>
+                                #         <td class="left-align">{row['units']}</td>
+                                #         <td class="left-align">${row['market_price']:.2f}</td>
+                                #         <td class="left-align">${row['total']:.2f}</td>
+                                #         <td class="left-align">${row['savings']:.2f}</td>
+                                #     </tr>
+                                #     """
                                 
-                                html += """
-                                    </tbody>
-                                </table>
-                                """
+                                # html += """
+                                #     </tbody>
+                                # </table>
+                                # """
                                 
                                 st.markdown(html, unsafe_allow_html=True)
 

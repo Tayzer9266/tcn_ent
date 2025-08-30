@@ -1,51 +1,12 @@
-# TODO List for Adding Calendar to Home Page
+# Data Frame Column Fixes for Request Quote Page
 
-✅ **1. Install streamlit-calendar**:
-   - Added `streamlit-calendar` to the requirements.txt file.
-   - Successfully installed the package.
+## Steps to Complete:
 
-2. **Modify Home.py**:
-   - Import the `streamlit-calendar` package.
-   - Create a function to fetch all scheduled dates for the current month.
-   - Add the calendar component next to the "Upcoming Events" section.
-   - Highlight scheduled dates in red and unscheduled dates in green.
+1. [ ] Fix summary_df display for new quotes - use consistent column names and proper st.dataframe
+2. [ ] Replace broken HTML table implementation with proper st.dataframe for existing bookings
+3. [ ] Ensure consistent column naming between new quotes and existing bookings
+4. [ ] Fix column data type conversions for proper formatting
+5. [ ] Verify both new quote submission and existing bookings views work correctly
 
-3. **Test the Implementation**:
-   - Verify that the calendar displays correctly.
-   - Ensure that the highlighting of dates works as intended.
-   - Check the layout to ensure it is responsive and visually appealing.
-
-# Claudia.ai Integration with BlackboxAI
-
-## Next Steps
-
-1. Set your Claudia.ai API key as an environment variable:
-   - On Windows (cmd):
-     ```
-     set CLAUDIA_AI_API_KEY=your_api_key_here
-     ```
-   - On Linux/macOS (bash):
-     ```
-     export CLAUDIA_AI_API_KEY=your_api_key_here
-     ```
-
-2. Create and activate a Python virtual environment (optional but recommended):
-   ```
-   python -m venv venv
-   venv\Scripts\activate   # Windows
-   source venv/bin/activate  # Linux/macOS
-   ```
-
-3. Install required dependencies:
-   ```
-   pip install requests
-   ```
-
-4. Run the example integration script:
-   ```
-   python claudia_ai_integration_example.py
-   ```
-
-5. Modify the script as needed to integrate with your BlackboxAI workflows.
-
-This completes the initial integration setup.
+## Current Status:
+- Working on step 1: Fixing summary_df display
