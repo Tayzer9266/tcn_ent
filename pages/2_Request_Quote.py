@@ -281,11 +281,19 @@ with st.container():
                     phone_number = st.text_input("Phone Number*", "") #Phone
                     email = st.text_input("Email Address*", "") #Email
                     discount_code = st.text_input("Discount Code", "") #Phone
-                    event_date = st.date_input("Event Date*", value=None) 
+                    event_date = st.date_input("Event Date*", value=None)
                     event_type = st.selectbox("Event Type?*", ("","Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Fundraiser","Other"))
-                    best_time = st.time_input("Best Time to Contact", None) 
+                    col1, col2 = st.columns([3,1])
+                    with col1:
+                        best_time = st.time_input("Best Time to Contact", None)
+                    with col2:
+                        st.write("Standard Time")
                     service_hours = st.slider('Number of hours professional needed', 2, 24, value=2)
-                    start_time = st.time_input("Estimated Start Time*", None) #Start
+                    col3, col4 = st.columns([3,1])
+                    with col3:
+                        start_time = st.time_input("Estimated Start Time*", None) #Start
+                    with col4:
+                        st.write("Standard Time")
                     estimated_budget = st.number_input("Budget Amount", 0) #Budget
                     event_location = st.text_input("Venue Location", "") #Location
                     guest_count = st.slider('Number of guests', 1, 600, value=50)
@@ -573,11 +581,19 @@ with st.container():
                                         last_name = st.text_input("Last Name*", df['last_name'][0]) #LastName
                                         phone_number = st.text_input("Phone Number*", df['phone_number'][0]) #Phone
                                         email = st.text_input("Email Address*", df['email'][0]) #Email
-                                        event_date = st.date_input("Event Date*", df['event_date'][0]) 
+                                        event_date = st.date_input("Event Date*", df['event_date'][0])
                                         event_type = st.selectbox("Event Type?*", (df['event_type'][0],"Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Fundraiser","Graduation","Other"))
-                                        best_time = st.time_input("Best Time to Contact", df['best_time'][0]) 
+                                        col5, col6 = st.columns([3,1])
+                                        with col5:
+                                            best_time = st.time_input("Best Time to Contact", df['best_time'][0])
+                                        with col6:
+                                            st.write("Standard Time")
                                         service_hours = st.slider('Number of hours professional needed', 2, 24, value=df['service_hours'][0])
-                                        start_time = st.time_input("Estimated Start Time*", df['start_time'][0]) #Start
+                                        col7, col8 = st.columns([3,1])
+                                        with col7:
+                                            start_time = st.time_input("Estimated Start Time*", df['start_time'][0]) #Start
+                                        with col8:
+                                            st.write("Standard Time")
                                         estimated_budget = st.number_input("Budget Amount", ) #Budget
                                         event_location = st.text_input("Venue Location", df['event_location'][0]) #Location
                                         guest_count = st.slider('Number of guests', 1, 600, value=df['guest_count'][0])
