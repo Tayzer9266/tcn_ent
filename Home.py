@@ -1,24 +1,21 @@
-import streamlit as st
-import base64
-import streamlit.components.v1 as components
+import streamlit as st  
 from sqlalchemy import create_engine
 from sqlalchemy import text
 import pandas as pd
-import os
-from datetime import datetime, date  # Importing datetime and date modules
-import calendar
-from streamlit_calendar import calendar
-# Page Tab
+import base64
+from PIL import Image
+from datetime import datetime
+
+
 st.set_page_config(
-    page_title="Home",
+    page_title="Questionnaires",
     page_icon="pages/images/TCN logo black.jpg",
     layout="wide",
-    initial_sidebar_state="collapsed",  #expanded
+    initial_sidebar_state="collapsed",
     menu_items={
         'About': "# Make your dream a reality!"
     }
 )
-
 
 # Load the images
 youtube_img = base64.b64encode(open("pages/images/youtube.png", "rb").read()).decode()
@@ -50,8 +47,19 @@ with col3:
         </a>""".format(facebook_img),
         unsafe_allow_html=True
     )
+
  
-# Background for page
+# Use local CSS
+with open("pages/style/style.css") as source_style:
+    st.markdown(f"<style>{source_style.read()}</style>", unsafe_allow_html=True)
+
+
+# Use local CSS
+with open("pages/style/style.css") as source_style:
+    st.markdown(f"<style>{source_style.read()}</style>", unsafe_allow_html=True)
+st.image("pages/images/quote.png", width=1750)  
+
+# Inject CSS for background color
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
@@ -60,12 +68,35 @@ page_bg_img = """
 </style>
 """
 st.markdown(page_bg_img, unsafe_allow_html=True)
+ 
+with st.container():
+    st.write("---")
+    
+    left_column, right_column = st.columns(2)
+    with left_column:
+        st.subheader("3 Easy Steps")
+        st.write( """Get the party started without the hassle! Request your free, no-obligation DJ quote tailored to your event's needs—fast and easy! We're committed to offering unbeatable prices and will match or beat any competitor's offer. Plus, see how our rates compare to the average market price.""")
+        st.write( """Follow these simple steps to secure your DJ services in no time:""")
+        st.write( """1. Complete our quick and user-friendly request form below""")
+        st.write( """2. Click on "Your Bookings".""")
+        st.write( """3. Provide your email address to instantly access automated pricing results.""")
+        st.write( """We will personally contact you to address any questions or concerns you may have. Once you're satisfied, you can lock in the date with a small $60 deposit.""")
+ 
+        
 
+# # HTML content
+# html_content = """
+# <a href="https://www.gigsalad.com/tcn_entertainment_dallas"><img src="https://cress.gigsalad.com/images/svg/standalone/promokit-links/book-securely/book-securely--dark.svg" alt="Hire me on GigSalad" height="100" width="300"></a>
+# """
+# # Display the HTML content
+# components.html(html_content, height=100)
+
+################################################## DATABASE CONNECTION ############################################################################
 
 # Load database credentials from Streamlit secrets
 db_config = st.secrets["postgres"]
 
-#Create the SQLAlchemy engine using connection string format
+# Create the SQLAlchemy engine using connection string format
 def init_connection():
     connection_string = f"postgresql://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['dbname']}"
     engine = create_engine(connection_string)
@@ -73,10 +104,133 @@ def init_connection():
 
 conn = init_connection()
 
- 
+def execute_procedure(first_name, last_name, phone_number, email, best_time, event_date, start_time,
+                      estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball,
+                      uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location,
+                      comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types, cold_sparks, microphone, monogram,
+                      discount_code):
+    try:
+        # Convert boolean radio button responses to True/False
+        pa_system = pa_system == 'Yes'
+        dancing_lights = dancing_lights == 'Yes'
+        disco_ball = disco_ball == 'Yes'
+        uplighting = uplighting == 'Yes'
+        fog_machine = fog_machine == 'Yes'
+        backdrop_props = backdrop_props == 'Yes'
+        low_fog_machine = low_fog_machine == 'Yes'
+        #photo_booth = photo_booth == 'Yes'
+        monogram = monogram == 'Yes'
+        photo_booth_prints = photo_booth_prints == 'Yes'
+        cold_sparks = cold_sparks == 'Yes'
+        microphone = microphone == 'Yes'
+        # Set empty string inputs to None
+        best_time = best_time if best_time else None
+        start_time = start_time if start_time else None
+        estimated_budget = estimated_budget if estimated_budget else None
+        event_location = event_location if event_location else None
+        booth_location = booth_location if booth_location else None
+        comments = comments if comments else None
+        created_by = created_by if created_by else None
 
-@st.cache_data(ttl=10)
- #Ensure the connection is closed
+        # Create the SQL procedure call using SQLAlchemy text()
+        query = text("CALL sp_client_quote(:first_name, :last_name, :phone_number, :email, " +
+                     ":best_time, :event_date, :start_time, " +
+                     ":estimated_budget, :event_type, :event_location, :guest_count, :pa_system, " +
+                     ":dancing_lights, :disco_ball, :uplighting, :fog_machine, " +
+                     ":low_fog_machine, :photo_booth, :photo_booth_prints, :booth_location, " +
+                     ":comments, :created_by, :uplight_ct, :backdrop_props, :back_drop_type, " +
+                     ":service_hours, :service_types, :cold_sparks, :microphone, :monogram, :discount_code)")
+
+        # Execute the procedure with the parameters as named arguments
+ 
+        with conn.begin() as transaction:  # Start a transaction block
+            try:
+                conn.execute(query, {
+                    "first_name": first_name, "last_name": last_name, "phone_number": phone_number, "email": email,
+                    "best_time": best_time, "event_date": event_date, "start_time": start_time,
+                    "estimated_budget": estimated_budget, "event_type": event_type, "event_location": event_location,
+                    "guest_count": guest_count, "pa_system": pa_system, "dancing_lights": dancing_lights, "disco_ball": disco_ball,
+                    "uplighting": uplighting, "fog_machine": fog_machine, "low_fog_machine": low_fog_machine, "photo_booth": photo_booth,
+                    "photo_booth_prints": photo_booth_prints, "booth_location": booth_location, "comments": comments,
+                    "created_by": created_by, "uplight_ct": uplight_ct, "backdrop_props": backdrop_props,
+                    "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types, "cold_sparks": cold_sparks, "microphone": microphone, 
+                    "monogram": monogram, "discount_code": discount_code
+                })
+      
+                #conn.close()
+                
+            except Exception as e:
+                transaction.rollback()  # Rollback the transaction if an error occurs
+                raise e
+        st.success('Thank you! We will be in touch shortly.', icon="✅")
+    except Exception as e:
+        st.error(f"Error connecting to the database: {e}")
+
+
+def execute_procedure_update(booking_id, event_status, first_name, last_name, phone_number, email, best_time, event_date, start_time,
+                      estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball,
+                      uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location,
+                      comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types, cold_sparks, microphone, monogram, 
+                      price_override, discount_code):
+    try:
+        # Convert boolean radio button responses to True/False
+        pa_system = pa_system == 'Yes'
+        dancing_lights = dancing_lights == 'Yes'
+        disco_ball = disco_ball == 'Yes'
+        uplighting = uplighting == 'Yes'
+        fog_machine = fog_machine == 'Yes'
+        low_fog_machine = low_fog_machine == 'Yes'
+        backdrop_props = backdrop_props == 'Yes'
+       # photo_booth = photo_booth == 'Yes'
+        monogram = monogram == 'Yes'
+        microphone = microphone == 'Yes'
+        photo_booth_prints = photo_booth_prints == 'Yes'
+        cold_sparks = cold_sparks == 'Yes'
+        microphone = microphone == 'Yes'
+
+        # Set empty string inputs to None
+        best_time = best_time if best_time else None
+        start_time = start_time if start_time else None
+        estimated_budget = estimated_budget if estimated_budget else None
+        event_location = event_location if event_location else None
+        booth_location = booth_location if booth_location else None
+        comments = comments if comments else None
+        created_by = created_by if created_by else None
+ 
+        # Create the SQL procedure call using SQLAlchemy text()
+        query = text("CALL sp_client_quote_update(:booking_id, :event_status, :first_name, :last_name, :phone_number, :email, " +
+                     ":best_time, :event_date, :start_time, " +
+                     ":estimated_budget, :event_type, :event_location, :guest_count, :pa_system, " +
+                     ":dancing_lights, :disco_ball, :uplighting, :fog_machine, " +
+                     ":low_fog_machine, :photo_booth, :photo_booth_prints, :booth_location, " +
+                     ":comments, :created_by, :uplight_ct, :backdrop_props, :back_drop_type, " +
+                     ":service_hours, :service_types, :cold_sparks, :microphone, :monogram, :price_override, :discount_code)")
+
+        # Execute the procedure with the parameters as named arguments
+ 
+        with conn.begin() as transaction:
+            try:
+                conn.execute(query, {
+                    "booking_id": booking_id, "event_status": event_status, "first_name": first_name, "last_name": last_name, "phone_number": phone_number, "email": email,
+                    "best_time": best_time, "event_date": event_date, "start_time": start_time,
+                    "estimated_budget": estimated_budget, "event_type": event_type, "event_location": event_location,
+                    "guest_count": guest_count, "pa_system": pa_system, "dancing_lights": dancing_lights, "disco_ball": disco_ball,
+                    "uplighting": uplighting, "fog_machine": fog_machine, "low_fog_machine": low_fog_machine, "photo_booth": photo_booth,
+                    "photo_booth_prints": photo_booth_prints, "booth_location": booth_location, "comments": comments,
+                    "created_by": created_by, "uplight_ct": uplight_ct, "backdrop_props": backdrop_props,
+                    "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types, "cold_sparks": cold_sparks, "microphone": microphone, "monogram": monogram,
+                    "price_override": price_override, "discount_code": discount_code
+                })
+ 
+                #conn.close()
+                
+            except Exception as e:
+                transaction.rollback()  # Rollback if there's an error
+                raise e
+        st.success('Your event has been updated', icon="✅")
+    except Exception as e:
+        st.error(f"Error connecting to the database: {e}")
+ # Ensure the connection is closed
 def run_query(query):
     try:
         # Begin a transaction using the context manager
@@ -99,222 +253,416 @@ def run_query(query):
     except Exception as e:
         # Log or handle the exception
         raise RuntimeError(f"Error executing query: {e}")
-
-
-# Function to get all scheduled dates for the current month
-def get_scheduled_dates():
-    query = """
-        SELECT event_date::date AS event_date
-        FROM events
-        WHERE event_status IN ('Scheduled', 'Ongoing')
-        AND deleted_at IS NULL
-        AND event_date >= now()::date
-    """
-    df = run_query(query)
-    return df['event_date'].dt.date.tolist() if not df.empty else []
-
-# ---- UPCOMING EVENTS SECTION ----
-st.video("https://www.youtube.com/watch?v=baTq72zAc-U")
  
-
-######################################################################################
-
- 
-
-# ---- HEADER SECTION ----
-with st.container():
-    st.markdown('<div class="section-title">Overview</div>', unsafe_allow_html=True) 
-    #st.title("Overview")
-    st.markdown(
-        """Welcome to TCN Entertainment, where the beats meet the streets and the fun never skips a track! I am your ultimate DJ professional with the top-tier sound and lighting. 
-        I'm here to turn your event into an epic celebration that'll have everyone talking long after the music fades. 
-        But I'm more than just a DJ, I will work closely with you to understand your vision, preferences, and must-play tracks. 
-        I'm here to listen, collaborate, and bring your party dreams to life, one beat drop at a time. So, if you're ready to take 
-        your event to the next level, let me help you and be your soundtrack to success!"""
-    )
-    st.markdown("---")
-    st.markdown('<div class="section-title">Exceptional DJ Services for Unforgettable Events</div>', unsafe_allow_html=True)
-    #st.subheader("Exceptional DJ Services for Unforgettable Events")
-    st.markdown(
-        """As a dedicated and professional DJ based in Dallas, TX, I specialize in delivering the perfect soundtrack to bring every celebration to life. Whether you're planning a once-in-a-lifetime wedding, a private party, a corporate event, or any other special occasion, I create customized playlists that match your vision and keep your guests engaged from start to finish. Here's a closer look at the services I offer:"""
-    )
-    #st.subheader("Weddings")
-    st.markdown('<div class="section-title">Weddings</div>', unsafe_allow_html=True)
-    st.markdown("""Your wedding day should be as unique as your love story, and the right music can make every moment unforgettable. With expertise in setting the perfect tone, I ensure the soundtrack flows seamlessly—from your grand entrance to the final dance. I know how to read the crowd, adapt to the energy in the room, and create an atmosphere filled with magic and joy.""")
-    st.image("pages/images/wedding.jpg", width=600, caption="Elegant Wedding Setup")
-    #st.subheader("Private Parties")
-    st.markdown('<div class="section-title">Private Parties</div>', unsafe_allow_html=True)
-    st.image("pages/images/private parties.jpg", width=600, caption="Private Party Entertainment")
-    st.markdown("""From milestone birthdays to intimate anniversary celebrations, your private party deserves a personal touch. I work closely with you to design a playlist that matches the vibe of your event, whether it’s a high-energy dance party or a relaxed gathering with family and friends. Together, we'll create a musical experience that keeps your guests entertained all night long.""")
-    #st.subheader("Corporate Events")
-    st.markdown('<div class="section-title">Corporate Events</div>', unsafe_allow_html=True)
-    st.image("pages/images/corporate event.jpg", width=600, caption="Corporate Event DJ Services")
-    st.markdown("""Professional events call for an expert approach to music. Whether it's a networking event, holiday party, or company celebration, I balance sophistication and entertainment to ensure your gathering is both enjoyable and memorable. I’ll work with you to set the perfect tone, ensuring your event runs smoothly and leaves a lasting impression.""")
-    #st.subheader("School Dances")
-    st.markdown('<div class="section-title">School Dances</div>', unsafe_allow_html=True)
-    st.image("pages/images/school prom.jpg", width=600, caption="School Dance Entertainment")
-    st.write("""When it comes to school events like prom or homecoming, it's all about bringing the energy! I craft age-appropriate playlists that keep students on their feet and create an electric atmosphere. From slow dances to chart-topping hits, I’ll make sure the night is unforgettable for everyone.""")
-    #st.subheader("Fundraisers")
-    st.markdown('<div class="section-title">Fundraisers</div>', unsafe_allow_html=True)
-    st.image("pages/images/fundraisers.jpg", width=600, caption="Fundraiser Event Entertainment")
-    st.markdown("""Fundraising events thrive on an inviting and upbeat atmosphere. With music that energizes your guests and complements your cause, I help create a positive environment that encourages participation and generosity. Together, we’ll make your fundraiser a success.""")
-    #st.subheader("Bar and Bat Mitzvahs")
-    st.markdown('<div class="section-title">Bar and Bat Mitzvahs</div>', unsafe_allow_html=True)
-    st.markdown("""Milestone events like bar and bat mitzvahs deserve the perfect blend of tradition and celebration. I specialize in creating playlists that honor the cultural significance of the day while bringing energy and excitement to the dance floor. Let's make it a day to remember for everyone involved.""")
-    st.image("pages/images/Bar Mitzvah.jpg", width=600, caption="Bar/Bat Mitzvah Celebration")
-    #st.subheader("Personalized DJ Services for Any Occasion")
-
-    st.markdown('<div class="section-title">Personalized DJ Services for Any Occasion</div>', unsafe_allow_html=True)
-    st.markdown("""Every event is unique, and I'm committed to bringing your vision to life. Whether you're planning an elegant wedding, a spirited private party, or a milestone celebration, I tailor my services to suit your needs. With a keen ability to read the room and curate the perfect playlist, I’ll ensure your guests are entertained from the first note to the last.
-        Let’s make your event extraordinary. Together, we'll create an unforgettable experience filled with great music, good vibes, and lasting memories.""")
-    st.image("pages/images/party.jpg", width=600, caption="Custom DJ Services for Any Event")
-    st.markdown("[Get a Quote>](Request_Quote)")  
-
-
-# ---- SERVICES SECTION ----
 with st.container():
     st.write("---")
     left_column, right_column = st.columns(2)
     with left_column:
-        st.markdown('<div class="section-title">🎶 Services & Features</div>', unsafe_allow_html=True)
-        st.markdown(
-            """
-            - **Custom Playlists:** Top 40, EDM, Hip-Hop, Latin, Rock, Jazz, and more!
-            - **Event Coordination:** Seamless setup, breakdown, and collaboration with venues/planners.
-            - **Lighting & Visuals:** Full sound, lighting, LED effects, projection mapping.
-            - **Photo Booths:** DSLR & iPad booths, prints, props, and backdrops.
-            - **Live Remixing:** Real-time mashups, crowd requests, and interactive games.
-            - **Virtual Sets:** Live streaming DJ sets for hybrid/remote events.
-            - **Wireless Mics & PA:** Crystal-clear audio for speeches and performances.
-            """
+        def main():
+            # Ask the user if they want a new quote
+            # Create a drop-down menu for new quote or preview existing quotes
+            global selected_bookings
+            selected_bookings = []
+            if 'selected_bookings' not in st.session_state:
+                st.session_state.selected_bookings = []
+            #photo_booth_options = ['Yes', 'No']
+            booth_location= ""
+            created_by=""
+            option = st.radio(
+                        "Select a quote",
+                        ('New', 'Your Bookings'),
+                        index=0)
         
-        )
-        st.write("[Learn More >](Services)")
+            if option == "New": 
+                with st.form("my_form"):
+                    service_types = st.multiselect("Service Type?*", ("","DJ","MC", "Karaoke"))
+                    first_name = st.text_input("First Name*", "")  #FirstName
+                    last_name = st.text_input("Last Name*", "") #LastName
+                    phone_number = st.text_input("Phone Number*", "") #Phone
+                    email = st.text_input("Email Address*", "") #Email
+                    discount_code = st.text_input("Discount Code", "") #Phone
+                    event_date = st.date_input("Event Date*", value=None) 
+                    event_type = st.selectbox("Event Type?*", ("","Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Fundraiser","Other"))
+                    best_time = st.time_input("Best Time to Contact", None) 
+                    service_hours = st.slider('Number of hours professional needed', 2, 24, value=2)
+                    start_time = st.time_input("Estimated Start Time*", None) #Start
+                    estimated_budget = st.number_input("Budget Amount", 0) #Budget
+                    event_location = st.text_input("Venue Location", "") #Location
+                    guest_count = st.slider('Number of guests', 1, 600, value=50)
+                    pa_system = st.radio(
+                        "Do you need PA systems?",
+                        ('Yes', 'No'),
+                        index=0)
+                    microphone = st.radio(
+                        "Do you need microphones?",
+                        ('Yes', 'No'),
+                        index=0)
 
+                    dancing_lights = st.radio(
+                        "Do you need dance lights?",
+                        ('Yes', 'No'),
+                        index=0)
+                    disco_ball = st.radio(
+                        "Do you need a disco ball?",
+                        ('Yes', 'No'),
+                        index=1)
+                    uplighting = "No"
+                    # uplighting = st.radio(
+                    #     "Do you need uplighting?",
+                    #     ('Yes', 'No'),
+                    #     index=1)
+                    uplight_ct = st.slider('How many uplights do you need?', 0, 20, value=0)
+                    fog_machine = st.radio(
+                        "Do you need a fog machine?",
+                        ('Yes', 'No'),
+                        index=1)
+                    low_fog_machine = st.radio(
+                        "Do you want dancing on the clouds?",
+                        ('Yes', 'No'),
+                        index=1)
+                    monogram = st.radio(
+                        "Do you want a projecting monogram?",
+                        ('Yes', 'No'),
+                        index=1)
+                    cold_sparks = st.radio(
+                        "Do you need cold sparks?",
+                        ('Yes', 'No'),
+                        index=1)
+                    photo_booth = st.selectbox(
+                            "Select a photo booth",
+                            ("", "DSLR Photo Booth", "IPad Photo Booth"),
+                            index=0,
+                            placeholder=""
+                        )
+            
+                    photo_booth_prints = st.radio(
+                            "Do you need photo prints?",
+                            ('Yes', 'No'),
+                            index=1
+                        )
+        
+                    back_drop_type = st.selectbox(
+                            "Select a backdrop",
+                            ("", "White Backdrop", "Shimmering Black Backdrop"),
+                            index=0,
+                            placeholder=""
+                        )
+                    backdrop_props = st.radio(
+                            "Do you need photo booth props?",
+                            ('Yes', 'No'),
+                            index=1
+                        )
+                    comments = st.text_area("Additional comments", "")   
+                    created_by = ""
 
-# ---- SONG REQUESTS SECTION ----
-with st.container():
-    st.write("---")
-    left_column, right_column = st.columns(2)
-    with left_column:
-        st.markdown('<div class="section-title">📝 Live Song Requests</div>', unsafe_allow_html=True)
-        st.write(
-            "Share your favorite songs and genres! Fill out our request form and we'll keep the party going all night long."
-            """
-            We want to make sure your event has the perfect soundtrack! Our song request form allows you to share your favorite tunes, and let us know any specific songs or genres you'd like to hear. Whether you have a list of must-play tracks or just want to guide us with a vibe, we’ve got you covered. Fill out the form below to submit your requests, and we'll make sure to incorporate them into the mix to keep the party going all night long!
-            """
-        )
-        st.write("[Learn More >](/Song_Requests)")
- 
- 
+                    # Submit button
+                    submitted = st.form_submit_button("Submit")
 
-# ---- REVIEWS SECTION ----
-with st.container():
-    st.write("---")
-    left_column, right_column = st.columns(2)
-    with left_column:
-        st.markdown('<div class="section-title">🌟 Reviews</div>', unsafe_allow_html=True)
-        st.write("See what clients are saying about TCN Entertainment!")
-    
-
-html_content2 = """
-<div style="display: flex; align-items: center;">
-    <a href="https://www.gigsalad.com/tcn_entertainment_dallas" style="margin-right: 20px;">
-        <img src="https://cress.gigsalad.com/images/svg/standalone/promokit-links/top-performer/top-performer--blue.svg" alt="Top Performer on GigSalad" height="128" width="116">
-    </a>
-    <a href="https://www.gigsalad.com/tcn_entertainment_dallas">
-        <img src="https://cress.gigsalad.com/images/svg/standalone/promokit-links/read-reviews/read-reviews--dark.svg" alt="Read My Reviews on GigSalad" height="100" width="300">
-    </a>
-</div>
-"""
-
-# Display the HTML content
-#components.html(html_content2, height=150)
-
-# HTML content
-html_content = """
-<div id="gigsalad-reviews-widget"></div><script>var gsReviewWidget;(function(d,t){var s=d.createElement(t),options={path:'254761',maxWidth:600,count:4};s.src='https://www.gigsalad.com/js/gigsalad-reviews-widget.min.js';s.onload=s.onreadystatechange=function(){var rs=this.readyState;if(rs)if(rs!='complete')if(rs!='loaded')return;try{gsReviewWidget=new GsReviewsWidget(options);gsReviewWidget.display();}catch(e){}};var scr=d.getElementsByTagName(t)[0];var par=scr.parentNode;par.insertBefore(s,scr);})(document,'script');</script>
-"""
-
-# Display the HTML content
-components.html(html_content, height=900)
-st.write("[Get an instant quote>](Request_Quote)")
-
-# ---- UPCOMING EVENTS SECTION ----
-with st.container():
-    st.write("---")
-    left_column, right_column = st.columns([2, 1])
-    with left_column:
-        st.markdown(
-            """
-            <style>
-            .section-title {
-                font-size: 1.5em;
-                font-weight: 700;
-                color: #457b9d;
-                margin-top: 1.2em;
-                margin-bottom: 0.5em;
-            }
-            .event-card {
-                background: linear-gradient(90deg, #f8fafc 70%, #f7e7ce 100%);
-                border-radius: 10px;
-                padding: 0.7em 1.2em;
-                margin-bottom: 0.7em;
-                box-shadow: 0 2px 12px rgba(230,57,70,0.08);
-                font-size: 1.1em;
-            }
-            </style>
-            """,
-            unsafe_allow_html=True
-        )
-        st.markdown('<div class="section-title">📅 Upcoming Events</div>', unsafe_allow_html=True)
-        query = """
-            select event_date::date  as event_date
-            , a.event_name 
-            , a.event_status
-            from events a
-            where event_status in ('Scheduled','Ongoing')
-            and a.deleted_at is null 
-            and event_date >= now()::date
-            order by event_date 
-        """
-        df = run_query(query)
-        if not df.empty:
-            for index, row in df.iterrows():
-                # Set color based on status
-                if row['event_status'] == 'Ongoing':
-                    status_color = '#e63946'  # Red for Ongoing
-                elif row['event_status'] == 'Scheduled':
-                    status_color = '#28a745'  # Green for Scheduled
-                else:
-                    status_color = '#e63946'  # Default red for other statuses
+                    if submitted:
+                        try:
+                            # Check if all required fields are filled
+                            st.session_state["my_input"] = first_name
+                            
+                            if email and phone_number and first_name and event_date and service_hours and event_type:
+                                # Attempt to execute the procedure
+                                execute_procedure(
+                                    first_name, last_name, phone_number, email, best_time, event_date, start_time, 
+                                    estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, 
+                                    uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, 
+                                    comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types, 
+                                    cold_sparks, microphone, monogram, discount_code
+                                )
+                                st.success("Your quote has been successfully submitted!", icon="✅")
+                            else:
+                                # Display an error if required fields are missing
+                                st.error("Please fill in all required fields: Name, Phone, Email, Event Date, Service Hours, and Event Type.")
+                        except Exception as e:
+                            # Handle any unexpected errors
+                            st.error(f"An error occurred while submitting your quote: {e}")
+                    
                 
-                event_date = datetime.strptime(str(row['event_date']), '%Y-%m-%d').date()  # Convert string to date
-                day_of_week = event_date.strftime('%A')  # Get the day of the week
-                st.markdown(
-                    f"<div class='event-card'><b>{row['event_date']} ({day_of_week})</b> &mdash; <span style='color:{status_color};'>{row['event_status']}</span> &mdash; {row['event_name']}</div>",
-                    unsafe_allow_html=True
-                )
-        else:
-            st.markdown(
-                "<div class='event-card'>No scheduled events found.</div>",
-                unsafe_allow_html=True
-            )
-    # with right_column:
-    #     st.image("pages/images/work_fund.png", caption="See you on the dance floor!", use_column_width=True)
+        
+        
 
-# ---- CALL TO ACTION ----
-with st.container():
-    st.write("---")
-    st.markdown(
-        """
-        <div style="text-align:center;">
-            <a href="Request_Quote" style="background:#e63946;color:#fff;padding:1em 2em;border-radius:8px;font-size:1.3em;font-weight:700;text-decoration:none;box-shadow:0 2px 8px rgba(230,57,70,0.12);transition:background 0.2s;">
-                Get an Instant Quote &gt;
-            </a>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+            elif option == "Your Bookings":
+                # Add your logic to preview existing quotes here
+                email = st.text_input("Email Address*", "") 
+                # Add a submit button
+                #try:
+                query = f"""
+                            SELECT booking_id, 
+                                event_status, 
+                                event_date, 
+                                event_type, 
+                                estimated_guest, 
+                                event_location, 
+                                start_time, 
+                                service_hours, 
+                                billing_status, 
+                                payment_due_date, 
+                                actual_cost,
+                                last_name,
+                                event_date_ct
+                            FROM f_get_bookings('{email}')
+                        """
+                
 
+
+                try:
+                    rows = run_query(query)              
+                except Exception as e:
+                            st.error(f"An error occurred while retrieving bookings: {e}")
+                if rows.empty:
+                    st.error("Please enter a email address.")
+                else:
+                    st.success("Here are the details of your bookings:")  
+
+                options = []
+                
+                for index, row in rows.iterrows():
+                            option_text = f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']}"
+                            options.append(option_text)
+
+                selected_option = st.radio("", options)
+
+                if selected_option:
+                            
+                            for index, row in rows.iterrows():
+                                if selected_option == f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']}":
+                                    selected_bookings.append(row['booking_id'])
+
+                            booking = selected_bookings[0]
+                            #for booking in selected_bookings:
+                            
+
+                            query = f"""
+                            SELECT a.product as items,
+                                    a.units,
+                                    a.market_total AS market_price,
+                                    a.savings as  savings, 
+                                    a.amount AS total
+                                FROM f_service_product_total('{booking}') as a
+                                """
+
+
+                                # Execute the query and create a DataFrame
+                            df = run_query(query)
+
+        
+
+                            if not df.empty:
+                                st.subheader("Event Estimate:")
+                                st.warning("We are ready to match or beat any offer—reach out to us today!")
+
+                                # Ensure the first column remains as a string
+                                first_column = df.iloc[:, 0]  # Extract the first column
+
+                                # Convert the rest of the columns to numeric and round them to two decimal places
+                                numeric_columns = df.iloc[:, 1:].apply(pd.to_numeric, errors='coerce').round(2)
+
+                                # Recombine the first column and numeric columns
+                                updated_df = pd.concat([first_column, numeric_columns], axis=1)
+
+                                # Apply styles: Bold header and first column
+                                styled_df = updated_df.style.format("{:.2f}", subset=updated_df.columns[1:]).set_table_styles([
+                                    {'selector': 'th', 'props': [('font-weight', 'bold')]},  # Bold headers
+                                    {'selector': 'td:first-child', 'props': [('font-weight', 'bold')]}  # Bold the first column
+                                ])
+
+                                # Display the styled DataFrame
+                                st.dataframe(styled_df)
+
+                                              
+        
+                            else:
+                                    st.write("No data was returned for the given query.")
+                                    
+
+                                # Define your query
+                            query = f"""
+                                SELECT 
+                                booking_id,
+                                first_name,
+                                last_name,
+                                phone_number,
+                                email,
+                                best_time,
+                                event_date,
+                                start_time,
+                                estimated_budget,
+                                event_type,
+                                event_location,
+                                guest_count,
+                                pa_system,
+                                dancing_lights,
+                                disco_ball,
+                                uplighting,
+                                fog_machine,
+                                low_fog_machine,
+                                photo_booth,
+                                photo_booth_prints,
+                                photo_booth_props,
+                                comments,
+                                created_by,
+                                uplight_ct,
+                                backdrop_props,
+                                back_drop_type,
+                                service_hours,
+                                service_types,
+                                event_status,
+                                billing_status,
+                                payment_due_date,
+                                actual_cost ,
+                                cold_sparks,
+                                microphone,
+                                monogram,
+                                price_override,
+                                discount_code,
+                                event_date_ct
+                                FROM f_get_booking_details('{booking}')
+                                """
+
+                            df = run_query(query)
+        
+                            df = df.applymap(lambda x: 0 if x is True else 1 if x is False else x)
+                            default_service_types = df['service_types'][0]
+                            billing_status = df['billing_status'][0]
+                            payment_due_date = df['payment_due_date'][0]
+                            actual_cost = df['actual_cost'][0]
+                            event_date_ct = df['event_date_ct'][0]
+ 
+                     
+                            price_override2 = df['price_override'][0]
+                            back_drop_needed = 1 if not df['back_drop_type'][0] else 0
+                            booking_id = booking
+                        
+ 
+ 
+
+                                ############################################
+                            if event_date_ct > 1:
+                                 st.warning("This date has several bookings. Kindly reach out to us to confirm availability.")   
+                   
+
+                            if df['event_status'][0] != 'Scheduled' or email == "5003":
+                                    
+                                    with st.form("my_form"):
+                                        st.subheader("Booking# " + str(booking_id))
+
+                                        if event_date_ct > 1:
+                                            event_status = st.selectbox("Booking Status", ("Conflict","Canceled"))  
+                                        elif email == "5003":
+                                            event_status = st.selectbox("Booking Status", (df['event_status'][0], "Ongoing","Canceled","Scheduled","Proposal")) 
+                                        else:
+                                            event_status = st.selectbox("Booking Status", (df['event_status'][0],"Ongoing","Canceled")) 
+
+                                        service_types = st.multiselect(
+                                            "Service Type?*",
+                                            options=["", "DJ", "MC", "Karaoke"],
+                                            default=default_service_types
+                                        )
+                                        # Default value for price_override
+                                        price_override = df['price_override'][0]
+
+                                        # Conditional assignment if email matches "5003"
+                                        if email == "5003":
+                                            price_override = st.text_input("Override Price", df['price_override'][0])
+ 
+                                        discount_code  = st.text_input("Discount Code", df['discount_code'][0]) 
+                                        first_name = st.text_input("First Name*", df['first_name'][0])  #FirstName
+                                        last_name = st.text_input("Last Name*", df['last_name'][0]) #LastName
+                                        phone_number = st.text_input("Phone Number*", df['phone_number'][0]) #Phone
+                                        email = st.text_input("Email Address*", df['email'][0]) #Email
+                                        event_date = st.date_input("Event Date*", df['event_date'][0]) 
+                                        event_type = st.selectbox("Event Type?*", (df['event_type'][0],"Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Fundraiser","Graduation","Other"))
+                                        best_time = st.time_input("Best Time to Contact", df['best_time'][0]) 
+                                        service_hours = st.slider('Number of hours professional needed', 2, 24, value=df['service_hours'][0])
+                                        start_time = st.time_input("Estimated Start Time*", df['start_time'][0]) #Start
+                                        estimated_budget = st.number_input("Budget Amount", ) #Budget
+                                        event_location = st.text_input("Venue Location", df['event_location'][0]) #Location
+                                        guest_count = st.slider('Number of guests', 1, 600, value=df['guest_count'][0])
+                                
+                                        pa_system = st.radio(
+                                            "Do you need PA systems?",
+                                            ('Yes', 'No'),
+                                            index=int(df['pa_system'][0]))
+                                        microphone = st.radio(
+                                            "Do you need microphones?",
+                                            ('Yes', 'No'),
+                                            index=int(df['microphone'][0]))
+                                        dancing_lights = st.radio(
+                                            "Do you need dance lights?",
+                                            ('Yes', 'No'),
+                                            index=int(df['dancing_lights'][0]))
+                                        cold_sparks = st.radio(
+                                            "Do you need cold sparks?",
+                                            ('Yes', 'No'),
+                                            index=int(df['cold_sparks'][0]))
+                                        disco_ball = st.radio(
+                                            "Do you need a disco ball?",
+                                            ('Yes', 'No'),
+                                            index=int(df['disco_ball'][0])
+                                            )
+                                        monogram = st.radio(
+                                            "Do you want a projecting monogram?",
+                                            ('Yes', 'No'),
+                                            index=int(df['monogram'][0])
+                                            )
+                                        uplighting = "No"
+                                        uplight_ct = st.slider('How many uplights do you need?', 0, 20, value=df['uplight_ct'][0])
+                                        fog_machine = st.radio(
+                                            "Do you need a fog machine?",
+                                            ('Yes', 'No'),
+                                            index=int(df['fog_machine'][0]))
+                                        low_fog_machine = st.radio(
+                                            "Do you want dancing on the clouds?",
+                                            ('Yes', 'No'),
+                                            index=int(df['low_fog_machine'][0]))
+                                        photo_booth = st.selectbox(
+                                                    "Select a photo booth",
+                                                    (str(df['photo_booth'][0]), "", "DSLR Photo Booth", "IPad Photo Booth"),
+                                                    index=0
+                                                )
+                                        photo_booth_prints = st.radio(
+                                                "Do you need photo prints?",
+                                                ('Yes', 'No'),
+                                                index=int(df['photo_booth_prints'][0])
+                                            )
+                                        back_drop_type = st.selectbox(
+                                            "Select a backdrop",
+                                            (str(df['back_drop_type'][0]), "", "White Backdrop", "Shimmering Black Backdrop"),
+                                            index=0
+                                        )
+
+                                        backdrop_props = st.radio(
+                                                "Do you need photo booth props?",
+                                                ('Yes', 'No'),
+                                                index=int(df['photo_booth_props'][0])
+                                            )
+                                        comments = st.text_area("Additional comments", df['comments'][0])   
+                                        created_by = ""
+
+                                        # Submit button
+                                        submitted = st.form_submit_button("Update")
+                                        if submitted:
+                                            # Check if all required fields are filled
+                                            st.session_state["my_input"] = first_name
+                            
+                                            if email and phone_number and first_name and event_date and service_hours and event_type:
+                                                    booking_id = next(iter(booking_id)) if isinstance(booking_id, set) else booking_id
+                                                    execute_procedure_update(booking_id, event_status, first_name, last_name, phone_number, email, best_time, event_date, start_time, 
+                                                                            estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting, 
+                                                                            fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct, 
+                                                                            backdrop_props, back_drop_type,  service_hours, service_types, cold_sparks, microphone, monogram, price_override, discount_code)
+                                            else:
+                                                    st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
+
+                                        st.write("[Pay the deposit to lock in your date](https://buy.stripe.com/cN29BFc2F7gqgBGdQQ)")
+        
+
+        
+
+        if __name__ == "__main__":
+            main()
+        
  
