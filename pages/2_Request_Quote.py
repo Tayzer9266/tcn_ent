@@ -588,12 +588,17 @@ with st.container():
                                             st.write("Best Time to Contact")
                                         with col6:
                                             best_time = st.time_input("Best Time to Contact", value=df['best_time'][0] if df['best_time'][0] else None)
+                                            if best_time:
+                                                st.write(f"Selected: {best_time.strftime('%I:%M %p')}")
+
                                         service_hours = st.slider('Number of hours professional needed', 2, 24, value=df['service_hours'][0])
                                         col7, col8 = st.columns([3,1])
                                         with col7:
                                             st.write("Estimated Start Time*")
                                         with col8:
                                             start_time = st.time_input("Estimated Start Time*", value=df['start_time'][0] if df['start_time'][0] else None)
+                                            if start_time:
+                                                st.write(f"Selected: {start_time.strftime('%I:%M %p')}")
                                         estimated_budget = st.number_input("Budget Amount", ) #Budget
                                         event_location = st.text_input("Venue Location", df['event_location'][0]) #Location
                                         guest_count = st.slider('Number of guests', 1, 600, value=df['guest_count'][0])
