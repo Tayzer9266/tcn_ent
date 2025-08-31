@@ -287,15 +287,13 @@ with st.container():
                     with col1:
                         st.write("Best Time to Contact")
                     with col2:
-                        st.write("No time selected")
-                    best_time = None
+                        best_time = st.time_input("Best Time to Contact", value=None)
                     service_hours = st.slider('Number of hours professional needed', 2, 24, value=2)
                     col3, col4 = st.columns([3,1])
                     with col3:
                         st.write("Estimated Start Time*")
                     with col4:
-                        st.write("No time selected")
-                    start_time = None
+                        start_time = st.time_input("Estimated Start Time*", value=None)
                     estimated_budget = st.number_input("Budget Amount", 0) #Budget
                     event_location = st.text_input("Venue Location", "") #Location
                     guest_count = st.slider('Number of guests', 1, 600, value=50)
@@ -589,15 +587,13 @@ with st.container():
                                         with col5:
                                             st.write("Best Time to Contact")
                                         with col6:
-                                            st.write(str(df['best_time'][0]) if df['best_time'][0] else "No time selected")
-                                        best_time = df['best_time'][0]
+                                            best_time = st.time_input("Best Time to Contact", value=df['best_time'][0] if df['best_time'][0] else None)
                                         service_hours = st.slider('Number of hours professional needed', 2, 24, value=df['service_hours'][0])
                                         col7, col8 = st.columns([3,1])
                                         with col7:
                                             st.write("Estimated Start Time*")
                                         with col8:
-                                            st.write(str(df['start_time'][0]) if df['start_time'][0] else "No time selected")
-                                        start_time = df['start_time'][0]
+                                            start_time = st.time_input("Estimated Start Time*", value=df['start_time'][0] if df['start_time'][0] else None)
                                         estimated_budget = st.number_input("Budget Amount", ) #Budget
                                         event_location = st.text_input("Venue Location", df['event_location'][0]) #Location
                                         guest_count = st.slider('Number of guests', 1, 600, value=df['guest_count'][0])
