@@ -156,6 +156,7 @@ with st.container():
             - **Flexible Booking:** Services range from 2 to 8 hours. Setup and teardown time? On us.
             - **Wireless Mics & PA:** Crystal-clear audio for speeches and performances.
             - **Professionally Dressed DJ:** Always polished and event-ready.
+            - **Karaoke:** 60k karaoke songs, lyrics screen, wireless mics, and ipad for song selection.
             - **Custom Planning Form:** Helps build your personalized itinerary and timeline.
             - **Access to 90,000+ Songs:** From timeless classics to current hits, plus custom edits for special moments like your first dance or parent dances.
             - **Final Prep Call:** One week before your event, your DJ will confirm all details to ensure everything runs smoothly.
