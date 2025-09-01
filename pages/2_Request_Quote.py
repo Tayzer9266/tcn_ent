@@ -409,8 +409,7 @@ with st.container():
                                 billing_status, 
                                 payment_due_date, 
                                 actual_cost,
-                                last_name,
-                                event_date_ct
+                                last_name 
                             FROM f_get_bookings('{email}')
                         """
                 
