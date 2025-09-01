@@ -179,11 +179,11 @@ with st.container():
         st.markdown('<div class="section-title">🎶 Services & Features</div>', unsafe_allow_html=True)
         st.markdown(
             """
-            - **Custom Playlists:** Top 40, EDM, Hip-Hop, Latin, Rock, Jazz, and more!
+            - **Custom Playlists:** Top 40, EDM, Hip-Hop, R&B, Latin, Rock, Jazz, K-Pop and more!
             - **Event Coordination:** Seamless setup, breakdown, and collaboration with venues/planners.
             - **Lighting & Visuals:** Full sound, lighting, LED effects, projection mapping.
             - **Photo Booths:** DSLR & iPad booths, prints, props, and backdrops.
-            - **Live Remixing:** Real-time mashups, crowd requests, and interactive games.
+            - **Live Remixing:** Real-time mashups, remixes, crowd requests, and interactive games.
             - **Virtual Sets:** Live streaming DJ sets for hybrid/remote events.
             - **Wireless Mics & PA:** Crystal-clear audio for speeches and performances.
             """
