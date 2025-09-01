@@ -147,7 +147,7 @@ with st.container():
 
             - **Custom Playlists:** Top 40, EDM, Hip-Hop, R&B, Latin, Rock, Jazz, K-Pop and more!
             - **Event Coordination:** Seamless setup, breakdown, and collaboration with venues/planners.
-            - **Lighting & Visuals:** Full sound, lighting, LED effects, projection mapping.
+            - **Lighting & Visuals:** Full sound, lighting, and LED effects.
             - **Photo Booths:** DSLR & iPad booths, prints, props, and backdrops.
             - **Live Remixing:** Real-time mashups, remixes, crowd requests, and interactive games.
             - **Virtual Sets:** Live streaming DJ sets for hybrid/remote events.
@@ -163,7 +163,7 @@ with st.container():
         
         )
     st.write("[Learn More >](Services)")
-    
+
     st.markdown("---")
     st.markdown('<div class="section-title">Exceptional DJ Services for Unforgettable Events</div>', unsafe_allow_html=True)
     #st.subheader("Exceptional DJ Services for Unforgettable Events")
