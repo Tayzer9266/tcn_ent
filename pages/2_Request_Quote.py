@@ -409,7 +409,8 @@ with st.container():
                                 billing_status, 
                                 payment_due_date, 
                                 actual_cost,
-                                last_name 
+                                last_name ,
+                                event_date_ct
                             FROM f_get_bookings('{email}')
                         """
                 
@@ -540,7 +541,7 @@ with st.container():
                             billing_status = df['billing_status'][0]
                             payment_due_date = df['payment_due_date'][0]
                             actual_cost = df['actual_cost'][0]
-                    
+                            event_date_ct = df['event_date_ct'][0]
  
                      
                             price_override2 = df['price_override'][0]
