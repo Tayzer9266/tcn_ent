@@ -179,13 +179,47 @@ with st.container():
         st.markdown('<div class="section-title">🎶 Services & Features</div>', unsafe_allow_html=True)
         st.markdown(
             """
+
+            🎧 DJ & MC Services
+Let’s start with a quick phone call—your chance to ask questions, share your vision, and see if we’re the right fit for your celebration. If you choose to move forward, here’s what you can expect:
+
+What’s Included:
+🎤 Full-Service DJ/MC — Includes all announcements and seamless coordination with your wedding planner and photographer to keep the day flowing effortlessly.
+
+📋 Custom Planning Form — Helps build your personalized itinerary and timeline.
+
+🎶 Access to 90,000+ Songs — From timeless classics to current hits, plus custom edits for special moments like your first dance or parent dances.
+
+🎙️ Wireless Microphone — Perfect for heartfelt toasts and speeches.
+
+👔 Professionally Dressed DJ — Always polished and event-ready.
+
+🔊 Premium Sound System — Crisp, clear audio for every part of your event.
+
+⏱️ Flexible Booking — Services range from 2 to 8 hours. Setup and teardown time? On us.
+
+📞 Unlimited Consultations — Call anytime—we’re here to help.
+
+📆 Final Prep Call — One week before your event, your DJ will confirm all details to ensure everything runs smoothly.
+
+💍 Ceremony Support — Includes music and microphones for your wedding ceremony.
+
+To receive an instant quote for DJ services and optional add-ons, click below:
+
             - **Custom Playlists:** Top 40, EDM, Hip-Hop, R&B, Latin, Rock, Jazz, K-Pop and more!
             - **Event Coordination:** Seamless setup, breakdown, and collaboration with venues/planners.
             - **Lighting & Visuals:** Full sound, lighting, LED effects, projection mapping.
             - **Photo Booths:** DSLR & iPad booths, prints, props, and backdrops.
             - **Live Remixing:** Real-time mashups, remixes, crowd requests, and interactive games.
             - **Virtual Sets:** Live streaming DJ sets for hybrid/remote events.
+            - **Unlimited Consultations — Call anytime—we’re here to help.
+            - **Full-Service DJ/MC:** Includes all announcements and seamless coordination with your planner and photographer to keep the day flowing effortlessly.
+            - **Flexible Booking:** Services range from 2 to 8 hours. Setup and teardown time? On us.
             - **Wireless Mics & PA:** Crystal-clear audio for speeches and performances.
+            - **Professionally Dressed DJ:** Always polished and event-ready.
+            - **Custom Planning Form :** Helps build your personalized itinerary and timeline.
+            - **Access to 90,000+ Songs:** From timeless classics to current hits, plus custom edits for special moments like your first dance or parent dances.
+            - **Final Prep Call:** One week before your event, your DJ will confirm all details to ensure everything runs smoothly.
             """
         
         )
