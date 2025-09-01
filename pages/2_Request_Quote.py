@@ -527,6 +527,10 @@ with st.container():
                                 price_override,
                                 discount_code,
                                 event_date_ct
+                                projector,
+                                confetti_cannon, 
+                                lasers, 
+                                co2_cannon
                                 FROM f_get_booking_details('{booking}')
                                 """
 
@@ -608,7 +612,7 @@ with st.container():
                                             ('Yes', 'No'),
                                             index=int(df['pa_system'][0]))
                                         microphone = st.radio(
-                                            "Do you need microphones?",
+                                            "Do you need wireless microphones (Lapel Included)?",
                                             ('Yes', 'No'),
                                             index=int(df['microphone'][0]))
                                         dancing_lights = st.radio(
@@ -630,7 +634,7 @@ with st.container():
                                             index=int(df['monogram'][0])
                                             )
                                         uplighting = "No"
-                                        uplight_ct = st.slider('How many uplights do you need?', 0, 20, value=df['uplight_ct'][0])
+                                        uplight_ct = st.slider('How many uplights do you need ($15 per unit)?', 0, 20, value=df['uplight_ct'][0])
                                         fog_machine = st.radio(
                                             "Do you need a fog machine?",
                                             ('Yes', 'No'),
