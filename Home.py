@@ -132,6 +132,38 @@ with st.container():
         I'm here to listen, collaborate, and bring your party dreams to life, one beat drop at a time. So, if you're ready to take 
         your event to the next level, let me help you and be your soundtrack to success!"""
     )
+
+
+ 
+# ---- SERVICES SECTION ----
+with st.container():
+    st.write("---")
+    left_column, right_column = st.columns(2)
+    with left_column:
+        st.markdown('<div class="section-title">🎶 Services & Features</div>', unsafe_allow_html=True)
+        st.markdown(
+            """
+            To receive an instant quote for DJ services and optional add-ons, click below:
+
+            - **Custom Playlists:** Top 40, EDM, Hip-Hop, R&B, Latin, Rock, Jazz, K-Pop and more!
+            - **Event Coordination:** Seamless setup, breakdown, and collaboration with venues/planners.
+            - **Lighting & Visuals:** Full sound, lighting, LED effects, projection mapping.
+            - **Photo Booths:** DSLR & iPad booths, prints, props, and backdrops.
+            - **Live Remixing:** Real-time mashups, remixes, crowd requests, and interactive games.
+            - **Virtual Sets:** Live streaming DJ sets for hybrid/remote events.
+            - **Unlimited Consultations:** Call anytime—we’re here to help.
+            - **Full-Service DJ/MC:** Includes all announcements and seamless coordination with your planner and photographer to keep the day flowing effortlessly.
+            - **Flexible Booking:** Services range from 2 to 8 hours. Setup and teardown time? On us.
+            - **Wireless Mics & PA:** Crystal-clear audio for speeches and performances.
+            - **Professionally Dressed DJ:** Always polished and event-ready.
+            - **Custom Planning Form:** Helps build your personalized itinerary and timeline.
+            - **Access to 90,000+ Songs:** From timeless classics to current hits, plus custom edits for special moments like your first dance or parent dances.
+            - **Final Prep Call:** One week before your event, your DJ will confirm all details to ensure everything runs smoothly.
+            """
+        
+        )
+    st.write("[Learn More >](Services)")
+    
     st.markdown("---")
     st.markdown('<div class="section-title">Exceptional DJ Services for Unforgettable Events</div>', unsafe_allow_html=True)
     #st.subheader("Exceptional DJ Services for Unforgettable Events")
@@ -171,34 +203,7 @@ with st.container():
     st.markdown("[Get a Quote>](Request_Quote)")  
 
 
-# ---- SERVICES SECTION ----
-with st.container():
-    st.write("---")
-    left_column, right_column = st.columns(2)
-    with left_column:
-        st.markdown('<div class="section-title">🎶 Services & Features</div>', unsafe_allow_html=True)
-        st.markdown(
-            """
-            To receive an instant quote for DJ services and optional add-ons, click below:
 
-            - **Custom Playlists:** Top 40, EDM, Hip-Hop, R&B, Latin, Rock, Jazz, K-Pop and more!
-            - **Event Coordination:** Seamless setup, breakdown, and collaboration with venues/planners.
-            - **Lighting & Visuals:** Full sound, lighting, LED effects, projection mapping.
-            - **Photo Booths:** DSLR & iPad booths, prints, props, and backdrops.
-            - **Live Remixing:** Real-time mashups, remixes, crowd requests, and interactive games.
-            - **Virtual Sets:** Live streaming DJ sets for hybrid/remote events.
-            - **Unlimited Consultations:** Call anytime—we’re here to help.
-            - **Full-Service DJ/MC:** Includes all announcements and seamless coordination with your planner and photographer to keep the day flowing effortlessly.
-            - **Flexible Booking:** Services range from 2 to 8 hours. Setup and teardown time? On us.
-            - **Wireless Mics & PA:** Crystal-clear audio for speeches and performances.
-            - **Professionally Dressed DJ:** Always polished and event-ready.
-            - **Custom Planning Form:** Helps build your personalized itinerary and timeline.
-            - **Access to 90,000+ Songs:** From timeless classics to current hits, plus custom edits for special moments like your first dance or parent dances.
-            - **Final Prep Call:** One week before your event, your DJ will confirm all details to ensure everything runs smoothly.
-            """
-        
-        )
-        st.write("[Learn More >](Services)")
 
 
 # ---- SONG REQUESTS SECTION ----
