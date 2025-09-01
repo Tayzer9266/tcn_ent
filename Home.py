@@ -187,12 +187,12 @@ with st.container():
             - **Photo Booths:** DSLR & iPad booths, prints, props, and backdrops.
             - **Live Remixing:** Real-time mashups, remixes, crowd requests, and interactive games.
             - **Virtual Sets:** Live streaming DJ sets for hybrid/remote events.
-            - **Unlimited Consultations — Call anytime—we’re here to help.
+            - **Unlimited Consultations:** Call anytime—we’re here to help.
             - **Full-Service DJ/MC:** Includes all announcements and seamless coordination with your planner and photographer to keep the day flowing effortlessly.
             - **Flexible Booking:** Services range from 2 to 8 hours. Setup and teardown time? On us.
             - **Wireless Mics & PA:** Crystal-clear audio for speeches and performances.
             - **Professionally Dressed DJ:** Always polished and event-ready.
-            - **Custom Planning Form :** Helps build your personalized itinerary and timeline.
+            - **Custom Planning Form:** Helps build your personalized itinerary and timeline.
             - **Access to 90,000+ Songs:** From timeless classics to current hits, plus custom edits for special moments like your first dance or parent dances.
             - **Final Prep Call:** One week before your event, your DJ will confirm all details to ensure everything runs smoothly.
             """
