@@ -281,19 +281,11 @@ with st.container():
                     phone_number = st.text_input("Phone Number*", "") #Phone
                     email = st.text_input("Email Address*", "") #Email
                     discount_code = st.text_input("Discount Code", "") #Phone
-                    event_date = st.date_input("Event Date*", value=None)
+                    event_date = st.date_input("Event Date*", value=None) 
                     event_type = st.selectbox("Event Type?*", ("","Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Fundraiser","Other"))
-                    col1, col2 = st.columns([3,1])
-                    with col1:
-                        st.write("Best Time to Contact")
-                    with col2:
-                        best_time = st.time_input("Best Time to Contact", value=None)
+                    best_time = st.time_input("Best Time to Contact", None) 
                     service_hours = st.slider('Number of hours professional needed', 2, 24, value=2)
-                    col3, col4 = st.columns([3,1])
-                    with col3:
-                        st.write("Estimated Start Time*")
-                    with col4:
-                        start_time = st.time_input("Estimated Start Time*", value=None)
+                    start_time = st.time_input("Estimated Start Time*", None) #Start
                     estimated_budget = st.number_input("Budget Amount", 0) #Budget
                     event_location = st.text_input("Venue Location", "") #Location
                     guest_count = st.slider('Number of guests', 1, 600, value=50)
@@ -409,7 +401,7 @@ with st.container():
                                 billing_status, 
                                 payment_due_date, 
                                 actual_cost,
-                                last_name ,
+                                last_name,
                                 event_date_ct
                             FROM f_get_bookings('{email}')
                         """
@@ -527,10 +519,6 @@ with st.container():
                                 price_override,
                                 discount_code,
                                 event_date_ct
-                                projector,
-                                confetti_cannon, 
-                                lasers, 
-                                co2_cannon
                                 FROM f_get_booking_details('{booking}')
                                 """
 
@@ -585,24 +573,11 @@ with st.container():
                                         last_name = st.text_input("Last Name*", df['last_name'][0]) #LastName
                                         phone_number = st.text_input("Phone Number*", df['phone_number'][0]) #Phone
                                         email = st.text_input("Email Address*", df['email'][0]) #Email
-                                        event_date = st.date_input("Event Date*", df['event_date'][0])
+                                        event_date = st.date_input("Event Date*", df['event_date'][0]) 
                                         event_type = st.selectbox("Event Type?*", (df['event_type'][0],"Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Fundraiser","Graduation","Other"))
-                                        col5, col6 = st.columns([3,1])
-                                        with col5:
-                                            st.write("Best Time to Contact")
-                                        with col6:
-                                            best_time = st.time_input("Best Time to Contact", value=df['best_time'][0] if df['best_time'][0] else None)
-                                            if best_time:
-                                                st.write(f"Selected: {best_time.strftime('%I:%M %p')}")
-
+                                        best_time = st.time_input("Best Time to Contact", df['best_time'][0]) 
                                         service_hours = st.slider('Number of hours professional needed', 2, 24, value=df['service_hours'][0])
-                                        col7, col8 = st.columns([3,1])
-                                        with col7:
-                                            st.write("Estimated Start Time*")
-                                        with col8:
-                                            start_time = st.time_input("Estimated Start Time*", value=df['start_time'][0] if df['start_time'][0] else None)
-                                            if start_time:
-                                                st.write(f"Selected: {start_time.strftime('%I:%M %p')}")
+                                        start_time = st.time_input("Estimated Start Time*", df['start_time'][0]) #Start
                                         estimated_budget = st.number_input("Budget Amount", ) #Budget
                                         event_location = st.text_input("Venue Location", df['event_location'][0]) #Location
                                         guest_count = st.slider('Number of guests', 1, 600, value=df['guest_count'][0])
@@ -612,7 +587,7 @@ with st.container():
                                             ('Yes', 'No'),
                                             index=int(df['pa_system'][0]))
                                         microphone = st.radio(
-                                            "Do you need wireless microphones (Lapel Included)?",
+                                            "Do you need microphones?",
                                             ('Yes', 'No'),
                                             index=int(df['microphone'][0]))
                                         dancing_lights = st.radio(
@@ -634,7 +609,7 @@ with st.container():
                                             index=int(df['monogram'][0])
                                             )
                                         uplighting = "No"
-                                        uplight_ct = st.slider('How many uplights do you need ($15 per unit)?', 0, 20, value=df['uplight_ct'][0])
+                                        uplight_ct = st.slider('How many uplights do you need?', 0, 20, value=df['uplight_ct'][0])
                                         fog_machine = st.radio(
                                             "Do you need a fog machine?",
                                             ('Yes', 'No'),
@@ -689,3 +664,4 @@ with st.container():
 
         if __name__ == "__main__":
             main()
+        
