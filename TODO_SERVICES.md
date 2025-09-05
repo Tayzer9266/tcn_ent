@@ -74,7 +74,7 @@ Includes:
 Interactive DJ/MC performance
 Premium sound system
 2-4 Moving Heads / 2 Wash lighting
-Supercardroid wireless microphones for speeches/toasts/Karaoke
+Supercardroid wireless and lapel microphones for speeches/toasts/Karaoke
 Pre-event planning meeting
 Customizable playlist creation
 
