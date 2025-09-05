@@ -102,7 +102,7 @@ with st.container():
     with st.container():
         st.markdown("### 🪩 Mirror Ball / Disco Ball")
         st.markdown("""
-        Create that classic disco atmosphere with our professional mirror ball setup. The rotating mirror ball casts thousands of sparkling lights 
+        Create that classic disco atmosphere with our professional 20" mirror ball setup. The rotating mirror ball casts thousands of sparkling lights 
         across your venue, creating a magical, retro-inspired dance floor experience that gets everyone moving.
         
         **Features:**
