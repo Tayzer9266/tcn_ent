@@ -186,7 +186,7 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
         microphone = microphone == 'Yes'
         photo_booth_prints = photo_booth_prints == 'Yes'
         cold_sparks = cold_sparks == 'Yes'
-        microphone = microphone == 'Yes'
+ 
 
         # Set empty string inputs to None
         best_time = best_time if best_time else None
