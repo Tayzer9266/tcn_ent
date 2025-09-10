@@ -132,20 +132,20 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
         comments = comments if comments else None
         created_by = created_by if created_by else None
 
-        # Create the SQL procedure call using SQLAlchemy text()
-        query = text("CALL sp_client_quote(:first_name, :last_name, :phone_number, :email, " +
+        # Create the SQL function call using SQLAlchemy text()
+        query = text("SELECT f_client_quote(:first_name, :last_name, :phone_number, :email, " +
                      ":best_time, :event_date, :start_time, " +
                      ":estimated_budget, :event_type, :event_location, :guest_count, :pa_system, " +
                      ":dancing_lights, :disco_ball, :uplighting, :fog_machine, " +
                      ":low_fog_machine, :photo_booth, :photo_booth_prints, :booth_location, " +
                      ":comments, :created_by, :uplight_ct, :backdrop_props, :back_drop_type, " +
-                     ":service_hours, :service_types, :cold_sparks, :microphone, :monogram, :discount_code)")
+                     ":service_hours, :service_types, :cold_sparks, :microphone, :monogram, :discount_code) AS quote_price")
 
-        # Execute the procedure with the parameters as named arguments
- 
+        # Execute the function with the parameters as named arguments
+
         with conn.begin() as transaction:  # Start a transaction block
             try:
-                conn.execute(query, {
+                result = conn.execute(query, {
                     "first_name": first_name, "last_name": last_name, "phone_number": phone_number, "email": email,
                     "best_time": best_time, "event_date": event_date, "start_time": start_time,
                     "estimated_budget": estimated_budget, "event_type": event_type, "event_location": event_location,
@@ -153,16 +153,18 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
                     "uplighting": uplighting, "fog_machine": fog_machine, "low_fog_machine": low_fog_machine, "photo_booth": photo_booth,
                     "photo_booth_prints": photo_booth_prints, "booth_location": booth_location, "comments": comments,
                     "created_by": created_by, "uplight_ct": uplight_ct, "backdrop_props": backdrop_props,
-                    "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types, "cold_sparks": cold_sparks, "microphone": microphone, 
+                    "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types, "cold_sparks": cold_sparks, "microphone": microphone,
                     "monogram": monogram, "discount_code": discount_code
                 })
-      
+                row = result.fetchone()
+                price = row['quote_price'] if row else None
+                return price
+
                 #conn.close()
-                
+
             except Exception as e:
                 transaction.rollback()  # Rollback the transaction if an error occurs
                 raise e
-        st.success('Thank you! We will be in touch shortly.', icon="✅")
     except Exception as e:
         st.error(f"Error connecting to the database: {e}")
 
@@ -362,17 +364,21 @@ with st.container():
                         try:
                             # Check if all required fields are filled
                             st.session_state["my_input"] = first_name
-                            
+
                             if email and phone_number and first_name and event_date and service_hours and event_type:
-                                # Attempt to execute the procedure
-                                execute_procedure(
-                                    first_name, last_name, phone_number, email, best_time, event_date, start_time, 
-                                    estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, 
-                                    uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, 
-                                    comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types, 
+                                # Attempt to execute the function and get the quote price
+                                price = execute_procedure(
+                                    first_name, last_name, phone_number, email, best_time, event_date, start_time,
+                                    estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball,
+                                    uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location,
+                                    comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types,
                                     cold_sparks, microphone, monogram, discount_code
                                 )
-                                st.success("Your quote has been successfully submitted!", icon="✅")
+                                if price is not None:
+                                    st.success("Your quote has been submitted successfully!")
+                                    st.write(f"Your estimated quote price is: ${price}")
+                                else:
+                                    st.error("Failed to calculate quote price.")
                             else:
                                 # Display an error if required fields are missing
                                 st.error("Please fill in all required fields: Name, Phone, Email, Event Date, Service Hours, and Event Type.")
