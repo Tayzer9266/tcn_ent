@@ -60,6 +60,42 @@ page_bg_img = """
 """
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
+# ---- PACKAGE SELECTION SECTION ----
+with st.container():
+    st.markdown('<div class="section-title">Choose Your Package</div>', unsafe_allow_html=True)
+    package_options = [
+        "🥇 Gold Package only $1200 – 'Golden Grove'\nPerfect for prime weddings, corporate events, and parties.\nIncludes:\n- 8 Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads / 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Cold Sparks or Dancing on Clouds\n- Wireless Venue uplighting (up to 20 units)",
+        "Package 2 - Placeholder",
+        "Package 3 - Placeholder",
+        "Package 4 - Placeholder"
+    ]
+    selected_package = st.radio("Select a Package:", package_options, index=0)
+
+    # Display the 2x2 grid
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("**Cell 1:**")
+        if selected_package == package_options[0]:
+            st.markdown(selected_package.replace('\n', '<br>'), unsafe_allow_html=True)
+        else:
+            st.markdown("Package 1 Placeholder")
+        st.markdown("**Cell 2:**")
+        if selected_package == package_options[1]:
+            st.markdown(selected_package)
+        else:
+            st.markdown("Package 2 Placeholder")
+
+    with col2:
+        st.markdown("**Cell 3:**")
+        if selected_package == package_options[2]:
+            st.markdown(selected_package)
+        else:
+            st.markdown("Package 3 Placeholder")
+        st.markdown("**Cell 4:**")
+        if selected_package == package_options[3]:
+            st.markdown(selected_package)
+        else:
+            st.markdown("Package 4 Placeholder")
 
 # Load database credentials from Streamlit secrets
 db_config = st.secrets["postgres"]
