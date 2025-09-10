@@ -135,6 +135,7 @@ with st.container():
 
 # ---- PACKAGE SELECTION SECTION ----
 with st.container():
+    st.write("---")
     st.markdown('<div class="section-title">Choose Your Package</div>', unsafe_allow_html=True)
 
     # Initialize selected if not set
@@ -147,9 +148,9 @@ with st.container():
 
     package_details = {
         1: "Perfect for prime weddings, corporate events, and parties.\nIncludes:\n- 8 Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads / 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Cold Sparks or Dancing on Clouds\n- Wireless Venue uplighting (up to 20 units)",
-        2: "Perfect for prime weddings, corporate events, and parties.\nIncludes:\n- 8 Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads / 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Cold Sparks or Dancing on Clouds\n- Wireless Venue uplighting (up to 20 units)",
+        2: "Perfect for prime weddings, corporate events, and parties.\nIncludes:\n- 8 Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads / 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Cold Sparks or Dancing on Clouds\n- Wireless Venue uplighting (up to 20 units)\n- Live Photographer",
         3: "Perfect for prime weddings, corporate events, and parties.\nIncludes:\n- Unlimited Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads / 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Dancing on Clouds fog machine\n- Customize monogram\n- Digital Photo Booth w/ unlimited prints, red carpet, backdrop, and props table\n- Wireless Venue uplighting (up to 20 units)",
-        4: "Perfect for prime weddings, corporate events, and parties.\nIncludes:\n- Unlimited Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads / 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Dancing on Clouds fog machine\n- Customize monogram\n- Digital Photo Booth w/ unlimited prints, red carpet, backdrop, and props table\n- Wireless Venue uplighting (up to 20 units)"
+        4: "Perfect for prime weddings, corporate events, and parties.\nIncludes:\n- Unlimited Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads / 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Dancing on Clouds fog machine\n- Customize monogram\n- Digital Photo Booth w/ unlimited prints, red carpet, backdrop, and props table\n- Wireless Venue uplighting (up to 20 units)\n- Live Photographer"
     }
 
     # Display selected package
