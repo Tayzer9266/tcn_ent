@@ -133,13 +133,13 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
         created_by = created_by if created_by else None
 
         # Create the SQL function call using SQLAlchemy text()
-        query = text("SELECT f_client_quote(:first_name, :last_name, :phone_number, :email, " +
+        query = text("SELECT * FROM f_client_quote(:first_name, :last_name, :phone_number, :email, " +
                      ":best_time, :event_date, :start_time, " +
                      ":estimated_budget, :event_type, :event_location, :guest_count, :pa_system, " +
                      ":dancing_lights, :disco_ball, :uplighting, :fog_machine, " +
                      ":low_fog_machine, :photo_booth, :photo_booth_prints, :booth_location, " +
                      ":comments, :created_by, :uplight_ct, :backdrop_props, :back_drop_type, " +
-                     ":service_hours, :service_types, :cold_sparks, :microphone, :monogram, :discount_code) AS quote_price")
+                     ":service_hours, :service_types, :cold_sparks, :microphone, :monogram, :discount_code)")
 
         # Execute the function with the parameters as named arguments
 
@@ -157,8 +157,12 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
                     "monogram": monogram, "discount_code": discount_code
                 })
                 row = result.fetchone()
-                price = row[0] if row else None
-                return price
+                if row:
+                    savings = row[0]
+                    total = row[1]
+                    return savings, total
+                else:
+                    return None, None
 
                 #conn.close()
 
@@ -367,16 +371,18 @@ with st.container():
 
                             if email and phone_number and first_name and event_date and service_hours and event_type:
                                 # Attempt to execute the function and get the quote price
-                                price = execute_procedure(
+                                savings, total = execute_procedure(
                                     first_name, last_name, phone_number, email, best_time, event_date, start_time,
                                     estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball,
                                     uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location,
                                     comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types,
                                     cold_sparks, microphone, monogram, discount_code
                                 )
-                                if price is not None:
+                                if savings is not None and total is not None:
                                     st.success("Your quote has been submitted successfully!")
-                                    st.write(f"Your estimated quote price is: ${price}")
+                                    st.write(f"Total Savings: ${savings}")
+                                    st.write(f"Grand Total: ${total}")
+                                    st.write("If you want to review the itemization of costs, go to the top of the form and select 'Your Bookings'.")
                                 else:
                                     st.error("Failed to calculate quote price.")
                             else:
