@@ -60,53 +60,7 @@ page_bg_img = """
 """
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
-# ---- PACKAGE SELECTION SECTION ----
-with st.container():
-    st.markdown('<div class="section-title">Choose Your Package</div>', unsafe_allow_html=True)
 
-    # Initialize selected if not set
-    if 'selected_package' not in st.session_state:
-        st.session_state.selected_package = 1  # Default to first
-
-    package_options = ["Gold Package $1200", "Gold Package w/ Photographer $2200", "Platinum Package $1800", "Platinum Package w/ Photographer $2800"]
-    selected_option = st.radio("Select your preferred package:", package_options, index=st.session_state.selected_package - 1)
-    st.session_state.selected_package = package_options.index(selected_option) + 1
-
-    package_details = {
-        1: "Perfect for prime weddings, corporate events, and parties.\nIncludes:\n- 8 Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads / 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Cold Sparks or Dancing on Clouds\n- Wireless Venue uplighting (up to 20 units)",
-        2: "Perfect for prime weddings, corporate events, and parties.\nIncludes:\n- 8 Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads / 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Cold Sparks or Dancing on Clouds\n- Wireless Venue uplighting (up to 20 units)",
-        3: "Perfect for prime weddings, corporate events, and parties.\nIncludes:\n- Unlimited Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads / 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Dancing on Clouds fog machine\n- Customize monogram\n- Digital Photo Booth w/ unlimited prints, red carpet, backdrop, and props table\n- Wireless Venue uplighting (up to 20 units)",
-        4: "Perfect for prime weddings, corporate events, and parties.\nIncludes:\n- Unlimited Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads / 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Dancing on Clouds fog machine\n- Customize monogram\n- Digital Photo Booth w/ unlimited prints, red carpet, backdrop, and props table\n- Wireless Venue uplighting (up to 20 units)"
-    }
-
-
-    # Display the 2x2 grid
-    col1, col2 = st.columns(2)
-    with col1:
-        #st.markdown("**🥇 Gold Package $1200:**")
-        if st.session_state.selected_package == 1:
-            st.markdown(package_details[1].replace('\n', '<br>'), unsafe_allow_html=True)
-        else:
-            st.image("pages/images/dancing_clouds.jpg", width=100, caption="Gold Package")
-
-        #st.markdown("**🥇 Gold Package w/ Photographer $2200:**")
-        if st.session_state.selected_package == 2:
-            st.markdown(package_details[2].replace('\n', '<br>'), unsafe_allow_html=True)
-        else:
-            st.image("pages/images/dancing_clouds.jpg", width=100, caption="Gold Package w/ Photographer")
-
-    with col2:
-        st.markdown("***💎 Platinum Package $1800:**")
-        if st.session_state.selected_package == 3:
-            st.markdown(package_details[3].replace('\n', '<br>'), unsafe_allow_html=True)
-        else:
-            st.image("pages/images/dancing_clouds.jpg", width=100, caption="Platinum Package")
-
-        #st.markdown("**💎 Platinum Package w/ Photographer $2800:**")
-        if st.session_state.selected_package == 4:
-            st.markdown(package_details[4].replace('\n', '<br>'), unsafe_allow_html=True)
-        else:
-            st.image("pages/images/dancing_clouds.jpg", width=100, caption="Platinum Package w/ Photographer")
 
 # Load database credentials from Streamlit secrets
 db_config = st.secrets["postgres"]
@@ -172,12 +126,35 @@ with st.container():
     st.markdown('<div class="section-title">Overview</div>', unsafe_allow_html=True) 
     #st.title("Overview")
     st.markdown(
-        """Welcome to TCN Entertainment, where the beats meet the streets and the fun never skips a track! I am your ultimate DJ professional with the top-tier sound and lighting. 
-        I'm here to turn your event into an epic celebration that'll have everyone talking long after the music fades. 
-        But I'm more than just a DJ, I will work closely with you to understand your vision, preferences, and must-play tracks. 
-        I'm here to listen, collaborate, and bring your party dreams to life, one beat drop at a time. So, if you're ready to take 
+        """Welcome to TCN Entertainment, where the beats meet the streets and the fun never skips a track! I am your ultimate DJ professional with the top-tier sound and lighting.
+        I'm here to turn your event into an epic celebration that'll have everyone talking long after the music fades.
+        But I'm more than just a DJ, I will work closely with you to understand your vision, preferences, and must-play tracks.
+        I'm here to listen, collaborate, and bring your party dreams to life, one beat drop at a time. So, if you're ready to take
         your event to the next level, let me help you and be your soundtrack to success!"""
     )
+
+# ---- PACKAGE SELECTION SECTION ----
+with st.container():
+    st.markdown('<div class="section-title">Choose Your Package</div>', unsafe_allow_html=True)
+
+    # Initialize selected if not set
+    if 'selected_package' not in st.session_state:
+        st.session_state.selected_package = 1  # Default to first
+
+    package_options = ["Gold Package $1200", "Gold Package w/ Photographer $2200", "Platinum Package $1800", "Platinum Package w/ Photographer $2800"]
+    selected_option = st.radio("Select your preferred package:", package_options, index=st.session_state.selected_package - 1)
+    st.session_state.selected_package = package_options.index(selected_option) + 1
+
+    package_details = {
+        1: "Perfect for prime weddings, corporate events, and parties.\nIncludes:\n- 8 Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads / 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Cold Sparks or Dancing on Clouds\n- Wireless Venue uplighting (up to 20 units)",
+        2: "Perfect for prime weddings, corporate events, and parties.\nIncludes:\n- 8 Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads / 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Cold Sparks or Dancing on Clouds\n- Wireless Venue uplighting (up to 20 units)",
+        3: "Perfect for prime weddings, corporate events, and parties.\nIncludes:\n- Unlimited Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads / 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Dancing on Clouds fog machine\n- Customize monogram\n- Digital Photo Booth w/ unlimited prints, red carpet, backdrop, and props table\n- Wireless Venue uplighting (up to 20 units)",
+        4: "Perfect for prime weddings, corporate events, and parties.\nIncludes:\n- Unlimited Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads / 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Dancing on Clouds fog machine\n- Customize monogram\n- Digital Photo Booth w/ unlimited prints, red carpet, backdrop, and props table\n- Wireless Venue uplighting (up to 20 units)"
+    }
+
+    # Display selected package
+    st.markdown(f"**{selected_option}**")
+    st.markdown(package_details[st.session_state.selected_package].replace('\n', '<br>'), unsafe_allow_html=True)
 
 
  
