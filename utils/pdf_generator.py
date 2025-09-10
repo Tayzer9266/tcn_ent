@@ -133,7 +133,7 @@ class PDFGenerator:
     def _add_section_header(self, title):
         """Add a section header to the PDF"""
         self.pdf.ln(10)
-        self.pdf.set_font("Arial", 'B', 12)
+        self.pdf.set_font("Helvetica", 'B', 12)
         self.pdf.set_fill_color(240, 240, 240)
         self.pdf.cell(0, 8, title, 0, 1, 'L', 1)
         self.pdf.ln(2)
@@ -143,7 +143,7 @@ class PDFGenerator:
         self.pdf.add_page()
 
         # Header
-        self.pdf.set_font("Arial", 'B', 16)
+        self.pdf.set_font("Helvetica", 'B', 16)
         self.pdf.cell(0, 10, "Quote Request Form", 0, 1, 'C')
         self.pdf.ln(5)
 
@@ -197,9 +197,9 @@ class PDFGenerator:
 
     def _add_field(self, label, value):
         """Add a field to the PDF"""
-        self.pdf.set_font("Arial", 'B', 10)
+        self.pdf.set_font("Helvetica", 'B', 10)
         self.pdf.cell(60, 6, f"{label}:", 0, 0)
-        self.pdf.set_font("Arial", '', 10)
+        self.pdf.set_font("Helvetica", '', 10)
 
         # Handle long text by splitting into multiple lines
         if value and len(str(value)) > 50:
