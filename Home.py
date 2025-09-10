@@ -142,7 +142,7 @@ with st.container():
     if 'selected_package' not in st.session_state:
         st.session_state.selected_package = 1  # Default to first
 
-    package_options = ["Gold Package $1200", "Gold Package w/ Photographer $2200", "Platinum Package $1900", "Platinum Package w/ Photographer $4000"]
+    package_options = ["Gold Package $1200", "Gold Package w/ Photographer $2200", "Platinum Package $2000", "Platinum Package w/ Photographer $4000"]
     selected_option = st.radio("Select your preferred package:", package_options, index=st.session_state.selected_package - 1)
     st.session_state.selected_package = package_options.index(selected_option) + 1
 
