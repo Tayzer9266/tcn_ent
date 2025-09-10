@@ -95,7 +95,7 @@ with st.container():
             st.markdown("Package 2 Placeholder")
 
     with col2:
-        st.markdown("***🥇Platinum Package $1800:**")
+        st.markdown("***💎 Platinum Package $1800:**")
         if st.button("Select", key="select3"):
             st.session_state.selected_package = 3
         if st.session_state.selected_package == 3:
@@ -103,7 +103,7 @@ with st.container():
         else:
             st.markdown("Package 3 Placeholder")
 
-        st.markdown("**🥇 Platinum Package w/ Photographer $2800::**")
+        st.markdown("**💎 Platinum Package w/ Photographer $2800::**")
         if st.button("Select", key="select4"):
             st.session_state.selected_package = 4
         if st.session_state.selected_package == 4:
