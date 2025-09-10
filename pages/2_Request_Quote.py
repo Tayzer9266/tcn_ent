@@ -694,17 +694,64 @@ with st.container():
                                         if submitted:
                                             # Check if all required fields are filled
                                             st.session_state["my_input"] = first_name
-                            
+
                                             if email and phone_number and first_name and event_date and service_hours and event_type:
                                                     booking_id = next(iter(booking_id)) if isinstance(booking_id, set) else booking_id
-                                                    execute_procedure_update(booking_id, event_status, first_name, last_name, phone_number, email, best_time, event_date, start_time, 
-                                                                            estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting, 
-                                                                            fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct, 
+                                                    execute_procedure_update(booking_id, event_status, first_name, last_name, phone_number, email, best_time, event_date, start_time,
+                                                                            estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting,
+                                                                            fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct,
                                                                             backdrop_props, back_drop_type,  service_hours, service_types, cold_sparks, microphone, monogram, price_override, discount_code)
+
+                                                    # Prepare form data for PDF after successful update
+                                                    form_data = {
+                                                        'service_types': service_types,
+                                                        'first_name': first_name,
+                                                        'last_name': last_name,
+                                                        'phone_number': phone_number,
+                                                        'email': email,
+                                                        'discount_code': discount_code,
+                                                        'event_date': event_date,
+                                                        'event_type': event_type,
+                                                        'best_time': best_time,
+                                                        'service_hours': service_hours,
+                                                        'start_time': start_time,
+                                                        'estimated_budget': estimated_budget,
+                                                        'event_location': event_location,
+                                                        'guest_count': guest_count,
+                                                        'pa_system': pa_system,
+                                                        'microphone': microphone,
+                                                        'dancing_lights': dancing_lights,
+                                                        'disco_ball': disco_ball,
+                                                        'uplighting': uplighting,
+                                                        'uplight_ct': uplight_ct,
+                                                        'fog_machine': fog_machine,
+                                                        'low_fog_machine': low_fog_machine,
+                                                        'monogram': monogram,
+                                                        'cold_sparks': cold_sparks,
+                                                        'photo_booth': photo_booth,
+                                                        'photo_booth_prints': photo_booth_prints,
+                                                        'back_drop_type': back_drop_type,
+                                                        'backdrop_props': backdrop_props,
+                                                        'comments': comments
+                                                    }
+                                                    st.session_state['pdf_data'] = form_data
                                             else:
                                                     st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
 
-                                        st.write("[Pay the deposit to lock in your date](https://buy.stripe.com/cN29BFc2F7gqgBGdQQ)")
+                                        # Display deposit link and PDF download button
+                                        col1, col2 = st.columns([3, 2])
+                                        with col1:
+                                            st.write("[Pay the deposit to lock in your date](https://buy.stripe.com/cN29BFc2F7gqgBGdQQ)")
+                                        with col2:
+                                            if 'pdf_data' in st.session_state:
+                                                generator = PDFGenerator()
+                                                pdf_bytes = generator.generate_quote_form_pdf(st.session_state['pdf_data'])
+                                                st.download_button(
+                                                    label="Download PDF",
+                                                    data=pdf_bytes,
+                                                    file_name="quote_form.pdf",
+                                                    mime="application/pdf"
+                                                )
         
 
         
