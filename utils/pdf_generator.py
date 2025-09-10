@@ -149,8 +149,10 @@ class PDFGenerator:
 
         # Contact Information
         self._add_section_header("Contact Information")
-        self._add_field("Name", form_data.get('name', 'Not provided'))
-        self._add_field("Phone", form_data.get('phone', 'Not provided'))
+        self._add_field("Service Type", form_data.get('service_types', 'Not provided'))
+        self._add_field("First Name", form_data.get('first_name', 'Not provided'))
+        self._add_field("Last Name", form_data.get('last_name', 'Not provided'))
+        self._add_field("Phone", form_data.get('phone_number', 'Not provided'))
         self._add_field("Email", form_data.get('email', 'Not provided'))
 
         # Event Details
@@ -159,7 +161,7 @@ class PDFGenerator:
         self._add_field("Service Hours", form_data.get('service_hours', 'Not provided'))
         self._add_field("Event Type", form_data.get('event_type', 'Not provided'))
         self._add_field("Venue Name", form_data.get('venue_name', 'Not provided'))
-        self._add_field("Venue Address", form_data.get('venue_address', 'Not provided'))
+        self._add_field("Venue Address", form_data.get('event_location', 'Not provided'))
         self._add_field("Venue Phone", form_data.get('venue_phone', 'Not provided'))
 
         # Services
