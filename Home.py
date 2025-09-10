@@ -83,13 +83,13 @@ with st.container():
     # Display the 2x2 grid
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown("**🥇 Gold Package $1200:**")
+        #st.markdown("**🥇 Gold Package $1200:**")
         if st.session_state.selected_package == 1:
             st.markdown(package_details[1].replace('\n', '<br>'), unsafe_allow_html=True)
         else:
             st.image("pages/images/dancing_clouds.jpg", width=100, caption="Gold Package")
 
-        st.markdown("**🥇 Gold Package w/ Photographer $2200:**")
+        #st.markdown("**🥇 Gold Package w/ Photographer $2200:**")
         if st.session_state.selected_package == 2:
             st.markdown(package_details[2].replace('\n', '<br>'), unsafe_allow_html=True)
         else:
@@ -102,7 +102,7 @@ with st.container():
         else:
             st.image("pages/images/dancing_clouds.jpg", width=100, caption="Platinum Package")
 
-        st.markdown("**💎 Platinum Package w/ Photographer $2800:**")
+        #st.markdown("**💎 Platinum Package w/ Photographer $2800:**")
         if st.session_state.selected_package == 4:
             st.markdown(package_details[4].replace('\n', '<br>'), unsafe_allow_html=True)
         else:
