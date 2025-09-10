@@ -88,22 +88,22 @@ with st.container():
         else:
             st.markdown("Package 1 Placeholder")
 
-        st.markdown("**🥇 Gold Package w/ Photographer $2200::**")
+        st.markdown("**🥇 Gold Package w/ Photographer $2200:**")
         if st.session_state.selected_package == 2:
-            st.markdown(package_details[2])
+            st.markdown(package_details[2].replace('\n', '<br>'), unsafe_allow_html=True)
         else:
             st.markdown("Package 2 Placeholder")
 
     with col2:
         st.markdown("***💎 Platinum Package $1800:**")
         if st.session_state.selected_package == 3:
-            st.markdown(package_details[3])
+            st.markdown(package_details[3].replace('\n', '<br>'), unsafe_allow_html=True)
         else:
             st.markdown("Package 3 Placeholder")
 
-        st.markdown("**💎 Platinum Package w/ Photographer $2800::**")
+        st.markdown("**💎 Platinum Package w/ Photographer $2800:**")
         if st.session_state.selected_package == 4:
-            st.markdown(package_details[4])
+            st.markdown(package_details[4].replace('\n', '<br>'), unsafe_allow_html=True)
         else:
             st.markdown("Package 4 Placeholder")
 
