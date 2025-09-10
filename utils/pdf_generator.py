@@ -126,9 +126,9 @@ class PDFGenerator:
         self.pdf.ln(10)
         self.pdf.set_font("Arial", 'I', 8)
         self.pdf.cell(0, 10, f"Generated on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", 0, 1, 'C')
-        
+
         # Use UTF-8 encoding instead of latin1
-        return self.pdf.output(dest='S').encode('utf-8')
+        return self.pdf.output(dest='S')
     
     def _add_section_header(self, title):
         """Add a section header to the PDF"""
@@ -193,7 +193,7 @@ class PDFGenerator:
         self.pdf.set_font("Arial", 'I', 8)
         self.pdf.cell(0, 10, f"Generated on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", 0, 1, 'C')
 
-        return self.pdf.output(dest='S').encode('utf-8')
+        return self.pdf.output(dest='S')
 
     def _add_field(self, label, value):
         """Add a field to the PDF"""
@@ -264,8 +264,8 @@ class QuotePDFGenerator:
         self.pdf.ln(10)
         self.pdf.set_font("Arial", 'I', 8)
         self.pdf.cell(0, 10, f"Generated on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", 0, 1, 'C')
-        
-        return self.pdf.output(dest='S').encode('utf-8')
+
+        return self.pdf.output(dest='S')
 
 def generate_quote_pdf_response(quote_data, itemized_df, booking_id, customer_name, event_date, event_type):
     """Generate a PDF from quote data"""
