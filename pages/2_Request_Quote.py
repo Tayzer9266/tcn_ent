@@ -753,7 +753,6 @@ with st.container():
                 st.write("[Pay the deposit to lock in your date](https://buy.stripe.com/cN29BFc2F7gqgBGdQQ)")
             with col2:
                 if 'pdf_data' in st.session_state:
-                    st.write("PDF Data:", st.session_state['pdf_data'])  # Debug: show the data
                     generator = PDFGenerator()
                     pdf_bytes = generator.generate_quote_form_pdf(st.session_state['pdf_data'])
                     st.download_button(
