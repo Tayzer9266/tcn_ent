@@ -379,12 +379,12 @@ with st.container():
                                     cold_sparks, microphone, monogram, discount_code
                                 )
                                 if savings is not None and total is not None:
-                                    st.success("Your quote has been submitted successfully!")
-                                    st.write(f"Total Savings: ${savings}")
-                                    st.write(f"Grand Total: ${total}")
-                                    st.write("If you want to review the itemization of costs, scroll to the top of the form and select 'Your Bookings'.")
+                                    #st.success("Your quote has been submitted successfully!")
+                                    st.write(f"Total Savings: ${savings:.2f}")
+                                    st.write(f"Grand Total: ${total:.2f}")
+                                    st.write("If you want to review the itemization of costs and savings, scroll to the top of the form and select 'Your Bookings'.")
                                 else:
-                                    st.write("If you want to review the itemization of costs, scroll to the top of the form and select 'Your Bookings'.")
+                                    st.write("If you want to review the itemization of costs and savings, scroll to the top of the form and select 'Your Bookings'.")
                             else:
                                 # Display an error if required fields are missing
                                 st.error("Please fill in all required fields: Name, Phone, Email, Event Date, Service Hours, and Event Type.")
