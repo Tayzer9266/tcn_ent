@@ -418,6 +418,7 @@ with st.container():
                                         'comments': comments
                                     }
                                     st.session_state['pdf_data'] = form_data
+                                    st.session_state['show_links'] = True
                                 else:
                                     st.write("If you want to review the itemization of costs and savings, scroll to the top of the form and select 'Your Bookings'.")
                             else:
@@ -735,23 +736,9 @@ with st.container():
                                                         'comments': comments
                                                     }
                                                     st.session_state['pdf_data'] = form_data
+                                                    st.session_state['show_links'] = True
                                             else:
                                                     st.error("Please fill in all required fields (Name, Phone, Email, Event Date, Service Hours, Event Type).")
-
-                                        # Display deposit link and PDF download button
-                                        col1, col2 = st.columns([3, 2])
-                                        with col1:
-                                            st.write("[Pay the deposit to lock in your date](https://buy.stripe.com/cN29BFc2F7gqgBGdQQ)")
-                                        with col2:
-                                            if 'pdf_data' in st.session_state:
-                                                generator = PDFGenerator()
-                                                pdf_bytes = generator.generate_quote_form_pdf(st.session_state['pdf_data'])
-                                                st.download_button(
-                                                    label="Download PDF",
-                                                    data=pdf_bytes,
-                                                    file_name="quote_form.pdf",
-                                                    mime="application/pdf"
-                                                )
         
 
         
@@ -759,14 +746,19 @@ with st.container():
         if __name__ == "__main__":
             main()
 
-        # PDF Download Button
-        if 'pdf_data' in st.session_state:
-            generator = PDFGenerator()
-            pdf_bytes = generator.generate_quote_form_pdf(st.session_state['pdf_data'])
-            st.download_button(
-                label="Download PDF Copy of Your Quote Form",
-                data=pdf_bytes,
-                file_name="quote_form.pdf",
-                mime="application/pdf"
-            )
+        # Display links after successful submission or update
+        if 'show_links' in st.session_state and st.session_state['show_links']:
+            col1, col2 = st.columns([3, 2])
+            with col1:
+                st.write("[Pay the deposit to lock in your date](https://buy.stripe.com/cN29BFc2F7gqgBGdQQ)")
+            with col2:
+                if 'pdf_data' in st.session_state:
+                    generator = PDFGenerator()
+                    pdf_bytes = generator.generate_quote_form_pdf(st.session_state['pdf_data'])
+                    st.download_button(
+                        label="Download PDF",
+                        data=pdf_bytes,
+                        file_name="quote_form.pdf",
+                        mime="application/pdf"
+                    )
         
