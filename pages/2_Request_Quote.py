@@ -382,9 +382,9 @@ with st.container():
                                     st.success("Your quote has been submitted successfully!")
                                     st.write(f"Total Savings: ${savings}")
                                     st.write(f"Grand Total: ${total}")
-                                    st.write("If you want to review the itemization of costs, go to the top of the form and select 'Your Bookings'.")
+                                    st.write("If you want to review the itemization of costs, scroll to the top of the form and select 'Your Bookings'.")
                                 else:
-                                    st.error("Failed to calculate quote price.")
+                                    st.write("If you want to review the itemization of costs, scroll to the top of the form and select 'Your Bookings'.")
                             else:
                                 # Display an error if required fields are missing
                                 st.error("Please fill in all required fields: Name, Phone, Email, Event Date, Service Hours, and Event Type.")
