@@ -79,6 +79,7 @@ with st.container():
         4: "Perfect for prime weddings, corporate events, and parties.\nIncludes:\n- Unlimited Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads / 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Dancing on Clouds fog machine\n- Customize monogram\n- Digital Photo Booth w/ unlimited prints, red carpet, backdrop, and props table\n- Wireless Venue uplighting (up to 20 units)"
     }
 
+
     # Display the 2x2 grid
     col1, col2 = st.columns(2)
     with col1:
@@ -86,26 +87,26 @@ with st.container():
         if st.session_state.selected_package == 1:
             st.markdown(package_details[1].replace('\n', '<br>'), unsafe_allow_html=True)
         else:
-            st.image("pages/images/dancing_clouds.png", width=300, caption="Gold Package")
+            st.image("pages/images/dancing_clouds.jpg", width=300, caption="Gold Package")
 
         st.markdown("**🥇 Gold Package w/ Photographer $2200:**")
         if st.session_state.selected_package == 2:
             st.markdown(package_details[2].replace('\n', '<br>'), unsafe_allow_html=True)
         else:
-            st.image("pages/images/dancing_clouds.png", width=300, caption="Gold Package w/ Photographer")
+            st.image("pages/images/dancing_clouds.jpg", width=300, caption="Gold Package w/ Photographer")
 
     with col2:
         st.markdown("***💎 Platinum Package $1800:**")
         if st.session_state.selected_package == 3:
             st.markdown(package_details[3].replace('\n', '<br>'), unsafe_allow_html=True)
         else:
-            st.image("pages/images/dancing_clouds.png", width=300, caption="Platinum Package")
+            st.image("pages/images/dancing_clouds.jpg", width=300, caption="Platinum Package")
 
         st.markdown("**💎 Platinum Package w/ Photographer $2800:**")
         if st.session_state.selected_package == 4:
             st.markdown(package_details[4].replace('\n', '<br>'), unsafe_allow_html=True)
         else:
-            st.image("pages/images/dancing_clouds.png", width=300, caption="Platinum Package w/ Photographer")
+            st.image("pages/images/dancing_clouds.jpg", width=300, caption="Platinum Package w/ Photographer")
 
 # Load database credentials from Streamlit secrets
 db_config = st.secrets["postgres"]
