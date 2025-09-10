@@ -138,12 +138,69 @@ class PDFGenerator:
         self.pdf.cell(0, 8, title, 0, 1, 'L', 1)
         self.pdf.ln(2)
     
+    def generate_quote_form_pdf(self, form_data):
+        """Generate a PDF from quote form data"""
+        self.pdf.add_page()
+
+        # Header
+        self.pdf.set_font("Arial", 'B', 16)
+        self.pdf.cell(0, 10, "Quote Request Form", 0, 1, 'C')
+        self.pdf.ln(5)
+
+        # Contact Information
+        self._add_section_header("Contact Information")
+        self._add_field("First Name", form_data.get('first_name'))
+        self._add_field("Last Name", form_data.get('last_name'))
+        self._add_field("Phone Number", form_data.get('phone_number'))
+        self._add_field("Email", form_data.get('email'))
+        self._add_field("Discount Code", form_data.get('discount_code'))
+
+        # Event Details
+        self._add_section_header("Event Details")
+        self._add_field("Event Date", str(form_data.get('event_date')))
+        self._add_field("Event Type", form_data.get('event_type'))
+        self._add_field("Best Time to Contact", str(form_data.get('best_time')))
+        self._add_field("Service Hours", str(form_data.get('service_hours')))
+        self._add_field("Start Time", str(form_data.get('start_time')))
+        self._add_field("Estimated Budget", str(form_data.get('estimated_budget')))
+        self._add_field("Event Location", form_data.get('event_location'))
+        self._add_field("Guest Count", str(form_data.get('guest_count')))
+
+        # Services Required
+        self._add_section_header("Services Required")
+        self._add_field("Service Types", ', '.join(form_data.get('service_types', [])))
+        self._add_field("PA System", form_data.get('pa_system'))
+        self._add_field("Microphones", form_data.get('microphone'))
+        self._add_field("Dancing Lights", form_data.get('dancing_lights'))
+        self._add_field("Disco Ball", form_data.get('disco_ball'))
+        self._add_field("Uplighting", form_data.get('uplighting'))
+        self._add_field("Uplight Count", str(form_data.get('uplight_ct')))
+        self._add_field("Fog Machine", form_data.get('fog_machine'))
+        self._add_field("Dancing on Clouds", form_data.get('low_fog_machine'))
+        self._add_field("Projecting Monogram", form_data.get('monogram'))
+        self._add_field("Cold Sparks", form_data.get('cold_sparks'))
+        self._add_field("Photo Booth", form_data.get('photo_booth'))
+        self._add_field("Photo Booth Prints", form_data.get('photo_booth_prints'))
+        self._add_field("Backdrop Type", form_data.get('back_drop_type'))
+        self._add_field("Photo Booth Props", form_data.get('backdrop_props'))
+
+        # Additional Comments
+        self._add_section_header("Additional Comments")
+        self._add_field("Comments", form_data.get('comments'))
+
+        # Footer
+        self.pdf.ln(10)
+        self.pdf.set_font("Arial", 'I', 8)
+        self.pdf.cell(0, 10, f"Generated on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", 0, 1, 'C')
+
+        return self.pdf.output(dest='S').encode('utf-8')
+
     def _add_field(self, label, value):
         """Add a field to the PDF"""
         self.pdf.set_font("Arial", 'B', 10)
         self.pdf.cell(60, 6, f"{label}:", 0, 0)
         self.pdf.set_font("Arial", '', 10)
-        
+
         # Handle long text by splitting into multiple lines
         if value and len(str(value)) > 50:
             self.pdf.multi_cell(0, 6, str(value))

@@ -1,10 +1,11 @@
-import streamlit as st  
+import streamlit as st
 from sqlalchemy import create_engine
 from sqlalchemy import text
 import pandas as pd
 import base64
 from PIL import Image
 from datetime import datetime
+from utils.pdf_generator import PDFGenerator
 
 
 st.set_page_config(
@@ -383,6 +384,40 @@ with st.container():
                                     st.write(f"Total Savings: ${savings:.2f}")
                                     st.write(f"Grand Total: ${total:.2f}")
                                     st.write("If you want to review the itemization of costs and savings, scroll to the top of the form and select 'Your Bookings'.")
+
+                                    # Prepare form data for PDF
+                                    form_data = {
+                                        'service_types': service_types,
+                                        'first_name': first_name,
+                                        'last_name': last_name,
+                                        'phone_number': phone_number,
+                                        'email': email,
+                                        'discount_code': discount_code,
+                                        'event_date': event_date,
+                                        'event_type': event_type,
+                                        'best_time': best_time,
+                                        'service_hours': service_hours,
+                                        'start_time': start_time,
+                                        'estimated_budget': estimated_budget,
+                                        'event_location': event_location,
+                                        'guest_count': guest_count,
+                                        'pa_system': pa_system,
+                                        'microphone': microphone,
+                                        'dancing_lights': dancing_lights,
+                                        'disco_ball': disco_ball,
+                                        'uplighting': uplighting,
+                                        'uplight_ct': uplight_ct,
+                                        'fog_machine': fog_machine,
+                                        'low_fog_machine': low_fog_machine,
+                                        'monogram': monogram,
+                                        'cold_sparks': cold_sparks,
+                                        'photo_booth': photo_booth,
+                                        'photo_booth_prints': photo_booth_prints,
+                                        'back_drop_type': back_drop_type,
+                                        'backdrop_props': backdrop_props,
+                                        'comments': comments
+                                    }
+                                    st.session_state['pdf_data'] = form_data
                                 else:
                                     st.write("If you want to review the itemization of costs and savings, scroll to the top of the form and select 'Your Bookings'.")
                             else:
@@ -676,4 +711,15 @@ with st.container():
 
         if __name__ == "__main__":
             main()
+
+        # PDF Download Button
+        if 'pdf_data' in st.session_state:
+            generator = PDFGenerator()
+            pdf_bytes = generator.generate_quote_form_pdf(st.session_state['pdf_data'])
+            st.download_button(
+                label="Download PDF Copy of Your Quote Form",
+                data=pdf_bytes,
+                file_name="quote_form.pdf",
+                mime="application/pdf"
+            )
         
