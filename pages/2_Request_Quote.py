@@ -157,7 +157,7 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
                     "monogram": monogram, "discount_code": discount_code
                 })
                 row = result.fetchone()
-                price = row['quote_price'] if row else None
+                price = row[0] if row else None
                 return price
 
                 #conn.close()
