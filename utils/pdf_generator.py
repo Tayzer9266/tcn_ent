@@ -133,7 +133,7 @@ class PDFGenerator:
     def _add_section_header(self, title):
         """Add a section header to the PDF"""
         self.pdf.ln(10)
-        self.pdf.set_font("Helvetica", 'B', 12)
+        self.pdf.set_font("Times", 'B', 12)
         self.pdf.set_fill_color(240, 240, 240)
         self.pdf.cell(0, 8, title, 0, 1, 'L', 1)
         self.pdf.ln(2)
@@ -144,6 +144,58 @@ class PDFGenerator:
 
         # Header
         self.pdf.set_font("Helvetica", 'B', 16)
+        self.pdf.cell(0, 10, "Quote Form", 0, 1, 'C')
+        self.pdf.ln(5)
+
+        # Contact Information
+        self._add_section_header("Contact Information")
+        self._add_field("Name", form_data.get('name', 'Not provided'))
+        self._add_field("Phone", form_data.get('phone', 'Not provided'))
+        self._add_field("Email", form_data.get('email', 'Not provided'))
+
+        # Event Details
+        self._add_section_header("Event Details")
+        self._add_field("Event Date", form_data.get('event_date', 'Not provided'))
+        self._add_field("Service Hours", form_data.get('service_hours', 'Not provided'))
+        self._add_field("Event Type", form_data.get('event_type', 'Not provided'))
+        self._add_field("Venue Name", form_data.get('venue_name', 'Not provided'))
+        self._add_field("Venue Address", form_data.get('venue_address', 'Not provided'))
+        self._add_field("Venue Phone", form_data.get('venue_phone', 'Not provided'))
+
+        # Services
+        self._add_section_header("Services")
+        self._add_field("Microphone", 'Yes' if form_data.get('microphone') else 'No')
+        self._add_field("Dancing Lights", 'Yes' if form_data.get('dancing_lights') else 'No')
+        self._add_field("Disco Ball", 'Yes' if form_data.get('disco_ball') else 'No')
+        self._add_field("Uplighting", 'Yes' if form_data.get('uplighting') else 'No')
+        self._add_field("Uplight Count", form_data.get('uplight_ct', 'Not provided'))
+        self._add_field("Fog Machine", 'Yes' if form_data.get('fog_machine') else 'No')
+        self._add_field("Low Fog Machine", 'Yes' if form_data.get('low_fog_machine') else 'No')
+        self._add_field("Monogram", 'Yes' if form_data.get('monogram') else 'No')
+        self._add_field("Cold Sparks", 'Yes' if form_data.get('cold_sparks') else 'No')
+        self._add_field("Photo Booth", 'Yes' if form_data.get('photo_booth') else 'No')
+        self._add_field("Photo Booth Prints", form_data.get('photo_booth_prints', 'Not provided'))
+        self._add_field("Backdrop Type", form_data.get('back_drop_type', 'Not provided'))
+        self._add_field("Backdrop Props", 'Yes' if form_data.get('backdrop_props') else 'No')
+
+        # Comments
+        self._add_section_header("Comments")
+        self.pdf.set_font("Helvetica", '', 12)
+        self.pdf.multi_cell(0, 10, form_data.get('comments', 'No comments'))
+
+        return self.pdf.output(dest='S')
+        self.pdf.add_page()
+
+        # Set text color to black
+        self.pdf.set_text_color(0, 0, 0)
+
+        # Test text
+        self.pdf.set_font("Times", 'B', 12)
+        self.pdf.cell(0, 10, "PDF Generated Successfully", 0, 1, 'C')
+        self.pdf.ln(5)
+
+        # Header
+        self.pdf.set_font("Times", 'B', 16)
         self.pdf.cell(0, 10, "Quote Request Form", 0, 1, 'C')
         self.pdf.ln(5)
 
@@ -197,9 +249,9 @@ class PDFGenerator:
 
     def _add_field(self, label, value):
         """Add a field to the PDF"""
-        self.pdf.set_font("Helvetica", 'B', 10)
+        self.pdf.set_font("Times", 'B', 10)
         self.pdf.cell(60, 6, f"{label}:", 0, 0)
-        self.pdf.set_font("Helvetica", '', 10)
+        self.pdf.set_font("Times", '', 10)
 
         # Handle long text by splitting into multiple lines
         if value and len(str(value)) > 50:
