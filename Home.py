@@ -69,7 +69,7 @@ with st.container():
         st.session_state.selected_package = 1  # Default to first
 
     package_details = {
-        1: "🥇 Gold Package only $1200 – 'Golden Grove'\nPerfect for prime weddings, corporate events, and parties.\nIncludes:\n- 8 Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads / 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Cold Sparks or Dancing on Clouds\n- Wireless Venue uplighting (up to 20 units)",
+        1: "Perfect for prime weddings, corporate events, and parties.\nIncludes:\n- 8 Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads / 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Cold Sparks or Dancing on Clouds\n- Wireless Venue uplighting (up to 20 units)",
         2: "Package 2 - Placeholder",
         3: "Package 3 - Placeholder",
         4: "Package 4 - Placeholder"
@@ -78,7 +78,7 @@ with st.container():
     # Display the 2x2 grid
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown("**Cell 1:**")
+        st.markdown("**🥇 Gold Package $1200:**")
         if st.button("Select", key="select1"):
             st.session_state.selected_package = 1
         if st.session_state.selected_package == 1:
@@ -86,7 +86,7 @@ with st.container():
         else:
             st.markdown("Package 1 Placeholder")
 
-        st.markdown("**Cell 2:**")
+        st.markdown("**🥇 Gold Package w/ Photographer $2200::**")
         if st.button("Select", key="select2"):
             st.session_state.selected_package = 2
         if st.session_state.selected_package == 2:
@@ -95,7 +95,7 @@ with st.container():
             st.markdown("Package 2 Placeholder")
 
     with col2:
-        st.markdown("**Cell 3:**")
+        st.markdown("***🥇Platinum Package $1800:**")
         if st.button("Select", key="select3"):
             st.session_state.selected_package = 3
         if st.session_state.selected_package == 3:
@@ -103,7 +103,7 @@ with st.container():
         else:
             st.markdown("Package 3 Placeholder")
 
-        st.markdown("**Cell 4:**")
+        st.markdown("**🥇 Platinum Package w/ Photographer $2800::**")
         if st.button("Select", key="select4"):
             st.session_state.selected_package = 4
         if st.session_state.selected_package == 4:
