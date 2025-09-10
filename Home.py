@@ -87,26 +87,26 @@ with st.container():
         if st.session_state.selected_package == 1:
             st.markdown(package_details[1].replace('\n', '<br>'), unsafe_allow_html=True)
         else:
-            st.image("pages/images/dancing_clouds.jpg", width=300, caption="Gold Package")
+            st.image("pages/images/dancing_clouds.jpg", width=100, caption="Gold Package")
 
         st.markdown("**🥇 Gold Package w/ Photographer $2200:**")
         if st.session_state.selected_package == 2:
             st.markdown(package_details[2].replace('\n', '<br>'), unsafe_allow_html=True)
         else:
-            st.image("pages/images/dancing_clouds.jpg", width=300, caption="Gold Package w/ Photographer")
+            st.image("pages/images/dancing_clouds.jpg", width=100, caption="Gold Package w/ Photographer")
 
     with col2:
         st.markdown("***💎 Platinum Package $1800:**")
         if st.session_state.selected_package == 3:
             st.markdown(package_details[3].replace('\n', '<br>'), unsafe_allow_html=True)
         else:
-            st.image("pages/images/dancing_clouds.jpg", width=300, caption="Platinum Package")
+            st.image("pages/images/dancing_clouds.jpg", width=100, caption="Platinum Package")
 
         st.markdown("**💎 Platinum Package w/ Photographer $2800:**")
         if st.session_state.selected_package == 4:
             st.markdown(package_details[4].replace('\n', '<br>'), unsafe_allow_html=True)
         else:
-            st.image("pages/images/dancing_clouds.jpg", width=300, caption="Platinum Package w/ Photographer")
+            st.image("pages/images/dancing_clouds.jpg", width=100, caption="Platinum Package w/ Photographer")
 
 # Load database credentials from Streamlit secrets
 db_config = st.secrets["postgres"]
