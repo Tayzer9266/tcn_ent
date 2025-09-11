@@ -271,7 +271,7 @@ Both parties agree to the terms and conditions stated above as demonstrated by t
 
 
 
-{dj_name}                                                                              {client_name}
+{dj_name}                                                                                {client_name}
 Date: {contract_date}                                                                           Date: {contract_date}
 
 
