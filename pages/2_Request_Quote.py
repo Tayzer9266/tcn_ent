@@ -766,23 +766,23 @@ with st.container():
                                             "Do you need cold sparks?",
                                             ('Yes', 'No'),
                                             index=int(df['cold_sparks'][0]))
-                            cold_spark_ct = st.slider('How many cold sparks do you need?', 0, 6, value=0)
-                                                disco_ball = st.radio(
+                                        cold_spark_ct = st.slider('How many cold sparks do you need?', 0, 6, value=0)
+                                        disco_ball = st.radio(
                                             "Do you need a disco ball?",
                                             ('Yes', 'No'),
                                             index=int(df['disco_ball'][0])
                                             )
-                                            projector = st.radio(
+                                        projector = st.radio(
                                                 "Do you need a projector?",
                                                 ('Yes', 'No'),
                                                 index=1
                                             )
-                                            confetti_cannon = st.radio(
+                                        confetti_cannon = st.radio(
                                                 "Do you need a confetti cannon?",
                                                 ('Yes', 'No'),
                                                 index=1
                                             )
-                                            lasers = st.radio(
+                                        lasers = st.radio(
                                                 "Do you need lasers?",
                                                 ('Yes', 'No'),
                                                 index=1
