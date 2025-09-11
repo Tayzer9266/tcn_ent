@@ -327,7 +327,7 @@ with st.container():
                         index=0)
                     moving_head_ct = st.slider('How many moving heads do you need?', 0, 4, value=0)
                     cold_spark_ct = st.slider('How many cold sparks do you need?', 0, 6, value=0)
-                    cold_sparks = "Yes" if uplight_ct > 0 else "No"
+                    cold_sparks = "Yes" if cold_spark_ct > 0 else "No"
                     uplight_ct = st.slider('How many uplights do you need?', 0, 20, value=0)
                     uplighting = "Yes" if uplight_ct > 0 else "No"
                     disco_ball = st.radio(
@@ -764,7 +764,7 @@ with st.container():
                                             index=int(df['dancing_lights'][0]))
                                         moving_head_ct = st.slider('How many moving heads do you need?', 0, 4, value=df['moving_head_ct'][0])
                                         cold_spark_ct = st.slider('How many cold sparks do you need?', 0, 6, value=df['cold_spark_ct'][0])
-                                        cold_sparks = "Yes" if uplight_ct > 0 else "No"
+                                        cold_sparks = "Yes" if cold_spark_ct > 0 else "No"
                                         uplight_ct = st.slider('How many uplights do you need?', 0, 20, value=df['uplight_ct'][0])
                                         uplighting = "Yes" if uplight_ct > 0 else "No"
                                         lasers = st.radio(
