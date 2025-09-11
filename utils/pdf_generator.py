@@ -192,11 +192,11 @@ class PDFGenerator:
         self.pdf.add_page()
 
         # Header
-        self.pdf.set_font("Helvetica", 'B', 16)
+        self.pdf.set_font("Helvetica", 'B', 10)
         self.pdf.cell(0, 10, "TCN Entertainment", 0, 1, 'C')
         self.pdf.set_font("Helvetica", 'B', 10)       
         self.pdf.cell(0, 10, "DJ CONTRACT", 0, 1, 'C')
-        self.pdf.ln(10)
+        self.pdf.ln(2)
 
         # Template based on DJ Contract.docx
         template = """
