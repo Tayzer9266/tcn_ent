@@ -271,18 +271,20 @@ Date: {contract_date}
 Date: {contract_date}
 """
 
-        # Process equipment_list to unnest arrays and put each item on a new line
-        equipment_list = booking_data.get('equipment_list', 'MC/DJ performance\nPremium PA Sound System\nWireless Microphones\nComplimentary Dance Lights')
+        # Process equipment_list to unnest arrays and put each item on a new line with line numbers
+        equipment_list = booking_data.get('equipment_list', '1. MC/DJ performance\n2. Premium PA Sound System\n3. Wireless Microphones\n4. Complimentary Dance Lights')
         # Ensure equipment_list is a string
         if not isinstance(equipment_list, str):
             equipment_list = str(equipment_list)
-        if equipment_list.startswith('{') and equipment_list.endswith('}'):
-            # Handle PostgreSQL array format {item1,item2}
-            equipment_list = equipment_list[1:-1]  # remove {}
-            equipment_list = '\n'.join([item.strip().strip('"') for item in equipment_list.split(',')])
-        elif ',' in equipment_list:
-            # Handle comma-separated string
-            equipment_list = '\n'.join([item.strip() for item in equipment_list.split(',')])
+        # Remove brackets if present
+        equipment_list = equipment_list.strip('[]{}')
+        if ',' in equipment_list:
+            # Split by comma and add line numbers
+            items = [item.strip().strip('"') for item in equipment_list.split(',')]
+            equipment_list = '\n'.join([f"{i+1}. {item}" for i, item in enumerate(items)])
+        else:
+            # If no commas, treat as single item or already formatted
+            equipment_list = '1. ' + equipment_list.strip()
 
         # Replace placeholders
         contract_text = template.format(
