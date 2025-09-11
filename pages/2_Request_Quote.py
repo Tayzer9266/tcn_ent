@@ -4,7 +4,7 @@ from sqlalchemy import text
 import pandas as pd
 import base64
 from PIL import Image
-from datetime import datetime
+from datetime import datetime, date
 from utils.pdf_generator import PDFGenerator, generate_dj_contract_pdf_response
 
 
@@ -651,7 +651,7 @@ with st.container():
                                     'dj_name': contract_df['professional'][0] or 'Tay Nguyen',
                                     'client_name': f"{contract_df['first_name'][0] or ''} {contract_df['last_name'][0] or ''}".strip() or 'Client Name',
                                     'contract_date': contract_df['today'][0].strftime('%m/%d/%Y') if contract_df['today'][0] and isinstance(contract_df['today'][0], datetime) else datetime.now().strftime('%m/%d/%Y'),
-                                    'event_date': contract_df['event_date'][0].strftime('%m/%d/%Y') if contract_df['event_date'][0] and isinstance(contract_df['event_date'][0], datetime) else 'Not provided',
+                                    'event_date': contract_df['event_date'][0].strftime('%m/%d/%Y') if contract_df['event_date'][0] and isinstance(contract_df['event_date'][0], date) else 'Not provided',
                                     'start_time': contract_df['start_time'][0].strftime('%I:%M %p') if contract_df['start_time'][0] and hasattr(contract_df['start_time'][0], 'strftime') else 'Not provided',
                                     'end_time': contract_df['end_time'][0].strftime('%I:%M %p') if contract_df['end_time'][0] and hasattr(contract_df['end_time'][0], 'strftime') else 'Not provided',
                                     'venue': contract_df['venue'][0] or 'Not provided',
