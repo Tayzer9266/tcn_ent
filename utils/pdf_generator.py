@@ -2,20 +2,28 @@ import io
 from fpdf import FPDF
 from datetime import datetime
 
-class PDFGenerator:
+class PDFGenerator(FPDF):
     def __init__(self):
-        self.pdf = FPDF()
-        self.pdf.set_auto_page_break(auto=True, margin=15)
+        super().__init__()
+        self.set_auto_page_break(auto=True, margin=15)
+
+    def footer(self):
+        # Position at 1.5 cm from bottom
+        self.set_y(-15)
+        # Arial italic 8
+        self.set_font('Helvetica', 'I', 8)
+        # Page number
+        self.cell(0, 10, f'Page {self.page_no()}', 0, 0, 'C')
         
     def generate_wedding_pdf(self, form_data):
         """Generate a PDF from wedding form data"""
-        self.pdf.add_page()
-        
+        self.add_page()
+
         # Header
-        self.pdf.set_font("Helvetica", 'B', 16)
-        self.pdf.cell(0, 10, "Wedding Questionnaire Responses", 0, 1, 'C')
-        self.pdf.ln(5)
-        
+        self.set_font("Helvetica", 'B', 16)
+        self.cell(0, 10, "Wedding Questionnaire Responses", 0, 1, 'C')
+        self.ln(5)
+
         # Event Information
         self._add_section_header("Basic Event Information")
         self._add_field("Event Date", form_data.get('event_date', 'Not provided'))
@@ -25,18 +33,18 @@ class PDFGenerator:
         self._add_field("Start Time", form_data.get('start_time', 'Not provided'))
         self._add_field("End Time", form_data.get('end_time', 'Not provided'))
         self._add_field("Number of Guests", form_data.get('num_guests', 'Not provided'))
-        
+
         # Venue Information
         self._add_section_header("Venue Information")
         self._add_field("Venue Name", form_data.get('venue_name', 'Not provided'))
         self._add_field("Venue Address", form_data.get('venue_address', 'Not provided'))
         self._add_field("Venue Phone", form_data.get('venue_phone', 'Not provided'))
-        
+
         # Couple Information
         self._add_section_header("Couple Information")
         self._add_field("Bride's Name", form_data.get('bride_name', 'Not provided'))
         self._add_field("Groom's Name", form_data.get('groom_name', 'Not provided'))
-        
+
         # Ceremony Details
         self._add_section_header("Ceremony Details")
         self._add_field("Ceremony Venue", form_data.get('ceremony_venue', 'Not provided'))
@@ -44,7 +52,7 @@ class PDFGenerator:
         self._add_field("Ceremony Phone", form_data.get('ceremony_phone', 'Not provided'))
         self._add_field("Ceremony Music", form_data.get('has_ceremony', 'Not provided'))
         self._add_field("Ceremony Time", form_data.get('ceremony_time', 'Not provided'))
-        
+
         # Equipment & Services
         self._add_section_header("Equipment & Services")
         self._add_field("Up-Lighting", form_data.get('uplighting', 'Not provided'))
@@ -58,14 +66,14 @@ class PDFGenerator:
             self._add_field("Number of Images", form_data.get('photobooth_images', 'Not specified'))
             self._add_field("Props", form_data.get('photobooth_props', 'Not specified'))
             self._add_field("Backdrop Color", form_data.get('photobooth_backdrop', 'Not specified'))
-        
+
         # Music Programming
         self._add_section_header("Music Programming")
         self._add_field("Cocktail Music", ', '.join(form_data.get('cocktail_music', [])) or 'Not specified')
         self._add_field("Dinner Music", ', '.join(form_data.get('dinner_music', [])) or 'Not specified')
         self._add_field("Dinner Time", form_data.get('dinner_time', 'Not provided'))
         self._add_field("Dinner Style", form_data.get('dinner_style', 'Not provided'))
-        
+
         # General Music Preferences
         self._add_section_header("General Music Preferences")
         self._add_field("Music Genres", ', '.join(form_data.get('music_genres', [])) or 'Not specified')
@@ -74,7 +82,7 @@ class PDFGenerator:
         self._add_field("Do Not Play Songs", form_data.get('do_not_play', 'Not provided'))
         self._add_field("Guest Requests", form_data.get('guest_requests', 'Not provided'))
         self._add_field("Fade Songs", form_data.get('fade_songs', 'Not provided'))
-        
+
         # Special Wedding Moments
         self._add_section_header("Special Wedding Moments")
         self._add_field("First Dance Song", form_data.get('first_dance', 'Not provided'))
@@ -89,7 +97,7 @@ class PDFGenerator:
         self._add_field("Anniversary Dance", form_data.get('anniversary_dance', 'Not provided'))
         self._add_field("Cake Cutting Song", form_data.get('cake_song', 'Not provided'))
         self._add_field("Cake Cutting Time", form_data.get('cake_time', 'Not provided'))
-        
+
         # Wedding Ceremonies
         self._add_section_header("Wedding Ceremonies")
         self._add_field("Garter Removal Song", form_data.get('garter_removal', 'Not provided'))
@@ -98,14 +106,14 @@ class PDFGenerator:
         self._add_field("Garter Toss Time", form_data.get('garter_toss_time', 'Not provided'))
         self._add_field("Bouquet Toss Song", form_data.get('bouquet_toss', 'Not provided'))
         self._add_field("Bouquet Toss Time", form_data.get('bouquet_toss_time', 'Not provided'))
-        
+
         # Event Coordination
         self._add_section_header("Event Coordination")
         self._add_field("Banquet Manager", form_data.get('banquet_manager', 'Not provided'))
         self._add_field("Photographer", form_data.get('photographer', 'Not provided'))
         self._add_field("Videographer", form_data.get('videographer', 'Not provided'))
         self._add_field("Other Vendors", form_data.get('other_vendors', 'Not provided'))
-        
+
         # Announcements
         self._add_section_header("Announcements")
         self._add_field("Announce Song Requests", form_data.get('announce_requests', 'Not provided'))
@@ -114,38 +122,38 @@ class PDFGenerator:
         self._add_field("Snack Time", form_data.get('snack_time', 'Not provided'))
         self._add_field("Last Call Time", form_data.get('last_call', 'Not provided'))
         self._add_field("Photo Booth Warning", form_data.get('photobooth_warning', 'Not provided'))
-        
+
         # Final Notes
         self._add_section_header("Final Notes")
         self._add_field("Last Song", form_data.get('last_song', 'Not provided'))
         self._add_field("Private Dance Song", form_data.get('private_dance', 'Not provided'))
         self._add_field("Memory Book", form_data.get('memory_book', 'Not provided'))
         self._add_field("Additional Notes", form_data.get('additional_notes', 'Not provided'))
-        
+
         # Footer
-        self.pdf.ln(10)
-        self.pdf.set_font("Helvetica", 'I', 8)
-        self.pdf.cell(0, 10, f"Generated on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", 0, 1, 'C')
+        self.ln(10)
+        self.set_font("Helvetica", 'I', 8)
+        self.cell(0, 10, f"Generated on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", 0, 1, 'C')
 
         # Use UTF-8 encoding instead of latin1
-        return self.pdf.output(dest='S').encode('latin1')
+        return self.output(dest='S').encode('latin1')
     
     def _add_section_header(self, title):
         """Add a section header to the PDF"""
-        self.pdf.ln(10)
-        self.pdf.set_font("Helvetica", 'B', 12)
-        self.pdf.set_fill_color(240, 240, 240)
-        self.pdf.cell(0, 8, title, 0, 1, 'L', 1)
-        self.pdf.ln(2)
-    
+        self.ln(10)
+        self.set_font("Helvetica", 'B', 12)
+        self.set_fill_color(240, 240, 240)
+        self.cell(0, 8, title, 0, 1, 'L', 1)
+        self.ln(2)
+
     def generate_quote_form_pdf(self, form_data):
         """Generate a PDF from quote form data"""
-        self.pdf.add_page()
+        self.add_page()
 
         # Header
-        self.pdf.set_font("Helvetica", 'B', 16)
-        self.pdf.cell(0, 10, "Quote Form", 0, 1, 'C')
-        self.pdf.ln(5)
+        self.set_font("Helvetica", 'B', 16)
+        self.cell(0, 10, "Quote Form", 0, 1, 'C')
+        self.ln(5)
 
         # Contact Information
         self._add_section_header("Contact Information")
@@ -182,26 +190,24 @@ class PDFGenerator:
 
         # Comments
         self._add_section_header("Comments")
-        self.pdf.set_font("Helvetica", '', 12)
-        self.pdf.multi_cell(0, 10, form_data.get('comments', 'No comments'))
+        self.set_font("Helvetica", '', 12)
+        self.multi_cell(0, 10, form_data.get('comments', 'No comments'))
 
-        return self.pdf.output(dest='S').encode('latin1')
+        return self.output(dest='S').encode('latin1')
 
     def generate_dj_contract_pdf(self, booking_data):
         """Generate a DJ Contract PDF from booking data"""
-        self.pdf.add_page()
+        self.add_page()
 
         # Header
-        self.pdf.set_font("Helvetica", 'B', 14)
-        self.pdf.cell(0, 12, "TCN Entertainment", 0, 1, 'C')
-        self.pdf.set_font("Helvetica", 'B', 18)
-        self.pdf.cell(0, 12, "DJ CONTRACT", 0, 1, 'C')
-        self.pdf.ln(5)
+        self.set_font("Helvetica", 'B', 14)
+        self.cell(0, 12, "TCN Entertainment", 0, 1, 'C')
+        self.set_font("Helvetica", 'B', 18)
+        self.cell(0, 12, "DJ CONTRACT", 0, 1, 'C')
+        self.ln(5)
 
         # Template based on DJ Contract.docx
-        self.pdf.set_font("Helvetica", 'I', 8)
         template = """
- 
 
 I. PARTIES
 This DJ Contract ("Contract" hereinafter) is signed by {dj_name} ("DJ" hereinafter) and {client_name} ("Client" hereinafter) on {contract_date} wherein both parties agreed on the following terms.
@@ -261,108 +267,116 @@ Date: {contract_date}
         )
 
         # Set font and add text
-        self.pdf.set_font("Helvetica", '', 10)
-        self.pdf.multi_cell(0, 8, contract_text)
+        self.set_font("Helvetica", '', 10)
+        self.multi_cell(0, 8, contract_text)
 
         # Footer
-        self.pdf.ln(10)
-        self.pdf.set_font("Helvetica", 'I', 8)
-        self.pdf.cell(0, 10, f"Generated on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", 0, 1, 'C')
+        self.ln(10)
+        self.set_font("Helvetica", 'I', 8)
+        self.cell(0, 10, f"Generated on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", 0, 1, 'C')
 
-        return self.pdf.output(dest='S').encode('latin1')
+        return self.output(dest='S').encode('latin1')
 
     def _add_field(self, label, value):
         """Add a field to the PDF"""
-        self.pdf.set_font("Helvetica", 'B', 10)
-        self.pdf.cell(60, 6, f"{label}:", 0, 0)
-        self.pdf.set_font("Helvetica", '', 10)
+        self.set_font("Helvetica", 'B', 10)
+        self.cell(60, 6, f"{label}:", 0, 0)
+        self.set_font("Helvetica", '', 10)
 
         # Handle long text by splitting into multiple lines
         if value and len(str(value)) > 50:
-            self.pdf.multi_cell(0, 6, str(value))
+            self.multi_cell(0, 6, str(value))
         else:
-            self.pdf.cell(0, 6, str(value) if value else "Not provided", 0, 1)
-        self.pdf.ln(1)
+            self.cell(0, 6, str(value) if value else "Not provided", 0, 1)
+        self.ln(1)
 
 def generate_wedding_pdf_response(form_data):
     """Generate a PDF from wedding form data"""
     generator = PDFGenerator()
     return generator.generate_wedding_pdf(form_data)
 
-class QuotePDFGenerator:
+class QuotePDFGenerator(FPDF):
     def __init__(self):
-        self.pdf = FPDF()
-        self.pdf.set_auto_page_break(auto=True, margin=15)
+        super().__init__()
+        self.set_auto_page_break(auto=True, margin=15)
+
+    def footer(self):
+        # Position at 1.5 cm from bottom
+        self.set_y(-15)
+        # Arial italic 8
+        self.set_font('Helvetica', 'I', 8)
+        # Page number
+        self.cell(0, 10, f'Page {self.page_no()}', 0, 0, 'C')
 
     def _add_section_header(self, title):
         """Add a section header to the PDF"""
-        self.pdf.ln(10)
-        self.pdf.set_font("Helvetica", 'B', 12)
-        self.pdf.set_fill_color(240, 240, 240)
-        self.pdf.cell(0, 8, title, 0, 1, 'L', 1)
-        self.pdf.ln(2)
+        self.ln(10)
+        self.set_font("Helvetica", 'B', 12)
+        self.set_fill_color(240, 240, 240)
+        self.cell(0, 8, title, 0, 1, 'L', 1)
+        self.ln(2)
 
     def _add_field(self, label, value):
         """Add a field to the PDF"""
-        self.pdf.set_font("Helvetica", 'B', 10)
-        self.pdf.cell(60, 6, f"{label}:", 0, 0)
-        self.pdf.set_font("Helvetica", '', 10)
+        self.set_font("Helvetica", 'B', 10)
+        self.cell(60, 6, f"{label}:", 0, 0)
+        self.set_font("Helvetica", '', 10)
 
         # Handle long text by splitting into multiple lines
         if value and len(str(value)) > 50:
-            self.pdf.multi_cell(0, 6, str(value))
+            self.multi_cell(0, 6, str(value))
         else:
-            self.pdf.cell(0, 6, str(value) if value else "Not provided", 0, 1)
-        self.pdf.ln(1)
+            self.cell(0, 6, str(value) if value else "Not provided", 0, 1)
+        self.ln(1)
 
     def generate_quote_pdf(self, quote_data, itemized_df, booking_id, customer_name, event_date, event_type):
         """Generate a PDF from quote data"""
-        self.pdf.add_page()
-        
+        self.add_page()
+
         # Header
-        self.pdf.set_font("Helvetica", 'B', 16)
-        self.pdf.cell(0, 10, "Event Quote Estimate", 0, 1, 'C')
-        self.pdf.ln(5)
-        
+        self.set_font("Helvetica", 'B', 16)
+        self.cell(0, 10, "Event Quote Estimate", 0, 1, 'C')
+        self.ln(5)
+
         # Quote Information
         self._add_section_header("Quote Information")
         self._add_field("Booking ID", booking_id)
         self._add_field("Customer Name", customer_name)
         self._add_field("Event Date", event_date.strftime('%Y-%m-%d') if event_date else 'Not provided')
         self._add_field("Event Type", event_type)
-        
+
         # Summary Totals
         self._add_section_header("Price Summary")
         self._add_field("Total Market Cost", f"${quote_data.get('total_market', 0):,.2f}")
         self._add_field("Your Quote Total", f"${quote_data.get('total_quote', 0):,.2f}")
         self._add_field("Total Savings", f"${quote_data.get('total_savings', 0):,.2f}")
-        
+
         # Itemized Products & Services
         self._add_section_header("Itemized Products & Services")
-        
-        # Add table headers
-        self.pdf.set_font("Helvetica", 'B', 10)
-        self.pdf.cell(80, 8, "Product/Service", 1, 0, 'L')
-        self.pdf.cell(20, 8, "Units", 1, 0, 'C')
-        self.pdf.cell(30, 8, "Market Price", 1, 0, 'R')
-        self.pdf.cell(30, 8, "Your Price", 1, 0, 'R')
-        self.pdf.cell(30, 8, "Savings", 1, 1, 'R')
-        
-        # Add table rows
-        self.pdf.set_font("Helvetica", '', 10)
-        for _, row in itemized_df.iterrows():
-            self.pdf.cell(80, 8, str(row.get('items', '')), 1, 0, 'L')
-            self.pdf.cell(20, 8, str(row.get('units', '')), 1, 0, 'C')
-            self.pdf.cell(30, 8, f"${float(row.get('market_price', 0)):,.2f}", 1, 0, 'R')
-            self.pdf.cell(30, 8, f"${float(row.get('total', 0)):,.2f}", 1, 0, 'R')
-            self.pdf.cell(30, 8, f"${float(row.get('savings', 0)):,.2f}", 1, 1, 'R')
-        
-        # Footer
-        self.pdf.ln(10)
-        self.pdf.set_font("Helvetica", 'I', 8)
-        self.pdf.cell(0, 10, f"Generated on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", 0, 1, 'C')
 
-        return self.pdf.output(dest='S').encode('latin1')
+        # Add table headers
+        self.set_font("Helvetica", 'B', 10)
+        self.cell(80, 8, "Product/Service", 1, 0, 'L')
+        self.cell(20, 8, "Units", 1, 0, 'C')
+        self.cell(30, 8, "Market Price", 1, 0, 'R')
+        self.cell(30, 8, "Your Price", 1, 0, 'R')
+        self.cell(30, 8, "Savings", 1, 1, 'R')
+
+        # Add table rows
+        self.set_font("Helvetica", '', 10)
+        for _, row in itemized_df.iterrows():
+            self.cell(80, 8, str(row.get('items', '')), 1, 0, 'L')
+            self.cell(20, 8, str(row.get('units', '')), 1, 0, 'C')
+            self.cell(30, 8, f"${float(row.get('market_price', 0)):,.2f}", 1, 0, 'R')
+            self.cell(30, 8, f"${float(row.get('total', 0)):,.2f}", 1, 0, 'R')
+            self.cell(30, 8, f"${float(row.get('savings', 0)):,.2f}", 1, 1, 'R')
+
+        # Footer
+        self.ln(10)
+        self.set_font("Helvetica", 'I', 8)
+        self.cell(0, 10, f"Generated on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", 0, 1, 'C')
+
+        return self.output(dest='S').encode('latin1')
 
 def generate_quote_pdf_response(quote_data, itemized_df, booking_id, customer_name, event_date, event_type):
     """Generate a PDF from quote data"""
