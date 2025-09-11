@@ -300,7 +300,7 @@ Date: {contract_date}                                                           
             event_date=booking_data.get('event_date', 'Event Date'),
             start_time=booking_data.get('start_time', 'Start Time'),
             end_time=booking_data.get('end_time', 'End Time'),
-            venue=booking_data.get('venue_name', booking_data.get('venue', 'Venue Name')),
+            venue=booking_data.get('venue_name', booking_data.get('venue', booking_data.get('event_location', 'Venue Name'))),
             event_location=booking_data.get('venue_address', booking_data.get('event_location', 'Venue Address')),
             total_fee=booking_data.get('total_fee', '0.00'),
             deposit=booking_data.get('deposit', '60.00'),
