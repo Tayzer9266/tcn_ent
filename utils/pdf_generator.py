@@ -271,8 +271,8 @@ Both parties agree to the terms and conditions stated above as demonstrated by t
 
 
 
-{dj_name}                                                         {client_name}
-Date: {contract_date}                                             Date: {contract_date}
+{dj_name}                                                                              {client_name}
+Date: {contract_date}                                                                           Date: {contract_date}
 
 
 """
@@ -300,8 +300,8 @@ Date: {contract_date}                                             Date: {contrac
             event_date=booking_data.get('event_date', 'Event Date'),
             start_time=booking_data.get('start_time', 'Start Time'),
             end_time=booking_data.get('end_time', 'End Time'),
-            venue=booking_data.get('venue_name', 'Venue Name'),
-            event_location=booking_data.get('venue_address', 'Venue Address'),
+            venue=booking_data.get('venue_name', booking_data.get('venue', 'Venue Name')),
+            event_location=booking_data.get('venue_address', booking_data.get('event_location', 'Venue Address')),
             total_fee=booking_data.get('total_fee', '0.00'),
             deposit=booking_data.get('deposit', '60.00'),
             event_type=booking_data.get('event_type', 'Event Type'),
