@@ -707,8 +707,8 @@ with st.container():
                    
 
                             if df['event_status'][0] != 'Scheduled' or email == "5003":
-                                    
-                                    with st.form("my_form"):
+
+                                    with st.form("update_form"):
                                         st.subheader("Booking# " + str(booking_id))
 
                                         if event_date_ct > 1:
@@ -744,7 +744,16 @@ with st.container():
                                         start_time = st.time_input("Estimated Start Time*", df['start_time'][0]) #Start
                                         if start_time:
                                             st.write(f"Central Time: {start_time.strftime('%I:%M %p')}")
-                                        estimated_budget = st.number_input("Budget Amount", df['estimated_budget'][0]) #Budget
+                                        # Handle estimated_budget value to ensure it's numeric
+                                        budget_value = df['estimated_budget'][0]
+                                        if pd.isna(budget_value) or budget_value == '':
+                                            budget_value = 0
+                                        else:
+                                            try:
+                                                budget_value = float(budget_value)
+                                            except (ValueError, TypeError):
+                                                budget_value = 0
+                                        estimated_budget = st.number_input("Budget Amount", value=budget_value) #Budget
 
                                         venue = st.text_input("Venue", df['venue'][0]) #Location
 
