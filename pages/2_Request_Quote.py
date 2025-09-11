@@ -775,7 +775,7 @@ with st.container():
                                                 budget_value = 0
                                         estimated_budget = st.number_input("Budget Amount", value=budget_value) #Budget
 
-                                        venue = st.text_input("Venue", df['venue'][0]) #Location
+                                        venue = st.text_input("Venue", df['venue'][0]) #Venue
 
 
                                         event_location = st.text_input("Venue Location", df['event_location'][0]) #Location
