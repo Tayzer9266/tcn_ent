@@ -273,6 +273,9 @@ Date: {contract_date}
 
         # Process equipment_list to unnest arrays and put each item on a new line
         equipment_list = booking_data.get('equipment_list', 'MC/DJ performance\nPremium PA Sound System\nWireless Microphones\nComplimentary Dance Lights')
+        # Ensure equipment_list is a string
+        if not isinstance(equipment_list, str):
+            equipment_list = str(equipment_list)
         if equipment_list.startswith('{') and equipment_list.endswith('}'):
             # Handle PostgreSQL array format {item1,item2}
             equipment_list = equipment_list[1:-1]  # remove {}
