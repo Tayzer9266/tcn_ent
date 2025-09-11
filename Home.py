@@ -162,7 +162,9 @@ with st.container():
         st.markdown("[Build Your Own Package>](Request_Quote)")
 
     with right_col:
+        st.markdown('<div style="text-align: center;">', unsafe_allow_html=True)
         st.image("pages/images/cold_sparks_dancing.jpg")
+        st.markdown('</div>', unsafe_allow_html=True)
  
 # ---- SERVICES SECTION ----
 with st.container():
