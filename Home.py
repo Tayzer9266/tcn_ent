@@ -310,6 +310,7 @@ with st.container():
             select event_date::date  as event_date
             , a.event_name 
             , a.event_status
+            , a.venue
             from events a
             where event_status in ('Scheduled','Ongoing')
             and a.deleted_at is null 
@@ -330,7 +331,7 @@ with st.container():
                 event_date = datetime.strptime(str(row['event_date']), '%Y-%m-%d').date()  # Convert string to date
                 day_of_week = event_date.strftime('%A')  # Get the day of the week
                 st.markdown(
-                    f"<div class='event-card'><b>{row['event_date']} ({day_of_week})</b> &mdash; <span style='color:{status_color};'>{row['event_status']}</span> &mdash; {row['event_name']}</div>",
+                    f"<div class='event-card'><b>{row['event_date']} ({day_of_week})</b> &mdash; <span style='color:{status_color};'>{row['event_status']}</span> &mdash; {row['event_name']} &mdash;{row['venue']} </div>",
                     unsafe_allow_html=True
                 )
         else:
