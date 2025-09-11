@@ -647,13 +647,23 @@ with st.container():
 
                             # Prepare booking data for contract PDF
                             if not contract_df.empty:
+                                # Calculate end_time as start_time + service_hours
+                                start_time_obj = contract_df['start_time'][0]
+                                service_hours = df['service_hours'][0] if not df.empty else 0
+                                if start_time_obj and service_hours:
+                                    from datetime import timedelta
+                                    end_time_obj = start_time_obj + timedelta(hours=service_hours)
+                                    end_time_str = end_time_obj.strftime('%I:%M %p')
+                                else:
+                                    end_time_str = 'Not provided'
+
                                 booking_data = {
                                     'dj_name': contract_df['professional'][0] or 'Tay Nguyen',
                                     'client_name': f"{contract_df['first_name'][0] or ''} {contract_df['last_name'][0] or ''}".strip() or 'Client Name',
                                     'contract_date': contract_df['today'][0].strftime('%m/%d/%Y') if contract_df['today'][0] and isinstance(contract_df['today'][0], datetime) else datetime.now().strftime('%m/%d/%Y'),
                                     'event_date': contract_df['event_date'][0].strftime('%m/%d/%Y') if contract_df['event_date'][0] and isinstance(contract_df['event_date'][0], date) else 'Not provided',
                                     'start_time': contract_df['start_time'][0].strftime('%I:%M %p') if contract_df['start_time'][0] and hasattr(contract_df['start_time'][0], 'strftime') else 'Not provided',
-                                    'end_time': contract_df['end_time'][0].strftime('%I:%M %p') if contract_df['end_time'][0] and hasattr(contract_df['end_time'][0], 'strftime') else 'Not provided',
+                                    'end_time': end_time_str,
                                     'venue': contract_df['venue'][0] or 'Not provided',
                                     'event_location': contract_df['event_location'][0] or 'Not provided',
                                     'total_fee': f"{contract_df['grand_total'][0]:.2f}" if contract_df['grand_total'][0] else '0.00',
