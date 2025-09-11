@@ -365,13 +365,9 @@ with st.container():
                     co2_cannon = st.radio(
                         "Do you need a CO2 Cannon?",
                         ('Yes', 'No'),
-                        index=int(df['co2_cannon'][0])
-                                            )                                
-                    monogram = st.radio(
-                        "Do you want a projecting monogram?",
-                        ('Yes', 'No'),
-                        index=int(df['monogram'][0])
-                                            )
+                        index=1
+                    )
+
                     photo_booth = st.selectbox(
                             "Select a photo booth",
                             ("", "DSLR Photo Booth", "IPad Photo Booth"),
@@ -746,7 +742,7 @@ with st.container():
                                         start_time = st.time_input("Estimated Start Time*", df['start_time'][0]) #Start
                                         if start_time:
                                             st.write(f"Central Time: {start_time.strftime('%I:%M %p')}")
-                                        estimated_budget = st.number_input("Budget Amount", ) #Budget
+                                        estimated_budget = st.number_input("Budget Amount", df['estimated_budget'][0]) #Budget
 
                                         venue = st.text_input("Venue", df['venue'][0]) #Location
 
@@ -770,37 +766,33 @@ with st.container():
                                             "Do you need cold sparks?",
                                             ('Yes', 'No'),
                                             index=int(df['cold_sparks'][0]))
-                    cold_spark_ct = st.slider('How many cold sparks do you need?', 0, 6, value=0)
-                                        disco_ball = st.radio(
+                            cold_spark_ct = st.slider('How many cold sparks do you need?', 0, 6, value=0)
+                                                disco_ball = st.radio(
                                             "Do you need a disco ball?",
                                             ('Yes', 'No'),
                                             index=int(df['disco_ball'][0])
                                             )
-                                        projector = st.radio(
-                                            "Do you need a projector?",
-                                            ('Yes', 'No'),
-                                            index=int(df['projector'][0])
+                                            projector = st.radio(
+                                                "Do you need a projector?",
+                                                ('Yes', 'No'),
+                                                index=1
                                             )
-                                        confetti_cannon = st.radio(
-                                            "Do you need a confetti cannon?",
-                                            ('Yes', 'No'),
-                                            index=int(df['confetti_cannon'][0])
+                                            confetti_cannon = st.radio(
+                                                "Do you need a confetti cannon?",
+                                                ('Yes', 'No'),
+                                                index=1
                                             )
-                                        lasers = st.radio(
-                                            "Do you need lasers?",
-                                            ('Yes', 'No'),
-                                            index=int(df['lasers'][0])
+                                            lasers = st.radio(
+                                                "Do you need lasers?",
+                                                ('Yes', 'No'),
+                                                index=1
                                             )
                                         co2_cannon = st.radio(
                                             "Do you need a CO2 Cannon?",
                                             ('Yes', 'No'),
-                                            index=int(df['co2_cannon'][0])
-                                            )                                
-                                        monogram = st.radio(
-                                            "Do you want a projecting monogram?",
-                                            ('Yes', 'No'),
-                                            index=int(df['monogram'][0])
-                                            )
+                                            index=1
+                                        )
+
                                         uplighting = "No"
                                         uplight_ct = st.slider('How many uplights do you need?', 0, 20, value=df['uplight_ct'][0])
                                         fog_machine = st.radio(
