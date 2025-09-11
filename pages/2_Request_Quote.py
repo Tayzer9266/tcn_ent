@@ -109,7 +109,7 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
                       estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball,
                       uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location,
                       comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types, cold_sparks, microphone, monogram,
-                      discount_code,cold_spark_ct, projector,confetti_cannon,lasers,co2_cannon, venue):
+                      discount_code,lasers, moving_head_ct, co2_cannon, cold_spark_ct, projector, confetti_cannon, venue):
     try:
         # Convert boolean radio button responses to True/False
         pa_system = pa_system == 'Yes';
@@ -146,7 +146,7 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
                      ":low_fog_machine, :photo_booth, :photo_booth_prints, :booth_location, " +
                      ":comments, :created_by, :uplight_ct, :backdrop_props, :back_drop_type, " +
                      ":service_hours, :service_types, :cold_sparks, :microphone, :monogram, :discount_code, " +
-                     ":cold_spark_ct, :projector, :confetti_cannon, :lasers, :co2_cannon, :venue)")
+                     ":lasers, :moving_head_ct,:co2_cannon,:cold_spark_ct, :projector, :confetti_cannon, :venue)")
 
         # Execute the function with the parameters as named arguments
 
@@ -161,7 +161,8 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
                     "photo_booth_prints": photo_booth_prints, "booth_location": booth_location, "comments": comments,
                     "created_by": created_by, "uplight_ct": uplight_ct, "backdrop_props": backdrop_props,
                     "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types, "cold_sparks": cold_sparks, "microphone": microphone,
-                    "monogram": monogram, "discount_code": discount_code
+                    "monogram": monogram, "discount_code": discount_code, "lasers": lasers, "moving_head_ct": moving_head_ct, "co2_cannon": co2_cannon, "cold_spark_ct": cold_spark_ct, 
+                    "projector": projector, "confetti_cannon": confetti_cannon
                 })
                 row = result.fetchone()
                 if row:
@@ -184,7 +185,7 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
                       estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball,
                       uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location,
                       comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types, cold_sparks, microphone, monogram, 
-                      price_override, discount_code,cold_spark_ct, projector,confetti_cannon,lasers,co2_cannon, venue):
+                      price_override, discount_code,lasers, moving_head_ct, co2_cannon, cold_spark_ct, projector,confetti_cannon, venue):
     try:
         # Convert boolean radio button responses to True/False
         pa_system = pa_system == 'Yes'
@@ -199,8 +200,11 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
         microphone = microphone == 'Yes'
         photo_booth_prints = photo_booth_prints == 'Yes'
         cold_sparks = cold_sparks == 'Yes'
- 
 
+        lasers = lasers == 'Yes'
+        co2_cannon = co2_cannon == 'Yes' 
+        projector = projector == 'Yes'
+        confetti_cannon = confetti_cannon == 'Yes'
         # Set empty string inputs to None
         best_time = best_time if best_time else None
         start_time = start_time if start_time else None
@@ -218,7 +222,7 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
                      ":low_fog_machine, :photo_booth, :photo_booth_prints, :booth_location, " +
                      ":comments, :created_by, :uplight_ct, :backdrop_props, :back_drop_type, " +
                      ":service_hours, :service_types, :cold_sparks, :microphone, :monogram, :price_override, :discount_code,"
-                     "cold_spark_ct, projector, confetti_cannon, lasers, co2_cannon, venue)")
+                     ":lasers, :moving_head_ct, :co2_cannon, :cold_spark_ct, projector, confetti_cannon, venue)")
 
         # Execute the procedure with the parameters as named arguments
  
@@ -233,7 +237,8 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
                     "photo_booth_prints": photo_booth_prints, "booth_location": booth_location, "comments": comments,
                     "created_by": created_by, "uplight_ct": uplight_ct, "backdrop_props": backdrop_props,
                     "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types, "cold_sparks": cold_sparks, "microphone": microphone, "monogram": monogram,
-                    "price_override": price_override, "discount_code": discount_code, "cold_spark_ct": cold_spark_ct, "projector": projector, "confetti_cannon": confetti_cannon,"lasers":lasers,"co2_cannon":co2_cannon, "venue":venue
+                    "price_override": price_override, "discount_code": discount_code, 
+                    "lasers":lasers, "moving_head_ct": moving_head_ct, "co2_cannon":co2_cannon, "cold_spark_ct": cold_spark_ct, "projector": projector, "confetti_cannon": confetti_cannon, "venue":venue
                 })
  
                 #conn.close()
@@ -321,11 +326,12 @@ with st.container():
                         "Do you need dance lights?",
                         ('Yes', 'No'),
                         index=0)
+                    moving_head_ct = st.slider('How many moving heads do you need?', 0, 4, value=0)
                     disco_ball = st.radio(
                         "Do you need a disco ball?",
                         ('Yes', 'No'),
                         index=1)
-                    uplighting = "No"
+                    #uplighting = "No"
                     # uplighting = st.radio(
                     #     "Do you need uplighting?",
                     #     ('Yes', 'No'),
@@ -410,7 +416,7 @@ with st.container():
                                     estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball,
                                     uplighting, fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location,
                                     comments, created_by, uplight_ct, backdrop_props, back_drop_type, service_hours, service_types,
-                                    cold_sparks, microphone, monogram, discount_code,cold_spark_ct, projector,confetti_cannon,lasers,co2_cannon, venue
+                                    cold_sparks, microphone, monogram, discount_code,lasers,moving_head_ct, co2_cannon,cold_spark_ct, projector,confetti_cannon, venue
                                 )
                                 if savings is not None and total is not None:
                                     #st.success("Your quote has been submitted successfully!")
@@ -449,11 +455,13 @@ with st.container():
                                         'back_drop_type': back_drop_type,
                                         'backdrop_props': backdrop_props,
                                         'comments': comments,
+                                        'lasers': lasers,
+                                        'moving_head_ct': moving_head_ct,
+                                        'co2_cannon': co2_cannon, 
                                         'cold_spark_ct': cold_spark_ct, 
                                         'projector': projector,
                                         'confetti_cannon': confetti_cannon,
-                                        'lasers': lasers,
-                                        'co2_cannon': co2_cannon, 
+
                                         'venue': venue
 
                                     }
@@ -631,7 +639,8 @@ with st.container():
                                 lasers, 
                                 confetti_cannon, 
                                 projector, 
-                                cold_spark_ct
+                                cold_spark_ct,
+                                moving_head_ct
                                 FROM f_get_booking_details('{booking}')
                                 """
 
@@ -653,6 +662,7 @@ with st.container():
                                     'event_date': contract_df['event_date'][0].strftime('%m/%d/%Y') if contract_df['event_date'][0] and isinstance(contract_df['event_date'][0], datetime) else 'Not provided',
                                     'start_time': contract_df['start_time'][0].strftime('%I:%M %p') if contract_df['start_time'][0] and hasattr(contract_df['start_time'][0], 'strftime') else 'Not provided',
                                     'end_time': contract_df['end_time'][0].strftime('%I:%M %p') if contract_df['end_time'][0] and hasattr(contract_df['end_time'][0], 'strftime') else 'Not provided',
+                                    'venue': contract_df['venue'][0] or 'Not provided',
                                     'event_location': contract_df['event_location'][0] or 'Not provided',
                                     'total_fee': f"{contract_df['grand_total'][0]:.2f}" if contract_df['grand_total'][0] else '0.00',
                                     'deposit': '60.00',
@@ -671,7 +681,7 @@ with st.container():
                                     'total_fee': '0.00',
                                     'deposit': '60.00',
                                     'event_type': 'Not provided',
-                                    'equipment_list': 'MC/DJ performance\nPremium PA Sound System\nWireless Microphones\nComplimentary Dance Lights'
+                                    'equipment_list': 'MC/DJ performance\nPremium PA Sound System\nWireless Microphones\nDance Lights'
                                 }
 
                             # Generate contract PDF and add download button only if status is Scheduled
@@ -762,6 +772,7 @@ with st.container():
                                             "Do you need dance lights?",
                                             ('Yes', 'No'),
                                             index=int(df['dancing_lights'][0]))
+                                        moving_head_ct = st.slider('How many moving heads do you need?', 0, 4, value=df['moving_head_ct'][0])
                                         cold_sparks = st.radio(
                                             "Do you need cold sparks?",
                                             ('Yes', 'No'),
@@ -839,7 +850,7 @@ with st.container():
                                                                             estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting,
                                                                             fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct,
                                                                             backdrop_props, back_drop_type,  service_hours, service_types, cold_sparks, microphone, monogram, price_override, discount_code,
-                                                                            cold_spark_ct, projector,confetti_cannon,lasers,co2_cannon, venue)
+                                                                            lasers, _moving_head_ct, co2_cannon, cold_spark_ct, projector,confetti_cannon, venue)
                                                     # , event_date_ct integer, projector boolean, confetti_cannon boolean, lasers boolean, co2_cannon boolean, venue text)
 
                                                     # Prepare form data for PDF after successful update
@@ -858,6 +869,7 @@ with st.container():
                                                         'projector': projector,
                                                         'venue': venue,
                                                         'co2_cannon': co2_cannon,
+                                                        'moving_head_ct': moving_head_ct,
                                                         'lasers': lasers,
                                                         'confetti_cannon': confetti_cannon,
                                                         'cold_spark_ct': cold_spark_ct,
