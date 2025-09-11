@@ -199,6 +199,7 @@ class PDFGenerator:
         self.pdf.ln(2)
 
         # Template based on DJ Contract.docx
+        self.pdf.set_font("Helvetica", 'I', 8)
         template = """
  
 
@@ -236,6 +237,8 @@ Any modification or variation of this Contract shall be in writing with the mutu
 Both parties agree to the terms and conditions stated above as demonstrated by their signatures as follows:
 
 Signature Signature
+
+
 {dj_name}
 Date: {contract_date}
 
