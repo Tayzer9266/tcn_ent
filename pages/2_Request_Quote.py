@@ -713,7 +713,7 @@ with st.container():
                                         if event_date_ct > 1:
                                             event_status = st.selectbox("Booking Status", ("Conflict","Canceled"))  
                                         elif email == "5003":
-                                            event_status = st.selectbox("Booking Status", (df['event_status'][0], "Ongoing","Canceled","Scheduled","Proposal")) 
+                                            event_status = st.selectbox("Booking Status", (df['event_status'][0], "Ongoing","Canceled","Scheduled","Proposal","Completed")) 
                                         else:
                                             event_status = st.selectbox("Booking Status", (df['event_status'][0],"Ongoing","Canceled")) 
 
