@@ -634,7 +634,7 @@ with st.container():
 
                             # Add download button for contract
                             st.download_button(
-                                label="Download DJ Contract PDF",
+                                label="Download DJ Contract",
                                 data=contract_pdf_bytes,
                                 file_name="dj_contract.pdf",
                                 mime="application/pdf"
@@ -820,7 +820,8 @@ with st.container():
                         label="Download Quote PDF",
                         data=pdf_bytes,
                         file_name="quote_form.pdf",
-                        mime="application/pdf"
+                        mime="application/pdf",
+                        key="quote_pdf_download"
                     )
             with col3:
                 if 'pdf_data' in st.session_state:
@@ -843,6 +844,7 @@ with st.container():
                         label="Download DJ Contract PDF",
                         data=contract_pdf_bytes,
                         file_name="dj_contract.pdf",
-                        mime="application/pdf"
+                        mime="application/pdf",
+                        key="contract_pdf_download"
                     )
         

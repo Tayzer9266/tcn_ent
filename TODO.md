@@ -29,7 +29,7 @@
 - Correct font hierarchy with larger title fonts
 
 ## Files Modified
-- utils/pdf_generator.py: Added DJ contract PDF generation with page numbers and font adjustments
+- utils/pdf_generator.py: Added DJ contract PDF generation
 - pages/2_Request_Quote.py: Added import and download functionality
 
 ## Next Steps
