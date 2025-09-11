@@ -280,11 +280,11 @@ Date: {contract_date}
         equipment_list = equipment_list.strip('[]{}')
         if ',' in equipment_list:
             # Split by comma and add line numbers
-            items = [item.strip().strip('"') for item in equipment_list.split(',')]
+            items = [item.strip().strip('"').replace("'", "") for item in equipment_list.split(',')]
             equipment_list = '\n'.join([f"{i+1}. {item}" for i, item in enumerate(items)])
         else:
             # If no commas, treat as single item or already formatted
-            equipment_list = '1. ' + equipment_list.strip()
+            equipment_list = '1. ' + equipment_list.strip().replace("'", "")
 
         # Replace placeholders
         contract_text = template.format(
