@@ -4,15 +4,15 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from utils.pdf_generator import generate_dj_contract_pdf_response
 
-# Sample booking data
+# Sample booking data with service_hours as string to test type handling
 sample_booking_data = {
     'dj_name': 'Tay Nguyen',
     'client_name': 'John Doe',
     'contract_date': '11/22/2025',
     'event_date': '11/21/2025',
     'start_time': '6:00 PM',
-    'end_time': '10:00 PM',
-    'service_hours': 4,
+    'end_time': 'Not provided',
+    'service_hours': '4',
     'event_location': 'Eagle Historic Hillsboro, Texas',
     'total_fee': '668.00',
     'deposit': '60.00',
@@ -28,4 +28,5 @@ with open('test_contract.pdf', 'wb') as f:
     f.write(pdf_bytes)
 
 print("Test contract PDF generated successfully!")
+print("Booking data after generation:", sample_booking_data)
 print("Check 'test_contract.pdf' for the output.")
