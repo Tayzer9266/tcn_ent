@@ -628,21 +628,22 @@ with st.container():
                                     'equipment_list': 'MC/DJ performance\nPremium PA Sound System\nWireless Microphones\nComplimentary Dance Lights'
                                 }
 
-                            # Generate contract PDF
-                            generator = PDFGenerator()
-                            contract_pdf_bytes = generator.generate_dj_contract_pdf(booking_data)
+                            # Generate contract PDF and add download button only if status is Scheduled
+                            if df['event_status'][0] == 'Scheduled':
+                                generator = PDFGenerator()
+                                contract_pdf_bytes = generator.generate_dj_contract_pdf(booking_data)
 
-                            # Add download button for contract
-                            last_name = contract_df['last_name'][0] if not contract_df.empty and contract_df['last_name'][0] else 'Unknown'
-                            booking_id = contract_df['booking_id'][0] if not contract_df.empty and contract_df['booking_id'][0] else 'Unknown'
-                            file_name = f"dj_contract_{last_name}_{booking_id}.pdf"
-                            st.download_button(
-                                label="Download DJ Contract",
-                                data=contract_pdf_bytes,
-                                file_name=file_name,
-                                mime="application/pdf",
-                                key="contract_pdf_download_bookings"
-                            )
+                                # Add download button for contract
+                                last_name = contract_df['last_name'][0] if not contract_df.empty and contract_df['last_name'][0] else 'Unknown'
+                                booking_id = contract_df['booking_id'][0] if not contract_df.empty and contract_df['booking_id'][0] else 'Unknown'
+                                file_name = f"dj_contract_{last_name}_{booking_id}.pdf"
+                                st.download_button(
+                                    label="Download Booking Contract",
+                                    data=contract_pdf_bytes,
+                                    file_name=file_name,
+                                    mime="application/pdf",
+                                    key="contract_pdf_download_bookings"
+                                )
  
                      
                             price_override2 = df['price_override'][0]
