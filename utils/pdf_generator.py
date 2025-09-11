@@ -273,7 +273,12 @@ Date: {contract_date}
 
         # Process equipment_list to unnest arrays and put each item on a new line
         equipment_list = booking_data.get('equipment_list', 'MC/DJ performance\nPremium PA Sound System\nWireless Microphones\nComplimentary Dance Lights')
-        if ',' in equipment_list:
+        if equipment_list.startswith('{') and equipment_list.endswith('}'):
+            # Handle PostgreSQL array format {item1,item2}
+            equipment_list = equipment_list[1:-1]  # remove {}
+            equipment_list = '\n'.join([item.strip().strip('"') for item in equipment_list.split(',')])
+        elif ',' in equipment_list:
+            # Handle comma-separated string
             equipment_list = '\n'.join([item.strip() for item in equipment_list.split(',')])
 
         # Replace placeholders
