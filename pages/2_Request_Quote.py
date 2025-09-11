@@ -161,8 +161,8 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
                     "photo_booth_prints": photo_booth_prints, "booth_location": booth_location, "comments": comments,
                     "created_by": created_by, "uplight_ct": uplight_ct, "backdrop_props": backdrop_props,
                     "back_drop_type": back_drop_type, "service_hours": service_hours, "service_types": service_types, "cold_sparks": cold_sparks, "microphone": microphone,
-                    "monogram": monogram, "discount_code": discount_code, "lasers": lasers, "moving_head_ct": moving_head_ct, "co2_cannon": co2_cannon, "cold_spark_ct": cold_spark_ct, 
-                    "projector": projector, "confetti_cannon": confetti_cannon
+                    "monogram": monogram, "discount_code": discount_code, "lasers": lasers, "moving_head_ct": moving_head_ct, "co2_cannon": co2_cannon, "cold_spark_ct": cold_spark_ct,
+                    "projector": projector, "confetti_cannon": confetti_cannon, "venue": venue
                 })
                 row = result.fetchone()
                 if row:
@@ -179,6 +179,7 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
                 raise e
     except Exception as e:
         st.error(f"Error connecting to the database: {e}")
+        return None, None
 
 
 def execute_procedure_update(booking_id, event_status, first_name, last_name, phone_number, email, best_time, event_date, start_time,
