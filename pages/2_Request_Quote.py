@@ -633,11 +633,15 @@ with st.container():
                             contract_pdf_bytes = generator.generate_dj_contract_pdf(booking_data)
 
                             # Add download button for contract
+                            last_name = contract_df['last_name'][0] if not contract_df.empty and contract_df['last_name'][0] else 'Unknown'
+                            booking_id = contract_df['booking_id'][0] if not contract_df.empty and contract_df['booking_id'][0] else 'Unknown'
+                            file_name = f"dj_contract_{last_name}_{booking_id}.pdf"
                             st.download_button(
                                 label="Download DJ Contract",
                                 data=contract_pdf_bytes,
-                                file_name="dj_contract.pdf",
-                                mime="application/pdf"
+                                file_name=file_name,
+                                mime="application/pdf",
+                                key="contract_pdf_download_bookings"
                             )
  
                      
@@ -840,10 +844,12 @@ with st.container():
                         'equipment_list': 'MC/DJ performance\nPremium PA Sound System\nWireless Microphones\nComplimentary Dance Lights'
                     }
                     contract_pdf_bytes = generate_dj_contract_pdf_response(booking_data)
+                    last_name = form_data.get('last_name', 'Unknown')
+                    file_name = f"dj_contract_{last_name}_quote.pdf"
                     st.download_button(
                         label="Download DJ Contract PDF",
                         data=contract_pdf_bytes,
-                        file_name="dj_contract.pdf",
+                        file_name=file_name,
                         mime="application/pdf",
                         key="contract_pdf_download"
                     )
