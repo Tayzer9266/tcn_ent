@@ -242,7 +242,7 @@ Event Title: {event_type}
 Date: {event_date}
 Start Time: {start_time}
 End Time: {end_time}
-End Time: {venue}
+Venue: {venue}
 Location: {event_location}
 
 III. PAYMENT
