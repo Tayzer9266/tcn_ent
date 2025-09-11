@@ -306,6 +306,7 @@ with st.container():
                         st.write(f"Central Time: {start_time.strftime('%I:%M %p')}")
                     estimated_budget = st.number_input("Budget Amount", 0) #Budget
                     event_location = st.text_input("Venue Location", "") #Location
+                    venue = st.text_input("Venue", "")
                     guest_count = st.slider('Number of guests', 1, 600, value=50)
                     pa_system = st.radio(
                         "Do you need PA systems?",
@@ -349,17 +350,17 @@ with st.container():
                     projector = st.radio(
                         "Do you need a projector?",
                         ('Yes', 'No'),
-                        index=int(df['projector'][0])
+                        index=1
                                             )
                     confetti_cannon = st.radio(
                         "Do you need a confetti cannon?",
                         ('Yes', 'No'),
-                        index=int(df['confetti_cannon'][0])
+                        index=1
                                             )
                     lasers = st.radio(
                         "Do you need lasers?",
                         ('Yes', 'No'),
-                        index=int(df['lasers'][0])
+                        index=1
                                             )
                     co2_cannon = st.radio(
                         "Do you need a CO2 Cannon?",
@@ -628,8 +629,8 @@ with st.container():
                                 monogram,
                                 price_override,
                                 discount_code,
-                                event_date_ct
-                                venue, 
+                                event_date_ct,
+                                venue,
                                 co2_cannon, 
                                 lasers, 
                                 confetti_cannon, 
@@ -769,7 +770,7 @@ with st.container():
                                             "Do you need cold sparks?",
                                             ('Yes', 'No'),
                                             index=int(df['cold_sparks'][0]))
-                                        cold_spark_ct = st.slider('How many cold sparks do you need?', 0, 6, value=df['cold_spark_ct'][0])
+                    cold_spark_ct = st.slider('How many cold sparks do you need?', 0, 6, value=0)
                                         disco_ball = st.radio(
                                             "Do you need a disco ball?",
                                             ('Yes', 'No'),
@@ -846,7 +847,7 @@ with st.container():
                                                                             estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting,
                                                                             fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct,
                                                                             backdrop_props, back_drop_type,  service_hours, service_types, cold_sparks, microphone, monogram, price_override, discount_code,
-                                                                            cold_spark_ct, projector,confetti_cannon,lasers,lasers,co2_cannon, venue)
+                                                                            cold_spark_ct, projector,confetti_cannon,lasers,co2_cannon, venue)
                                                     # , event_date_ct integer, projector boolean, confetti_cannon boolean, lasers boolean, co2_cannon boolean, venue text)
 
                                                     # Prepare form data for PDF after successful update
