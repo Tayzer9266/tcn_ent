@@ -1,6 +1,6 @@
 import io
 from fpdf import FPDF
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class PDFGenerator(FPDF):
     def __init__(self):
@@ -197,6 +197,20 @@ class PDFGenerator(FPDF):
 
     def generate_dj_contract_pdf(self, booking_data):
         """Generate a DJ Contract PDF from booking data"""
+        # Calculate end_time if not provided and service_hours is available
+        end_time_str = booking_data.get('end_time', 'Not provided')
+        if (not end_time_str or end_time_str in ['Not provided', 'End Time']) and 'service_hours' in booking_data and booking_data['service_hours'] and isinstance(booking_data['service_hours'], (int, float)) and booking_data['service_hours'] > 0:
+            start_time_str = booking_data.get('start_time', 'Not provided')
+            if start_time_str and start_time_str not in ['Not provided', 'Start Time']:
+                try:
+                    # Parse start_time assuming format '%I:%M %p'
+                    start_dt = datetime.strptime(start_time_str, '%I:%M %p')
+                    end_dt = start_dt + timedelta(hours=booking_data['service_hours'])
+                    booking_data['end_time'] = end_dt.strftime('%I:%M %p')
+                except ValueError:
+                    # If parsing fails, keep the original end_time
+                    pass
+
         self.add_page()
 
         # Header

@@ -12,6 +12,7 @@ sample_booking_data = {
     'event_date': '11/21/2025',
     'start_time': '6:00 PM',
     'end_time': '10:00 PM',
+    'service_hours': 4,
     'event_location': 'Eagle Historic Hillsboro, Texas',
     'total_fee': '668.00',
     'deposit': '60.00',
