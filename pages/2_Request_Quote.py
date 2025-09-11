@@ -310,8 +310,9 @@ with st.container():
                     if start_time:
                         st.write(f"Central Time: {start_time.strftime('%I:%M %p')}")
                     estimated_budget = st.number_input("Budget Amount", 0) #Budget
-                    event_location = st.text_input("Venue Location", "") #Location
                     venue = st.text_input("Venue", "")
+                    event_location = st.text_input("Venue Location", "") #Location
+
                     guest_count = st.slider('Number of guests', 1, 600, value=50)
                     pa_system = st.radio(
                         "Do you need PA systems?",
