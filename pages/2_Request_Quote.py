@@ -301,7 +301,7 @@ with st.container():
                     email = st.text_input("Email Address*", "") #Email
                     discount_code = st.text_input("Discount Code", "") #Phone
                     event_date = st.date_input("Event Date*", value=None) 
-                    event_type = st.selectbox("Event Type?*", ("","Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Fundraiser","Other"))
+                    event_type = st.selectbox("Event Type?*", ("","Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Fundraiser","Mitzvah","Sweet Sixteen","Quinceanera","Graduation","Other"))
                     best_time = st.time_input("Best Time to Contact", None)
                     if best_time:
                         st.write(f"Central Time: {best_time.strftime('%I:%M %p')}")
@@ -321,22 +321,19 @@ with st.container():
                         "Do you need microphones?",
                         ('Yes', 'No'),
                         index=0)
-
                     dancing_lights = st.radio(
                         "Do you need dance lights?",
                         ('Yes', 'No'),
                         index=0)
                     moving_head_ct = st.slider('How many moving heads do you need?', 0, 4, value=0)
+                    cold_spark_ct = st.slider('How many cold sparks do you need?', 0, 6, value=0)
+                    cold_sparks = "Yes" if uplight_ct > 0 else "No"
+                    uplight_ct = st.slider('How many uplights do you need?', 0, 20, value=0)
+                    uplighting = "Yes" if uplight_ct > 0 else "No"
                     disco_ball = st.radio(
                         "Do you need a disco ball?",
                         ('Yes', 'No'),
                         index=1)
-                    #uplighting = "No"
-                    # uplighting = st.radio(
-                    #     "Do you need uplighting?",
-                    #     ('Yes', 'No'),
-                    #     index=1)
-                    uplight_ct = st.slider('How many uplights do you need?', 0, 20, value=0)
                     fog_machine = st.radio(
                         "Do you need a fog machine?",
                         ('Yes', 'No'),
@@ -345,20 +342,6 @@ with st.container():
                         "Do you want dancing on the clouds?",
                         ('Yes', 'No'),
                         index=1)
-                    monogram = st.radio(
-                        "Do you want a projecting monogram?",
-                        ('Yes', 'No'),
-                        index=1)
-                    cold_sparks = st.radio(
-                        "Do you need cold sparks?",
-                        ('Yes', 'No'),
-                        index=1)
-                    cold_spark_ct = st.slider('How many cold sparks do you need?', 0, 6, value=0)
-                    projector = st.radio(
-                        "Do you need a projector?",
-                        ('Yes', 'No'),
-                        index=1
-                                            )
                     confetti_cannon = st.radio(
                         "Do you need a confetti cannon?",
                         ('Yes', 'No'),
@@ -374,7 +357,15 @@ with st.container():
                         ('Yes', 'No'),
                         index=1
                     )
-
+                    projector = st.radio(
+                        "Do you need a projector?",
+                        ('Yes', 'No'),
+                        index=1
+                                            )
+                    monogram = st.radio(
+                        "Do you want a projecting monogram?",
+                        ('Yes', 'No'),
+                        index=1)
                     photo_booth = st.selectbox(
                             "Select a photo booth",
                             ("", "DSLR Photo Booth", "IPad Photo Booth"),
@@ -743,7 +734,7 @@ with st.container():
                                         phone_number = st.text_input("Phone Number*", df['phone_number'][0]) #Phone
                                         email = st.text_input("Email Address*", df['email'][0]) #Email
                                         event_date = st.date_input("Event Date*", df['event_date'][0]) 
-                                        event_type = st.selectbox("Event Type?*", (df['event_type'][0],"Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Fundraiser","Graduation","Other"))
+                                        event_type = st.selectbox("Event Type?*", ("","Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Fundraiser","Mitzvah","Sweet Sixteen","Quinceanera","Graduation","Other"))
                                         best_time = st.time_input("Best Time to Contact", df['best_time'][0])
                                         if best_time:
                                             st.write(f"Central Time: {best_time.strftime('%I:%M %p')}")
@@ -772,39 +763,31 @@ with st.container():
                                             ('Yes', 'No'),
                                             index=int(df['dancing_lights'][0]))
                                         moving_head_ct = st.slider('How many moving heads do you need?', 0, 4, value=df['moving_head_ct'][0])
-                                        cold_sparks = st.radio(
-                                            "Do you need cold sparks?",
-                                            ('Yes', 'No'),
-                                            index=int(df['cold_sparks'][0]))
-                                        cold_spark_ct = st.slider('How many cold sparks do you need?', 0, 6, value=0)
+                                        cold_spark_ct = st.slider('How many cold sparks do you need?', 0, 6, value=df['cold_spark_ct'][0])
+                                        cold_sparks = "Yes" if uplight_ct > 0 else "No"
+                                        uplight_ct = st.slider('How many uplights do you need?', 0, 20, value=df['uplight_ct'][0])
+                                        uplighting = "Yes" if uplight_ct > 0 else "No"
+                                        lasers = st.radio(
+                                                "Do you need lasers?",
+                                                ('Yes', 'No'),
+                                                index=1
+                                            )
                                         disco_ball = st.radio(
                                             "Do you need a disco ball?",
                                             ('Yes', 'No'),
                                             index=int(df['disco_ball'][0])
-                                            )
-                                        projector = st.radio(
-                                                "Do you need a projector?",
-                                                ('Yes', 'No'),
-                                                index=1
                                             )
                                         confetti_cannon = st.radio(
                                                 "Do you need a confetti cannon?",
                                                 ('Yes', 'No'),
                                                 index=1
                                             )
-                                        lasers = st.radio(
-                                                "Do you need lasers?",
-                                                ('Yes', 'No'),
-                                                index=1
-                                            )
+
                                         co2_cannon = st.radio(
                                             "Do you need a CO2 Cannon?",
                                             ('Yes', 'No'),
                                             index=1
                                         )
-
-                                        uplighting = "No"
-                                        uplight_ct = st.slider('How many uplights do you need?', 0, 20, value=df['uplight_ct'][0])
                                         fog_machine = st.radio(
                                             "Do you need a fog machine?",
                                             ('Yes', 'No'),
@@ -813,6 +796,11 @@ with st.container():
                                             "Do you want dancing on the clouds?",
                                             ('Yes', 'No'),
                                             index=int(df['low_fog_machine'][0]))
+                                        projector = st.radio(
+                                                "Do you need a projector?",
+                                                ('Yes', 'No'),
+                                                index=1
+                                            )
                                         monogram = st.radio(
                                             "Do you want a projecting monogram?",
                                             ('Yes', 'No'),
