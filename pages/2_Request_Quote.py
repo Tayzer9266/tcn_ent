@@ -689,6 +689,9 @@ with st.container():
 
                             # Generate contract PDF and add download button only if status is Scheduled
                             if df['event_status'][0] == 'Scheduled':
+
+
+                                st.write("[Pay the deposit to lock in your date](https://buy.stripe.com/cN29BFc2F7gqgBGdQQ)")
                                 generator = PDFGenerator()
                                 contract_pdf_bytes = generator.generate_dj_contract_pdf(booking_data)
 
