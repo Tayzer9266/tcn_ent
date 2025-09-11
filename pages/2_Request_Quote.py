@@ -649,8 +649,8 @@ with st.container():
                             if not contract_df.empty:
                                 # Calculate end_time as start_time + service_hours
                                 start_time_obj = contract_df['start_time'][0]
-                                service_hours = df['service_hours'][0] if not df.empty else 0
-                                if start_time_obj and service_hours:
+                                service_hours = df['service_hours'][0] if not df.empty and len(df) > 0 else 0
+                                if start_time_obj and service_hours is not None and isinstance(service_hours, (int, float)) and service_hours > 0:
                                     from datetime import timedelta
                                     end_time_obj = start_time_obj + timedelta(hours=service_hours)
                                     end_time_str = end_time_obj.strftime('%I:%M %p')
