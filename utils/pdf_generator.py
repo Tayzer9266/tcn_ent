@@ -271,6 +271,11 @@ Date: {contract_date}
 Date: {contract_date}
 """
 
+        # Process equipment_list to unnest arrays and put each item on a new line
+        equipment_list = booking_data.get('equipment_list', 'MC/DJ performance\nPremium PA Sound System\nWireless Microphones\nComplimentary Dance Lights')
+        if ',' in equipment_list:
+            equipment_list = '\n'.join([item.strip() for item in equipment_list.split(',')])
+
         # Replace placeholders
         contract_text = template.format(
             dj_name=booking_data.get('dj_name', 'Tay Nguyen'),
@@ -283,7 +288,7 @@ Date: {contract_date}
             total_fee=booking_data.get('total_fee', '0.00'),
             deposit=booking_data.get('deposit', '60.00'),
             event_type=booking_data.get('event_type', 'Event Type'),
-            equipment_list=booking_data.get('equipment_list', 'MC/DJ performance\nPremium PA Sound System\nWireless Microphones\nComplimentary Dance Lights')
+            equipment_list=equipment_list
         )
 
         # Set font and add text
