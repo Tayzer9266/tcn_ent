@@ -5,7 +5,7 @@ import pandas as pd
 import base64
 from PIL import Image
 from datetime import datetime
-from utils.pdf_generator import PDFGenerator
+from utils.pdf_generator import PDFGenerator, generate_dj_contract_pdf_response
 
 
 st.set_page_config(
@@ -809,7 +809,7 @@ with st.container():
 
         # Display links after successful submission or update
         if 'show_links' in st.session_state and st.session_state['show_links']:
-            col1, col2 = st.columns([3, 2])
+            col1, col2, col3 = st.columns([3, 2, 2])
             with col1:
                 st.write("[Pay the deposit to lock in your date](https://buy.stripe.com/cN29BFc2F7gqgBGdQQ)")
             with col2:
@@ -817,9 +817,32 @@ with st.container():
                     generator = PDFGenerator()
                     pdf_bytes = generator.generate_quote_form_pdf(st.session_state['pdf_data'])
                     st.download_button(
-                        label="Download PDF",
+                        label="Download Quote PDF",
                         data=pdf_bytes,
                         file_name="quote_form.pdf",
+                        mime="application/pdf"
+                    )
+            with col3:
+                if 'pdf_data' in st.session_state:
+                    form_data = st.session_state['pdf_data']
+                    booking_data = {
+                        'dj_name': 'Tay Nguyen',
+                        'client_name': f"{form_data.get('first_name', '')} {form_data.get('last_name', '')}".strip() or 'Client Name',
+                        'contract_date': datetime.now().strftime('%m/%d/%Y'),
+                        'event_date': form_data.get('event_date', datetime.now()).strftime('%m/%d/%Y') if form_data.get('event_date') else 'Not provided',
+                        'start_time': form_data.get('start_time', datetime.now()).strftime('%I:%M %p') if form_data.get('start_time') else 'Not provided',
+                        'end_time': (form_data.get('start_time', datetime.now()) + pd.Timedelta(hours=form_data.get('service_hours', 0))).strftime('%I:%M %p') if form_data.get('start_time') else 'Not provided',
+                        'event_location': form_data.get('event_location', 'Not provided'),
+                        'total_fee': '0.00',
+                        'deposit': '60.00',
+                        'event_type': form_data.get('event_type', 'Not provided'),
+                        'equipment_list': 'MC/DJ performance\nPremium PA Sound System\nWireless Microphones\nComplimentary Dance Lights'
+                    }
+                    contract_pdf_bytes = generate_dj_contract_pdf_response(booking_data)
+                    st.download_button(
+                        label="Download DJ Contract PDF",
+                        data=contract_pdf_bytes,
+                        file_name="dj_contract.pdf",
                         mime="application/pdf"
                     )
         

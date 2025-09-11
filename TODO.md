@@ -1,35 +1,33 @@
-- [ ] Fix st.button to st.form_submit_button in the new_quote_form
-- [ ] Fix DataFrame access bug by replacing bookings_df.empty with len(bookings) > 0
-- [ ] Test the Streamlit app after fixes
+# TODO: DJ Contract PDF Implementation
 
+## Completed Tasks
+- [x] Parse DJ Contract.docx file to extract template structure
+- [x] Create generate_dj_contract_pdf method in PDFGenerator class
+- [x] Add generate_dj_contract_pdf_response standalone function
+- [x] Update 2_Request_Quote.py to include contract PDF download button underneath deposit link
+- [x] Handle placeholder replacement with booking/form data
+- [x] Add contract download for existing bookings in "Your Bookings" section
 
-Create a PDF Form to download contracts:
+## Key Features Implemented
+- Template-based PDF generation using FPDF
+- Dynamic placeholder replacement for:
+  - DJ Name
+  - Client Name
+  - Contract Date
+  - Event Date/Time
+  - Event Location
+  - Total Fee
+  - Deposit Amount
+  - Event Type
+  - Equipment List
+- Download buttons for both quote form and existing bookings
+- Proper error handling for missing data
 
-import streamlit as st
-from fpdf import FPDF
-# Streamlit form
-st.title("Contract Generator")
-with st.form("contract_form"):
-    name = st.text_input("Client Name")
-    service = st.text_input("Service Description")
-    date = st.date_input("Contract Date")
-    submitted = st.form_submit_button("Generate Contract")
+## Files Modified
+- utils/pdf_generator.py: Added DJ contract PDF generation
+- pages/2_Request_Quote.py: Added import and download functionality
 
-if submitted:
-    # Create PDF
-    pdf = FPDF()
-    pdf.add_page()
-    pdf.set_font("Arial", size=12)
-    pdf.cell(200, 10, txt="Service Contract", ln=True, align='C')
-    pdf.ln(10)
-    pdf.cell(200, 10, txt=f"Client: {name}", ln=True)
-    pdf.cell(200, 10, txt=f"Service: {service}", ln=True)
-    pdf.cell(200, 10, txt=f"Date: {date}", ln=True)
-
-    # Save PDF to file
-    pdf.output("contract.pdf")
-
-    # Offer download
-    with open("contract.pdf", "rb") as f:
-        st.download_button("Download Contract", f, file_name="contract.pdf")
-
+## Next Steps
+- Test PDF generation with sample data
+- Verify placeholder replacement accuracy
+- Ensure proper formatting in generated PDFs
