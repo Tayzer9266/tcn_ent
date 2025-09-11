@@ -4,14 +4,14 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from utils.pdf_generator import generate_dj_contract_pdf_response
 
-# Sample booking data with service_hours as string to test type handling
+# Sample booking data with end_time as empty string to test
 sample_booking_data = {
     'dj_name': 'Tay Nguyen',
     'client_name': 'John Doe',
     'contract_date': '11/22/2025',
     'event_date': '11/21/2025',
     'start_time': '6:00 PM',
-    'end_time': 'Not provided',
+    'end_time': '',
     'service_hours': '4',
     'event_location': 'Eagle Historic Hillsboro, Texas',
     'total_fee': '668.00',
