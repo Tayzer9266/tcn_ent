@@ -192,11 +192,11 @@ class PDFGenerator:
         self.pdf.add_page()
 
         # Header
-        self.pdf.set_font("Helvetica", 'B', 10)
-        self.pdf.cell(0, 10, "TCN Entertainment", 0, 1, 'C')
-        self.pdf.set_font("Helvetica", 'B', 10)       
-        self.pdf.cell(0, 10, "DJ CONTRACT", 0, 1, 'C')
-        self.pdf.ln(2)
+        self.pdf.set_font("Helvetica", 'B', 14)
+        self.pdf.cell(0, 12, "TCN Entertainment", 0, 1, 'C')
+        self.pdf.set_font("Helvetica", 'B', 18)
+        self.pdf.cell(0, 12, "DJ CONTRACT", 0, 1, 'C')
+        self.pdf.ln(5)
 
         # Template based on DJ Contract.docx
         self.pdf.set_font("Helvetica", 'I', 8)
@@ -236,7 +236,6 @@ VII. AMENDMENTS
 Any modification or variation of this Contract shall be in writing with the mutual consent of the parties.
 Both parties agree to the terms and conditions stated above as demonstrated by their signatures as follows:
 
-Signature Signature
 
 
 {dj_name}
@@ -262,8 +261,8 @@ Date: {contract_date}
         )
 
         # Set font and add text
-        self.pdf.set_font("Helvetica", '', 12)
-        self.pdf.multi_cell(0, 10, contract_text)
+        self.pdf.set_font("Helvetica", '', 10)
+        self.pdf.multi_cell(0, 8, contract_text)
 
         # Footer
         self.pdf.ln(10)
