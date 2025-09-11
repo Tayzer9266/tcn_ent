@@ -1,4 +1,4 @@
-import streamlit as st
+ import streamlit as st
 from sqlalchemy import create_engine
 from sqlalchemy import text
 import pandas as pd
@@ -221,8 +221,8 @@ def execute_procedure_update(booking_id, event_status, first_name, last_name, ph
                      ":dancing_lights, :disco_ball, :uplighting, :fog_machine, " +
                      ":low_fog_machine, :photo_booth, :photo_booth_prints, :booth_location, " +
                      ":comments, :created_by, :uplight_ct, :backdrop_props, :back_drop_type, " +
-                     ":service_hours, :service_types, :cold_sparks, :microphone, :monogram, :price_override, :discount_code,"
-                     ":lasers, :moving_head_ct, :co2_cannon, :cold_spark_ct, projector, confetti_cannon, venue)")
+                     ":service_hours, :service_types, :cold_sparks, :microphone, :monogram, :price_override, :discount_code," +
+                     ":lasers, :moving_head_ct, :co2_cannon, :cold_spark_ct, :projector, :confetti_cannon, :venue)")
 
         # Execute the procedure with the parameters as named arguments
  
@@ -353,6 +353,7 @@ with st.container():
                         "Do you need cold sparks?",
                         ('Yes', 'No'),
                         index=1)
+                    cold_spark_ct = st.slider('How many cold sparks do you need?', 0, 6, value=0)
                     projector = st.radio(
                         "Do you need a projector?",
                         ('Yes', 'No'),
@@ -457,13 +458,11 @@ with st.container():
                                         'comments': comments,
                                         'lasers': lasers,
                                         'moving_head_ct': moving_head_ct,
-                                        'co2_cannon': co2_cannon, 
-                                        'cold_spark_ct': cold_spark_ct, 
+                                        'co2_cannon': co2_cannon,
+                                        'cold_spark_ct': cold_spark_ct,
                                         'projector': projector,
                                         'confetti_cannon': confetti_cannon,
-
                                         'venue': venue
-
                                     }
                                     st.session_state['pdf_data'] = form_data
                                     st.session_state['show_links'] = True
@@ -814,6 +813,10 @@ with st.container():
                                             "Do you want dancing on the clouds?",
                                             ('Yes', 'No'),
                                             index=int(df['low_fog_machine'][0]))
+                                        monogram = st.radio(
+                                            "Do you want a projecting monogram?",
+                                            ('Yes', 'No'),
+                                            index=int(df['monogram'][0]))
                                         photo_booth = st.selectbox(
                                                     "Select a photo booth",
                                                     (str(df['photo_booth'][0]), "", "DSLR Photo Booth", "IPad Photo Booth"),
@@ -850,7 +853,7 @@ with st.container():
                                                                             estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting,
                                                                             fog_machine, low_fog_machine, photo_booth, photo_booth_prints, booth_location, comments, created_by, uplight_ct,
                                                                             backdrop_props, back_drop_type,  service_hours, service_types, cold_sparks, microphone, monogram, price_override, discount_code,
-                                                                            lasers, _moving_head_ct, co2_cannon, cold_spark_ct, projector,confetti_cannon, venue)
+                                                                            lasers, moving_head_ct, co2_cannon, cold_spark_ct, projector,confetti_cannon, venue)
                                                     # , event_date_ct integer, projector boolean, confetti_cannon boolean, lasers boolean, co2_cannon boolean, venue text)
 
                                                     # Prepare form data for PDF after successful update
