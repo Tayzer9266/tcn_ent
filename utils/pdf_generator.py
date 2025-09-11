@@ -193,14 +193,14 @@ class PDFGenerator:
 
         # Header
         self.pdf.set_font("Helvetica", 'B', 16)
+        self.pdf.cell(0, 10, "TCN Entertainment", 0, 1, 'C')
+        self.pdf.set_font("Helvetica", 'B', 10)       
         self.pdf.cell(0, 10, "DJ CONTRACT", 0, 1, 'C')
         self.pdf.ln(10)
 
         # Template based on DJ Contract.docx
         template = """
-TCN Entertainment
-
-DJ CONTRACT
+ 
 
 I. PARTIES
 
@@ -252,13 +252,14 @@ Any modification or variation of this Contract shall be in writing with the mutu
 
 Both parties agree to the terms and conditions stated above as demonstrated by their signatures as follows:
 
+
 Signature Signature
 
 {dj_name}
 
-{client_name}
-
 Date: {contract_date}
+
+{client_name}
 
 Date: {contract_date}
 """
