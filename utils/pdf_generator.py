@@ -191,7 +191,7 @@ class PDFGenerator(FPDF):
         # Comments
         self._add_section_header("Comments")
         self.set_font("Helvetica", '', 12)
-        self.multi_cell(0, 10, form_data.get('comments', 'No comments'))
+        self.multi_cell(0, 10, str(form_data.get('comments') or 'No comments'))
 
         return self.output(dest='S').encode('latin1')
 
