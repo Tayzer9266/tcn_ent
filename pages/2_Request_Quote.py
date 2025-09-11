@@ -599,19 +599,34 @@ with st.container():
                             event_date_ct = df['event_date_ct'][0]
 
                             # Prepare booking data for contract PDF
-                            booking_data = {
-                                'dj_name': contract_df['professional'][0] if not contract_df.empty else 'Tay Nguyen',
-                                'client_name': f"{contract_df['first_name'][0]} {contract_df['last_name'][0]}" if not contract_df.empty else 'Client Name',
-                                'contract_date': contract_df['today'][0].strftime('%m/%d/%Y') if not contract_df.empty and contract_df['today'][0] else datetime.now().strftime('%m/%d/%Y'),
-                                'event_date': contract_df['event_date'][0].strftime('%m/%d/%Y') if not contract_df.empty and contract_df['event_date'][0] else 'Not provided',
-                                'start_time': contract_df['start_time'][0].strftime('%I:%M %p') if not contract_df.empty and contract_df['start_time'][0] else 'Not provided',
-                                'end_time': contract_df['end_time'][0].strftime('%I:%M %p') if not contract_df.empty and contract_df['end_time'][0] else 'Not provided',
-                                'event_location': contract_df['event_location'][0] if not contract_df.empty else 'Not provided',
-                                'total_fee': f"{contract_df['grand_total'][0]:.2f}" if not contract_df.empty and contract_df['grand_total'][0] else '0.00',
-                                'deposit': '60.00',
-                                'event_type': contract_df['event_type'][0] if not contract_df.empty else 'Not provided',
-                                'equipment_list': contract_df['products'][0] if not contract_df.empty else 'MC/DJ performance\nPremium PA Sound System\nWireless Microphones\nComplimentary Dance Lights'
-                            }
+                            if not contract_df.empty:
+                                booking_data = {
+                                    'dj_name': contract_df['professional'][0] or 'Tay Nguyen',
+                                    'client_name': f"{contract_df['first_name'][0] or ''} {contract_df['last_name'][0] or ''}".strip() or 'Client Name',
+                                    'contract_date': contract_df['today'][0].strftime('%m/%d/%Y') if contract_df['today'][0] and isinstance(contract_df['today'][0], datetime) else datetime.now().strftime('%m/%d/%Y'),
+                                    'event_date': contract_df['event_date'][0].strftime('%m/%d/%Y') if contract_df['event_date'][0] and isinstance(contract_df['event_date'][0], datetime) else 'Not provided',
+                                    'start_time': contract_df['start_time'][0].strftime('%I:%M %p') if contract_df['start_time'][0] and hasattr(contract_df['start_time'][0], 'strftime') else 'Not provided',
+                                    'end_time': contract_df['end_time'][0].strftime('%I:%M %p') if contract_df['end_time'][0] and hasattr(contract_df['end_time'][0], 'strftime') else 'Not provided',
+                                    'event_location': contract_df['event_location'][0] or 'Not provided',
+                                    'total_fee': f"{contract_df['grand_total'][0]:.2f}" if contract_df['grand_total'][0] else '0.00',
+                                    'deposit': '60.00',
+                                    'event_type': contract_df['event_type'][0] or 'Not provided',
+                                    'equipment_list': contract_df['products'][0] or 'MC/DJ performance\nPremium PA Sound System\nWireless Microphones\nComplimentary Dance Lights'
+                                }
+                            else:
+                                booking_data = {
+                                    'dj_name': 'Tay Nguyen',
+                                    'client_name': 'Client Name',
+                                    'contract_date': datetime.now().strftime('%m/%d/%Y'),
+                                    'event_date': 'Not provided',
+                                    'start_time': 'Not provided',
+                                    'end_time': 'Not provided',
+                                    'event_location': 'Not provided',
+                                    'total_fee': '0.00',
+                                    'deposit': '60.00',
+                                    'event_type': 'Not provided',
+                                    'equipment_list': 'MC/DJ performance\nPremium PA Sound System\nWireless Microphones\nComplimentary Dance Lights'
+                                }
 
                             # Generate contract PDF
                             generator = PDFGenerator()
