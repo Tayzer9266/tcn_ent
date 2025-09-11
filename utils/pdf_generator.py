@@ -187,6 +187,108 @@ class PDFGenerator:
 
         return self.pdf.output(dest='S').encode('latin1')
 
+    def generate_dj_contract_pdf(self, booking_data):
+        """Generate a DJ Contract PDF from booking data"""
+        self.pdf.add_page()
+
+        # Header
+        self.pdf.set_font("Helvetica", 'B', 16)
+        self.pdf.cell(0, 10, "DJ CONTRACT", 0, 1, 'C')
+        self.pdf.ln(10)
+
+        # Template based on DJ Contract.docx
+        template = """
+TCN Entertainment
+
+DJ CONTRACT
+
+I. PARTIES
+
+This DJ Contract ("Contract" hereinafter) is signed by {dj_name} ("DJ" hereinafter) and {client_name} ("Client" hereinafter) on {contract_date} wherein both parties agreed on the following terms.
+
+II. EVENT DESCRIPTION
+
+This Contract sets out the event details and terms and conditions where DJ {dj_name} will perform.
+
+Will be providing the musical entertainment including any tools need for the sound system to function properly for
+
+Event on {event_date}. Below is the detailed event information:
+
+Performer(s): {dj_name}
+
+Event Title: {event_type}
+
+Date: {event_date}
+
+Start Time: {start_time}
+
+End Time: {end_time}
+
+Location: {event_location}
+
+III. PAYMENT
+
+The total fee which will be paid to DJ under this contract is ${total_fee}. A non-refundable deposit of ${deposit} is required. The balance due is paid by credit card or check at the date of the event unless other arrangements have been agreed upon by {dj_name} to perform from {start_time} until {end_time} on the date of the event. In case there is a need to extend performance, the Client shall pay $50.00 per hour for the extension. Entrance fee, parking and electrical fees will be paid by the Client.
+
+IV. EQUIPMENT
+
+{dj_name} Shall bring the following equipment and personnel:
+
+{equipment_list}
+
+V. TERMINATION OF THE CONTRACT
+
+If the contract is terminated by the Client before the event day, the deposit paid will not be refunded. In case the Contract is terminated on the day of the event, DJ will be entitled to the full contract price and the balance due will be paid on the same day. In both cases, Client shall notify the termination to the DJ in writing.
+
+If the DJ will not be able to perform in an emergency (i.e. accident, health problems, force majeure etc.), the DJ must find a DJ to perform on his behalf and ensure that he fulfills the obligation arising from this contract. If the DJ cannot provide any replacements, DJ shall refund all fees previously paid by the Client, including the deposit.
+
+VI. ENTIRE AGREEMENT
+
+This Contract with any attachments constitutes the complete understanding of the parties to this Contract, regarding the subject matter contained in this Contract, and supersedes all other agreements or arrangements, either oral or in writing.
+
+VII. AMENDMENTS
+
+Any modification or variation of this Contract shall be in writing with the mutual consent of the parties.
+
+Both parties agree to the terms and conditions stated above as demonstrated by their signatures as follows:
+
+Signature Signature
+
+{dj_name}
+
+{client_name}
+
+Date: {contract_date}
+
+Date: {contract_date}
+"""
+
+        # Replace placeholders
+        contract_text = template.format(
+            dj_name=booking_data.get('dj_name', 'Tay Nguyen'),
+            client_name=booking_data.get('client_name', 'Client Name'),
+            contract_date=booking_data.get('contract_date', datetime.now().strftime('%m/%d/%Y')),
+            event_date=booking_data.get('event_date', 'Event Date'),
+            start_time=booking_data.get('start_time', 'Start Time'),
+            end_time=booking_data.get('end_time', 'End Time'),
+            event_location=booking_data.get('event_location', 'Event Location'),
+            total_fee=booking_data.get('total_fee', '0.00'),
+            deposit=booking_data.get('deposit', '60.00'),
+            event_type=booking_data.get('event_type', 'Event Type'),
+            equipment_list=booking_data.get('equipment_list', 'MC/DJ performance\nPremium PA Sound System\nWireless Microphones\nComplimentary Dance Lights')
+        )
+
+        # Set font and add text
+        self.pdf.set_font("Helvetica", '', 12)
+        self.pdf.multi_cell(0, 10, contract_text)
+
+        # Footer
+        self.pdf.ln(10)
+        self.pdf.set_font("Helvetica", 'I', 8)
+        self.pdf.cell(0, 10, f"Generated on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", 0, 1, 'C')
+
+        return self.pdf.output(dest='S').encode('latin1')
+
     def _add_field(self, label, value):
         """Add a field to the PDF"""
         self.pdf.set_font("Helvetica", 'B', 10)
@@ -284,3 +386,8 @@ def generate_quote_pdf_response(quote_data, itemized_df, booking_id, customer_na
     """Generate a PDF from quote data"""
     generator = QuotePDFGenerator()
     return generator.generate_quote_pdf(quote_data, itemized_df, booking_id, customer_name, event_date, event_type)
+
+def generate_dj_contract_pdf_response(booking_data):
+    """Generate a DJ Contract PDF from booking data"""
+    generator = PDFGenerator()
+    return generator.generate_dj_contract_pdf(booking_data)

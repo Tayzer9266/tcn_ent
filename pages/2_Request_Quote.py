@@ -481,13 +481,32 @@ with st.container():
 
                             booking = selected_bookings[0]
                             #for booking in selected_bookings:
-                            
+
+                            # Fetch contract info
+                            contract_query = f"""
+                            SELECT
+                             a.first_name,
+                             a.last_name,
+                             a.event_date,
+                             a.start_time,
+                             a.end_time,
+                             a.event_type,
+                             a.event_location,
+                             a.booking_id,
+                             a.venue,
+                             a.grand_total,
+                             a.products,
+                             a.professional,
+                             a.today
+                            FROM f_get_contract_info('{booking}') a
+                            """
+                            contract_df = run_query(contract_query)
 
                             query = f"""
                             SELECT a.product as items,
                                     a.units,
                                     a.market_total AS market_price,
-                                    a.savings as  savings, 
+                                    a.savings as  savings,
                                     a.amount AS total
                                 FROM f_service_product_total('{booking}') as a
                                 """
@@ -578,6 +597,33 @@ with st.container():
                             payment_due_date = df['payment_due_date'][0]
                             actual_cost = df['actual_cost'][0]
                             event_date_ct = df['event_date_ct'][0]
+
+                            # Prepare booking data for contract PDF
+                            booking_data = {
+                                'dj_name': contract_df['professional'][0] if not contract_df.empty else 'Tay Nguyen',
+                                'client_name': f"{contract_df['first_name'][0]} {contract_df['last_name'][0]}" if not contract_df.empty else 'Client Name',
+                                'contract_date': contract_df['today'][0].strftime('%m/%d/%Y') if not contract_df.empty and contract_df['today'][0] else datetime.now().strftime('%m/%d/%Y'),
+                                'event_date': contract_df['event_date'][0].strftime('%m/%d/%Y') if not contract_df.empty and contract_df['event_date'][0] else 'Not provided',
+                                'start_time': contract_df['start_time'][0].strftime('%I:%M %p') if not contract_df.empty and contract_df['start_time'][0] else 'Not provided',
+                                'end_time': contract_df['end_time'][0].strftime('%I:%M %p') if not contract_df.empty and contract_df['end_time'][0] else 'Not provided',
+                                'event_location': contract_df['event_location'][0] if not contract_df.empty else 'Not provided',
+                                'total_fee': f"{contract_df['grand_total'][0]:.2f}" if not contract_df.empty and contract_df['grand_total'][0] else '0.00',
+                                'deposit': '60.00',
+                                'event_type': contract_df['event_type'][0] if not contract_df.empty else 'Not provided',
+                                'equipment_list': contract_df['products'][0] if not contract_df.empty else 'MC/DJ performance\nPremium PA Sound System\nWireless Microphones\nComplimentary Dance Lights'
+                            }
+
+                            # Generate contract PDF
+                            generator = PDFGenerator()
+                            contract_pdf_bytes = generator.generate_dj_contract_pdf(booking_data)
+
+                            # Add download button for contract
+                            st.download_button(
+                                label="Download DJ Contract PDF",
+                                data=contract_pdf_bytes,
+                                file_name="dj_contract.pdf",
+                                mime="application/pdf"
+                            )
  
                      
                             price_override2 = df['price_override'][0]
