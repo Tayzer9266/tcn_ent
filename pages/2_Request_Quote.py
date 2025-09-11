@@ -290,9 +290,13 @@ with st.container():
                     discount_code = st.text_input("Discount Code", "") #Phone
                     event_date = st.date_input("Event Date*", value=None) 
                     event_type = st.selectbox("Event Type?*", ("","Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Fundraiser","Other"))
-                    best_time = st.time_input("Best Time to Contact", None) 
+                    best_time = st.time_input("Best Time to Contact", None)
+                    if best_time:
+                        st.write(f"Central Time: {best_time.strftime('%I:%M %p')}")
                     service_hours = st.slider('Number of hours professional needed', 2, 24, value=2)
                     start_time = st.time_input("Estimated Start Time*", None) #Start
+                    if start_time:
+                        st.write(f"Central Time: {start_time.strftime('%I:%M %p')}")
                     estimated_budget = st.number_input("Budget Amount", 0) #Budget
                     event_location = st.text_input("Venue Location", "") #Location
                     guest_count = st.slider('Number of guests', 1, 600, value=50)
