@@ -213,7 +213,7 @@ Event on {event_date}. Below is the detailed event information:
 
 Performer(s): {dj_name}
 Event Title: {event_type}
-Date: {event_date}
+Date: {contract_date}
 Start Time: {start_time}
 End Time: {end_time}
 Location: {event_location}
