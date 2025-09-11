@@ -712,11 +712,14 @@ with st.container():
                                         st.subheader("Booking# " + str(booking_id))
 
                                         if event_date_ct > 1:
-                                            event_status = st.selectbox("Booking Status", ("Conflict","Canceled"))  
+                                            options = ["Conflict","Canceled"]
+                                            if df['event_status'][0] not in options:
+                                                options.insert(0, df['event_status'][0])
+                                            event_status = st.selectbox("Booking Status", options, index=0)
                                         elif email == "5003":
-                                            event_status = st.selectbox("Booking Status", (df['event_status'][0], "Ongoing","Canceled","Scheduled","Proposal","Completed")) 
+                                            event_status = st.selectbox("Booking Status", [df['event_status'][0], "Ongoing","Canceled","Scheduled","Proposal","Completed"], index=0)
                                         else:
-                                            event_status = st.selectbox("Booking Status", (df['event_status'][0],"Ongoing","Canceled")) 
+                                            event_status = st.selectbox("Booking Status", [df['event_status'][0],"Ongoing","Canceled"], index=0)
 
                                         service_types = st.multiselect(
                                             "Service Type?*",
@@ -735,8 +738,11 @@ with st.container():
                                         last_name = st.text_input("Last Name*", df['last_name'][0]) #LastName
                                         phone_number = st.text_input("Phone Number*", df['phone_number'][0]) #Phone
                                         email = st.text_input("Email Address*", df['email'][0]) #Email
-                                        event_date = st.date_input("Event Date*", df['event_date'][0]) 
-                                        event_type = st.selectbox("Event Type?*", ("","Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Fundraiser","Mitzvah","Sweet Sixteen","Quinceanera","Graduation","Other"))
+                                        event_date = st.date_input("Event Date*", df['event_date'][0])
+                                        event_types = ["","Wedding", "Birthday", "Anniversary", "Corporate Function", "Engagement", "Club", "Concert", "Fundraiser","Mitzvah","Sweet Sixteen","Quinceanera","Graduation","Other"]
+                                        current_event_type = df['event_type'][0]
+                                        index = event_types.index(current_event_type) if current_event_type in event_types else 0
+                                        event_type = st.selectbox("Event Type?*", event_types, index=index)
                                         best_time = st.time_input("Best Time to Contact", df['best_time'][0])
                                         if best_time:
                                             st.write(f"Central Time: {best_time.strftime('%I:%M %p')}")
