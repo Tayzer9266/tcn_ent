@@ -782,7 +782,6 @@ with st.container():
                                                 ('Yes', 'No'),
                                                 index=1
                                             )
-
                                         co2_cannon = st.radio(
                                             "Do you need a CO2 Cannon?",
                                             ('Yes', 'No'),
@@ -820,7 +819,6 @@ with st.container():
                                             (str(df['back_drop_type'][0]), "", "White Backdrop", "Shimmering Black Backdrop"),
                                             index=0
                                         )
-
                                         backdrop_props = st.radio(
                                                 "Do you need photo booth props?",
                                                 ('Yes', 'No'),
