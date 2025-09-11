@@ -717,13 +717,13 @@ with st.container():
 
                                 ############################################
                             if event_date_ct > 1:
-                                 st.warning("This date has several bookings. Kindly reach out to us to confirm availability.")   
-                   
+                                 st.warning("This date has several bookings. Kindly reach out to us to confirm availability.")
 
-                            if df['event_status'][0] != 'Scheduled' or email == "5003":
 
-                                    with st.form("update_form"):
-                                        st.subheader("Booking# " + str(booking_id))
+                            st.subheader("Booking# " + str(booking_id))
+                            if df['event_status'][0] == 'Scheduled' and email != "5003":
+                                st.warning("This booking is scheduled. Updates may not be allowed. Contact us if needed.")
+                            with st.form("update_form"):
 
                                         if event_date_ct > 1:
                                             options = ["Conflict","Canceled"]
