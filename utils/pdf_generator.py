@@ -255,11 +255,6 @@ The total fee which will be paid to DJ under this contract is ${total_fee}. A no
 
 
 
-
-
-
-
-
 IV. EQUIPMENT
 {dj_name} Shall bring the following equipment and personnel:
 {equipment_list}
