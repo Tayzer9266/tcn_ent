@@ -247,6 +247,19 @@ Location: {event_location}
 III. PAYMENT
 The total fee which will be paid to DJ under this contract is ${total_fee}. A non-refundable deposit of ${deposit} is required. The balance due is paid by credit card or check at the date of the event unless other arrangements have been agreed upon by {dj_name} to perform from {start_time} until {end_time} on the date of the event. In case there is a need to extend performance, the Client shall pay $50.00 per hour for the extension. Entrance fee, parking and electrical fees will be paid by the Client.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 IV. EQUIPMENT
 {dj_name} Shall bring the following equipment and personnel:
 {equipment_list}
