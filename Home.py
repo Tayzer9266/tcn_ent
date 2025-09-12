@@ -228,7 +228,10 @@ with st.container():
     #st.subheader("Bar and Bat Mitzvahs")
     st.markdown('<div class="section-title">Bar and Bat Mitzvahs</div>', unsafe_allow_html=True)
     st.markdown("""Milestone events like bar and bat mitzvahs deserve the perfect blend of tradition and celebration. I specialize in creating playlists that honor the cultural significance of the day while bringing energy and excitement to the dance floor. Let's make it a day to remember for everyone involved.""")
-    st.image("pages/images/Bar Mitzvah.jpg", width=600, caption="Bar/Bat Mitzvah Celebration")
+    #st.subheader("Quinceaneras")
+    st.markdown('<div class="section-title">Quinceañeras & Sweet Sixteens</div>', unsafe_allow_html=True)
+    st.markdown("""These milestone birthdays are all about celebrating identity, growth, and joy. I craft playlists that reflect the unique personality of the guest of honor while keeping the dance floor alive with energy. Whether it's a heartfelt moment or a high-energy party, let's make this celebration unforgettable for everyone involved.""")
+    st.image("pages/images/Bar Mitzvah.jpg", width=600, caption="Quinceañeras Celebration")
     #st.subheader("Personalized DJ Services for Any Occasion")
 
     st.markdown('<div class="section-title">Personalized DJ Services for Any Occasion</div>', unsafe_allow_html=True)
