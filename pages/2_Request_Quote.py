@@ -930,6 +930,6 @@ with st.container():
             main()
 
         # Display links after successful submission or update
-        if 'show_links' in st.session_state and st.session_state['show_links']:
-            st.write("[Pay the deposit to lock in your date](https://buy.stripe.com/cN29BFc2F7gqgBGdQQ)")
+        #if 'show_links' in st.session_state and st.session_state['show_links']:
+            #st.write("[Pay the deposit to lock in your date](https://buy.stripe.com/cN29BFc2F7gqgBGdQQ)")
         
