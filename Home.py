@@ -159,11 +159,14 @@ with st.container():
         # Display selected package
         st.markdown(f"**{selected_option}**")
         st.markdown(package_details[st.session_state.selected_package].replace('\n', '<br>'), unsafe_allow_html=True)
-        st.markdown("[Build Your Own Package>](Request_Quote)")
+        st.markdown("[Build Your Own Package Based on Your Budget>](Request_Quote)")
 
     with right_col:
         st.markdown('<div style="text-align: center;">', unsafe_allow_html=True)
-        st.image("pages/images/cold_sparks_dancing.jpg")
+        if selected_option in ["Platinum: DJ, Cold Sparks, Dancing Clouds & Photo Booth - $2000", "Platinum Plus: DJ, Cold Sparks, Dancing Clouds, Photo Booth & Photographer - $4000"]:
+            st.image("pages/images/dancing_cloud_sparks.jpg")
+        else:
+            st.image("pages/images/cold_sparks_dancing.jpg")
         st.markdown('</div>', unsafe_allow_html=True)
  
 # ---- SERVICES SECTION ----
