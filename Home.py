@@ -136,7 +136,7 @@ with st.container():
 # ---- PACKAGE SELECTION SECTION ----
 with st.container():
     st.write("---")
-    st.markdown('<div class="section-title">Limited Time Premium Package Deals</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">Explore Our Bundle Savings</div>', unsafe_allow_html=True)
 
     left_col, right_col = st.columns([2, 1])
 
