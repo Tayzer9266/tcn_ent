@@ -34,7 +34,6 @@ with col1:
         </a>""".format(youtube_img),
         unsafe_allow_html=True,
     )
-
 with col2:
     st.markdown(
         """<a href="https://www.instagram.com/tayzer/">
@@ -49,7 +48,7 @@ with col3:
         </a>""".format(facebook_img),
         unsafe_allow_html=True
     )
- 
+
 # Background for page
 page_bg_img = """
 <style>
@@ -72,8 +71,6 @@ def init_connection():
     return engine.connect()
 
 conn = init_connection()
-
- 
 
 @st.cache_data(ttl=10)
  #Ensure the connection is closed
@@ -233,7 +230,6 @@ with st.container():
     st.markdown("""These milestone birthdays are all about celebrating identity, growth, and joy. I craft playlists that reflect the unique personality of the guest of honor while keeping the dance floor alive with energy. Whether it's a heartfelt moment or a high-energy party, let's make this celebration unforgettable for everyone involved.""")
     st.image("pages/images/Bar Mitzvah.jpg", width=600, caption="Quinceañeras Celebration")
     #st.subheader("Personalized DJ Services for Any Occasion")
-
     st.markdown('<div class="section-title">Personalized DJ Services for Any Occasion</div>', unsafe_allow_html=True)
     st.markdown("""Every event is unique, and I'm committed to bringing your vision to life. Whether you're planning an elegant wedding, a spirited private party, or a milestone celebration, I tailor my services to suit your needs. With a keen ability to read the room and curate the perfect playlist, I’ll ensure your guests are entertained from the first note to the last.
         Let’s make your event extraordinary. Together, we'll create an unforgettable experience filled with great music, good vibes, and lasting memories.""")
