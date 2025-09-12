@@ -404,6 +404,8 @@ with st.container():
                             st.session_state["my_input"] = first_name
 
                             if email and phone_number and first_name and event_date and service_hours and event_type:
+                                if service_hours < 3:
+                                    discount_code = ""
                                 # Attempt to execute the function and get the quote price
                                 savings, total = execute_procedure(
                                     first_name, last_name, phone_number, email, best_time, event_date, start_time,
@@ -857,7 +859,7 @@ with st.container():
                                             )
                                         comments = st.text_area("Additional comments", df['comments'][0])   
                                         created_by = ""
-
+                                        
                                         # Submit button
                                         submitted = st.form_submit_button("Update")
                                         if submitted:
@@ -865,6 +867,8 @@ with st.container():
                                             st.session_state["my_input"] = first_name
 
                                             if email and phone_number and first_name and event_date and service_hours and event_type:
+                                                    if service_hours < 3:
+                                                        discount_code = ""
                                                     booking_id = next(iter(booking_id)) if isinstance(booking_id, set) else booking_id
                                                     execute_procedure_update(booking_id, event_status, first_name, last_name, phone_number, email, best_time, event_date, start_time,
                                                                             estimated_budget, event_type, event_location, guest_count, pa_system, dancing_lights, disco_ball, uplighting,
