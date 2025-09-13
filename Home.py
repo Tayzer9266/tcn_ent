@@ -142,7 +142,10 @@ with st.container():
         if 'selected_package' not in st.session_state:
             st.session_state.selected_package = 1  # Default to first
 
-        package_options = ["Gold: DJ and Coldsparks - $1200", "Gold Plus: DJ, Coldsparks & Photographer - $2200", "Platinum: DJ, Cold Sparks, Dancing Clouds & Photo Booth - $2000", "Platinum Plus: DJ, Cold Sparks, Dancing Clouds, Photo Booth & Photographer - $4000"]
+        package_options = ["Gold: DJ and Coldsparks - $1200",
+                            "Gold Plus: DJ, Coldsparks & Photographer - $2200",
+                            "Platinum: DJ, Cold Sparks, Dancing Clouds & Photo Booth - $2000",
+                              "Platinum Plus: DJ, Cold Sparks, Dancing Clouds, Photo Booth & Photographer - $4000"]
         selected_option = st.radio("Select your preferred package:", package_options, index=st.session_state.selected_package - 1)
         st.session_state.selected_package = package_options.index(selected_option) + 1
 
@@ -160,10 +163,14 @@ with st.container():
 
     with right_col:
         st.markdown('<div style="text-align: center;">', unsafe_allow_html=True)
-        if selected_option in ["Platinum: DJ, Cold Sparks, Dancing Clouds & Photo Booth - $2000", "Platinum Plus: DJ, Cold Sparks, Dancing Clouds, Photo Booth & Photographer - $4000"]:
-            st.image("pages/images/dancing_cloud_sparks.jpg")
+        if selected_option in ["Gold: DJ and Coldsparks - $1200"]:
+            st.image("pages/images/cold_sparks_dancing_1.jpg")
+        elif selected_option in ["Gold Plus: DJ, Coldsparks & Photographer - $2200"]:
+            st.image("pages/images/cold_sparks_dancing_2.jpg")
+        elif selected_option in ["Platinum: DJ, Cold Sparks, Dancing Clouds & Photo Booth - $2000"]:
+            st.image("pages/images/dancing_cloud_sparks_1.jpg")            
         else:
-            st.image("pages/images/cold_sparks_dancing.jpg")
+            st.image("pages/images/dancing_cloud_sparks_2.jpg")
         st.markdown('</div>', unsafe_allow_html=True)
  
 # ---- SERVICES SECTION ----
