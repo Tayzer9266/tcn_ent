@@ -81,7 +81,7 @@ with st.container():
         st.write( """1. Complete our quick and user-friendly request form below""")
         st.write( """2. Click on "Your Bookings".""")
         st.write( """3. Provide your email address to instantly access automated pricing results.""")
-        st.write( """We will personally contact you to address any questions or concerns you may have. Once you're satisfied, you can lock in the date with a small $60 deposit.""")
+        st.write( """We will personally contact you to address any questions or concerns you may have. Once you're satisfied, you can lock in the date with a small $60 deposit.  The final balance is not due until the date of the event.  Make monthly payments through Afirm""")
  
         
 
