@@ -271,10 +271,8 @@ Both parties agree to the terms and conditions stated above as demonstrated by t
 
 
 
-{dj_name}                                                                                 {client_name}
-Date: {contract_date}                                                                           Date: {contract_date}
-
-
+{dj_name} Date: {contract_date}                                           {client_name} Date: {contract_date}  
+                                                                        
 """
 
         # Process equipment_list to unnest arrays and put each item on a new line with line numbers
