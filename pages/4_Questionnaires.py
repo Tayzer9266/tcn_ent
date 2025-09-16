@@ -28,21 +28,22 @@ def run_query(query):
         return cur.fetchall()
 
 # Create the functions
-create_get_bookings = """
-select booking_id  
-, event_status  
-, event_date   
-, event_type  
-, estimated_guest  
-, event_location  
-, start_time  
-, service_hours  
-, payment_due_date  
-, billing_status  
-, last_name
-, actual_cost  
-from public.f_get_bookings(:_email);
-"""
+create_get_bookings = f"""
+                            SELECT booking_id, 
+                                event_status, 
+                                event_date, 
+                                event_type, 
+                                estimated_guest, 
+                                event_location, 
+                                start_time, 
+                                service_hours, 
+                                billing_status, 
+                                payment_due_date, 
+                                actual_cost,
+                                last_name,
+                                event_date_ct
+             
+                        """
 
 create_event_questionnaire = """
 SELECT * from public.f_event_questionnaire_by_event_id(:_event_id);
@@ -318,13 +319,13 @@ if email:
     # Run query to get bookings
     booking_rows = run_query(f"SELECT * FROM f_get_bookings('{email}')")
     if booking_rows:
-        options = [f"{row[3]} at {row[13]} on {row[2]}" for row in booking_rows]  # event_type at venue on event_date
+        options = [f"{row[0]} - {row[1]} - {row[2]} - {row[3]}" for row in booking_rows]  # booking_id - event_status - event_date - event_type
         selected_booking = st.radio("Select your event", options)
         if selected_booking:
             for row in booking_rows:
-                if f"{row[3]} at {row[13]} on {row[2]}" == selected_booking:
-                    event_id = int(row[0])
-                    questionnaire_rows = run_query(f"SELECT * FROM f_event_questionnaire_by_event_id({event_id})")
+                if f"{row[0]} - {row[1]} - {row[2]} - {row[3]}" == selected_booking:
+                    booking_id = int(row[0])
+                    questionnaire_rows = run_query(f"SELECT * FROM f_event_questionnaire_by_event_id({booking_id})")
                     if questionnaire_rows:
                         q_row = questionnaire_rows[0]
                         st.session_state.selected_form = q_row[3]  # event_type
