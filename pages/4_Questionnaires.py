@@ -6,7 +6,10 @@ import psycopg2
 # Uses st.cache_resource to only run once.
 @st.cache_resource
 def init_connection():
-    return psycopg2.connect(**st.secrets["postgres"])
+    if isinstance(st.secrets["postgres"], str):
+        return psycopg2.connect(st.secrets["postgres"])
+    else:
+        return psycopg2.connect(**st.secrets["postgres"])
 
 conn = init_connection()
 
@@ -20,12 +23,6 @@ def run_query(query):
 
 # Create the functions
 create_get_bookings = """
-CREATE OR REPLACE FUNCTION public.f_get_bookings(_email text)
- RETURNS TABLE(booking_id text, event_status character varying, event_date date, event_type character varying, estimated_guest integer, event_location character varying, start_time time without time zone, service_hours numeric, billing_status character varying, payment_due_date date, actual_cost numeric, last_name character varying, event_date_ct integer, venue text)
- LANGUAGE plpgsql
-AS $function$
-/*****************************
-QA Testing
 select booking_id  
 , event_status  
 , event_date   
@@ -38,127 +35,11 @@ select booking_id
 , billing_status  
 , last_name
 , actual_cost  
- from f_get_bookings('loucape1987@yahoo.com')  select * from f_get_bookings('0000029')
-select * from f_get_bookings('tnguyen9266@gmail.com') 
-select * from event_producm
-select * event
-select * from event_products where product_id = 6
-******************************/
-begin
-
-if $1 = '5003' 
-	then 
-	return query
-	select (right('000000'::text || e.event_id::text,6))::text as booking_id
-	, e.event_status
-	, e.event_date::date 
-	, e.event_type
-	, e.estimated_guest
-	, e.event_location
-	, e.start_time
-	, e.service_hours::numeric
-	, e.billing_status
-	, e.payment_due_date::date
-	, e.actual_cost::numeric
-	, c.last_name
-	, (select (count(*))::int as ct from events s where s.event_date::date = e.event_date::date) as event_date_ct
-    , e.venue
-	from events e 
-	left join clients c
-		on c.client_id = e.client_id
-	where    e.deleted_at is null 
-	and lower(e.event_status) not in ('canceled','completed','proposal')
-	order by e.event_status desc, e.event_date;
-elseif $1 = '5004' 
-	then 
-	return query
-	select (right('000000'::text || e.event_id::text,6))::text as booking_id
-	, e.event_status
-	, e.event_date::date 
-	, e.event_type
-	, e.estimated_guest
-	, e.event_location
-	, e.start_time
-	, e.service_hours::numeric
-	, e.billing_status
-	, e.payment_due_date::date
-	, e.actual_cost::numeric
-	, c.last_name
-	, (select (count(*))::int as ct from events s where s.event_date::date = e.event_date::date) as event_date_ct
-    , e.venue
-	from events e 
-	left join clients c
-		on c.client_id = e.client_id
-	where e.deleted_at is null 
-	and lower(e.event_status) in ('proposal')
-	--and e.event_date >= now()::date
-	order by e.event_status desc, e.event_date;
-elseif $1 = '5005' 
-	then 
-	return query
-	select (right('000000'::text || e.event_id::text,6))::text as booking_id
-	, e.event_status
-	, e.event_date::date 
-	, e.event_type
-	, e.estimated_guest
-	, e.event_location
-	, e.start_time
-	, e.service_hours::numeric
-	, e.billing_status
-	, e.payment_due_date::date
-	, e.actual_cost::numeric
-	, c.last_name
-	, (select (count(*))::int as ct from events s where s.event_date::date = e.event_date::date) as event_date_ct
-    , e.venue
-	from events e 
-	left join clients c
-		on c.client_id = e.client_id
-	where e.deleted_at is null 
-	and lower(e.event_status) in ('canceled')
-	order by e.event_status desc, e.event_date;
-else 
-	return query
-	select (right('000000'::text || e.event_id::text,6))::text as booking_id
-	, e.event_status
-	, e.event_date::date 
-	, e.event_type
-	, e.estimated_guest
-	, e.event_location
-	, e.start_time
-	, e.service_hours::numeric
-	, e.billing_status
-	, e.payment_due_date::date
-	, e.actual_cost::numeric
-    , c.last_name
-	, (select (count(*))::int as ct from events s where s.event_date::date = e.event_date::date) as event_date_ct
-	, e.venue
-	from events e 
-	left join clients c
-		on c.client_id = e.client_id
-	where    lower(trim(c.email)) =  lower(trim($1))
-	and e.deleted_at is null 
-	and lower(e.event_status) not in ('canceled')
-	order by e.event_status desc, e.event_date desc, e.event_id;
-
-end if;
-
-end;
-$function$
-;
+from public.f_get_bookings(:_email);
 """
 
 create_event_questionnaire = """
-CREATE OR REPLACE FUNCTION public.f_event_questionnaire_by_event_id(_event_id integer)
- RETURNS TABLE(questionnaire_id integer, client_id integer, event_id integer, event_type character varying, created_at timestamp without time zone, updated_at timestamp without time zone, host_name text, host_phone text, host_email text, start_time time without time zone, end_time time without time zone, num_guests integer, venue_name text, venue_address text, venue_phone text, uplighting_color text, photobooth_template text, photobooth_images integer, cocktail_music text[], dinner_music text[], dinner_time time without time zone, dinner_style text, music_genres text[], custom_playlist text, must_play text, do_not_play text, guest_requests boolean, fade_songs boolean, banquet_manager text, photographer text, videographer text, other_vendors text, announce_requests boolean, announce_photobooth boolean, announce_guestbook boolean, snack_time time without time zone, last_call time without time zone, photobooth_warning boolean, last_song text, bride_name text, groom_name text, ceremony_venue text, ceremony_address text, ceremony_phone text, has_ceremony boolean, ceremony_time time without time zone, first_dance text, first_dance_time time without time zone, father_dance text, father_name text, father_dance_time time without time zone, bridal_dance text, mother_dance text, mother_name text, mother_dance_time time without time zone, anniversary_dance boolean, cake_song text, cake_time time without time zone, garter_removal text, garter_removal_time time without time zone, garter_toss text, garter_toss_time time without time zone, bouquet_toss text, bouquet_toss_time time without time zone, private_dance text, memory_book boolean, child_name text, child_age integer, hebrew_name text, temple_name text, rabbi_name text, hora_dance boolean, chair_dance boolean, candle_ceremony boolean, num_candles integer, candle_song text, special_dedications text, torah_music text, haftorah_music text, special_prayers text, traditional_jewish text, israeli_folk text, contemporary_jewish text, child_intro boolean, intro_song text, family_recognition text, motzi boolean, kiddush boolean, parent_speeches boolean, sibling_participation boolean, hava_nagila boolean, traditional_circle boolean, standard_line boolean, no_mature_content boolean, quinceanera_name text, birthday_date date, church_name text, mass_time time without time zone, priest_contact text, court_intro boolean, court_members integer, court_names text, court_song text, shoe_ceremony boolean, shoe_changer text, shoe_song text, crown_ceremony boolean, doll_ceremony boolean, traditional_mexican text, mariachi_requests text, regional_music text[], latin_hits text[], waltz_song text, surprise_dance text, court_waltz text, parent_toast boolean, padrinos_toast boolean, brindis boolean, presentation boolean, tradition_explanation boolean, mexican_dances boolean, latin_dances boolean, standard_dances boolean, cultural_circle boolean, birthday_name text, actual_birthday date, party_theme text, special_decorations text, candle_dedications text, keys_ceremony boolean, tiara_ceremony boolean, grand_entrance boolean, entrance_song text, current_hits text, teen_artists text, age_classics text, tiktok_songs text, birthday_toast boolean, special_dances text, group_photo_times text, social_media_moments text, trending_dances boolean, age_appropriate boolean, social_media_dances boolean, birthday_age integer, milestone text, atmosphere text, age_group text, kid_friendly boolean, interactive_games text, character_songs text, action_songs text[], social_media text, era_music text[], nostalgic_hits text, sophisticated boolean, birthday_intro boolean, cake_presentation text, dancing_level text, interactive_elements text, group_participation text, occasion text, guest_of_honor text, celebration_type text, other_type text, professional_atmosphere boolean, family_friendly boolean, age_range text, cultural_considerations text, recognition_ceremony boolean, ceremony_details text, speeches boolean, speech_details text, special_announcements text, group_activities text, volume_levels text, music_ratio integer, genre_restrictions text, clean_versions boolean, include_line_dances text, line_dance_preference text, is_completed boolean, is_virtual boolean, virtual_platform character varying, event_date timestamp without time zone, event_location character varying, number_of_guests integer, special_requests text, wedding_theme character varying, bridal_party_size integer, first_dance_song character varying, wedding_dress_code character varying, wedding_photographer boolean, mitzvah_theme character varying, mitzvah_boy_or_girl character varying, mitzvah_dance_floor_music boolean, mitzvah_hora_song character varying, mitzvah_traditional_elements boolean, sweet_sixteen_theme character varying, sweet_sixteen_cake_style character varying, sweet_sixteen_special_entrance boolean, sweet_sixteen_wish_list text, sweet_sixteen_dance_song character varying, birthday_party_theme character varying, birthday_party_age integer, birthday_party_songs character varying, birthday_party_catering boolean, birthday_party_activity_plan text, preferred_genres text[], must_play_songs text[], do_not_play_songs text[], playlist_notes text, event_planner boolean, event_planner_name character varying, event_coordinator boolean, event_coordinator_name character varying, event_assistants integer, technical_requirements text, transportation_required boolean, parking_arrangements text, catering_preferences text, lighting_style character varying, audiovisual_needs text, photographer_preferences text, videography_preferences text, event_favors boolean, event_favors_description text, event_gift_registry boolean, event_gift_registry_link character varying, wedding_officiant_name character varying, additional_notes text)
- LANGUAGE plpgsql
-AS $function$
-BEGIN
-    RETURN QUERY
-    SELECT * FROM public.event_questionnaires
-    WHERE event_id = _event_id;
-END;
-$function$
-;
+SELECT * from public.f_event_questionnaire_by_event_id(:_event_id);
 """
 
 # Execute the CREATE statements
