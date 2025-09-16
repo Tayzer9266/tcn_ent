@@ -1,36 +1,5 @@
 import streamlit as st
 import base64
-import psycopg2
-
-# Initialize connection.
-# Uses st.cache_resource to only run once.
-@st.cache_resource
-def init_connection():
-    secrets = st.secrets["postgres"]
-    if isinstance(secrets, str):
-        return psycopg2.connect(secrets)
-    elif isinstance(secrets, dict):
-        if 'dsn' in secrets:
-            return psycopg2.connect(secrets['dsn'])
-        else:
-            return psycopg2.connect(**secrets)
-    else:
-        raise ValueError("postgres secrets must be str or dict")
-
-conn = init_connection()
-
-# Perform query.
-# Uses st.cache_data to only rerun when the query changes or after 10 min.
-@st.cache_data(ttl=600)
-def run_query(query):
-    with conn.cursor() as cur:
-        cur.execute(query)
-        return cur.fetchall()
-
-# Create the functions
- 
-
- 
 
 st.set_page_config(
     page_title="Questionnaires",
@@ -139,40 +108,6 @@ page_bg_img = """
     margin-bottom: 20px;
     text-align: center;
 }
-.interactive-form-card {
-    background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
-    border-radius: 15px;
-    padding: 30px;
-    margin: 20px 0;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    border-left: 5px solid #4CAF50;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.interactive-form-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-}
-.form-option-button {
-    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    font-weight: 600;
-    margin: 10px 5px;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    width: 200px;
-}
-.form-option-button:hover {
-    background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
-    box-shadow: 0 6px 15px rgba(76, 175, 80, 0.4);
-    transform: translateY(-2px);
-}
 </style>
 """
 st.markdown(page_bg_img, unsafe_allow_html=True)
@@ -266,74 +201,6 @@ with col3:
             key="photo_booth_pdf"
         )
     st.markdown('</div>', unsafe_allow_html=True)
-st.markdown("---")
-
-# Interactive Form Section
-st.markdown('<div class="section-title">📝 Interactive Questionnaires (Do Not Use - Under Construction)</div>', unsafe_allow_html=True)
-st.markdown(
-    """
-    Fill out our interactive questionnaires to help us better understand your event needs. 
-    Start by entering your email address below, then select the type of event you're planning.
-    """
-)
-
-# Email input section
-st.markdown('<div class="interactive-form-card">', unsafe_allow_html=True)
-st.markdown("### 📧 Start Your Questionnaire")
-
-if 'user_email' not in st.session_state:
-    st.session_state.user_email = ""
-if 'selected_form' not in st.session_state:
-    st.session_state.selected_form = None
-
-email = st.text_input("Enter your email address:", value=st.session_state.user_email, 
-                     placeholder="your.email@example.com", key="email_input")
-
-if email:
-    st.session_state.user_email = email
-    st.success(f"Email saved: {email}")
-
-    # Run query to get bookings
-    booking_rows = run_query(f"SELECT * FROM f_get_bookings('{email}')")
-    if booking_rows:
-        options = [f"{row[0]} - {row[1]} - {row[2]} - {row[3]}" for row in booking_rows]  # booking_id - event_status - event_date - event_type
-        selected_booking = st.radio("Select your event", options)
-        if selected_booking:
-            for row in booking_rows:
-                if f"{row[0]} - {row[1]} - {row[2]} - {row[3]}" == selected_booking:
-                    booking_id = int(row[0])
-                    questionnaire_rows = run_query(f"SELECT * FROM f_event_questionnaire_by_event_id({booking_id})")
-                    if questionnaire_rows:
-                        q_row = questionnaire_rows[0]
-                        st.session_state.selected_form = q_row[3]  # event_type
-                    else:
-                        st.session_state.selected_form = row[3]
-                    st.rerun()
-    else:
-        st.info("No events found for this email.")
-
-# Display selected form
-if st.session_state.selected_form:
-    st.markdown("---")
-    st.markdown(f"### 📋 {st.session_state.selected_form.replace('_', ' ')} Questionnaire")
-    
-    # Import and render the selected form
-    try:
-        form_module = __import__(f"pages.questionnaires.{st.session_state.selected_form}_Form", fromlist=['render'])
-        form_module.render()
-        
-        # Save button
-        if st.button("💾 Save Progress", key="save_btn", use_container_width=True):
-            st.success("Your progress has been saved! You can return later to continue.")
-            # In a real implementation, this would save to a database
-            # For now, we'll just show a success message
-    except ImportError:
-        st.warning(f"Form for {st.session_state.selected_form} is not available yet.")
-
-st.markdown('</div>', unsafe_allow_html=True)
-
- 
-
 st.markdown("---")
 
 # Contact information
