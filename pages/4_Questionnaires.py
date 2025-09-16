@@ -28,32 +28,9 @@ def run_query(query):
         return cur.fetchall()
 
 # Create the functions
-create_get_bookings = f"""
-                            SELECT booking_id, 
-                                event_status, 
-                                event_date, 
-                                event_type, 
-                                estimated_guest, 
-                                event_location, 
-                                start_time, 
-                                service_hours, 
-                                billing_status, 
-                                payment_due_date, 
-                                actual_cost,
-                                last_name,
-                                event_date_ct
-             
-                        """
+ 
 
-create_event_questionnaire = """
-SELECT * from public.f_event_questionnaire_by_event_id(:_event_id);
-"""
-
-# Execute the CREATE statements
-with conn.cursor() as cur:
-    cur.execute(create_get_bookings)
-    cur.execute(create_event_questionnaire)
-conn.commit()
+ 
 
 st.set_page_config(
     page_title="Questionnaires",
