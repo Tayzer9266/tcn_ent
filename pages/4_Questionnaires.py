@@ -6,10 +6,16 @@ import psycopg2
 # Uses st.cache_resource to only run once.
 @st.cache_resource
 def init_connection():
-    if isinstance(st.secrets["postgres"], str):
-        return psycopg2.connect(st.secrets["postgres"])
+    secrets = st.secrets["postgres"]
+    if isinstance(secrets, str):
+        return psycopg2.connect(secrets)
+    elif isinstance(secrets, dict):
+        if 'dsn' in secrets:
+            return psycopg2.connect(secrets['dsn'])
+        else:
+            return psycopg2.connect(**secrets)
     else:
-        return psycopg2.connect(**st.secrets["postgres"])
+        raise ValueError("postgres secrets must be str or dict")
 
 conn = init_connection()
 
