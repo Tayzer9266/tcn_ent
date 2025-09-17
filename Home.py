@@ -311,7 +311,7 @@ with st.container():
                 margin-bottom: 0.5em;
             }
             .event-card {
-                background: linear-gradient(90deg, #f8fafc 70%, #7393B3 100%);
+                background: linear-gradient(90deg, #f8fafc 70%, #D9D4D2 100%);
                 border-radius: 10px;
                 padding: 0.7em 1.2em;
                 margin-bottom: 0.7em;
