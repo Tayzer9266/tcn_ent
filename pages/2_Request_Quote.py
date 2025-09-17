@@ -736,15 +736,16 @@ with st.container():
                                 # Check if email is valid (not admin or invalid)
                                 import re
                                 if re.match(r"[^@]+@[^@]+\.[^@]+", email) and email != "5003":
-                                    if st.button("Pay Deposit"):
-                                        try:
-                                            checkout_url = "https://buy.stripe.com/cN29BFc2F7gqgBGdQQ" #create_checkout_session(booking_id, email)
-                                            if checkout_url:
-                                                st.markdown(f'<meta http-equiv="refresh" content="0; url={checkout_url}">', unsafe_allow_html=True)
-                                            else:
-                                                st.error("Failed to create checkout session.")
-                                        except Exception as e:
-                                            st.error(f"Error processing payment: {e}")
+                                    st.write("[Pay the deposit to lock in your date](https://buy.stripe.com/cN29BFc2F7gqgBGdQQ)")
+                                    # if st.button("Pay Deposit"):
+                                    #     try:
+                                    #         checkout_url = "https://buy.stripe.com/cN29BFc2F7gqgBGdQQ" #create_checkout_session(booking_id, email)
+                                    #         if checkout_url:
+                                    #             st.markdown(f'<meta http-equiv="refresh" content="0; url={checkout_url}">', unsafe_allow_html=True)
+                                    #         else:
+                                    #             st.error("Failed to create checkout session.")
+                                    #     except Exception as e:
+                                    #         st.error(f"Error processing payment: {e}")
                                 else:
                                     st.info("Deposit payment is not available for this booking.")
 
