@@ -295,7 +295,7 @@ html_content = """
 components.html(html_content, height=900)
 st.write("[Get an instant quote>](Request_Quote)")
 
-# ---- UPCOMING EVENTS SECTION ---- #457b9d;
+# ---- UPCOMING EVENTS SECTION ---- #457b9d; f7e7ce f8fafc
 with st.container():
     st.write("---")
     left_column, right_column = st.columns([2, 1])
@@ -306,12 +306,12 @@ with st.container():
             .section-title {
                 font-size: 1.5em;
                 font-weight: 700;
-                color: #7393B3; 
+                color: #457b9d; 
                 margin-top: 1.2em;
                 margin-bottom: 0.5em;
             }
             .event-card {
-                background: linear-gradient(90deg, #f8fafc 70%, #f7e7ce 100%);
+                background: linear-gradient(90deg, #7393B3 70%, #f7e7ce 100%);
                 border-radius: 10px;
                 padding: 0.7em 1.2em;
                 margin-bottom: 0.7em;
