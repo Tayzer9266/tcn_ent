@@ -1,6 +1,14 @@
 import streamlit as st
 import base64
 
+
+from sqlalchemy import create_engine
+from sqlalchemy import text
+import pandas as pd
+from PIL import Image
+from datetime import datetime, date
+from utils.pdf_generator import PDFGenerator, generate_dj_contract_pdf_response
+
 st.set_page_config(
     page_title="Questionnaires",
     page_icon="pages/images/TCN logo black.jpg",
@@ -41,7 +49,42 @@ with col3:
         </a>""".format(facebook_img),
         unsafe_allow_html=True
     )
+################################################## DATABASE CONNECTION ############################################################################
 
+# Load database credentials from Streamlit secrets
+db_config = st.secrets["postgres"]
+
+# Create the SQLAlchemy engine using connection string format
+def init_connection():
+    connection_string = f"postgresql://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['dbname']}"
+    engine = create_engine(connection_string)
+    return engine.connect()
+
+conn = init_connection()
+
+#RUN QUERY
+def run_query(query):
+    try:
+        # Begin a transaction using the context manager
+        with conn.begin():
+            # Execute the query
+            result = conn.execute(text(query))
+            
+            # Fetch all results and load them into a pandas DataFrame
+            rows = result.fetchall()
+            if not rows:
+                return pd.DataFrame()  # Return an empty DataFrame if no rows
+            
+            # Get column names and create the DataFrame
+            columns = result.keys()
+            df = pd.DataFrame(rows, columns=columns)
+            df = df.reset_index(drop=True)  # Reset index to avoid displaying it
+            
+            # Transaction commits automatically if no exception occurs
+            return df
+    except Exception as e:
+        # Log or handle the exception
+        raise RuntimeError(f"Error executing query: {e}")
 # Use local CSS
 with open("pages/style/style.css") as source_style:
     st.markdown(f"<style>{source_style.read()}</style>", unsafe_allow_html=True)
@@ -201,6 +244,125 @@ with col3:
             key="photo_booth_pdf"
         )
     st.markdown('</div>', unsafe_allow_html=True)
+
+
+st.markdown("---")
+
+
+
+
+
+with st.container():
+    st.write("---")
+    left_column, right_column = st.columns(2)
+    with left_column:
+        def main():
+            # Ask the user if they want a new quote
+            # Create a drop-down menu for new quote or preview existing quotes
+            global selected_bookings
+            selected_bookings = []
+            if 'selected_bookings' not in st.session_state:
+                st.session_state.selected_bookings = []
+            #photo_booth_options = ['Yes', 'No']
+            booth_location= ""
+            created_by=""
+            option = st.radio(
+                        "Select a questionnaire option",
+                        ('Your Questionnaires'),
+                        index=0)
+        
+            if option == "New": 
+                #create questionnaires type   
+                with st.form("my_form"):
+                    #display the questionnare they selected
+
+                    # Submit button
+                    submitted = st.form_submit_button("Submit")
+
+                    if option == "Your Bookings":
+                # Add your logic to preview existing quotes here
+                        email = st.text_input("Email Address*", "") 
+                        # Add a submit button
+                        #try:
+                        query = f"""
+                            SELECT booking_id, 
+                                event_status, 
+                                event_date, 
+                                event_type, 
+                                estimated_guest, 
+                                event_location, 
+                                start_time, 
+                                service_hours, 
+                                billing_status, 
+                                payment_due_date, 
+                                actual_cost,
+                                last_name,
+                                event_date_ct
+                            FROM f_get_bookings('{email}')
+                        """
+                
+
+
+                try:
+                    rows = run_query(query)              
+                except Exception as e:
+                            st.error(f"An error occurred while retrieving bookings: {e}")
+                if rows.empty:
+                    st.error("Please enter a email address.")
+                else:
+                    st.success("Here are the details of your bookings:")  
+
+                options = []
+                
+                for index, row in rows.iterrows():
+                            option_text = f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']}"
+                            options.append(option_text)
+
+                selected_option = st.radio("", options)
+
+                if selected_option:
+                            
+                            for index, row in rows.iterrows():
+                                if selected_option == f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']}":
+                                    selected_bookings.append(row['booking_id'])
+
+                            booking = selected_bookings[0]
+                            #for booking in selected_bookings:
+
+                            # Fetch contract info
+                            contract_query = f"""
+                            SELECT
+                             a.first_name,
+                             a.last_name,
+                             a.event_date,
+                             a.start_time,
+                             a.end_time,
+                             a.event_type,
+                             a.event_location,
+                             a.booking_id,
+                             a.venue,
+                             a.grand_total,
+                             a.products,
+                             a.professional,
+                             a.today
+                            FROM f_get_contract_info('{booking}') a
+                            """
+                            contract_df = run_query(contract_query)
+
+                            query = f"""
+                            SELECT a.product as items,
+                                    a.units,
+                                    a.market_total AS market_price,
+                                    a.savings as  savings,
+                                    a.amount AS total
+                                FROM f_service_product_total('{booking}') as a
+                                """
+
+
+                                # Execute the query and create a DataFrame
+                            df = run_query(query)
+ 
+
 st.markdown("---")
 
 # Contact information
