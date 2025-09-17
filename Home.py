@@ -311,11 +311,11 @@ with st.container():
                 margin-bottom: 0.5em;
             }
             .event-card {
-                background: linear-gradient(90deg, #f8fafc 70%, #f7e7ce 100%);
+                background: linear-gradient(90deg, #f8fafc 70%, #7393B3 100%);
                 border-radius: 10px;
                 padding: 0.7em 1.2em;
                 margin-bottom: 0.7em;
-                box-shadow: 0 2px 12px rgba(0,0,0,0.13); 
+                box-shadow: 0 2px 12px rgba(230,57,70,0.08); 
                 font-size: 1.1em;
             }
             </style>
