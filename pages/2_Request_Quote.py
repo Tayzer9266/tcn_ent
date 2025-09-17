@@ -281,7 +281,8 @@ def run_query(query):
 def create_checkout_session(booking_id, email, amount=60.00):
     try:
         # Base URL for the app (update for production)
-        base_url = "https://tcnentertainment.streamlit.app"
+        base_url = "https://buy.stripe.com/cN29BFc2F7gqgBGdQQ"
+        #base_url = "https://tcnentertainment.streamlit.app"
         session = stripe.checkout.Session.create(
             payment_method_types=['card'],
             line_items=[{
