@@ -363,7 +363,6 @@ with st.container():
                             df = run_query(query)
  
 
-st.markdown("---")
 
 # Contact information
 st.markdown('<div class="section-title">📞 Need Help?</div>', unsafe_allow_html=True)
