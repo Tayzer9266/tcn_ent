@@ -5,5 +5,5 @@
   - [x] Create create_checkout_session function
   - [x] Replace hardcoded link with button to create session
   - [x] Handle success query param
-- [x] Instruct user to add Stripe keys to secrets.toml
+- [ ] Instruct user to add Stripe keys to secrets.toml
 - [ ] Test the implementation

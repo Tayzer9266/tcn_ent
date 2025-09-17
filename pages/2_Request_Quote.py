@@ -729,11 +729,14 @@ with st.container():
                                     st.success("Payment successful! Your booking is confirmed.")
 
                                 if st.button("Pay Deposit"):
-                                    checkout_url = create_checkout_session(booking_id, email)
-                                    if checkout_url:
-                                        st.markdown(f'<meta http-equiv="refresh" content="0; url={checkout_url}">', unsafe_allow_html=True)
-                                    else:
-                                        st.error("Failed to create checkout session.")
+                                    try:
+                                        checkout_url = create_checkout_session(booking_id, email)
+                                        if checkout_url:
+                                            st.markdown(f'<meta http-equiv="refresh" content="0; url={checkout_url}">', unsafe_allow_html=True)
+                                        else:
+                                            st.error("Failed to create checkout session.")
+                                    except Exception as e:
+                                        st.error(f"Error processing payment: {e}")
 
                                 generator = PDFGenerator()
                                 contract_pdf_bytes = generator.generate_dj_contract_pdf(booking_data)
