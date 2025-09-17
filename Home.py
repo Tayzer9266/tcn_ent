@@ -49,11 +49,11 @@ with col3:
         unsafe_allow_html=True
     )
 
-# Background for page #f1ecec;
+# Background for page #f1ecec; #FFFFFF;
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
-    background-color: #FFFFFF;
+    background-color: #f1ecec;
 }
 </style>
 """
