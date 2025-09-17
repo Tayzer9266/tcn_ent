@@ -554,6 +554,7 @@ with st.container():
                                     selected_bookings.append(row['booking_id'])
 
                             booking = selected_bookings[0]
+                            booking_id = booking
                             #for booking in selected_bookings:
 
                             # Fetch contract info
@@ -756,7 +757,6 @@ with st.container():
                      
                             price_override2 = df['price_override'][0]
                             back_drop_needed = 1 if not df['back_drop_type'][0] else 0
-                            booking_id = booking
                         
  
  
