@@ -738,7 +738,7 @@ with st.container():
                                 if re.match(r"[^@]+@[^@]+\.[^@]+", email) and email != "5003":
                                     if st.button("Pay Deposit"):
                                         try:
-                                            checkout_url = create_checkout_session(booking_id, email)
+                                            checkout_url = "https://buy.stripe.com/cN29BFc2F7gqgBGdQQ" #create_checkout_session(booking_id, email)
                                             if checkout_url:
                                                 st.markdown(f'<meta http-equiv="refresh" content="0; url={checkout_url}">', unsafe_allow_html=True)
                                             else:
