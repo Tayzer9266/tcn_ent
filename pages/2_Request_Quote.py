@@ -300,8 +300,9 @@ def create_checkout_session(booking_id, email, amount=60.00):
                 'booking_id': str(booking_id),
             },
             mode='payment',
-            success_url=f"{base_url}/Request_Quote?success=true&booking={booking_id}",
-            cancel_url=f"{base_url}/Request_Quote",
+            success_url=f"https://buy.stripe.com/cN29BFc2F7gqgBGdQQ",
+            #success_url=f"{base_url}/Request_Quote?success=true&booking={booking_id}",
+            #cancel_url=f"{base_url}/Request_Quote",
         )
         return session.url
     except Exception as e:
