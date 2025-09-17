@@ -1,3 +1,9 @@
-- [x] Modify Home.py package selection section to use columns
-- [x] Place radio button and package description in left column
-- [x] Add cold_sparks_dancing.jpg image in right column
+- [x] Update requirements.txt to include 'stripe'
+- [x] Modify pages/2_Request_Quote.py:
+  - [x] Add import stripe
+  - [x] Set stripe.api_key = st.secrets["stripe"]["secret_key"]
+  - [x] Create create_checkout_session function
+  - [x] Replace hardcoded link with button to create session
+  - [x] Handle success query param
+- [x] Instruct user to add Stripe keys to secrets.toml
+- [ ] Test the implementation

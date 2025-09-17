@@ -6,6 +6,7 @@ import base64
 from PIL import Image
 from datetime import datetime, date
 from utils.pdf_generator import PDFGenerator, generate_dj_contract_pdf_response
+import stripe
 
 
 st.set_page_config(
@@ -96,6 +97,9 @@ with st.container():
 
 # Load database credentials from Streamlit secrets
 db_config = st.secrets["postgres"]
+
+# Set Stripe API key
+stripe.api_key = st.secrets["stripe"]["secret_key"]
 
 # Create the SQLAlchemy engine using connection string format
 def init_connection():
@@ -257,23 +261,51 @@ def run_query(query):
         with conn.begin():
             # Execute the query
             result = conn.execute(text(query))
-            
+
             # Fetch all results and load them into a pandas DataFrame
             rows = result.fetchall()
             if not rows:
                 return pd.DataFrame()  # Return an empty DataFrame if no rows
-            
+
             # Get column names and create the DataFrame
             columns = result.keys()
             df = pd.DataFrame(rows, columns=columns)
             df = df.reset_index(drop=True)  # Reset index to avoid displaying it
-            
+
             # Transaction commits automatically if no exception occurs
             return df
     except Exception as e:
         # Log or handle the exception
         raise RuntimeError(f"Error executing query: {e}")
- 
+
+def create_checkout_session(booking_id, email, amount=60.00):
+    try:
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'usd',
+                    'product_data': {
+                        'name': 'Deposit Payment',
+                        'description': f'Deposit for Booking #{booking_id}',
+                    },
+                    'unit_amount': int(amount * 100),  # Amount in cents
+                },
+                'quantity': 1,
+            }],
+            customer_email=email,
+            metadata={
+                'booking_id': str(booking_id),
+            },
+            mode='payment',
+            success_url=f"{st.get_option('server.address')}/Request_Quote?success=true&booking={booking_id}",
+            cancel_url=f"{st.get_option('server.address')}/Request_Quote",
+        )
+        return session.url
+    except Exception as e:
+        st.error(f"Error creating checkout session: {e}")
+        return None
+
 with st.container():
     st.write("---")
     left_column, right_column = st.columns(2)
@@ -692,8 +724,17 @@ with st.container():
                             # Generate contract PDF and add download button only if status is Scheduled
                             if df['event_status'][0] == 'Scheduled':
 
+                                # Handle success query param
+                                if 'success' in st.query_params and st.query_params['success'] == 'true':
+                                    st.success("Payment successful! Your booking is confirmed.")
 
-                                st.write("[Pay the deposit to lock in your date](https://buy.stripe.com/cN29BFc2F7gqgBGdQQ)")
+                                if st.button("Pay Deposit"):
+                                    checkout_url = create_checkout_session(booking_id, email)
+                                    if checkout_url:
+                                        st.markdown(f'<meta http-equiv="refresh" content="0; url={checkout_url}">', unsafe_allow_html=True)
+                                    else:
+                                        st.error("Failed to create checkout session.")
+
                                 generator = PDFGenerator()
                                 contract_pdf_bytes = generator.generate_dj_contract_pdf(booking_data)
 
