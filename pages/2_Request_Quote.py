@@ -280,6 +280,8 @@ def run_query(query):
 
 def create_checkout_session(booking_id, email, amount=60.00):
     try:
+        # Base URL for the app (update for production)
+        base_url = "https://tcnentertainment.streamlit.app"
         session = stripe.checkout.Session.create(
             payment_method_types=['card'],
             line_items=[{
@@ -298,8 +300,8 @@ def create_checkout_session(booking_id, email, amount=60.00):
                 'booking_id': str(booking_id),
             },
             mode='payment',
-            success_url=f"{st.get_option('server.address')}/Request_Quote?success=true&booking={booking_id}",
-            cancel_url=f"{st.get_option('server.address')}/Request_Quote",
+            success_url=f"{base_url}/Request_Quote?success=true&booking={booking_id}",
+            cancel_url=f"{base_url}/Request_Quote",
         )
         return session.url
     except Exception as e:
@@ -729,15 +731,20 @@ with st.container():
                                 if 'success' in st.query_params and st.query_params['success'] == 'true':
                                     st.success("Payment successful! Your booking is confirmed.")
 
-                                if st.button("Pay Deposit"):
-                                    try:
-                                        checkout_url = create_checkout_session(booking_id, email)
-                                        if checkout_url:
-                                            st.markdown(f'<meta http-equiv="refresh" content="0; url={checkout_url}">', unsafe_allow_html=True)
-                                        else:
-                                            st.error("Failed to create checkout session.")
-                                    except Exception as e:
-                                        st.error(f"Error processing payment: {e}")
+                                # Check if email is valid (not admin or invalid)
+                                import re
+                                if re.match(r"[^@]+@[^@]+\.[^@]+", email) and email != "5003":
+                                    if st.button("Pay Deposit"):
+                                        try:
+                                            checkout_url = create_checkout_session(booking_id, email)
+                                            if checkout_url:
+                                                st.markdown(f'<meta http-equiv="refresh" content="0; url={checkout_url}">', unsafe_allow_html=True)
+                                            else:
+                                                st.error("Failed to create checkout session.")
+                                        except Exception as e:
+                                            st.error(f"Error processing payment: {e}")
+                                else:
+                                    st.info("Deposit payment is not available for this booking.")
 
                                 generator = PDFGenerator()
                                 contract_pdf_bytes = generator.generate_dj_contract_pdf(booking_data)
