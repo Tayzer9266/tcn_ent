@@ -295,7 +295,7 @@ html_content = """
 components.html(html_content, height=900)
 st.write("[Get an instant quote>](Request_Quote)")
 
-# ---- UPCOMING EVENTS SECTION ----
+# ---- UPCOMING EVENTS SECTION ---- #457b9d;
 with st.container():
     st.write("---")
     left_column, right_column = st.columns([2, 1])
@@ -306,7 +306,7 @@ with st.container():
             .section-title {
                 font-size: 1.5em;
                 font-weight: 700;
-                color: #457b9d;
+                color: #7393B3; 
                 margin-top: 1.2em;
                 margin-bottom: 0.5em;
             }
