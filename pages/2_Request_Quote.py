@@ -531,7 +531,8 @@ with st.container():
                                 venue_location,
                                 phone_number,
                                 first_name,
-                                email
+                                email,
+                                description
                             FROM f_get_bookings('{email}')
                         """
                 try:
@@ -548,7 +549,7 @@ with st.container():
                 if email == "5004":
                 
                     for index, row in rows.iterrows():
-                                option_text = f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']} - {row['venue']} - {row['first_name']}  {row['last_name']} - {row['phone_number']} - {row['email']} "
+                                option_text = f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']} - {row['venue']} - {row['first_name']}  {row['last_name']} - {row['phone_number']} - {row['email']} - {row['description']}"
                                 options.append(option_text)
 
                     selected_option = st.radio("", options)
@@ -556,7 +557,7 @@ with st.container():
                     if selected_option:
                             
                             for index, row in rows.iterrows():
-                                if selected_option == f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']} - {row['venue']} - {row['first_name']}  {row['last_name']} - {row['phone_number']} - {row['email']} ":
+                                if selected_option == f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']} - {row['venue']} - {row['first_name']}  {row['last_name']} - {row['phone_number']} - {row['email']} - {row['description']}":
                                     selected_bookings.append(row['booking_id'])
 
                 else:
