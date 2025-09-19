@@ -531,7 +531,7 @@ with st.container():
                                 venue_location,
                                 phone_number,
                                 first_name,
-                                email,
+                                email
                             FROM f_get_bookings('{email}')
                         """
                 try:
