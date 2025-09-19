@@ -548,7 +548,7 @@ with st.container():
                 if email == "5004":
                 
                     for index, row in rows.iterrows():
-                                option_text = f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']} - {row['venue']} - {row['first_name']}  {row['last_name']} - {row['phone_number']} "
+                                option_text = f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']} - {row['venue']} - {row['first_name']}  {row['last_name']} - {row['phone_number']} - {row['email']} "
                                 options.append(option_text)
 
                     selected_option = st.radio("", options)
@@ -556,7 +556,7 @@ with st.container():
                     if selected_option:
                             
                             for index, row in rows.iterrows():
-                                if selected_option == f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']} - {row['venue']} - {row['first_name']}  {row['last_name']} - {row['phone_number']}":
+                                if selected_option == f"{row['booking_id']} - {row['event_status']} - {row['event_date']} - {row['event_type']} - {row['venue']} - {row['first_name']}  {row['last_name']} - {row['phone_number']} - {row['email']} ":
                                     selected_bookings.append(row['booking_id'])
 
                 else:
