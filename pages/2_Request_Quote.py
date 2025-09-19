@@ -506,9 +506,7 @@ with st.container():
                             # Handle any unexpected errors
                             st.error(f"An error occurred while submitting your quote: {e}")
                     
-                
-        
-        
+
 
             elif option == "Your Bookings":
                 # Add your logic to preview existing quotes here
@@ -531,9 +529,6 @@ with st.container():
                                 event_date_ct
                             FROM f_get_bookings('{email}')
                         """
-                
-
-
                 try:
                     rows = run_query(query)              
                 except Exception as e:
