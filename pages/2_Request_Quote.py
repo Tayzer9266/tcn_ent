@@ -528,12 +528,7 @@ with st.container():
                                 payment_due_date, 
                                 actual_cost,
                                 last_name,
-                                event_date_ct,
-                                venue,
-                                venue_location,
-	                            phone_number,
-                                first_name,
-                                email
+                                event_date_ct
                             FROM f_get_bookings('{email}')
                         """
                 
