@@ -131,48 +131,51 @@ with st.container():
     )
 
 # ---- PACKAGE SELECTION SECTION ----
-with st.container():
-    st.write("---")
-    st.markdown('<div class="section-title">Explore Our Bundle Savings</div>', unsafe_allow_html=True)
+# with st.container():
+#     st.write("---")
+#     st.markdown('<div class="section-title">Explore Our Bundle Savings</div>', unsafe_allow_html=True)
 
-    left_col, right_col = st.columns([2, 1])
+#     left_col, right_col = st.columns([2, 1])
 
-    with left_col:
-        # Initialize selected if not set
-        if 'selected_package' not in st.session_state:
-            st.session_state.selected_package = 1  # Default to first
+#     with left_col:
+#         # Initialize selected if not set
+#         if 'selected_package' not in st.session_state:
+#             st.session_state.selected_package = 1  # Default to first
 
-        package_options = ["Gold: DJ and Coldsparks - $1200",
-                            "Gold Plus: DJ, Coldsparks & Photographer - $2200",
-                            "Platinum: DJ, Cold Sparks, Dancing Clouds & Photo Booth - $2000",
-                              "Platinum Plus: DJ, Cold Sparks, Dancing Clouds, Photo Booth & Photographer - $4000"]
-        selected_option = st.radio("Select your preferred package:", package_options, index=st.session_state.selected_package - 1)
-        st.session_state.selected_package = package_options.index(selected_option) + 1
+#         package_options = ["Gold: DJ and Coldsparks - $1200",
+#                             "Gold Plus: DJ, Coldsparks & Photographer - $2200",
+#                             "Platinum: DJ, Cold Sparks, Dancing Clouds & Photo Booth - $2000",
+#                               "Platinum Plus: DJ, Cold Sparks, Dancing Clouds, Photo Booth & Photographer - $4000"]
+#         selected_option = st.radio("Select your preferred package:", package_options, index=st.session_state.selected_package - 1)
+#         st.session_state.selected_package = package_options.index(selected_option) + 1
 
-        package_details = {
-            1: "Perfect for prime weddings, corporate events, and parties.\nIncludes:\n- 8 Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads\n- 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Cold Sparks or Dancing on Clouds\n- Wireless Venue uplighting (up to 20 units)",
-            2: "Perfect for prime weddings, corporate events, and parties.\nIncludes:\n- 8 Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads\n- 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Cold Sparks or Dancing on Clouds\n- Wireless Venue uplighting (up to 20 units)\n- Live Photographer",
-            3: "Your one-stop destination for the most magnificent and unforgettable events.\nIncludes:\n- Unlimited Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads\n- 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Cold Sparks\n- Dancing on Clouds fog machine\n- Customize monogram\n- Digital Photo Booth w/ unlimited prints, red carpet, backdrop, and props table\n- Wireless Venue uplighting (up to 20 units)",
-            4: "Your one-stop destination for the most magnificent and unforgettable events.\nIncludes:\n- Unlimited Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads\n- 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Cold Sparks\n- Dancing on Clouds fog machine\n- Customize monogram\n- Digital Photo Booth w/ unlimited prints, red carpet, backdrop, and props table\n- Wireless Venue uplighting (up to 20 units)\n- Live Photographer"
-        }
+#         package_details = {
+#             1: "Perfect for prime weddings, corporate events, and parties.\nIncludes:\n- 8 Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads\n- 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Cold Sparks or Dancing on Clouds\n- Wireless Venue uplighting (up to 20 units)",
+#             2: "Perfect for prime weddings, corporate events, and parties.\nIncludes:\n- 8 Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads\n- 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Cold Sparks or Dancing on Clouds\n- Wireless Venue uplighting (up to 20 units)\n- Live Photographer",
+#             3: "Your one-stop destination for the most magnificent and unforgettable events.\nIncludes:\n- Unlimited Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads\n- 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Cold Sparks\n- Dancing on Clouds fog machine\n- Customize monogram\n- Digital Photo Booth w/ unlimited prints, red carpet, backdrop, and props table\n- Wireless Venue uplighting (up to 20 units)",
+#             4: "Your one-stop destination for the most magnificent and unforgettable events.\nIncludes:\n- Unlimited Hours of DJ/MC Service\n- Premium sound system\n- 2-4 Moving Heads\n- 2 Wash lighting\n- Supercardroid wireless microphones for speeches/toasts/Karaoke\n- Pre-event planning meeting\n- Customizable playlist creation\n- 20\" disco ball lighting effects\n- Cold Sparks\n- Dancing on Clouds fog machine\n- Customize monogram\n- Digital Photo Booth w/ unlimited prints, red carpet, backdrop, and props table\n- Wireless Venue uplighting (up to 20 units)\n- Live Photographer"
+#         }
 
-        # Display selected package
-        st.markdown(f"**{selected_option}**")
-        st.markdown(package_details[st.session_state.selected_package].replace('\n', '<br>'), unsafe_allow_html=True)
-        st.markdown("[Build Your Own Package Within Your Budget>](Request_Quote)")
+#         # Display selected package
+#         st.markdown(f"**{selected_option}**")
+#         st.markdown(package_details[st.session_state.selected_package].replace('\n', '<br>'), unsafe_allow_html=True)
+#         st.markdown("[Build Your Own Package Within Your Budget>](Request_Quote)")
 
-    with right_col:
-        st.markdown('<div style="text-align: center;">', unsafe_allow_html=True)
-        if selected_option in ["Gold: DJ and Coldsparks - $1200"]:
-            st.image("pages/images/cold_sparks_dancing_1.jpg")
-        elif selected_option in ["Gold Plus: DJ, Coldsparks & Photographer - $2200"]:
-            st.image("pages/images/cold_sparks_dancing_2.jpg")
-        elif selected_option in ["Platinum: DJ, Cold Sparks, Dancing Clouds & Photo Booth - $2000"]:
-            st.image("pages/images/dancing_cloud_sparks_1.jpg")            
-        else:
-            st.image("pages/images/dancing_cloud_sparks_2.jpg")
-        st.markdown('</div>', unsafe_allow_html=True)
+#     with right_col:
+#         st.markdown('<div style="text-align: center;">', unsafe_allow_html=True)
+#         if selected_option in ["Gold: DJ and Coldsparks - $1200"]:
+#             st.image("pages/images/cold_sparks_dancing_1.jpg")
+#         elif selected_option in ["Gold Plus: DJ, Coldsparks & Photographer - $2200"]:
+#             st.image("pages/images/cold_sparks_dancing_2.jpg")
+#         elif selected_option in ["Platinum: DJ, Cold Sparks, Dancing Clouds & Photo Booth - $2000"]:
+#             st.image("pages/images/dancing_cloud_sparks_1.jpg")            
+#         else:
+#             st.image("pages/images/dancing_cloud_sparks_2.jpg")
+#         st.markdown('</div>', unsafe_allow_html=True)
  
+
+
+
 # ---- SERVICES SECTION ----
 with st.container():
     st.write("---")
