@@ -278,7 +278,7 @@ with st.container():
     
     # Custom Monogram
     with st.container():
-        st.markdown("### 🔤 Custom Monogram & Logo Projection")
+        st.markdown("### 🔤 Custom Monogram, Logo Projection & Slideshow Projection")
         st.markdown("""
         Personalize your event with custom monogram projection services. We project your names, wedding date, logo, or custom design onto walls, 
         floors, or dance floors, creating a truly personalized experience.
@@ -290,6 +290,8 @@ with st.container():
         - Color matching to your theme
         - Multiple projection surfaces available
         - Digital files accepted (AI, EPS, PNG, JPG)
+        - Slideshow projection for memorable moments    
+        - Live photo booth slideshow display           
         """)
 
 # ---- CALL TO ACTION ----
