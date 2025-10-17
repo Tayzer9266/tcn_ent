@@ -428,6 +428,21 @@ def generate_dj_contract_pdf_response(booking_data):
     generator = PDFGenerator()
     return generator.generate_dj_contract_pdf(booking_data)
 
+def generate_sweet_sixteen_questionnaire_pdf():
+    """Generate a blank Sweet Sixteen Questionnaire PDF"""
+    generator = SweetSixteenQuestionnairePDF()
+    return generator.generate_questionnaire()
+
+def generate_mitzvah_questionnaire_pdf():
+    """Generate a blank Mitzvah Questionnaire PDF"""
+    generator = MitzvahQuestionnairePDF()
+    return generator.generate_questionnaire()
+
+def generate_general_party_questionnaire_pdf():
+    """Generate a blank General Party Questionnaire PDF"""
+    generator = GeneralPartyQuestionnairePDF()
+    return generator.generate_questionnaire()
+
 def generate_birthday_party_questionnaire_pdf():
     """Generate a blank Birthday Party Questionnaire PDF"""
     generator = BirthdayPartyQuestionnairePDF()
@@ -436,6 +451,11 @@ def generate_birthday_party_questionnaire_pdf():
 def generate_quinceanera_questionnaire_pdf():
     """Generate a blank Quinceañera Questionnaire PDF"""
     generator = QuinceaneraQuestionnairePDF()
+    return generator.generate_questionnaire()
+
+def generate_photo_booth_questionnaire_pdf():
+    """Generate a blank Photo Booth Questionnaire PDF"""
+    generator = PhotoBoothQuestionnairePDF()
     return generator.generate_questionnaire()
 
 class BirthdayPartyQuestionnairePDF(FPDF):
@@ -694,6 +714,905 @@ class BirthdayPartyQuestionnairePDF(FPDF):
         self.set_font('Helvetica', 'I', 8)
         self.cell(0, 5, f'Form Generated: {datetime.now().strftime("%B %d, %Y")}', 0, 1, 'C')
         
+        return self.output(dest='S').encode('latin1')
+
+class SweetSixteenQuestionnairePDF(FPDF):
+    def __init__(self):
+        super().__init__()
+        self.set_auto_page_break(auto=True, margin=15)
+        
+    def header(self):
+        """Add header to each page"""
+        if self.page_no() == 1:
+            # Company Logo/Name
+            self.set_font('Helvetica', 'B', 20)
+            self.cell(0, 12, 'TCN Entertainment', 0, 1, 'C')
+            
+            # Title
+            self.set_font('Helvetica', 'B', 18)
+            self.cell(0, 10, 'Sweet Sixteen Questionnaire', 0, 1, 'C')
+            
+            # Subtitle
+            self.set_font('Helvetica', 'I', 10)
+            self.cell(0, 8, 'Please complete this form to help us create your perfect celebration', 0, 1, 'C')
+            self.ln(5)
+    
+    def footer(self):
+        """Add footer to each page"""
+        self.set_y(-15)
+        self.set_font('Helvetica', 'I', 8)
+        self.cell(0, 10, f'Page {self.page_no()}', 0, 0, 'C')
+    
+    def add_section_title(self, title):
+        """Add a section title"""
+        self.ln(8)
+        self.set_font('Helvetica', 'B', 13)
+        self.set_fill_color(230, 230, 230)
+        self.cell(0, 8, title, 0, 1, 'L', True)
+        self.ln(3)
+    
+    def add_field(self, label, width=180, height=6):
+        """Add a fillable field"""
+        self.set_font('Helvetica', '', 10)
+        self.cell(0, height, f'{label}: {"_" * int(width/2)}', 0, 1)
+        self.ln(1)
+    
+    def add_checkbox_field(self, label):
+        """Add a checkbox field"""
+        self.set_font('Helvetica', '', 10)
+        self.cell(5, 6, '[ ]', 0, 0)
+        self.cell(0, 6, f' {label}', 0, 1)
+        self.ln(1)
+    
+    def add_yes_no_field(self, label):
+        """Add a Yes/No checkbox field"""
+        self.set_font('Helvetica', '', 10)
+        self.cell(0, 6, f'{label}:', 0, 1)
+        self.cell(10, 6, '', 0, 0)
+        self.cell(5, 6, '[ ]', 0, 0)
+        self.cell(15, 6, ' Yes', 0, 0)
+        self.cell(5, 6, '[ ]', 0, 0)
+        self.cell(15, 6, ' No', 0, 1)
+        self.ln(2)
+    
+    def add_text_area(self, label, lines=3):
+        """Add a multi-line text area"""
+        self.set_font('Helvetica', '', 10)
+        self.cell(0, 6, f'{label}:', 0, 1)
+        for i in range(lines):
+            self.cell(0, 6, '_' * 90, 0, 1)
+        self.ln(2)
+    
+    def add_time_field(self, label):
+        """Add a time field"""
+        self.set_font('Helvetica', '', 10)
+        self.cell(0, 6, f'{label}: _____ : _____ [ ] AM [ ] PM', 0, 1)
+        self.ln(1)
+    
+    def generate_questionnaire(self):
+        """Generate the complete questionnaire PDF"""
+        self.add_page()
+
+        # Basic Event Information
+        self.add_section_title('Basic Event Information')
+        self.add_field('Event Date (MM/DD/YYYY)')
+        self.add_field('Host/Organizer Name')
+        self.add_field('Host Phone Number')
+        self.add_field('Host Email Address')
+        self.add_time_field('Event Start Time')
+        self.add_time_field('Event End Time')
+        self.add_field('Number of Guests')
+
+        # Venue Information
+        self.add_section_title('Venue Information')
+        self.add_field('Reception/Main Venue Name')
+        self.add_field('Reception Address (Street, City, State, Zip)')
+        self.add_field('Venue Phone Number')
+
+        # Order of Events and Time
+        self.add_section_title('Order of Events and Time')
+        self.set_font('Helvetica', 'I', 9)
+        self.cell(0, 5, 'Please list the order of events for your celebration with their scheduled times:', 0, 1)
+        self.ln(2)
+
+        # Create a table header
+        self.set_font('Helvetica', 'B', 10)
+        self.set_fill_color(240, 240, 240)
+        self.cell(20, 7, 'Order', 1, 0, 'C', True)
+        self.cell(100, 7, 'Event Name', 1, 0, 'C', True)
+        self.cell(70, 7, 'Time', 1, 1, 'C', True)
+
+        # Add blank rows for events
+        self.set_font('Helvetica', '', 9)
+        for i in range(1, 21):
+            self.cell(20, 7, str(i), 1, 0, 'C')
+            self.cell(100, 7, '', 1, 0, 'L')
+            self.cell(70, 7, ' _____ : _____ [ ] AM [ ] PM', 1, 1, 'L')
+
+        self.ln(2)
+        self.set_font('Helvetica', 'I', 8)
+        self.multi_cell(0, 4, 'Note: List your events in chronological order with their scheduled times.')
+
+        # Birthday Person Information
+        self.add_section_title('Birthday Person Information')
+        self.add_field("Birthday Person's Name")
+        self.add_field('Actual birthday date (MM/DD/YYYY)')
+
+        # Party Theme
+        self.add_section_title('Party Theme')
+        self.add_field('Party theme/colors')
+        self.add_text_area('Special decorations', 2)
+
+        # Sweet Sixteen Traditions
+        self.add_section_title('Sweet Sixteen Traditions')
+        self.add_yes_no_field('Candle lighting ceremony')
+        self.add_field('Number of candles (16 + 1 for luck)')
+        self.add_field('Candle lighting song')
+        self.add_text_area('Special dedications for each candle', 2)
+        self.ln(2)
+        self.add_yes_no_field('Keys ceremony? (receiving car keys)')
+        self.add_yes_no_field('Tiara/crown ceremony')
+        self.add_yes_no_field('Grand entrance')
+        self.add_field('Introduction song')
+        
+        # Equipment & Services
+        self.add_section_title('Equipment & Services')
+        self.add_yes_no_field('Up-Lighting')
+        self.add_field('How many uplights')
+        self.add_field('What color')
+        self.ln(2)
+        self.add_yes_no_field('Projection Screen')
+        self.add_yes_no_field('Photo Booth')
+        self.add_field('Photo Booth Template (Standard/Custom)')
+        self.add_field('Number of Images')
+        self.add_yes_no_field('Photo Booth Props')
+        self.add_field('Backdrop Color (White/Shimmering/Black/Other)')
+        
+        # Music Programming
+        self.add_section_title('Music Programming')
+        self.set_font('Helvetica', 'B', 10)
+        self.cell(0, 6, 'Cocktail Hour Music Style (check all that apply):', 0, 1)
+        self.set_font('Helvetica', '', 10)
+        
+        cocktail_styles = ['Big Band', 'Soft Rock', 'Current Top 40', 'Alternative',
+                          'Motown', 'R&B', 'Smooth Jazz', 'Country', 
+                          'Vitamin String Quartet', 'Afrobeats']
+        for i in range(0, len(cocktail_styles), 2):
+            self.cell(5, 6, '[ ]', 0, 0)
+            self.cell(45, 6, f' {cocktail_styles[i]}', 0, 0)
+            if i + 1 < len(cocktail_styles):
+                self.cell(5, 6, '[ ]', 0, 0)
+                self.cell(45, 6, f' {cocktail_styles[i+1]}', 0, 1)
+            else:
+                self.ln()
+        
+        self.ln(3)
+        self.set_font('Helvetica', 'B', 10)
+        self.cell(0, 6, 'Dinner Music Style (check all that apply):', 0, 1)
+        self.set_font('Helvetica', '', 10)
+        
+        for i in range(0, len(cocktail_styles), 2):
+            self.cell(5, 6, '[ ]', 0, 0)
+            self.cell(45, 6, f' {cocktail_styles[i]}', 0, 0)
+            if i + 1 < len(cocktail_styles):
+                self.cell(5, 6, '[ ]', 0, 0)
+                self.cell(45, 6, f' {cocktail_styles[i+1]}', 0, 1)
+            else:
+                self.ln()
+        
+        self.ln(3)
+        self.add_time_field('Dinner Time')
+        self.add_field('Dinner Style (Plated/Buffet/Family Style)')
+        
+        # General Music Preferences
+        self.add_section_title('General Music Preferences')
+        self.set_font('Helvetica', 'B', 10)
+        self.cell(0, 6, 'Music Genres to Include (check all that apply):', 0, 1)
+        self.set_font('Helvetica', '', 10)
+        
+        genres = ['Oldies', 'Motown', 'Sock Hop', 'Rock', 'Emo', 'Top 40',
+                 "70's Disco", "80's", "90's", 'Hip-Hop', 'Country', 'R&B',
+                 'Afrobeats', 'Techno', 'Alternative', 'House', 'Afro-House', 'Remixes']
+        
+        for i in range(0, len(genres), 3):
+            for j in range(3):
+                if i + j < len(genres):
+                    self.cell(5, 6, '[ ]', 0, 0)
+                    self.cell(30, 6, f' {genres[i+j]}', 0, 0)
+            self.ln()
+        
+        self.ln(3)
+        self.add_field('Custom Genres or Playlist URLs')
+        self.add_text_area('Must-Play Songs (up to 20)', 5)
+        self.add_text_area('Do Not Play Songs', 3)
+        self.add_yes_no_field('Allow Guest Song Requests')
+        self.add_yes_no_field("Can DJ fade out songs that aren't working")
+        
+        # Age-Appropriate Music
+        self.add_section_title('Age-Appropriate Music')
+        self.add_text_area('Current Top 40 hits', 2)
+        self.add_text_area('Teen-popular artists', 2)
+        self.add_text_area('Age-appropriate classics', 2)
+        self.add_text_area('TikTok trending songs', 2)
+        
+        # Special Moments
+        self.add_section_title('Special Moments')
+        self.add_yes_no_field('Parent speeches')
+        self.add_yes_no_field('Birthday toast')
+        
+        # Activities
+        self.add_section_title('Activities')
+        self.add_text_area('Special dances or performances', 2)
+        self.add_field('Group photo times')
+        self.add_text_area('Social media moments', 2)
+        
+        # Line Dances
+        self.add_section_title('Line Dances')
+        self.add_yes_no_field('Current trending dances')
+        self.add_yes_no_field('Age-appropriate line dances')
+        self.add_yes_no_field('Social media popular dances')
+        
+        # Event Coordination
+        self.add_section_title('Event Coordination')
+        self.add_field('Banquet Manager Name & Contact')
+        self.add_field('Photographer Name & Contact')
+        self.add_field('Videographer Name & Contact')
+        self.add_text_area('Other Vendor Contacts', 2)
+        
+        # Announcements
+        self.add_section_title('Announcements')
+        self.add_yes_no_field('Announce that Guests Can Request Songs')
+        self.add_yes_no_field('Announce Photo Booth')
+        self.add_yes_no_field('Announce Guest Book Signing')
+        self.add_time_field('Late Night Snack Announcement Time')
+        self.add_time_field('Last Call for Alcohol Time')
+        self.add_yes_no_field('15-Minute Photo Booth Warning')
+        
+        # Final Notes
+        self.add_section_title('Final Notes')
+        self.add_field('Last Song of the Night')
+        self.add_text_area('Any Additional Notes or Special Requests', 4)
+        
+        # Footer note
+        self.ln(5)
+        self.set_font('Helvetica', 'I', 9)
+        self.multi_cell(0, 5, 'Thank you for completing this questionnaire! Your detailed information helps us create the perfect celebration for your special day. Please return this form at your earliest convenience.')
+        
+        # Generate timestamp
+        self.ln(5)
+        self.set_font('Helvetica', 'I', 8)
+        self.cell(0, 5, f'Form Generated: {datetime.now().strftime("%B %d, %Y")}', 0, 1, 'C')
+        
+        return self.output(dest='S').encode('latin1')
+
+class MitzvahQuestionnairePDF(FPDF):
+    def __init__(self):
+        super().__init__()
+        self.set_auto_page_break(auto=True, margin=15)
+        
+    def header(self):
+        """Add header to each page"""
+        if self.page_no() == 1:
+            # Company Logo/Name
+            self.set_font('Helvetica', 'B', 20)
+            self.cell(0, 12, 'TCN Entertainment', 0, 1, 'C')
+            
+            # Title
+            self.set_font('Helvetica', 'B', 18)
+            self.cell(0, 10, 'Mitzvah Questionnaire', 0, 1, 'C')
+            
+            # Subtitle
+            self.set_font('Helvetica', 'I', 10)
+            self.cell(0, 8, 'Please complete this form to help us create your perfect celebration', 0, 1, 'C')
+            self.ln(5)
+    
+    def footer(self):
+        """Add footer to each page"""
+        self.set_y(-15)
+        self.set_font('Helvetica', 'I', 8)
+        self.cell(0, 10, f'Page {self.page_no()}', 0, 0, 'C')
+    
+    def add_section_title(self, title):
+        """Add a section title"""
+        self.ln(8)
+        self.set_font('Helvetica', 'B', 13)
+        self.set_fill_color(230, 230, 230)
+        self.cell(0, 8, title, 0, 1, 'L', True)
+        self.ln(3)
+    
+    def add_field(self, label, width=180, height=6):
+        """Add a fillable field"""
+        self.set_font('Helvetica', '', 10)
+        self.cell(0, height, f'{label}: {"_" * int(width/2)}', 0, 1)
+        self.ln(1)
+    
+    def add_checkbox_field(self, label):
+        """Add a checkbox field"""
+        self.set_font('Helvetica', '', 10)
+        self.cell(5, 6, '[ ]', 0, 0)
+        self.cell(0, 6, f' {label}', 0, 1)
+        self.ln(1)
+    
+    def add_yes_no_field(self, label):
+        """Add a Yes/No checkbox field"""
+        self.set_font('Helvetica', '', 10)
+        self.cell(0, 6, f'{label}:', 0, 1)
+        self.cell(10, 6, '', 0, 0)
+        self.cell(5, 6, '[ ]', 0, 0)
+        self.cell(15, 6, ' Yes', 0, 0)
+        self.cell(5, 6, '[ ]', 0, 0)
+        self.cell(15, 6, ' No', 0, 1)
+        self.ln(2)
+    
+    def add_text_area(self, label, lines=3):
+        """Add a multi-line text area"""
+        self.set_font('Helvetica', '', 10)
+        self.cell(0, 6, f'{label}:', 0, 1)
+        for i in range(lines):
+            self.cell(0, 6, '_' * 90, 0, 1)
+        self.ln(2)
+    
+    def add_time_field(self, label):
+        """Add a time field"""
+        self.set_font('Helvetica', '', 10)
+        self.cell(0, 6, f'{label}: _____ : _____ [ ] AM [ ] PM', 0, 1)
+        self.ln(1)
+    
+    def generate_questionnaire(self):
+        """Generate the complete questionnaire PDF"""
+        self.add_page()
+        
+        # Basic Event Information
+        self.add_section_title('Basic Event Information')
+        self.add_field('Event Date (MM/DD/YYYY)')
+        self.add_field('Host/Organizer Name')
+        self.add_field('Host Phone Number')
+        self.add_field('Host Email Address')
+        self.add_time_field('Event Start Time')
+        self.add_time_field('Event End Time')
+        self.add_field('Number of Guests')
+        
+        # Venue Information
+        self.add_section_title('Venue Information')
+        self.add_field('Reception/Main Venue Name')
+        self.add_field('Reception Address (Street, City, State, Zip)')
+        self.add_field('Venue Phone Number')
+        
+        # Child Information
+        self.add_section_title('Child Information')
+        self.add_field("Child's Name")
+        self.add_field("Child's Age")
+        self.add_field('Hebrew Name (optional)')
+        
+        # Religious Ceremony
+        self.add_section_title('Religious Ceremony')
+        self.add_field('Temple/Synagogue Name')
+        self.add_field('Ceremony Address')
+        self.add_time_field('Ceremony Start Time')
+        self.add_field('Rabbi/Cantor Name & Contact')
+        
+        # Jewish Traditions
+        self.add_section_title('Jewish Traditions')
+        self.add_yes_no_field('Hora dance')
+        self.add_yes_no_field('Chair dance (lifting the child)')
+        self.add_yes_no_field('Candle lighting ceremony')
+        self.add_field('Number of candles')
+        self.add_field('Candle lighting song')
+        self.add_text_area('Special candle dedications', 2)
+        
+        # Service Elements
+        self.add_section_title('Service Elements')
+        self.add_field('Torah reading music')
+        self.add_field('Haftorah reading music')
+        self.add_text_area('Special prayers or songs', 2)
+        
+        # Equipment & Services
+        self.add_section_title('Equipment & Services')
+        self.add_yes_no_field('Up-Lighting')
+        self.add_field('How many uplights')
+        self.add_field('What color')
+        self.ln(2)
+        self.add_yes_no_field('Projection Screen')
+        self.add_yes_no_field('Photo Booth')
+        self.add_field('Photo Booth Template (Standard/Custom)')
+        self.add_field('Number of Images')
+        self.add_yes_no_field('Photo Booth Props')
+        self.add_field('Backdrop Color (White/Shimmering/Black/Other)')
+        
+        # Music Programming
+        self.add_section_title('Music Programming')
+        self.set_font('Helvetica', 'B', 10)
+        self.cell(0, 6, 'Cocktail Hour Music Style (check all that apply):', 0, 1)
+        self.set_font('Helvetica', '', 10)
+        
+        cocktail_styles = ['Big Band', 'Soft Rock', 'Current Top 40', 'Alternative',
+                          'Motown', 'R&B', 'Smooth Jazz', 'Country', 
+                          'Vitamin String Quartet', 'Afrobeats']
+        for i in range(0, len(cocktail_styles), 2):
+            self.cell(5, 6, '[ ]', 0, 0)
+            self.cell(45, 6, f' {cocktail_styles[i]}', 0, 0)
+            if i + 1 < len(cocktail_styles):
+                self.cell(5, 6, '[ ]', 0, 0)
+                self.cell(45, 6, f' {cocktail_styles[i+1]}', 0, 1)
+            else:
+                self.ln()
+        
+        self.ln(3)
+        self.set_font('Helvetica', 'B', 10)
+        self.cell(0, 6, 'Dinner Music Style (check all that apply):', 0, 1)
+        self.set_font('Helvetica', '', 10)
+        
+        for i in range(0, len(cocktail_styles), 2):
+            self.cell(5, 6, '[ ]', 0, 0)
+            self.cell(45, 6, f' {cocktail_styles[i]}', 0, 0)
+            if i + 1 < len(cocktail_styles):
+                self.cell(5, 6, '[ ]', 0, 0)
+                self.cell(45, 6, f' {cocktail_styles[i+1]}', 0, 1)
+            else:
+                self.ln()
+        
+        self.ln(3)
+        self.add_time_field('Dinner Time')
+        self.add_field('Dinner Style (Plated/Buffet/Family Style)')
+        
+        # General Music Preferences
+        self.add_section_title('General Music Preferences')
+        self.set_font('Helvetica', 'B', 10)
+        self.cell(0, 6, 'Music Genres to Include (check all that apply):', 0, 1)
+        self.set_font('Helvetica', '', 10)
+        
+        genres = ['Oldies', 'Motown', 'Sock Hop', 'Rock', 'Emo', 'Top 40',
+                 "70's Disco", "80's", "90's", 'Hip-Hop', 'Country', 'R&B',
+                 'Afrobeats', 'Techno', 'Alternative', 'House', 'Afro-House', 'Remixes']
+        
+        for i in range(0, len(genres), 3):
+            for j in range(3):
+                if i + j < len(genres):
+                    self.cell(5, 6, '[ ]', 0, 0)
+                    self.cell(30, 6, f' {genres[i+j]}', 0, 0)
+            self.ln()
+        
+        self.ln(3)
+        self.add_field('Custom Genres or Playlist URLs')
+        self.add_text_area('Must-Play Songs (up to 20)', 5)
+        self.add_text_area('Do Not Play Songs', 3)
+        self.add_yes_no_field('Allow Guest Song Requests')
+        self.add_yes_no_field("Can DJ fade out songs that aren't working")
+        
+        # Cultural Music
+        self.add_section_title('Cultural Music')
+        self.add_text_area('Traditional Jewish music requests', 2)
+        self.add_text_area('Israeli folk songs', 2)
+        self.add_text_area('Contemporary Jewish artists', 2)
+        
+        # Party Introduction
+        self.add_section_title('Party Introduction')
+        self.add_yes_no_field('Child introduction')
+        self.add_field('Introduction song')
+        self.add_text_area('Special recognition of family members', 2)
+        
+        # Special Moments
+        self.add_section_title('Special Moments')
+        self.add_yes_no_field('Motzi (blessing over bread)')
+        self.add_yes_no_field('Kiddush (blessing over wine)')
+        self.add_yes_no_field('Parent speeches')
+        self.add_yes_no_field('Sibling participation')
+        
+        # Line Dances
+        self.add_section_title('Line Dances')
+        self.add_yes_no_field('Hava Nagila')
+        self.add_yes_no_field('Traditional Jewish circle dances')
+        self.add_yes_no_field('Standard party line dances')
+        self.add_yes_no_field('No overly mature content')
+        
+        # Event Coordination
+        self.add_section_title('Event Coordination')
+        self.add_field('Banquet Manager Name & Contact')
+        self.add_field('Photographer Name & Contact')
+        self.add_field('Videographer Name & Contact')
+        self.add_text_area('Other Vendor Contacts', 2)
+        
+        # Announcements
+        self.add_section_title('Announcements')
+        self.add_yes_no_field('Announce that Guests Can Request Songs')
+        self.add_yes_no_field('Announce Photo Booth')
+        self.add_yes_no_field('Announce Guest Book Signing')
+        self.add_time_field('Late Night Snack Announcement Time')
+        self.add_time_field('Last Call for Alcohol Time')
+        self.add_yes_no_field('15-Minute Photo Booth Warning')
+        
+        # Final Notes
+        self.add_section_title('Final Notes')
+        self.add_field('Last Song of the Night')
+        self.add_text_area('Any Additional Notes or Special Requests', 4)
+        
+        # Footer note
+        self.ln(5)
+        self.set_font('Helvetica', 'I', 9)
+        self.multi_cell(0, 5, 'Thank you for completing this questionnaire! Your detailed information helps us create the perfect celebration for your special day. Please return this form at your earliest convenience.')
+        
+        # Generate timestamp
+        self.ln(5)
+        self.set_font('Helvetica', 'I', 8)
+        self.cell(0, 5, f'Form Generated: {datetime.now().strftime("%B %d, %Y")}', 0, 1, 'C')
+        
+        return self.output(dest='S').encode('latin1')
+
+class GeneralPartyQuestionnairePDF(FPDF):
+    def __init__(self):
+        super().__init__()
+        self.set_auto_page_break(auto=True, margin=15)
+        
+    def header(self):
+        """Add header to each page"""
+        if self.page_no() == 1:
+            # Company Logo/Name
+            self.set_font('Helvetica', 'B', 20)
+            self.cell(0, 12, 'TCN Entertainment', 0, 1, 'C')
+            
+            # Title
+            self.set_font('Helvetica', 'B', 18)
+            self.cell(0, 10, 'General Party Questionnaire', 0, 1, 'C')
+            
+            # Subtitle
+            self.set_font('Helvetica', 'I', 10)
+            self.cell(0, 8, 'Please complete this form to help us create your perfect celebration', 0, 1, 'C')
+            self.ln(5)
+    
+    def footer(self):
+        """Add footer to each page"""
+        self.set_y(-15)
+        self.set_font('Helvetica', 'I', 8)
+        self.cell(0, 10, f'Page {self.page_no()}', 0, 0, 'C')
+    
+    def add_section_title(self, title):
+        """Add a section title"""
+        self.ln(8)
+        self.set_font('Helvetica', 'B', 13)
+        self.set_fill_color(230, 230, 230)
+        self.cell(0, 8, title, 0, 1, 'L', True)
+        self.ln(3)
+    
+    def add_field(self, label, width=180, height=6):
+        """Add a fillable field"""
+        self.set_font('Helvetica', '', 10)
+        self.cell(0, height, f'{label}: {"_" * int(width/2)}', 0, 1)
+        self.ln(1)
+    
+    def add_checkbox_field(self, label):
+        """Add a checkbox field"""
+        self.set_font('Helvetica', '', 10)
+        self.cell(5, 6, '[ ]', 0, 0)
+        self.cell(0, 6, f' {label}', 0, 1)
+        self.ln(1)
+    
+    def add_yes_no_field(self, label):
+        """Add a Yes/No checkbox field"""
+        self.set_font('Helvetica', '', 10)
+        self.cell(0, 6, f'{label}:', 0, 1)
+        self.cell(10, 6, '', 0, 0)
+        self.cell(5, 6, '[ ]', 0, 0)
+        self.cell(15, 6, ' Yes', 0, 0)
+        self.cell(5, 6, '[ ]', 0, 0)
+        self.cell(15, 6, ' No', 0, 1)
+        self.ln(2)
+    
+    def add_text_area(self, label, lines=3):
+        """Add a multi-line text area"""
+        self.set_font('Helvetica', '', 10)
+        self.cell(0, 6, f'{label}:', 0, 1)
+        for i in range(lines):
+            self.cell(0, 6, '_' * 90, 0, 1)
+        self.ln(2)
+    
+    def add_time_field(self, label):
+        """Add a time field"""
+        self.set_font('Helvetica', '', 10)
+        self.cell(0, 6, f'{label}: _____ : _____ [ ] AM [ ] PM', 0, 1)
+        self.ln(1)
+    
+    def generate_questionnaire(self):
+        """Generate the complete questionnaire PDF"""
+        self.add_page()
+        
+        # Basic Event Information
+        self.add_section_title('Basic Event Information')
+        self.add_field('Event Date (MM/DD/YYYY)')
+        self.add_field('Host/Organizer Name')
+        self.add_field('Host Phone Number')
+        self.add_field('Host Email Address')
+        self.add_time_field('Event Start Time')
+        self.add_time_field('Event End Time')
+        self.add_field('Number of Guests')
+        
+        # Venue Information
+        self.add_section_title('Venue Information')
+        self.add_field('Reception/Main Venue Name')
+        self.add_field('Reception Address (Street, City, State, Zip)')
+        self.add_field('Venue Phone Number')
+        
+        # Event Details
+        self.add_section_title('Event Details')
+        self.add_field('Occasion/Reason for celebration')
+        self.add_field('Guest of honor (if applicable)')
+        self.add_field('Party theme or style')
+        
+        # Celebration Type
+        self.add_section_title('Celebration Type')
+        self.add_field('Type of celebration (Corporate event/Retirement party/Anniversary celebration/Graduation party/Holiday party/Reunion/Other)')
+        self.add_field('Please specify other celebration type')
+        
+        # Specific Needs
+        self.add_section_title('Specific Needs')
+        self.add_yes_no_field('Professional atmosphere required')
+        self.add_yes_no_field('Family-friendly content only')
+        self.add_field('Age range of attendees')
+        self.add_text_area('Cultural considerations', 2)
+        
+        # Special Elements
+        self.add_section_title('Special Elements')
+        self.add_yes_no_field('Recognition/awards ceremony')
+        self.add_text_area('Ceremony details', 2)
+        self.add_yes_no_field('Speeches or presentations')
+        self.add_text_area('Speech details', 2)
+        self.add_text_area('Special announcements', 2)
+        self.add_text_area('Group activities', 2)
+        
+        # Equipment & Services
+        self.add_section_title('Equipment & Services')
+        self.add_yes_no_field('Up-Lighting')
+        self.add_field('How many uplights')
+        self.add_field('What color')
+        self.ln(2)
+        self.add_yes_no_field('Projection Screen')
+        self.add_yes_no_field('Photo Booth')
+        self.add_field('Photo Booth Template (Standard/Custom)')
+        self.add_field('Number of Images')
+        self.add_yes_no_field('Photo Booth Props')
+        self.add_field('Backdrop Color (White/Shimmering/Black/Other)')
+        
+        # Music Programming
+        self.add_section_title('Music Programming')
+        self.set_font('Helvetica', 'B', 10)
+        self.cell(0, 6, 'Cocktail Hour Music Style (check all that apply):', 0, 1)
+        self.set_font('Helvetica', '', 10)
+        
+        cocktail_styles = ['Big Band', 'Soft Rock', 'Current Top 40', 'Alternative',
+                          'Motown', 'R&B', 'Smooth Jazz', 'Country', 
+                          'Vitamin String Quartet', 'Afrobeats']
+        for i in range(0, len(cocktail_styles), 2):
+            self.cell(5, 6, '[ ]', 0, 0)
+            self.cell(45, 6, f' {cocktail_styles[i]}', 0, 0)
+            if i + 1 < len(cocktail_styles):
+                self.cell(5, 6, '[ ]', 0, 0)
+                self.cell(45, 6, f' {cocktail_styles[i+1]}', 0, 1)
+            else:
+                self.ln()
+        
+        self.ln(3)
+        self.set_font('Helvetica', 'B', 10)
+        self.cell(0, 6, 'Dinner Music Style (check all that apply):', 0, 1)
+        self.set_font('Helvetica', '', 10)
+        
+        for i in range(0, len(cocktail_styles), 2):
+            self.cell(5, 6, '[ ]', 0, 0)
+            self.cell(45, 6, f' {cocktail_styles[i]}', 0, 0)
+            if i + 1 < len(cocktail_styles):
+                self.cell(5, 6, '[ ]', 0, 0)
+                self.cell(45, 6, f' {cocktail_styles[i+1]}', 0, 1)
+            else:
+                self.ln()
+        
+        self.ln(3)
+        self.add_time_field('Dinner Time')
+        self.add_field('Dinner Style (Plated/Buffet/Family Style)')
+        
+        # General Music Preferences
+        self.add_section_title('General Music Preferences')
+        self.set_font('Helvetica', 'B', 10)
+        self.cell(0, 6, 'Music Genres to Include (check all that apply):', 0, 1)
+        self.set_font('Helvetica', '', 10)
+        
+        genres = ['Oldies', 'Motown', 'Sock Hop', 'Rock', 'Emo', 'Top 40',
+                 "70's Disco", "80's", "90's", 'Hip-Hop', 'Country', 'R&B',
+                 'Afrobeats', 'Techno', 'Alternative', 'House', 'Afro-House', 'Remixes']
+        
+        for i in range(0, len(genres), 3):
+            for j in range(3):
+                if i + j < len(genres):
+                    self.cell(5, 6, '[ ]', 0, 0)
+                    self.cell(30, 6, f' {genres[i+j]}', 0, 0)
+            self.ln()
+        
+        self.ln(3)
+        self.add_field('Custom Genres or Playlist URLs')
+        self.add_text_area('Must-Play Songs (up to 20)', 5)
+        self.add_text_area('Do Not Play Songs', 3)
+        self.add_yes_no_field('Allow Guest Song Requests')
+        self.add_yes_no_field("Can DJ fade out songs that aren't working")
+        
+        # Music Considerations
+        self.add_section_title('Music Considerations')
+        self.add_field('Appropriate volume levels for venue type (Background Music/Conversation Level/Moderate Dancing/Energetic Dancing)')
+        self.add_field('Background music vs. dance music ratio (0-100)')
+        self.add_text_area('Specific genre restrictions', 2)
+        self.add_yes_no_field('Clean versions only')
+        
+        # Line Dances
+        self.add_section_title('Line Dances')
+        self.add_field('Line dance preference (None/Limited Selection/Full Selection/Custom Selection)')
+        
+        # Event Coordination
+        self.add_section_title('Event Coordination')
+        self.add_field('Banquet Manager Name & Contact')
+        self.add_field('Photographer Name & Contact')
+        self.add_field('Videographer Name & Contact')
+        self.add_text_area('Other Vendor Contacts', 2)
+        
+        # Announcements
+        self.add_section_title('Announcements')
+        self.add_yes_no_field('Announce that Guests Can Request Songs')
+        self.add_yes_no_field('Announce Photo Booth')
+        self.add_yes_no_field('Announce Guest Book Signing')
+        self.add_time_field('Late Night Snack Announcement Time')
+        self.add_time_field('Last Call for Alcohol Time')
+        self.add_yes_no_field('15-Minute Photo Booth Warning')
+        
+        # Final Notes
+        self.add_section_title('Final Notes')
+        self.add_field('Last Song of the Night')
+        self.add_text_area('Any Additional Notes or Special Requests', 4)
+        
+        # Footer note
+        self.ln(5)
+        self.set_font('Helvetica', 'I', 9)
+        self.multi_cell(0, 5, 'Thank you for completing this questionnaire! Your detailed information helps us create the perfect celebration for your special day. Please return this form at your earliest convenience.')
+        
+        # Generate timestamp
+        self.ln(5)
+        self.set_font('Helvetica', 'I', 8)
+        self.cell(0, 5, f'Form Generated: {datetime.now().strftime("%B %d, %Y")}', 0, 1, 'C')
+        
+        return self.output(dest='S').encode('latin1')
+
+class PhotoBoothQuestionnairePDF(FPDF):
+    def __init__(self):
+        super().__init__()
+        self.set_auto_page_break(auto=True, margin=15)
+
+    def header(self):
+        """Add header to each page"""
+        if self.page_no() == 1:
+            # Company Logo/Name
+            self.set_font('Helvetica', 'B', 20)
+            self.cell(0, 12, 'TCN Entertainment', 0, 1, 'C')
+
+            # Title
+            self.set_font('Helvetica', 'B', 18)
+            self.cell(0, 10, 'Photo Booth Questionnaire', 0, 1, 'C')
+
+            # Subtitle
+            self.set_font('Helvetica', 'I', 10)
+            self.cell(0, 8, 'Please complete this form to help us create your perfect photo booth experience', 0, 1, 'C')
+            self.ln(5)
+
+    def footer(self):
+        """Add footer to each page"""
+        self.set_y(-15)
+        self.set_font('Helvetica', 'I', 8)
+        self.cell(0, 10, f'Page {self.page_no()}', 0, 0, 'C')
+
+    def add_section_title(self, title):
+        """Add a section title"""
+        self.ln(8)
+        self.set_font('Helvetica', 'B', 13)
+        self.set_fill_color(230, 230, 230)
+        self.cell(0, 8, title, 0, 1, 'L', True)
+        self.ln(3)
+
+    def add_field(self, label, width=180, height=6):
+        """Add a fillable field"""
+        self.set_font('Helvetica', '', 10)
+        self.cell(0, height, f'{label}: {"_" * int(width/2)}', 0, 1)
+        self.ln(1)
+
+    def add_checkbox_field(self, label):
+        """Add a checkbox field"""
+        self.set_font('Helvetica', '', 10)
+        self.cell(5, 6, '[ ]', 0, 0)
+        self.cell(0, 6, f' {label}', 0, 1)
+        self.ln(1)
+
+    def add_yes_no_field(self, label):
+        """Add a Yes/No checkbox field"""
+        self.set_font('Helvetica', '', 10)
+        self.cell(0, 6, f'{label}:', 0, 1)
+        self.cell(10, 6, '', 0, 0)
+        self.cell(5, 6, '[ ]', 0, 0)
+        self.cell(15, 6, ' Yes', 0, 0)
+        self.cell(5, 6, '[ ]', 0, 0)
+        self.cell(15, 6, ' No', 0, 1)
+        self.ln(2)
+
+    def add_text_area(self, label, lines=3):
+        """Add a multi-line text area"""
+        self.set_font('Helvetica', '', 10)
+        self.cell(0, 6, f'{label}:', 0, 1)
+        for i in range(lines):
+            self.cell(0, 6, '_' * 90, 0, 1)
+        self.ln(2)
+
+    def add_time_field(self, label):
+        """Add a time field"""
+        self.set_font('Helvetica', '', 10)
+        self.cell(0, 6, f'{label}: _____ : _____ [ ] AM [ ] PM', 0, 1)
+        self.ln(1)
+
+    def generate_questionnaire(self):
+        """Generate the complete questionnaire PDF"""
+        self.add_page()
+
+        # Basic Event Information
+        self.add_section_title('Basic Event Information')
+        self.add_field('Event Date (MM/DD/YYYY)')
+        self.add_field('Host/Organizer Name')
+        self.add_field('Host Phone Number')
+        self.add_field('Host Email Address')
+        self.add_time_field('Event Start Time')
+        self.add_time_field('Event End Time')
+        self.add_field('Number of Guests')
+
+        # Venue Information
+        self.add_section_title('Venue Information')
+        self.add_field('Reception/Main Venue Name')
+        self.add_field('Reception Address (Street, City, State, Zip)')
+        self.add_field('Venue Phone Number')
+
+        # Photo Booth Details
+        self.add_section_title('Photo Booth Details')
+        self.add_field('Photo Booth Template (Standard/Custom)')
+        self.add_field('Number of Images per Session')
+        self.add_yes_no_field('Photo Booth Props')
+        self.add_field('Backdrop Color (White/Shimmering/Black/Other)')
+        self.add_field('Photo Booth Duration (hours)')
+        self.add_field('Photo Booth Location within Venue')
+
+        # Photo Template Details
+        self.add_section_title('Photo Template Details')
+        self.add_field('Photo Template Size (2x6/4x6)')
+        self.add_field('Number of Photos per Template (1-5)')
+        self.add_text_area('Template Description (e.g., balloons, colors, themes)', 3)
+
+        # Photo Booth Special Features
+        self.add_section_title('Photo Booth Special Features')
+        self.add_yes_no_field('Green Screen Effects')
+        self.add_yes_no_field('Instant Printing')
+        self.add_yes_no_field('Digital Gallery')
+        self.add_yes_no_field('Custom Overlays')
+        self.add_yes_no_field('Social Media Sharing')
+        self.add_yes_no_field('Video Booth Option')
+
+        # Event Coordination
+        self.add_section_title('Event Coordination')
+        self.add_field('Banquet Manager Name & Contact')
+        self.add_field('Photographer Name & Contact')
+        self.add_field('Videographer Name & Contact')
+        self.add_text_area('Other Vendor Contacts', 2)
+
+        # Final Notes
+        self.add_section_title('Final Notes')
+        self.add_text_area('Any Additional Notes or Special Requests', 4)
+
+        # Footer note
+        self.ln(5)
+        self.set_font('Helvetica', 'I', 9)
+        self.multi_cell(0, 5, 'Thank you for completing this questionnaire! Your detailed information helps us create the perfect photo booth experience for your special event. Please return this form at your earliest convenience.')
+
+        # Generate timestamp
+        self.ln(5)
+        self.set_font('Helvetica', 'I', 8)
+        self.cell(0, 5, f'Form Generated: {datetime.now().strftime("%B %d, %Y")}', 0, 1, 'C')
+
         return self.output(dest='S').encode('latin1')
 
 class QuinceaneraQuestionnairePDF(FPDF):

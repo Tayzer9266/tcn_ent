@@ -26,7 +26,26 @@ def render():
     venue_name = st.text_input("Reception/Main Venue Name*")
     venue_address = st.text_input("Reception Address (Street, City, State, Zip)*")
     venue_phone = st.text_input("Venue Phone Number")
-    
+
+    # Order of Events and Time
+    st.subheader("📅 Order of Events and Time")
+    st.write("Please list the order of events for your celebration with their scheduled times:")
+
+    st.info("💡 Tip: You can modify, remove, or add events based on your preferences. Use the fields below to plan your timeline.")
+
+    # Create a dynamic list for events
+    num_events = st.number_input("How many events do you want to schedule?", min_value=1, max_value=25, value=10, step=1)
+
+    event_schedule = []
+    for i in range(num_events):
+        col1, col2 = st.columns([3, 1])
+        with col1:
+            event_name = st.text_input(f"Event {i+1}", key=f"event_{i}")
+        with col2:
+            event_time = st.time_input(f"Time {i+1}", key=f"time_{i}")
+            if event_time:
+                st.write(f"Selected: {event_time.strftime('%I:%M %p')}")
+
     # Event Details
     st.subheader("🎉 Event Details")
     occasion = st.text_input("Occasion/Reason for celebration*")
@@ -114,8 +133,8 @@ def render():
         "Afrobeats", "Techno", "Alternative", "House", "Afro-House", "Remixes"
     ])
     custom_playlist = st.text_input("Custom genres or playlist URLs")
-    must_play = st.text_area("Must-play songs (up to 20)", placeholder="Enter one song per line")
-    do_not_play = st.text_area("Do not play songs", placeholder="Enter one song per line")
+    must_play = st.text_area("Must-play songs (up to 20)")
+    do_not_play = st.text_area("Do not play songs")
     guest_requests = st.radio("Allow guest song requests?", ["Yes", "No"], horizontal=True)
     fade_songs = st.radio("Can DJ fade out songs that aren't working?", ["Yes", "No"], horizontal=True)
     
