@@ -202,7 +202,7 @@ with col2:
         st.download_button(
             label="Download Party Questionnaire",
             data=PDFbyte,
-            file_name="Party Questionnaire.pdf",
+            file_name="General_Party_Questionnaire.pdf",
             mime='application/octet-stream',
             key="party_pdf"
         )
@@ -213,7 +213,7 @@ with col2:
         st.download_button(
             label="Download Mitzvah Questionnaire",
             data=PDFbyte,
-            file_name="Mitzvah Questionnaire.pdf",
+            file_name="Mitzvah_Questionnaire.pdf",
             mime='application/octet-stream',
             key="mitzvah_pdf"
         )
@@ -228,7 +228,7 @@ with col3:
         st.download_button(
             label="Download Sweet Sixteen Questionnaire",
             data=PDFbyte,
-            file_name="Sweet Sixteen Questionnaire.pdf",
+            file_name="Sweet_Sixteen_Questionnaire.pdf",
             mime='application/octet-stream',
             key="sweet_sixteen_pdf"
         )
@@ -245,7 +245,7 @@ with col3:
         )
     st.markdown("### 📸 Photo Booth Questionnaire")
     st.markdown("For photo booth services at your event.")
-    with open("pages/documents/Photo Booth Questionnaire.pdf", "rb") as pdf_file:
+    with open("pages/documents/Photo_Booth_Questionnaire.pdf", "rb") as pdf_file:
         PDFbyte = pdf_file.read()
         st.download_button(
             label="Download Photo Booth Questionnaire",
