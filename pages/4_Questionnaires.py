@@ -197,7 +197,7 @@ with col2:
     st.markdown('<div class="questionnaire-card">', unsafe_allow_html=True)
     st.markdown("### 🎉 Party Questionnaire")
     st.markdown("For birthday parties, corporate events, and other celebrations.")
-    with open("pages/documents/Party Song Questionnaire v2.pdf", "rb") as pdf_file:
+    with open("pages/documents/General_Party_Questionnaire.pdf", "rb") as pdf_file:
         PDFbyte = pdf_file.read()
         st.download_button(
             label="Download Party Questionnaire",
@@ -208,7 +208,7 @@ with col2:
         )
     st.markdown("### 🎭 Mitzvah Questionnaire")
     st.markdown("For Bar/Bat Mitzvah celebrations.")
-    with open("pages/documents/Mitzvah Song Questionnaire v1.pdf", "rb") as pdf_file:
+    with open("pages/documents/Mitzvah_Questionnaire.pdf", "rb") as pdf_file:
         PDFbyte = pdf_file.read()
         st.download_button(
             label="Download Mitzvah Questionnaire",
@@ -223,7 +223,7 @@ with col3:
     st.markdown('<div class="questionnaire-card">', unsafe_allow_html=True)
     st.markdown("### 🎂 Sweet Sixteen Questionnaire")
     st.markdown("For Sweet Sixteen birthday celebrations.")
-    with open("pages/documents/Sweet Sixteen Questionnaire.pdf", "rb") as pdf_file:
+    with open("pages/documents/Sweet_Sixteen_Questionnaire.pdf", "rb") as pdf_file:
         PDFbyte = pdf_file.read()
         st.download_button(
             label="Download Sweet Sixteen Questionnaire",
@@ -250,7 +250,7 @@ with col3:
         st.download_button(
             label="Download Photo Booth Questionnaire",
             data=PDFbyte,
-            file_name="Photo Booth Questionnaire.pdf",
+            file_name="Photo_Booth_Questionnaire.pdf",
             mime='application/octet-stream',
             key="photo_booth_pdf"
         )
