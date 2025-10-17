@@ -565,7 +565,7 @@ class QuinceaneraQuestionnairePDF(FPDF):
         self.add_section_title('Court of Honor')
         self.add_yes_no_field('Court Introduction')
         self.add_field('Number of Court Members (damas and chambelanes)')
-        self.add_text_area('Court Member Names (one per line)', 4)
+        self.add_text_area('Court Member Names', 4)
         self.add_field('Court Entrance Song')
         
         # Traditional Ceremonies

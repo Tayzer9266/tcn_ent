@@ -100,7 +100,7 @@ def render():
     court_intro = st.radio("Court introduction?", ["Yes", "No"], horizontal=True)
     if court_intro == "Yes":
         court_members = st.number_input("Number of court members (damas and chambelanes)", min_value=1, max_value=20, step=1)
-        court_names = st.text_area("Court member names", placeholder="Enter one name per line")
+        court_names = st.text_area("Court member names")
         court_song = st.text_input("Court entrance song")
     
     # Traditional Ceremonies
