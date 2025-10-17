@@ -531,49 +531,24 @@ class QuinceaneraQuestionnairePDF(FPDF):
         self.set_font('Helvetica', 'I', 9)
         self.cell(0, 5, 'Please list the order of events for your celebration with their scheduled times:', 0, 1)
         self.ln(2)
-        
+
         # Create a table header
         self.set_font('Helvetica', 'B', 10)
         self.set_fill_color(240, 240, 240)
         self.cell(20, 7, 'Order', 1, 0, 'C', True)
         self.cell(100, 7, 'Event Name', 1, 0, 'C', True)
         self.cell(70, 7, 'Time', 1, 1, 'C', True)
-        
-        # Add rows for events with common examples
+
+        # Add blank rows for events
         self.set_font('Helvetica', '', 9)
-        event_examples = [
-            'Cocktail Hour',
-            'Grand Entrance',
-            'Religious Blessing',
-            'Presentation of Quinceanera',
-            'Court Introduction',
-            'Waltz (First Dance)',
-            'Father-Daughter Dance',
-            'Changing of Shoes Ceremony',
-            'Crown/Tiara Ceremony',
-            'Dinner Service',
-            'Toasts/Speeches',
-            'Cake Cutting',
-            'Surprise Dance',
-            'Open Dancing',
-            'Bouquet Toss',
-            'Last Dance'
-        ]
-        
-        for i, event in enumerate(event_examples, 1):
-            self.cell(20, 7, str(i), 1, 0, 'C')
-            self.cell(100, 7, f' {event}', 1, 0, 'L')
-            self.cell(70, 7, ' _____ : _____ [ ] AM [ ] PM', 1, 1, 'L')
-        
-        # Add a few blank rows for custom events
-        for i in range(17, 21):
+        for i in range(1, 21):
             self.cell(20, 7, str(i), 1, 0, 'C')
             self.cell(100, 7, '', 1, 0, 'L')
             self.cell(70, 7, ' _____ : _____ [ ] AM [ ] PM', 1, 1, 'L')
-        
+
         self.ln(2)
         self.set_font('Helvetica', 'I', 8)
-        self.multi_cell(0, 4, 'Note: You can modify, remove, or reorder these events based on your preferences. Add any additional events in the blank rows.')
+        self.multi_cell(0, 4, 'Note: List your events in chronological order with their scheduled times.')
         
         # Quinceañera Information
         self.add_section_title('Quinceanera Information')
