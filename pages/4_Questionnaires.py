@@ -232,6 +232,17 @@ with col3:
             mime='application/octet-stream',
             key="sweet_sixteen_pdf"
         )
+    st.markdown("### 👑 Quinceañera Questionnaire")
+    st.markdown("For Quinceañera celebrations.")
+    with open("pages/documents/Quinceanera_Questionnaire.pdf", "rb") as pdf_file:
+        PDFbyte = pdf_file.read()
+        st.download_button(
+            label="Download Quinceañera Questionnaire",
+            data=PDFbyte,
+            file_name="Quinceanera_Questionnaire.pdf",
+            mime='application/octet-stream',
+            key="quinceanera_pdf"
+        )
     st.markdown("### 📸 Photo Booth Questionnaire")
     st.markdown("For photo booth services at your event.")
     with open("pages/documents/Photo Booth Questionnaire.pdf", "rb") as pdf_file:
