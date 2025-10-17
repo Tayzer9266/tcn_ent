@@ -29,6 +29,56 @@ def render():
     venue_address = st.text_input("Reception Address (Street, City, State, Zip)*")
     venue_phone = st.text_input("Venue Phone Number")
     
+    # Order of Events and Time
+    st.subheader("📅 Order of Events and Time")
+    st.write("Please list the order of events for your celebration with their scheduled times:")
+    
+    # Common Quinceañera events
+    default_events = [
+        "Cocktail Hour",
+        "Grand Entrance",
+        "Religious Blessing",
+        "Presentation of Quinceañera",
+        "Court Introduction",
+        "Waltz (First Dance)",
+        "Father-Daughter Dance",
+        "Changing of Shoes Ceremony",
+        "Crown/Tiara Ceremony",
+        "Dinner Service",
+        "Toasts/Speeches",
+        "Cake Cutting",
+        "Surprise Dance",
+        "Open Dancing",
+        "Bouquet Toss",
+        "Last Dance"
+    ]
+    
+    st.info("💡 Tip: You can modify, remove, or add events based on your preferences. Use the fields below to plan your timeline.")
+    
+    # Create a dynamic list for events
+    num_events = st.number_input("How many events do you want to schedule?", min_value=1, max_value=25, value=10, step=1)
+    
+    event_schedule = []
+    for i in range(num_events):
+        col1, col2 = st.columns([3, 2])
+        with col1:
+            event_name = st.text_input(
+                f"Event {i+1} Name",
+                value=default_events[i] if i < len(default_events) else "",
+                key=f"event_name_{i}"
+            )
+        with col2:
+            event_time = st.time_input(f"Event {i+1} Time", key=f"event_time_{i}")
+            if event_time:
+                st.write(f"Selected: {event_time.strftime('%I:%M %p')}")
+        
+        if event_name:
+            event_schedule.append({
+                "order": i + 1,
+                "name": event_name,
+                "time": event_time.strftime('%I:%M %p') if event_time else ""
+            })
+    
     # Quinceañera Information
     st.subheader("👑 Quinceañera Information")
     col1, col2 = st.columns(2)
