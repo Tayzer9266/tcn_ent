@@ -599,6 +599,14 @@ class WeddingQuestionnairePDF(FPDF):
         self.add_yes_no_field('Ceremony Music')
         self.add_time_field('Ceremony Time')
 
+        # Wedding Ceremony Music
+        self.add_section_title('Wedding Ceremony Music')
+        self.add_field('Processional Music (music for the wedding party entrance)')
+        self.add_field('Bridal Processional Music (music for the bride\'s entrance)')
+        self.add_field('Recessional Music (music for the wedding party exit)')
+        self.add_field('Unity Ceremony Music (if applicable)')
+        self.add_field('Special Ceremony Music (e.g., candle lighting, sand ceremony)')
+
         # Equipment & Services
         self.add_section_title('Equipment & Services')
         self.add_yes_no_field('Up-Lighting')
