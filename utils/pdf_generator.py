@@ -648,8 +648,8 @@ class QuinceaneraQuestionnairePDF(FPDF):
         
         self.ln(3)
         self.add_field('Custom Genres or Playlist URLs')
-        self.add_text_area('Must-Play Songs (up to 20, one per line)', 5)
-        self.add_text_area('Do Not Play Songs (one per line)', 3)
+        self.add_text_area('Must-Play Songs (up to 20)', 5)
+        self.add_text_area('Do Not Play Songs', 3)
         self.add_yes_no_field('Allow Guest Song Requests')
         self.add_yes_no_field("Can DJ fade out songs that aren't working")
         

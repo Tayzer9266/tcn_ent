@@ -159,8 +159,8 @@ def render():
         "Afrobeats", "Techno", "Alternative", "House", "Afro-House", "Remixes"
     ])
     custom_playlist = st.text_input("Custom genres or playlist URLs")
-    must_play = st.text_area("Must-play songs (up to 20)", placeholder="Enter one song per line")
-    do_not_play = st.text_area("Do not play songs", placeholder="Enter one song per line")
+    must_play = st.text_area("Must-play songs (up to 20)")
+    do_not_play = st.text_area("Do not play songs")
     guest_requests = st.radio("Allow guest song requests?", ["Yes", "No"], horizontal=True)
     fade_songs = st.radio("Can DJ fade out songs that aren't working?", ["Yes", "No"], horizontal=True)
     

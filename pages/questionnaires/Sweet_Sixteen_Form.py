@@ -27,6 +27,7 @@ def render():
     venue_address = st.text_input("Reception Address (Street, City, State, Zip)*")
     venue_phone = st.text_input("Venue Phone Number")
     
+    
     # Birthday Person Information
     st.subheader("🎂 Birthday Person Information")
     col1, col2 = st.columns(2)
