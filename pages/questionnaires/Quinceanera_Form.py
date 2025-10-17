@@ -1,4 +1,6 @@
 import streamlit as st
+from utils.pdf_generator import generate_quinceanera_questionnaire_pdf
+from datetime import datetime
 
 def render():
     st.header("👑 Quinceañera Questionnaire")
@@ -176,3 +178,27 @@ def render():
     additional_notes = st.text_area("Any additional notes or special requests")
     
     st.info("💡 All fields marked with * are required. Your information helps us create the perfect celebration!")
+    
+    # PDF Download Button
+    st.markdown("---")
+    st.subheader("📄 Download Blank Questionnaire")
+    st.write("Download a printable PDF version of this questionnaire to fill out offline.")
+    
+    if st.button("📥 Download Quinceañera Questionnaire PDF", use_container_width=True, key="download_quinceanera_pdf_btn"):
+        try:
+            # Generate blank questionnaire PDF
+            pdf_bytes = generate_quinceanera_questionnaire_pdf()
+            
+            # Create download button
+            st.download_button(
+                label="⬇️ Download PDF Now",
+                data=pdf_bytes,
+                file_name=f"Quinceanera_Questionnaire_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf",
+                mime="application/pdf",
+                key="quinceanera_questionnaire_pdf"
+            )
+            st.success("✅ PDF generated successfully! Click the download button above to save the questionnaire.")
+            
+        except Exception as e:
+            st.error(f"❌ Error generating PDF: {str(e)}")
+            st.info("Please try again or contact support if the issue persists.")
