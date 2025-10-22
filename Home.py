@@ -330,7 +330,7 @@ with st.container():
             , a.event_name 
             , a.event_status
             , a.venue
-            , a.TO_CHAR(TIME a.start_time, 'HH12:MI AM') AS start_time
+            , TO_CHAR(a.start_time, 'HH12:MI AM') AS start_time
             from events a
             where event_status in ('Scheduled','Ongoing')
             and a.deleted_at is null 
