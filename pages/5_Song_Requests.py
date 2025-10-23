@@ -148,8 +148,7 @@ else:
 
 # Embed Power BI report at the bottom
 st.subheader("Power BI Report")
-powerbi_embed_url = "https://app.powerbi.com/groups/me/reports/53a01e55-fb42-496f-a65a-7327cce5d29a/96ceeeb3e81eb085aa2d?experience=power-bi"
-st.markdown(f"""
-<iframe width="100%" height="600" src="{powerbi_embed_url}" frameborder="0" allowFullScreen="true"></iframe>
+st.markdown("""
+<iframe title="Sample Report Demo" width="100%" height="600" src="https://playground.powerbi.com/sampleReportEmbed" frameborder="0" allowFullScreen="true"></iframe>
 """, unsafe_allow_html=True)
  
