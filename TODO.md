@@ -1,9 +1,1 @@
-- [x] Update requirements.txt to include 'stripe'
-- [x] Modify pages/2_Request_Quote.py:
-  - [x] Add import stripe
-  - [x] Set stripe.api_key = st.secrets["stripe"]["secret_key"]
-  - [x] Create create_checkout_session function
-  - [x] Replace hardcoded link with button to create session
-  - [x] Handle success query param
-- [ ] Instruct user to add Stripe keys to secrets.toml
-- [ ] Test the implementation
+- [x] Add embedded Power BI report at the bottom of pages/5_Song_Requests.py using iframe in st.markdown

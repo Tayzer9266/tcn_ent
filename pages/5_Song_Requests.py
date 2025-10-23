@@ -145,4 +145,11 @@ if rows.empty:
     st.write("Currently No Song Request")
 else:
     st.write(rows)
+
+# Embed Power BI report at the bottom
+st.subheader("Power BI Report")
+powerbi_embed_url = "https://app.powerbi.com/view?r=eyJrIjoiZjhhYjI0ZjYtNzM5ZS00ZWMzLWIzZjQtZjE4MmY4ZjI4ZWMzIiwidCI6IjA5OGJmYjM1LWIzNDQtNGU3ZS05MzI4LWIzYjE4M2U4ODg5ZSIsImMiOjF9"
+st.markdown(f"""
+<iframe width="100%" height="600" src="{powerbi_embed_url}" frameborder="0" allowFullScreen="true"></iframe>
+""", unsafe_allow_html=True)
  
