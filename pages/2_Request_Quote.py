@@ -459,8 +459,8 @@ with st.container():
                                     st.subheader("📋 Next Steps to Secure Your Date")
                                     st.write("To ensure everything is set for your special day, please complete the following steps:")
                                     st.write("**Schedule an Initial Call** - Let's connect to confirm your preferred date and discuss your vision.")
-                                    st.write("**Submit Your Booking Deposit** - Secure your date with a $60 deposit.")
-                                    st.write("**Complete the Questionnaire** - Share important details about your event by filling out this form.")
+                                    st.write("**Submit Your Booking Deposit** - [Secure your date with a $60 deposit](https://buy.stripe.com/cN29BFc2F7gqgBGdQQ)")
+                                    st.write("**Complete the Questionnaire** - [Share important details about your event by filling out this form](https://tcnentertainment.streamlit.app/Questionnaires)")
                                     st.write("**Schedule a Final Planning Call** - We'll review your timeline, answer any remaining questions, and finalize logistics.")
 
                                     # Prepare form data for PDF
