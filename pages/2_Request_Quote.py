@@ -456,6 +456,13 @@ with st.container():
                                     st.write(f"Grand Total: ${total:.2f}")
                                     st.write("If you want to review the itemization of costs and savings, scroll to the top of the form and select 'Your Bookings'.")
 
+                                    st.subheader("📋 Next Steps to Secure Your Date")
+                                    st.write("To ensure everything is set for your special day, please complete the following steps:")
+                                    st.write("**Schedule an Initial Call** - Let's connect to confirm your preferred date and discuss your vision.")
+                                    st.write("**Submit Your Booking Deposit** - Secure your date with a $60 deposit via this link.")
+                                    st.write("**Complete the Wedding Questionnaire** - Share important details about your event by filling out this form.")
+                                    st.write("**Schedule a Final Planning Call** - We'll review your timeline, answer any remaining questions, and finalize logistics.")
+
                                     # Prepare form data for PDF
                                     form_data = {
                                         'service_types': service_types,
