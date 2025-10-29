@@ -7,8 +7,7 @@ from PIL import Image
 from datetime import datetime, date
 from utils.pdf_generator import PDFGenerator, generate_dj_contract_pdf_response
 import stripe
-
-
+import requests
 st.set_page_config(
     page_title="Questionnaires",
     page_icon="pages/images/TCN logo black.jpg",
@@ -100,6 +99,9 @@ db_config = st.secrets["postgres"]
 
 # Set Stripe API key
 stripe.api_key = st.secrets["stripe"]["secret_key"]
+
+# Email configuration for formsubmit.co
+email_recipient = st.secrets.get("email", {}).get("recipient", "tnguyen9266@GMAIL.COM")
 
 # Create the SQLAlchemy engine using connection string format
 def init_connection():
@@ -462,6 +464,41 @@ with st.container():
                                     st.write("**Submit Your Booking Deposit** - [Secure your date with a $60 deposit](https://buy.stripe.com/cN29BFc2F7gqgBGdQQ)")
                                     st.write("**Complete the Questionnaire** - [Share important details about your event by filling out this form](https://tcnentertainment.streamlit.app/Questionnaires)")
                                     st.write("**Schedule a Final Planning Call** - We'll review your timeline, answer any remaining questions, and finalize logistics.")
+
+                                    # Send thank you email using formsubmit.co
+                                    url = f"https://formsubmit.co/{email}"
+                                    data = {
+                                        'name': f"{first_name} {last_name}",
+                                        'email': email,
+                                        'subject': "Thank You for Your Quote Request - TCN Entertainment",
+                                        'message': f"""
+Dear {first_name} {last_name},
+
+Thank you for submitting your quote request for your {event_type} event on {event_date.strftime('%B %d, %Y')}! 
+
+Your estimated total is ${total:.2f}.
+
+We have received your request and are excited to help make your event unforgettable. Our team will review your details and contact you shortly to discuss your vision and provide a personalized quote.
+
+In the meantime, here are the next steps:
+- Schedule an Initial Call - Let's connect to confirm your preferred date and discuss your vision.
+- Submit Your Booking Deposit - [Secure your date with a $60 deposit](https://buy.stripe.com/cN29BFc2F7gqgBGdQQ)
+- Complete the Questionnaire - [Share important details about your event by filling out this form](https://tcnentertainment.streamlit.app/Questionnaires)
+- Schedule a Final Planning Call - We'll review your timeline, answer any remaining questions, and finalize logistics.
+
+If you have any immediate questions, please don't hesitate to contact us at (714) 260-5003 or reply to this email.
+
+Best regards,
+TCN Entertainment Team
+www.tcnentertainment.com
+(714) 260-5003
+"""
+                                    }
+                                    response = requests.post(url, data=data)
+                                    if response.status_code == 200:
+                                        st.info("A confirmation email has been sent to your email address.")
+                                    else:
+                                        st.warning("Your quote was submitted successfully, but we encountered an issue sending the confirmation email. Please check your email later or contact us directly.")
 
                                     # Prepare form data for PDF
                                     form_data = {
@@ -1009,6 +1046,8 @@ with st.container():
             main()
 
         # Display links after successful submission or update
+        #if 'show_links' in st.session_state and st.session_state['show_links']:
+            #st.write("[Pay the deposit to lock in your date](https://buy.stripe.com/cN29BFc2F7gqgBGdQQ)")
         #if 'show_links' in st.session_state and st.session_state['show_links']:
             #st.write("[Pay the deposit to lock in your date](https://buy.stripe.com/cN29BFc2F7gqgBGdQQ)")
         
