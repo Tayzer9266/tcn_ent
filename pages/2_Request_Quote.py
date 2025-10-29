@@ -496,7 +496,7 @@ www.tcnentertainment.com
                                     }
                                     response = requests.post(url, data=data)
                                     if response.status_code == 200:
-                                        st.info("A confirmation email has been sent to your email address.")
+                                        st.info("Thank you for submitting your quote request for your {event_type} event on {event_date.strftime('%B %d, %Y')}!")
                                     else:
                                         st.warning("Your quote was submitted successfully, but we encountered an issue sending the confirmation email. Please check your email later or contact us directly.")
 
