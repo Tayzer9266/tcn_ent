@@ -10,6 +10,15 @@ from typing import List, Optional
 class EmailSender:
     def __init__(self, smtp_server: str, smtp_port: int, username: str, password: str, use_tls: bool = True):
         """
+        DNS Records to add for www.tcnentertainment.com to authorize Amazon SES:
+        Type	Name	Value
+        CNAME	qk2yac66fiurbwfmsbvq4wjvh3hd6x6g._domainkey.www.tcnentertainment.com	qk2yac66fiurbwfmsbvq4wjvh3hd6x6g.dkim.amazonses.com
+        CNAME	zk3ge7dgqs5ydvs5j7ynuvypeiewpgx2._domainkey.www.tcnentertainment.com	zk3ge7dgqs5ydvs5j7ynuvypeiewpgx2.dkim.amazonses.com
+        CNAME	idbju2z342kseeb4c5foqme67xukwtej._domainkey.www.tcnentertainment.com	idbju2z342kseeb4c5foqme67xukwtej.dkim.amazonses.com
+        TXT	_dmarc.www.tcnentertainment.com	v=DMARC1; p=none;
+        """
+
+        """
         Initialize the email sender with SMTP server details
         
         Args:
