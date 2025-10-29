@@ -16,6 +16,7 @@ print(repr(equipment_list1))
 print("\nFormatted:")
 print(equipment_list1)
 
+
 print("\n" + "="*50 + "\n")
 
 # Test PostgreSQL array format with apostrophes
