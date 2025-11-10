@@ -156,6 +156,7 @@ def execute_procedure(first_name, last_name, phone_number, email, best_time, eve
 
         # Execute the function with the parameters as named arguments
 
+
         with conn.begin() as transaction:  # Start a transaction block
             try:
                 result = conn.execute(query, {
