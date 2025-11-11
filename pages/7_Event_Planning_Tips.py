@@ -48,6 +48,7 @@ with col3:
 with open("pages/style/style.css") as source_style:
     st.markdown(f"<style>{source_style.read()}</style>", unsafe_allow_html=True)
 # Table of Contents
+st.markdown("# Event Planning Tips")
 st.markdown("## Table of Contents")
 st.markdown("""
 - [🎧 The Best Placement of a DJ in a Venue: Front and Center](#dj-placement)
