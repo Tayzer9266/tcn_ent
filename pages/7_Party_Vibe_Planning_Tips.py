@@ -167,9 +167,7 @@ with st.container():
 
 # ---- Intelligent Lighting Depends on DJ Placement ----
 with st.container():
-    st.markdown("---")
-    st.markdown('<div class="section-title" id="intelligent-lighting">💡 Intelligent Lighting Depends on DJ Placement</div>', unsafe_allow_html=True)
-    
+    st.markdown("### 💡 Intelligent Lighting Depends on DJ Placement")
     st.markdown("""
         In most professional setups, intelligent lighting fixtures like moving heads are preprogrammed to work with a dance floor positioned directly in front of the DJ booth. These lights are designed to sweep across the crowd, spotlight key moments, and sync with the music.
         """)
