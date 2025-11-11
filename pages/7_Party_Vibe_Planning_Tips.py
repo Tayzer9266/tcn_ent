@@ -164,7 +164,7 @@ with st.container():
 
         The result? A dance floor that stays alive, a crowd that feels connected, and a party that guests will remember long after the last song fades.
         """)
-
+    st.markdown("---")
 # ---- Intelligent Lighting Depends on DJ Placement ----
 with st.container():
     st.markdown("### 💡 Intelligent Lighting Depends on DJ Placement")
