@@ -124,7 +124,7 @@ with st.container():
  
     # Visablity
     with st.container():
-        st.markdown("### 👀 Visibility and Engagement")
+        st.markdown("##### 👀 Visibility and Engagement")
         st.markdown("""
         Positioning the DJ in front of the dance floor gives them a clear line of sight to the crowd. This visibility is essential for several reasons:
         """)
@@ -159,14 +159,14 @@ with st.container():
     """)
 
     with st.container():
-        st.markdown("### 💡 The Power of Dance Floor Lighting")
+        st.markdown("##### 💡 The Power of Dance Floor Lighting")
         st.markdown("""
         While the DJ sets the tempo, dance floor lighting amplifies the atmosphere. Together, they create a multisensory experience that keeps guests engaged.
         """)
  
     # Energy Flow and Atmosphere
     with st.container():
-        st.markdown("### ⚡ Energy Flow and Atmosphere")
+        st.markdown("##### ⚡ Energy Flow and Atmosphere")
 
         st.markdown("""
         Front placement ensures that the energy flows naturally from the booth to the dance floor. When paired with lighting, the DJ booth becomes the command center of the celebration. The sound and visuals radiate outward, enveloping the crowd in a unified experience.
@@ -175,7 +175,7 @@ with st.container():
  
 
     with st.container():
-        st.markdown("### 🎉 The Takeaway")
+        st.markdown("##### 🎉 The Takeaway")
         st.markdown("""
         If you want your DJ to maximize their potential, place them in front of the dance floor and pair them with strategic lighting design. This transforms them from a background music provider into the conductor of the celebration, orchestrating every beat, transition, and hype moment—while lighting amplifies the emotion and energy.
 
@@ -192,7 +192,7 @@ with st.container():
         To truly maximize the energy of your wedding reception, it’s not just about where the DJ goes — it’s also about how you arrange the sweetheart table and guest seating around the dance floor. """)
     # Lapel Mics for Officiant
     with st.container():
-        st.markdown("### 🎯 Ideal Layout:")
+        st.markdown("##### 🎯 Ideal Layout:")
         st.markdown("""
  
         - DJ Booth: Positioned front and center of the dance floor.
@@ -206,7 +206,7 @@ with st.container():
         - Guests surround the dance floor, forming a natural amphitheater of excitement.
         """)
 
-        st.markdown("### 💡 Why This Works:")
+        st.markdown("##### 💡 Why This Works:")
         st.markdown("""
         - **Visual symmetry**: Guests can see both the DJ and the couple, reinforcing the connection between music, celebration, and love.
         - **Energy focus**: The dance floor becomes the central stage, with sound and lighting flowing outward from the DJ and emotional energy flowing inward from the couple.
