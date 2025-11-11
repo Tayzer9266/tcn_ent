@@ -143,11 +143,8 @@ with st.container():
     st.markdown("---")
     st.markdown('<div class="section-title" id="dance-floor-lighting">💡 The Power of Dance Floor Lighting</div>', unsafe_allow_html=True)
 
-    col1, col2 = st.columns([1, 2])
-    with col1:
-        st.image("pages/images/lighting_effects.png", width=400)
-    with col2:
-        st.markdown("""
+ 
+    st.markdown("""
         While the DJ sets the tempo, dance floor lighting amplifies the atmosphere. Together, they create a multisensory experience that keeps guests engaged.
         """)
     st.markdown("---")
