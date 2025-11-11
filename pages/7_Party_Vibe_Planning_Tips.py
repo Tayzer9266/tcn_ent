@@ -47,9 +47,6 @@ with col3:
 # Use local CSS
 with open("pages/style/style.css") as source_style:
     st.markdown(f"<style>{source_style.read()}</style>", unsafe_allow_html=True)
-
-st.image("pages/images/services.png", width=1750)
-
 # Table of Contents
 st.markdown("## Table of Contents")
 st.markdown("""
