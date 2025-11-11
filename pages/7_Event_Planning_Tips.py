@@ -51,7 +51,6 @@ with open("pages/style/style.css") as source_style:
 st.markdown("## Table of Contents")
 st.markdown("""
 - [🎧 The Best Placement of a DJ in a Venue: Front and Center](#dj-placement)
-- [💡 The Power of Dance Floor Lighting](#dance-floor-lighting)
 - [💡 Intelligent Lighting Depends on DJ Placement](#intelligent-lighting)
 - [💑 Sweetheart Table Placement: Completing the Energy Circle](#sweetheart-table)
 """)
@@ -95,7 +94,6 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
  
 # ---- DJ Placement ----
 with st.container():
-    st.markdown("### 🎧 The Best Placement of a DJ in a Venue: Front and Center")
     st.markdown('<div class="section-title" id="dj-placement">🎧 The Best Placement of a DJ in a Venue: Front and Center</div>', unsafe_allow_html=True)
     col1, col2 = st.columns([1, 2])
     with col1:
@@ -140,7 +138,7 @@ with st.container():
 
 # ---- Intelligent Lighting Depends on DJ Placement ----
 with st.container():
-    st.markdown("### 💡 Intelligent Lighting Depends on DJ Placement")
+    st.markdown('<div class="section-title" id="dj-placement">💡 Intelligent Lighting Depends on DJ Placement</div>', unsafe_allow_html=True)
     st.markdown("""
         In most professional setups, intelligent lighting fixtures like moving heads are preprogrammed to work with a dance floor positioned directly in front of the DJ booth. These lights are designed to sweep across the crowd, spotlight key moments, and sync with the music.
         """)
@@ -184,9 +182,8 @@ with st.container():
     st.markdown("---")
 # ---- 💑 Sweetheart Table Placement: Completing the Energy Circle----
 with st.container():
+    st.markdown('<div class="section-title" id="dj-placement">💑 Sweetheart Table Placement: Completing the Energy Circle</div>', unsafe_allow_html=True)
 
-
-    st.markdown("### 💑 Sweetheart Table Placement: Completing the Energy Circle")
     st.markdown("""
         To truly maximize the energy of your wedding reception, it’s not just about where the DJ goes — it’s also about how you arrange the sweetheart table and guest seating around the dance floor. """)
     # Lapel Mics for Officiant
