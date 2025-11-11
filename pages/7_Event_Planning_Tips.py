@@ -61,6 +61,10 @@ page_bg_img = """
 [data-testid="stAppViewContainer"] {
     background-color: #f1ecec;
 }
+.section-title {
+    font-size: 28px;
+    font-weight: bold;
+}
 .service-card {
     background: white;
     border-radius: 15px;
