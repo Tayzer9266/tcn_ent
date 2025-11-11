@@ -112,7 +112,7 @@ with st.container():
 
     # Conductor
     with st.container():
-        st.markdown("🥁 The DJ as the Conductor")
+        st.markdown("#🥁 The DJ as the Conductor")
         st.markdown("""
         Think of the DJ as the conductor of an orchestra. Just as a conductor guides musicians through tempo, dynamics, and emotion, the DJ guides the crowd through rhythm, energy, and atmosphere.
 
