@@ -139,16 +139,13 @@ with st.container():
     
 
 # ---- The Power of Dance Floor Lighting ----
-with st.container():
-    st.markdown("---")
-    st.markdown('<div class="section-title" id="dance-floor-lighting">💡 The Power of Dance Floor Lighting</div>', unsafe_allow_html=True)
-
  
-    st.markdown("""
+    with st.container():
+        st.markdown("### 💡 The Power of Dance Floor Lighting")
+        st.markdown("""
         While the DJ sets the tempo, dance floor lighting amplifies the atmosphere. Together, they create a multisensory experience that keeps guests engaged.
         """)
-    st.markdown("---")
-
+ 
     # Energy Flow and Atmosphere
     with st.container():
         st.markdown("### ⚡ Energy Flow and Atmosphere")
@@ -172,15 +169,11 @@ with st.container():
 with st.container():
     st.markdown("---")
     st.markdown('<div class="section-title" id="intelligent-lighting">💡 Intelligent Lighting Depends on DJ Placement</div>', unsafe_allow_html=True)
-
-    col1, col2 = st.columns([1, 2])
-    with col1:
-        st.image("pages/images/moving_heads.jpg", width=400)
-    with col2:
-        st.markdown("""
+    
+    st.markdown("""
         In most professional setups, intelligent lighting fixtures like moving heads are preprogrammed to work with a dance floor positioned directly in front of the DJ booth. These lights are designed to sweep across the crowd, spotlight key moments, and sync with the music.
         """)
-
+    st.image("pages/images/moving_heads.jpg", width=400)
     st.markdown("""
     When the DJ is placed front and center, the lighting system performs exactly as intended:
     - Moving heads track the dance floor with precision.
