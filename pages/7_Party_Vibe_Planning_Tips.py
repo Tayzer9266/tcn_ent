@@ -145,7 +145,7 @@ with st.container():
         st.markdown("""
         While the DJ sets the tempo, dance floor lighting amplifies the atmosphere. Together, they create a multisensory experience that keeps guests engaged.
         """)
- 
+     st.markdown("---")
     # Energy Flow and Atmosphere
     with st.container():
         st.markdown("### ⚡ Energy Flow and Atmosphere")
