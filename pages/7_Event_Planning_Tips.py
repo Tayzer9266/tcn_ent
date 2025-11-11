@@ -95,6 +95,7 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
  
 # ---- DJ Placement ----
 with st.container():
+    st.markdown("### 🎧 The Best Placement of a DJ in a Venue: Front and Center")
     st.markdown('<div class="section-title" id="dj-placement">🎧 The Best Placement of a DJ in a Venue: Front and Center</div>', unsafe_allow_html=True)
     col1, col2 = st.columns([1, 2])
     with col1:
