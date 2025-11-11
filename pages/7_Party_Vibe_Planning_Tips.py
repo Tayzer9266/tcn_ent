@@ -182,11 +182,12 @@ with st.container():
 
     In short, misplacing the DJ prevents the full use of intelligent lighting technology and diminishes the atmosphere you’ve invested in.
     """)
-
+    st.markdown("---")
 # ---- 💑 Sweetheart Table Placement: Completing the Energy Circle----
 with st.container():
-    st.markdown("---")
-    st.markdown('<div class="section-title" id="sweetheart-table">💑 Sweetheart Table Placement: Completing the Energy Circle</div>', unsafe_allow_html=True)
+
+
+    st.markdown("### 💑 Sweetheart Table Placement: Completing the Energy Circle")
     st.markdown("""
         To truly maximize the energy of your wedding reception, it’s not just about where the DJ goes — it’s also about how you arrange the sweetheart table and guest seating around the dance floor. """)
     # Lapel Mics for Officiant
