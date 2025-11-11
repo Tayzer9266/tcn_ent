@@ -138,7 +138,7 @@ with st.container():
 
 # ---- Intelligent Lighting Depends on DJ Placement ----
 with st.container():
-    st.markdown('<div class="section-title" id="dj-placement">💡 Intelligent Lighting Depends on DJ Placement</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title" id="intelligent-lighting">💡 Intelligent Lighting Depends on DJ Placement</div>', unsafe_allow_html=True)
     st.markdown("""
         In most professional setups, intelligent lighting fixtures like moving heads are preprogrammed to work with a dance floor positioned directly in front of the DJ booth. These lights are designed to sweep across the crowd, spotlight key moments, and sync with the music.
         """)
@@ -182,7 +182,7 @@ with st.container():
     st.markdown("---")
 # ---- 💑 Sweetheart Table Placement: Completing the Energy Circle----
 with st.container():
-    st.markdown('<div class="section-title" id="dj-placement">💑 Sweetheart Table Placement: Completing the Energy Circle</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title" id="sweetheart-table">💑 Sweetheart Table Placement: Completing the Energy Circle</div>', unsafe_allow_html=True)
 
     st.markdown("""
         To truly maximize the energy of your wedding reception, it’s not just about where the DJ goes — it’s also about how you arrange the sweetheart table and guest seating around the dance floor. """)
