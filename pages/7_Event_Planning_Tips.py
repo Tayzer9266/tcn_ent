@@ -105,9 +105,9 @@ with st.container():
 
         To maximize a DJ’s potential, the best spot is directly in front of the dance floor—not tucked away in a corner, not hidden behind a bar, but right where the action happens.
         """)
-    st.markdown("---")
+ 
 
-    # Disco Ball
+    # Conductor
     with st.container():
         st.markdown("### 🥁 The DJ as the Conductor")
         st.markdown("""
@@ -118,9 +118,8 @@ with st.container():
         By being front and center, the DJ commands attention, sets the tempo, and becomes the focal point of the party’s energy. Guests instinctively look toward the booth, syncing their movements with the beats and cues.
         """)
 
-    st.markdown("---")
-
-    # Moving Heads
+ 
+    # Visablity
     with st.container():
         st.markdown("### 👀 Visibility and Engagement")
         st.markdown("""
@@ -138,32 +137,6 @@ with st.container():
     st.markdown("---")
     
 
-# ---- The Power of Dance Floor Lighting ----
- 
-    with st.container():
-        st.markdown("### 💡 The Power of Dance Floor Lighting")
-        st.markdown("""
-        While the DJ sets the tempo, dance floor lighting amplifies the atmosphere. Together, they create a multisensory experience that keeps guests engaged.
-        """)
-    st.markdown("---")
-    # Energy Flow and Atmosphere
-    with st.container():
-        st.markdown("### ⚡ Energy Flow and Atmosphere")
-
-        st.markdown("""
-        Front placement ensures that the energy flows naturally from the booth to the dance floor. When paired with lighting, the DJ booth becomes the command center of the celebration. The sound and visuals radiate outward, enveloping the crowd in a unified experience.
-        """)
-
-    st.markdown("---")
-
-    with st.container():
-        st.markdown("### 🎉 The Takeaway")
-        st.markdown("""
-        If you want your DJ to maximize their potential, place them in front of the dance floor and pair them with strategic lighting design. This transforms them from a background music provider into the conductor of the celebration, orchestrating every beat, transition, and hype moment—while lighting amplifies the emotion and energy.
-
-        The result? A dance floor that stays alive, a crowd that feels connected, and a party that guests will remember long after the last song fades.
-        """)
-    st.markdown("---")
 # ---- Intelligent Lighting Depends on DJ Placement ----
 with st.container():
     st.markdown("### 💡 Intelligent Lighting Depends on DJ Placement")
@@ -181,6 +154,32 @@ with st.container():
 
     In short, misplacing the DJ prevents the full use of intelligent lighting technology and diminishes the atmosphere you’ve invested in.
     """)
+
+    with st.container():
+        st.markdown("### 💡 The Power of Dance Floor Lighting")
+        st.markdown("""
+        While the DJ sets the tempo, dance floor lighting amplifies the atmosphere. Together, they create a multisensory experience that keeps guests engaged.
+        """)
+ 
+    # Energy Flow and Atmosphere
+    with st.container():
+        st.markdown("### ⚡ Energy Flow and Atmosphere")
+
+        st.markdown("""
+        Front placement ensures that the energy flows naturally from the booth to the dance floor. When paired with lighting, the DJ booth becomes the command center of the celebration. The sound and visuals radiate outward, enveloping the crowd in a unified experience.
+        """)
+
+ 
+
+    with st.container():
+        st.markdown("### 🎉 The Takeaway")
+        st.markdown("""
+        If you want your DJ to maximize their potential, place them in front of the dance floor and pair them with strategic lighting design. This transforms them from a background music provider into the conductor of the celebration, orchestrating every beat, transition, and hype moment—while lighting amplifies the emotion and energy.
+
+        The result? A dance floor that stays alive, a crowd that feels connected, and a party that guests will remember long after the last song fades.
+        """)
+ 
+
     st.markdown("---")
 # ---- 💑 Sweetheart Table Placement: Completing the Energy Circle----
 with st.container():
