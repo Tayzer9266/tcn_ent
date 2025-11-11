@@ -99,11 +99,10 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 # ---- DJ Placement ----
 with st.container():
     st.markdown('<div class="section-title" id="dj-placement">🎧 The Best Placement of a DJ in a Venue: Front and Center</div>', unsafe_allow_html=True)
-    col1, col2 = st.columns([1, 2])
-    with col1:
-        st.image("pages/images/dance_floor_layout.png", width=400)
-    with col2:
-        st.markdown("""
+ 
+ 
+    st.image("pages/images/dance_floor_layout.png", width=400)
+    st.markdown("""
         When planning an event, one of the most overlooked yet critical decisions is where to place the DJ. While lighting, décor, and seating often take center stage in planning, the DJ’s position can make or break the energy of the night.
 
         To maximize a DJ’s potential, the best spot is directly in front of the dance floor—not tucked away in a corner, not hidden behind a bar, but right where the action happens.
