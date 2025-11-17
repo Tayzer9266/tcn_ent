@@ -54,6 +54,9 @@ st.markdown("""
 - [🎧 The Best Placement of a DJ in a Venue: Front and Center](#dj-placement)
 - [💡 Intelligent Lighting Depends on DJ Placement](#intelligent-lighting)
 - [💑 Sweetheart Table Placement: Completing the Energy Circle](#sweetheart-table)
+- [Why the Bar Belongs in the Same Room as the Dance Floor](#bar-table)
+
+
 """)
 
 # Inject CSS for background color
@@ -211,6 +214,43 @@ with st.container():
         - **Guest engagement**: With tables encircling the dance floor, guests feel included and encouraged to join in — no one feels stuck in the back or disconnected.
         - **Lighting synergy**: Moving heads and washes can sweep across the entire room, hitting both the DJ and sweetheart table for dramatic moments like the first dance or grand entrance.
         """)
+    st.markdown("---")
+# ---- 💑 Bar Position----
+with st.container():
+    st.markdown('<div class="section-title" id="bar-table">Why the Bar Belongs in the Same Room as the Dance Floor</div>', unsafe_allow_html=True)
+    st.markdown("""
+        When planning an event, every detail of the layout influences the atmosphere. One of the most overlooked decisions is where to place the bar. While it may seem convenient to tuck it into a side room or hallway, separating the bar from the dance floor can unintentionally drain energy from the party. Keeping the bar in the same room as the dance floor is one of the simplest ways to ensure a lively, connected celebration. """)
+    # Lapel Mics for Officiant
+    with st.container():
+        st.markdown("##### 🎶 Energy Flows Where People Gather")
+        st.markdown("""
+        Guests naturally gravitate toward the bar—it’s a social hub where conversations spark and drinks fuel the fun. If the bar is in another room, energy gets split: some guests linger away from the dance floor, while others dance in a half-empty space. By placing the bar in the same room, you keep the crowd together, ensuring the dance floor never feels abandoned.
+        """)
+        st.markdown("##### 🍸 Seamless Transitions Between Dancing and Mingling")
+        st.markdown("""
+        Not everyone dances nonstop. Many guests alternate between grabbing a drink, chatting, and returning to the floor. If the bar is nearby, those transitions are effortless. Guests can step off the floor, refresh themselves, and jump right back into the music without losing momentum. This constant circulation keeps the dance floor dynamic and full.""")
+      
+        st.markdown("##### 🕺 Encourages Participation")
+        st.markdown("""
+        For guests who are hesitant to dance, proximity to the bar lowers the barrier. They may start by hanging out near the bar, but with the music and dancers right beside them, it’s easy to get swept into the rhythm. The bar acts as a gateway to the dance floor, nudging shy guests into the action. """)
+
+        st.markdown("##### 🔊 Enhances Atmosphere")
+        st.markdown("""
+        The best parties thrive on collective energy. When the bar and dance floor share a space, laughter, clinking glasses, and cheers blend with the music. This creates a layered atmosphere that feels vibrant and alive. Instead of two separate pockets of activity, you get one unified celebration. """)
+
+
+        st.markdown("##### 📐 Practical Benefits")
+        st.markdown("""
+        - Easier service: Bartenders stay connected to the event vibe and can adjust pace based on dance floor energy.
+        - Better flow: Guests don’t have to wander through hallways or crowd secondary spaces.
+        - Stronger visuals: A full room looks better in photos and videos, capturing the excitement of the night.""")
+
+
+        st.markdown("##### 🎤 Final Thought")
+        st.markdown("""
+        The dance floor is the heartbeat of any party, and the bar is its lifeblood. When they’re together, they amplify each other—drinks fuel confidence, music fuels movement, and guests feed off the collective energy. If you want a dance floor that stays packed and a party that feels electric from start to finish, keep the bar in the same room. """)
+
+
 
 # ---- Footer ----
 st.markdown("---")
