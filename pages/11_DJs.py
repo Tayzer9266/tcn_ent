@@ -75,16 +75,28 @@ st.markdown(
 )
 
 # Profiles Grid
+
 cols = st.columns(3)
-for i, dj in enumerate(djs):
+for i, coord in enumerate(coordinators):
     with cols[i % 3]:
         st.markdown(f'<div class="profile-card">', unsafe_allow_html=True)
-        # Clickable Image
-        st.markdown(
-            f'<a href="?profile={dj["id"]}" target="_self"><img src="{dj["image"]}" width="200" style="border-radius: 10px;"></a>',
-            unsafe_allow_html=True
-        )
-        st.markdown(f'**{dj["name"]}**')
-        st.markdown(f'*{dj["title"]}*')
-        st.markdown(dj["short_bio"])
+        # Image
+        st.image(coord["image"], width=200)
+        st.markdown(f'**{coord["name"]}**')
+        st.markdown(f'*{coord["title"]}*')
+        st.markdown(coord["short_bio"])
         st.markdown('</div>', unsafe_allow_html=True)
+
+# cols = st.columns(3)
+# for i, dj in enumerate(djs):
+#     with cols[i % 3]:
+#         st.markdown(f'<div class="profile-card">', unsafe_allow_html=True)
+#         # Clickable Image
+#         st.markdown(
+#             f'<a href="?profile={dj["id"]}" target="_self"><img src="{dj["image"]}" width="200" style="border-radius: 10px;"></a>',
+#             unsafe_allow_html=True
+#         )
+#         st.markdown(f'**{dj["name"]}**')
+#         st.markdown(f'*{dj["title"]}*')
+#         st.markdown(dj["short_bio"])
+#         st.markdown('</div>', unsafe_allow_html=True)
