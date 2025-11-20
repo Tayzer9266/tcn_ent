@@ -43,7 +43,7 @@ djs = [
         "name": "DJ Tayzer",
         "title": "Master DJ & Event Specialist",
         "short_bio": "Expert in mixing beats and creating unforgettable atmospheres. Specializing in weddings and parties.",
-        "image": "pages/images/work_fund.png",
+        "image": "pages/images/djs_tay.png",
         "full_bio": "DJ Tayzer is a seasoned professional with over 10 years of experience in the DJ industry. Known for his seamless transitions and crowd-engaging sets, he specializes in weddings, corporate events, and private parties. Based in Dallas, TX, he brings energy and professionalism to every gig."
     },
     {
