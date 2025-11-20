@@ -39,22 +39,10 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 # Fake Photographers Data
 photographers = [
     {
-        "name": "Elena Vasquez",
+        "name": "Samantha Lee",
         "title": "Wedding & Event Photographer",
         "short_bio": "Capturing timeless moments with artistic flair. Specializing in weddings and corporate events.",
-        "image": "pages/images/wedding.jpg",
-    },
-    {
-        "name": "Marcus Thompson",
-        "title": "Portrait & Reception Photographer",
-        "short_bio": "Expert in candid shots and elegant portraits. Bringing your memories to life.",
-        "image": "pages/images/reception.jpg",
-    },
-    {
-        "name": "Sophia Ramirez",
-        "title": "Entrance & Ceremony Photographer",
-        "short_bio": "Focusing on grand entrances and ceremonies. Professional and creative photography services.",
-        "image": "pages/images/wedding_entrance.jpg",
+        "image": "pages/images/photographer_sam.jpg",
     }
 ]
 
