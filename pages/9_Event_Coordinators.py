@@ -47,24 +47,6 @@ coordinators = [
         "youtube": None,
         "instagram": None,
         "facebook": None
-    },
-    {
-        "name": "David Lee",
-        "title": "Corporate & Fundraiser Coordinator",
-        "short_bio": "Specializing in corporate events and fundraisers. Driving success through meticulous planning.",
-        "image": "pages/images/party.jpg",
-        "youtube": None,
-        "instagram": None,
-        "facebook": None
-    },
-    {
-        "name": "Olivia Chen",
-        "title": "School & Milestone Coordinator",
-        "short_bio": "Coordinating school events and milestones. Creating memorable experiences for all ages.",
-        "image": "pages/images/school prom.jpg",
-        "youtube": None,
-        "instagram": None,
-        "facebook": None
     }
 ]
 
