@@ -36,6 +36,8 @@ page_bg_img = """
 """
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
+
+
 # Fake DJs Data
 djs = [
     {
