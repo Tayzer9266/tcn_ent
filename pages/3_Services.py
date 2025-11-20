@@ -248,14 +248,14 @@ with st.container():
 with st.container():
     st.markdown("---")
     st.markdown('<div class="section-title">📸 Photo & Memory Services</div>', unsafe_allow_html=True)
-    
+
     # DSLR Photo Booth
     with st.container():
         st.markdown("### 📷 DSLR Photo Booth Experience")
         st.markdown("""
-        Capture unforgettable moments with our professional DSLR photo booth service. Unlike basic photo booths, we use high-quality DSLR cameras 
+        Capture unforgettable moments with our professional DSLR photo booth service. Unlike basic photo booths, we use high-quality DSLR cameras
         and professional lighting to ensure stunning, print-ready photos that your guests will treasure.
-        
+
         **Premium Features:**
         - Professional DSLR camera with high-resolution output
         - Studio-quality lighting setup
@@ -266,7 +266,7 @@ with st.container():
         - Social media sharing station
         - Attendant included for seamless operation
         """)
-        
+
         # Add YouTube video
         st.markdown(
             """
@@ -274,16 +274,16 @@ with st.container():
             """,
             unsafe_allow_html=True
         )
-    
+
     st.markdown("---")
-    
+
     # Custom Monogram
     with st.container():
         st.markdown("### 🔤 Custom Monogram, Logo Projection & Slideshow Projection")
         st.markdown("""
-        Personalize your event with custom monogram projection services. We project your names, wedding date, logo, or custom design onto walls, 
+        Personalize your event with custom monogram projection services. We project your names, wedding date, logo, or custom design onto walls,
         floors, or dance floors, creating a truly personalized experience.
-        
+
         **Customization Options:**
         - Custom designed monograms and logos
         - Wedding date and names projection
@@ -291,8 +291,91 @@ with st.container():
         - Color matching to your theme
         - Multiple projection surfaces available
         - Digital files accepted (AI, EPS, PNG, JPG)
-        - Slideshow projection for memorable moments    
-        - Live photo booth slideshow display           
+        - Slideshow projection for memorable moments
+        - Live photo booth slideshow display
+        """)
+
+# ---- POP-UP TATTOOS SECTION ----
+with st.container():
+    st.markdown("---")
+    st.markdown('<div class="section-title">🎨 Pop-Up Tattoo Services</div>', unsafe_allow_html=True)
+
+    with st.container():
+        st.markdown("### 🖌️ Temporary Tattoo Station")
+        st.markdown("""
+        Add a fun and interactive element to your event with our professional pop-up tattoo service. Our licensed tattoo artists create custom temporary tattoos using high-quality, skin-safe inks that last for days or weeks.
+
+        **Features:**
+        - Licensed and experienced tattoo artists
+        - Custom designs or pre-made templates
+        - Temporary tattoos (water-transfer or airbrush)
+        - Safe, hypoallergenic inks
+        - Perfect for parties, festivals, and themed events
+        - Mobile setup for any location
+        - Age-appropriate designs available
+        """)
+
+# ---- PHOTOGRAPHERS SECTION ----
+with st.container():
+    st.markdown("---")
+    st.markdown('<div class="section-title">📸 Professional Photography Services</div>', unsafe_allow_html=True)
+
+    with st.container():
+        st.markdown("### 📷 Event Photography")
+        st.markdown("""
+        Capture every precious moment of your event with our professional photographers. From candid shots to posed portraits, we ensure you have beautiful memories to cherish forever.
+
+        **Services Include:**
+        - Wedding and engagement photography
+        - Corporate event photography
+        - Portrait sessions
+        - High-resolution digital images
+        - Professional editing and retouching
+        - Online gallery for easy sharing
+        - Print packages available
+        - Same-day previews available
+        """)
+
+# ---- EVENT COORDINATORS SECTION ----
+with st.container():
+    st.markdown("---")
+    st.markdown('<div class="section-title">🎉 Event Coordination Services</div>', unsafe_allow_html=True)
+
+    with st.container():
+        st.markdown("### 📋 Full-Service Event Planning")
+        st.markdown("""
+        Let our experienced event coordinators handle every detail of your special occasion. From concept to execution, we ensure your vision becomes reality with seamless planning and flawless execution.
+
+        **Coordination Services:**
+        - Complete event planning and design
+        - Vendor management and coordination
+        - Timeline creation and management
+        - On-site coordination during the event
+        - Budget management
+        - Theme development and decor planning
+        - Guest list management
+        - Day-of coordination for weddings and parties
+        """)
+
+# ---- DJ SERVICES SECTION ----
+with st.container():
+    st.markdown("---")
+    st.markdown('<div class="section-title">🎵 Professional DJ Services</div>', unsafe_allow_html=True)
+
+    with st.container():
+        st.markdown("### 🎧 DJ Performance & Sound System")
+        st.markdown("""
+        Elevate your event with our professional DJ services. Our skilled DJs create the perfect soundtrack, keep the energy high, and ensure everyone has an amazing time on the dance floor.
+
+        **DJ Services Include:**
+        - Professional sound system setup
+        - Custom music selection and playlists
+        - Lighting integration
+        - MC services and crowd engagement
+        - Song requests and special dedications
+        - Wireless microphones for announcements
+        - Backup equipment for reliability
+        - Multiple DJs available for long events
         """)
 
 # ---- CALL TO ACTION ----
