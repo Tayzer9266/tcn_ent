@@ -36,8 +36,6 @@ page_bg_img = """
 """
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
-
-
 # Fake DJs Data
 djs = [
     {
@@ -50,11 +48,11 @@ djs = [
     },
     {
         "id": "dj_2",
-        "name": "DJ SpinMaster",
-        "title": "Karaoke & Dance Floor DJ",
-        "short_bio": "Master of karaoke sessions and dance floor vibes. Keeping the party going all night.",
-        "image": "pages/images/work_karaoke.png",
-        "full_bio": "DJ SpinMaster excels in karaoke and interactive DJ services, ensuring guests have a blast. With a vast library of songs and a knack for reading the crowd, he creates dynamic experiences for school dances, fundraisers, and celebrations. Available for unlimited hours."
+        "name": "DJ Tyler",
+        "title": "House Music DJ",
+        "short_bio": "Master of house music beats, creating energetic and soulful atmospheres. Specializing in dance parties and festivals.",
+        "image": "pages/images/djs_tyler.png",
+        "full_bio": "DJ Tyler is a passionate house music enthusiast with over 8 years of experience in the DJ industry. Known for his deep house sets and infectious vibes, he specializes in dance parties, festivals, and private events. Based in Dallas, TX, he brings soulful energy and professionalism to every gig."
     },
     {
         "id": "dj_3",
@@ -70,33 +68,18 @@ djs = [
 st.markdown('<div class="section-title">Meet Our Professional DJs</div>', unsafe_allow_html=True)
 st.markdown(
     """
-    Our talented DJs are experts in creating the perfect soundtrack for your event. From weddings to fundraisers, we deliver high-energy performances and professional service. Click on any image to view their full profile.
+    Our talented DJs are experts in creating the perfect soundtrack for your event. From weddings to fundraisers, we deliver high-energy performances and professional service.
     """
 )
 
 # Profiles Grid
-
 cols = st.columns(3)
-for i, coord in enumerate(djs):
+for i, dj in enumerate(djs):
     with cols[i % 3]:
         st.markdown(f'<div class="profile-card">', unsafe_allow_html=True)
         # Image
-        st.image(coord["image"], width=200)
-        st.markdown(f'**{coord["name"]}**')
-        st.markdown(f'*{coord["title"]}*')
-        st.markdown(coord["short_bio"])
+        st.image(dj["image"], width=200)
+        st.markdown(f'**{dj["name"]}**')
+        st.markdown(f'*{dj["title"]}*')
+        st.markdown(dj["short_bio"])
         st.markdown('</div>', unsafe_allow_html=True)
-
-# cols = st.columns(3)
-# for i, dj in enumerate(djs):
-#     with cols[i % 3]:
-#         st.markdown(f'<div class="profile-card">', unsafe_allow_html=True)
-#         # Clickable Image
-#         st.markdown(
-#             f'<a href="?profile={dj["id"]}" target="_self"><img src="{dj["image"]}" width="200" style="border-radius: 10px;"></a>',
-#             unsafe_allow_html=True
-#         )
-#         st.markdown(f'**{dj["name"]}**')
-#         st.markdown(f'*{dj["title"]}*')
-#         st.markdown(dj["short_bio"])
-#         st.markdown('</div>', unsafe_allow_html=True)
