@@ -60,6 +60,7 @@ photographers = [
     }
 ]
 
+
 # Load the images
 youtube_img = base64.b64encode(open("pages/images/youtube.png", "rb").read()).decode()
 instagram_img = base64.b64encode(open("pages/images/instagram.png", "rb").read()).decode()

@@ -68,17 +68,6 @@ djs = [
         "youtube": None,
         "instagram": None,
         "facebook": None
-    },
-    {
-        "id": "dj_3",
-        "name": "DJ NightVibe",
-        "title": "Lighting & Sound DJ",
-        "short_bio": "Combining top-tier sound and lighting effects. Elevating events with professional setups.",
-        "image": "pages/images/work_night.jpg",
-        "full_bio": "DJ NightVibe focuses on full-service DJ packages including premium sound systems, moving heads, and LED effects. He handles everything from setup to breakdown, making events seamless. Ideal for proms, bar mitzvahs, and corporate gatherings.",
-        "youtube": None,
-        "instagram": None,
-        "facebook": None
     }
 ]
 
