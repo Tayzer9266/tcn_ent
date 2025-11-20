@@ -77,7 +77,7 @@ st.markdown(
 # Profiles Grid
 
 cols = st.columns(3)
-for i, coord in enumerate(coordinators):
+for i, coord in enumerate(djs):
     with cols[i % 3]:
         st.markdown(f'<div class="profile-card">', unsafe_allow_html=True)
         # Image
