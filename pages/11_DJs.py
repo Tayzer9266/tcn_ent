@@ -53,14 +53,6 @@ djs = [
         "short_bio": "Master of house music beats, creating energetic and soulful atmospheres. Specializing in dance parties and festivals.",
         "image": "pages/images/djs_tyler.png",
         "full_bio": "DJ Tyler is a passionate house music enthusiast with over 8 years of experience in the DJ industry. Known for his deep house sets and infectious vibes, he specializes in dance parties, festivals, and private events. Based in Dallas, TX, he brings soulful energy and professionalism to every gig."
-    },
-    {
-        "id": "dj_3",
-        "name": "DJ NightVibe",
-        "title": "Lighting & Sound DJ",
-        "short_bio": "Combining top-tier sound and lighting effects. Elevating events with professional setups.",
-        "image": "pages/images/work_night.jpg",
-        "full_bio": "DJ NightVibe focuses on full-service DJ packages including premium sound systems, moving heads, and LED effects. He handles everything from setup to breakdown, making events seamless. Ideal for proms, bar mitzvahs, and corporate gatherings."
     }
 ]
 
