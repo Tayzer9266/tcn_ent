@@ -1,4 +1,5 @@
 import streamlit as st
+import base64
 
 # Page Tab
 st.set_page_config(
@@ -36,6 +37,14 @@ page_bg_img = """
 """
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
+# Function to encode image to base64
+def get_base64_image(image_path):
+    try:
+        with open(image_path, "rb") as img_file:
+            return base64.b64encode(img_file.read()).decode()
+    except FileNotFoundError:
+        return None
+
 # Fake DJs Data
 djs = [
     {
@@ -53,6 +62,14 @@ djs = [
         "short_bio": "Master of house music beats, creating energetic and soulful atmospheres. Specializing in dance parties and festivals.",
         "image": "pages/images/djs_tyler.png",
         "full_bio": "DJ Tyler is a passionate house music enthusiast with over 8 years of experience in the DJ industry. Known for his deep house sets and infectious vibes, he specializes in dance parties, festivals, and private events. Based in Dallas, TX, he brings soulful energy and professionalism to every gig."
+    },
+    {
+        "id": "dj_3",
+        "name": "DJ NightVibe",
+        "title": "Lighting & Sound DJ",
+        "short_bio": "Combining top-tier sound and lighting effects. Elevating events with professional setups.",
+        "image": "pages/images/work_night.jpg",
+        "full_bio": "DJ NightVibe focuses on full-service DJ packages including premium sound systems, moving heads, and LED effects. He handles everything from setup to breakdown, making events seamless. Ideal for proms, bar mitzvahs, and corporate gatherings."
     }
 ]
 
@@ -69,8 +86,15 @@ cols = st.columns(3)
 for i, dj in enumerate(djs):
     with cols[i % 3]:
         st.markdown(f'<div class="profile-card">', unsafe_allow_html=True)
-        # Image
-        st.image(dj["image"], width=200)
+        # Image using base64
+        img_base64 = get_base64_image(dj["image"])
+        if img_base64:
+            st.markdown(
+                f'<img src="data:image/png;base64,{img_base64}" width="200" style="border-radius: 10px;">',
+                unsafe_allow_html=True
+            )
+        else:
+            st.markdown('<p>Image not available</p>', unsafe_allow_html=True)
         st.markdown(f'**{dj["name"]}**')
         st.markdown(f'*{dj["title"]}*')
         st.markdown(dj["short_bio"])
