@@ -53,7 +53,10 @@ djs = [
         "title": "Master DJ & Event Specialist",
         "short_bio": "Expert in mixing beats and creating unforgettable atmospheres. Specializing in weddings and parties.",
         "image": "pages/images/djs_tay.png",
-        "full_bio": "DJ Tayzer is a seasoned professional with over 10 years of experience in the DJ industry. Known for his seamless transitions and crowd-engaging sets, he specializes in weddings, corporate events, and private parties. Based in Dallas, TX, he brings energy and professionalism to every gig."
+        "full_bio": "DJ Tayzer is a seasoned professional with over 10 years of experience in the DJ industry. Known for his seamless transitions and crowd-engaging sets, he specializes in weddings, corporate events, and private parties. Based in Dallas, TX, he brings energy and professionalism to every gig.",
+        "youtube": "https://www.youtube.com/@djtayzer",
+        "instagram": "https://www.instagram.com/tayzer/",
+        "facebook": "https://www.facebook.com/profile.php?id=61574735690575"
     },
     {
         "id": "dj_2",
@@ -61,7 +64,10 @@ djs = [
         "title": "House Music DJ",
         "short_bio": "Master of house music beats, creating energetic and soulful atmospheres. Specializing in dance parties and festivals.",
         "image": "pages/images/djs_tyler.png",
-        "full_bio": "DJ Tyler is a passionate house music enthusiast with over 8 years of experience in the DJ industry. Known for his deep house sets and infectious vibes, he specializes in dance parties, festivals, and private events. Based in Dallas, TX, he brings soulful energy and professionalism to every gig."
+        "full_bio": "DJ Tyler is a passionate house music enthusiast with over 8 years of experience in the DJ industry. Known for his deep house sets and infectious vibes, he specializes in dance parties, festivals, and private events. Based in Dallas, TX, he brings soulful energy and professionalism to every gig.",
+        "youtube": None,
+        "instagram": None,
+        "facebook": None
     },
     {
         "id": "dj_3",
@@ -69,9 +75,17 @@ djs = [
         "title": "Lighting & Sound DJ",
         "short_bio": "Combining top-tier sound and lighting effects. Elevating events with professional setups.",
         "image": "pages/images/work_night.jpg",
-        "full_bio": "DJ NightVibe focuses on full-service DJ packages including premium sound systems, moving heads, and LED effects. He handles everything from setup to breakdown, making events seamless. Ideal for proms, bar mitzvahs, and corporate gatherings."
+        "full_bio": "DJ NightVibe focuses on full-service DJ packages including premium sound systems, moving heads, and LED effects. He handles everything from setup to breakdown, making events seamless. Ideal for proms, bar mitzvahs, and corporate gatherings.",
+        "youtube": None,
+        "instagram": None,
+        "facebook": None
     }
 ]
+
+# Load the images
+youtube_img = base64.b64encode(open("pages/images/youtube.png", "rb").read()).decode()
+instagram_img = base64.b64encode(open("pages/images/instagram.png", "rb").read()).decode()
+facebook_img = base64.b64encode(open("pages/images/facebook.png", "rb").read()).decode()
 
 # Header Section
 st.markdown('<div class="section-title">Meet Our Professional DJs</div>', unsafe_allow_html=True)
@@ -98,4 +112,30 @@ for i, dj in enumerate(djs):
         st.markdown(f'**{dj["name"]}**')
         st.markdown(f'*{dj["title"]}*')
         st.markdown(dj["short_bio"])
+        # Social media links
+        social_cols = st.columns(3)
+        if dj.get("youtube"):
+            with social_cols[0]:
+                st.markdown(
+                    f"""<a href="{dj["youtube"]}">
+                    <img src="data:image/png;base64,{youtube_img}" width="30">
+                    </a>""",
+                    unsafe_allow_html=True,
+                )
+        if dj.get("instagram"):
+            with social_cols[1]:
+                st.markdown(
+                    f"""<a href="{dj["instagram"]}">
+                    <img src="data:image/png;base64,{instagram_img}" width="30">
+                    </a>""",
+                    unsafe_allow_html=True,
+                )
+        if dj.get("facebook"):
+            with social_cols[2]:
+                st.markdown(
+                    f"""<a href="{dj["facebook"]}">
+                    <img src="data:image/png;base64,{facebook_img}" width="30">
+                    </a>""",
+                    unsafe_allow_html=True,
+                )
         st.markdown('</div>', unsafe_allow_html=True)

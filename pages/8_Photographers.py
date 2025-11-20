@@ -53,25 +53,17 @@ photographers = [
         "title": "Wedding & Event Photographer",
         "short_bio": "Capturing timeless moments with artistic flair. Specializing in weddings and corporate events.",
         "image": "pages/images/photographer_sam.png",
-        "full_bio": "Elena Vasquez is a passionate photographer with over 10 years of experience in capturing the essence of special occasions. Her work focuses on creating stunning visuals that tell the story of your event, from intimate portraits to grand celebrations. Based in Dallas, TX, she works closely with event planners to ensure every shot is perfect."
-    },
-    {
-        "id": "photographer_2",
-        "name": "Marcus Thompson",
-        "title": "Portrait & Reception Photographer",
-        "short_bio": "Expert in candid shots and elegant portraits. Bringing your memories to life.",
-        "image": "pages/images/reception.jpg",
-        "full_bio": "Marcus Thompson specializes in reception photography, capturing the joy and energy of your guests. With a keen eye for detail and a background in fine arts, he delivers high-quality images that preserve your event's magic. Available for private parties, weddings, and corporate gatherings."
-    },
-    {
-        "id": "photographer_3",
-        "name": "Sophia Ramirez",
-        "title": "Entrance & Ceremony Photographer",
-        "short_bio": "Focusing on grand entrances and ceremonies. Professional and creative photography services.",
-        "image": "pages/images/wedding_entrance.jpg",
-        "full_bio": "Sophia Ramirez excels in photographing entrances and ceremonies, ensuring every significant moment is documented beautifully. Her portfolio includes weddings, bar mitzvahs, and quinceañeras. She uses state-of-the-art equipment to provide clients with gallery-quality images."
+        "full_bio": "Elena Vasquez is a passionate photographer with over 10 years of experience in capturing the essence of special occasions. Her work focuses on creating stunning visuals that tell the story of your event, from intimate portraits to grand celebrations. Based in Dallas, TX, she works closely with event planners to ensure every shot is perfect.",
+        "youtube": None,
+        "instagram": None,
+        "facebook": None
     }
 ]
+
+# Load the images
+youtube_img = base64.b64encode(open("pages/images/youtube.png", "rb").read()).decode()
+instagram_img = base64.b64encode(open("pages/images/instagram.png", "rb").read()).decode()
+facebook_img = base64.b64encode(open("pages/images/facebook.png", "rb").read()).decode()
 
 # Header Section
 st.markdown('<div class="section-title">Meet Our Professional Photographers</div>', unsafe_allow_html=True)
@@ -90,7 +82,7 @@ for i, photo in enumerate(photographers):
         img_base64 = get_base64_image(photo["image"])
         if img_base64:
             st.markdown(
-                f'<img src="data:image/jpeg;base64,{img_base64}" width="200" style="border-radius: 10px;">',
+                f'<img src="data:image/png;base64,{img_base64}" width="200" style="border-radius: 10px;">',
                 unsafe_allow_html=True
             )
         else:
@@ -98,4 +90,30 @@ for i, photo in enumerate(photographers):
         st.markdown(f'**{photo["name"]}**')
         st.markdown(f'*{photo["title"]}*')
         st.markdown(photo["short_bio"])
+        # Social media links
+        social_cols = st.columns(3)
+        if photo.get("youtube"):
+            with social_cols[0]:
+                st.markdown(
+                    f"""<a href="{photo["youtube"]}">
+                    <img src="data:image/png;base64,{youtube_img}" width="30">
+                    </a>""",
+                    unsafe_allow_html=True,
+                )
+        if photo.get("instagram"):
+            with social_cols[1]:
+                st.markdown(
+                    f"""<a href="{photo["instagram"]}">
+                    <img src="data:image/png;base64,{instagram_img}" width="30">
+                    </a>""",
+                    unsafe_allow_html=True,
+                )
+        if photo.get("facebook"):
+            with social_cols[2]:
+                st.markdown(
+                    f"""<a href="{photo["facebook"]}">
+                    <img src="data:image/png;base64,{facebook_img}" width="30">
+                    </a>""",
+                    unsafe_allow_html=True,
+                )
         st.markdown('</div>', unsafe_allow_html=True)

@@ -1,9 +1,5 @@
-# TODO: Improve Party Vibe Planning Tips Page
+# TODO: Add Social Media Links to Profiles
 
-- [x] Add table of contents after header image for navigation
-- [x] Enhance DJ Placement section: use columns for image and text, shorten paragraphs
-- [x] Format Visibility and Engagement subsection with bullet points
-- [x] Add images to lighting sections (Power of Dance Floor Lighting and Intelligent Lighting) using columns
-- [x] Improve Sweetheart Table Placement section: format lists, add relevant image
-- [x] Add a footer with call to action
-- [x] Test the Streamlit app to ensure changes work properly (Streamlit not installed in environment, but code is syntactically correct)
+- [ ] Update pages/11_DJs.py: Add social media fields to DJ data (only DJ Tayzer has URLs), load base64 for social media images, modify profile card to display social media icons with links if present.
+- [ ] Update pages/8_Photographers.py: Add social media fields to photographers data (all None), load base64 for social media images, modify profile card to display social media icons with links if present.
+- [ ] Update pages/9_Event_Coordinators.py: Add social media fields to coordinators data (all None), load base64 for social media images, change profile image to base64 for consistency, modify profile card to display social media icons with links if present.
