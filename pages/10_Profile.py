@@ -11,6 +11,7 @@ st.set_page_config(
     }
 )
 
+
 # Background for page
 page_bg_img = """
 <style>
