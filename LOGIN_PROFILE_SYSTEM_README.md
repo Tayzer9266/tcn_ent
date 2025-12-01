@@ -63,8 +63,22 @@ Edit the following fields for each profile:
    - Title
    - Short bio preview
    - "Edit" button
+3. You'll also see an "➕ Add New" button to add new professionals
 
-### Step 5: Edit a Profile
+### Step 5: Add a New Profile
+1. Click the "➕ Add New" button at the top of the profile list
+2. Fill in the required fields (marked with *):
+   - **Name**: The person's full name
+   - **Title**: Their professional title
+   - **Short Bio**: Brief description (shown on profile cards)
+   - **Upload Profile Image**: Select an image file (PNG, JPG, JPEG)
+3. Optionally fill in:
+   - **Full Bio**: Detailed biography
+   - **Social Media Links**: YouTube, Instagram, Facebook URLs
+4. Click "➕ Add Profile" to save the new professional
+5. Click "❌ Cancel" to discard and return to the profile list
+
+### Step 6: Edit an Existing Profile
 1. Click the "Edit" button on the profile you want to modify
 2. An edit form will appear with all current profile information
 3. Modify any of the following fields:
@@ -75,13 +89,13 @@ Edit the following fields for each profile:
    - **Upload New Image**: Click to upload a new profile picture (PNG, JPG, JPEG)
    - **Social Media Links**: YouTube, Instagram, Facebook URLs
 
-### Step 6: Save Changes
-1. After making your edits, click "💾 Save Changes"
+### Step 7: Save Changes
+1. After making your edits or adding a new profile, click "💾 Save Changes" or "➕ Add Profile"
 2. You'll see a success message
 3. The profile list will refresh with your updates
 4. Click "❌ Cancel" to discard changes
 
-### Step 7: Logout
+### Step 8: Logout
 1. Click the "Logout" button in the top-right corner
 2. You'll be redirected to the login page
 3. Your session will be cleared

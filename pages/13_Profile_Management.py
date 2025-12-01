@@ -109,6 +109,10 @@ def save_uploaded_image(uploaded_file, profile_type, profile_id):
         return file_path
     return None
 
+# Initialize add_new_profile state
+if 'add_new_profile' not in st.session_state:
+    st.session_state.add_new_profile = False
+
 # Profile Selection Section
 st.markdown('<div class="section-title">Select Profile Type to Manage</div>', unsafe_allow_html=True)
 
@@ -118,18 +122,21 @@ with profile_type_col1:
     if st.button("📸 Photographers", use_container_width=True, type="primary" if st.session_state.selected_profile_type == "photographers" else "secondary"):
         st.session_state.selected_profile_type = "photographers"
         st.session_state.selected_profile_id = None
+        st.session_state.add_new_profile = False
         st.rerun()
 
 with profile_type_col2:
     if st.button("🎉 Event Coordinators", use_container_width=True, type="primary" if st.session_state.selected_profile_type == "event_coordinators" else "secondary"):
         st.session_state.selected_profile_type = "event_coordinators"
         st.session_state.selected_profile_id = None
+        st.session_state.add_new_profile = False
         st.rerun()
 
 with profile_type_col3:
     if st.button("🎵 DJs", use_container_width=True, type="primary" if st.session_state.selected_profile_type == "djs" else "secondary"):
         st.session_state.selected_profile_type = "djs"
         st.session_state.selected_profile_id = None
+        st.session_state.add_new_profile = False
         st.rerun()
 
 # Display profiles if a type is selected
@@ -145,7 +152,16 @@ if st.session_state.selected_profile_type:
         "event_coordinators": "Event Coordinators",
         "djs": "DJs"
     }
-    st.markdown(f'<div class="section-title">Manage {type_names[st.session_state.selected_profile_type]}</div>', unsafe_allow_html=True)
+    
+    # Header with Add New button
+    header_col1, header_col2 = st.columns([3, 1])
+    with header_col1:
+        st.markdown(f'<div class="section-title">Manage {type_names[st.session_state.selected_profile_type]}</div>', unsafe_allow_html=True)
+    with header_col2:
+        if st.button("➕ Add New", type="primary", use_container_width=True):
+            st.session_state.add_new_profile = True
+            st.session_state.selected_profile_id = None
+            st.rerun()
     
     # Display profiles in cards
     if profiles:
@@ -180,8 +196,103 @@ if st.session_state.selected_profile_type:
     else:
         st.info(f"No {type_names[st.session_state.selected_profile_type].lower()} found.")
     
+    # Add New Profile Form
+    if st.session_state.add_new_profile:
+        st.markdown("---")
+        st.markdown('<div class="edit-section">', unsafe_allow_html=True)
+        
+        st.markdown(f'<div class="section-title">➕ Add New {type_names[st.session_state.selected_profile_type][:-1]}</div>', unsafe_allow_html=True)
+        
+        with st.form("add_profile_form"):
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                name = st.text_input("Name*", placeholder="Enter full name")
+                title = st.text_input("Title*", placeholder="Enter professional title")
+                short_bio = st.text_area("Short Bio*", placeholder="Brief description for profile card", height=100)
+            
+            with col2:
+                full_bio = st.text_area("Full Bio", placeholder="Detailed biography (optional)", height=100)
+                
+                # Image upload
+                uploaded_file = st.file_uploader("Upload Profile Image*", type=['png', 'jpg', 'jpeg'])
+            
+            st.markdown("**Social Media Links (Optional):**")
+            social_col1, social_col2, social_col3 = st.columns(3)
+            
+            with social_col1:
+                youtube = st.text_input("YouTube URL", placeholder="https://youtube.com/...")
+            
+            with social_col2:
+                instagram = st.text_input("Instagram URL", placeholder="https://instagram.com/...")
+            
+            with social_col3:
+                facebook = st.text_input("Facebook URL", placeholder="https://facebook.com/...")
+            
+            # Form buttons
+            button_col1, button_col2, button_col3 = st.columns([1, 1, 2])
+            
+            with button_col1:
+                submit = st.form_submit_button("➕ Add Profile", type="primary", use_container_width=True)
+            
+            with button_col2:
+                cancel = st.form_submit_button("❌ Cancel", use_container_width=True)
+            
+            if submit:
+                # Validate required fields
+                if not name or not title or not short_bio:
+                    st.error("❌ Please fill in all required fields (Name, Title, Short Bio)")
+                elif not uploaded_file:
+                    st.error("❌ Please upload a profile image")
+                else:
+                    # Generate unique profile_id
+                    import time
+                    profile_id = f"{st.session_state.selected_profile_type[:-1]}_{int(time.time())}"
+                    
+                    # Save uploaded image
+                    image_path = save_uploaded_image(
+                        uploaded_file,
+                        st.session_state.selected_profile_type,
+                        profile_id
+                    )
+                    
+                    if image_path:
+                        # Prepare profile data
+                        new_profile_data = {
+                            'profile_id': profile_id,
+                            'name': name,
+                            'title': title,
+                            'short_bio': short_bio,
+                            'full_bio': full_bio if full_bio else short_bio,
+                            'image_path': image_path,
+                            'youtube': youtube if youtube else None,
+                            'instagram': instagram if instagram else None,
+                            'facebook': facebook if facebook else None
+                        }
+                        
+                        # Add profile to database
+                        success = profile_manager.add_profile(
+                            st.session_state.selected_profile_type,
+                            new_profile_data
+                        )
+                        
+                        if success:
+                            st.success(f"✅ New {type_names[st.session_state.selected_profile_type][:-1].lower()} added successfully!")
+                            st.session_state.add_new_profile = False
+                            st.rerun()
+                        else:
+                            st.error("❌ Failed to add profile. Please try again.")
+                    else:
+                        st.error("❌ Failed to save image. Please try again.")
+            
+            if cancel:
+                st.session_state.add_new_profile = False
+                st.rerun()
+        
+        st.markdown('</div>', unsafe_allow_html=True)
+    
     # Edit Form
-    if st.session_state.selected_profile_id:
+    elif st.session_state.selected_profile_id:
         st.markdown("---")
         st.markdown('<div class="edit-section">', unsafe_allow_html=True)
         
