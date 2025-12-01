@@ -1,5 +1,11 @@
 import streamlit as st
 import base64
+import os
+import sys
+
+# Add parent directory to path to import profiles_data
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from profiles_data import profile_manager
 
 # Page Tab
 st.set_page_config(
@@ -45,20 +51,8 @@ def get_base64_image(image_path):
     except FileNotFoundError:
         return None
 
-# Fake Photographers Data
-photographers = [
-    {
-        "id": "photographer_1",
-        "name": "Samantha Lee",
-        "title": "Wedding & Event Photographer",
-        "short_bio": "Capturing timeless moments with artistic flair. Specializing in weddings and corporate events.",
-        "image": "pages/images/photographer_sam.png",
-        "full_bio": "Elena Vasquez is a passionate photographer with over 10 years of experience in capturing the essence of special occasions. Her work focuses on creating stunning visuals that tell the story of your event, from intimate portraits to grand celebrations. Based in Dallas, TX, she works closely with event planners to ensure every shot is perfect.",
-        "youtube": None,
-        "instagram": None,
-        "facebook": None
-    }
-]
+# Get Photographers Data from database
+photographers = profile_manager.get_all_profiles("photographers")
 
 
 # Load the images
@@ -80,7 +74,7 @@ for i, photo in enumerate(photographers):
     with cols[i % 3]:
         st.markdown(f'<div class="profile-card">', unsafe_allow_html=True)
         # Image using base64
-        img_base64 = get_base64_image(photo["image"])
+        img_base64 = get_base64_image(photo["image_path"])
         if img_base64:
             st.markdown(
                 f'<img src="data:image/png;base64,{img_base64}" width="200" style="border-radius: 10px;">',

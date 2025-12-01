@@ -1,5 +1,11 @@
 import streamlit as st
 import base64
+import os
+import sys
+
+# Add parent directory to path to import profiles_data
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from profiles_data import profile_manager
 
 # Page Tab
 st.set_page_config(
@@ -45,18 +51,8 @@ def get_base64_image(image_path):
     except FileNotFoundError:
         return None
 
-# Fake Event Coordinators Data
-coordinators = [
-    {
-        "name": "Isabella Moreno",
-        "title": "Wedding & Party Coordinator",
-        "short_bio": "Expert in planning seamless weddings and private parties. Making your vision a reality.",
-        "image": "pages/images/corporate event.jpg",
-        "youtube": None,
-        "instagram": None,
-        "facebook": None
-    }
-]
+# Get Event Coordinators Data from database
+coordinators = profile_manager.get_all_profiles("event_coordinators")
 
 # Load the images
 youtube_img = base64.b64encode(open("pages/images/youtube.png", "rb").read()).decode()
@@ -77,7 +73,7 @@ for i, coord in enumerate(coordinators):
     with cols[i % 3]:
         st.markdown(f'<div class="profile-card">', unsafe_allow_html=True)
         # Image using base64
-        img_base64 = get_base64_image(coord["image"])
+        img_base64 = get_base64_image(coord["image_path"])
         if img_base64:
             st.markdown(
                 f'<img src="data:image/jpeg;base64,{img_base64}" width="200" style="border-radius: 10px;">',

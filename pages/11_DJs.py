@@ -1,5 +1,11 @@
 import streamlit as st
 import base64
+import os
+import sys
+
+# Add parent directory to path to import profiles_data
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from profiles_data import profile_manager
 
 # Page Tab
 st.set_page_config(
@@ -45,31 +51,8 @@ def get_base64_image(image_path):
     except FileNotFoundError:
         return None
 
-# Fake DJs Data
-djs = [
-    {
-        "id": "dj_1",
-        "name": "DJ Tayzer",
-        "title": "Master DJ & Event Specialist",
-        "short_bio": "Expert in mixing beats and creating unforgettable atmospheres. Specializing in weddings and parties.",
-        "image": "pages/images/djs_tay.png",
-        "full_bio": "DJ Tayzer is a seasoned professional with over 10 years of experience in the DJ industry. Known for his seamless transitions and crowd-engaging sets, he specializes in weddings, corporate events, and private parties. Based in Dallas, TX, he brings energy and professionalism to every gig.",
-        "youtube": "https://www.youtube.com/@djtayzer",
-        "instagram": "https://www.instagram.com/tayzer/",
-        "facebook": "https://www.facebook.com/profile.php?id=61574735690575"
-    },
-    {
-        "id": "dj_2",
-        "name": "DJ Tyler",
-        "title": "House Music DJ",
-        "short_bio": "Master of house music beats, creating energetic and soulful atmospheres. Specializing in dance parties and festivals.",
-        "image": "pages/images/djs_tyler.png",
-        "full_bio": "DJ Tyler is a passionate house music enthusiast with over 8 years of experience in the DJ industry. Known for his deep house sets and infectious vibes, he specializes in dance parties, festivals, and private events. Based in Dallas, TX, he brings soulful energy and professionalism to every gig.",
-        "youtube": None,
-        "instagram": None,
-        "facebook": None
-    }
-]
+# Get DJs Data from database
+djs = profile_manager.get_all_profiles("djs")
 
 # Load the images
 youtube_img = base64.b64encode(open("pages/images/youtube.png", "rb").read()).decode()
@@ -90,7 +73,7 @@ for i, dj in enumerate(djs):
     with cols[i % 3]:
         st.markdown(f'<div class="profile-card">', unsafe_allow_html=True)
         # Image using base64
-        img_base64 = get_base64_image(dj["image"])
+        img_base64 = get_base64_image(dj["image_path"])
         if img_base64:
             st.markdown(
                 f'<img src="data:image/png;base64,{img_base64}" width="200" style="border-radius: 10px;">',
