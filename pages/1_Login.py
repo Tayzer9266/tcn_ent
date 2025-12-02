@@ -1,5 +1,11 @@
 import streamlit as st
 import base64
+import os
+import sys
+
+# Add parent directory to path to import profiles_data
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from profiles_data import profile_manager
 
 # Page Tab
 st.set_page_config(
@@ -8,7 +14,7 @@ st.set_page_config(
     layout="centered",
     initial_sidebar_state="collapsed",
     menu_items={
-        'About': "# TCN Entertainment Admin Login"
+        'About': "# TCN Entertainment Login"
     }
 )
 
@@ -48,15 +54,20 @@ if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
 if 'user_email' not in st.session_state:
     st.session_state.user_email = None
-
-# Hardcoded password
-ADMIN_PASSWORD = "Siepe2025!"
+if 'user_data' not in st.session_state:
+    st.session_state.user_data = None
+if 'user_profile_type' not in st.session_state:
+    st.session_state.user_profile_type = None
 
 def login(email, password):
-    """Validate login credentials"""
-    if password == ADMIN_PASSWORD and email:
+    """Validate login credentials against database"""
+    success, user_data, profile_type = profile_manager.authenticate_user(email, password)
+    
+    if success:
         st.session_state.logged_in = True
         st.session_state.user_email = email
+        st.session_state.user_data = user_data
+        st.session_state.user_profile_type = profile_type
         return True
     return False
 
@@ -64,14 +75,22 @@ def logout():
     """Logout user"""
     st.session_state.logged_in = False
     st.session_state.user_email = None
+    st.session_state.user_data = None
+    st.session_state.user_profile_type = None
 
 # Check if already logged in
 if st.session_state.logged_in:
     st.markdown('<div class="login-container">', unsafe_allow_html=True)
     st.markdown('<div class="login-title">✅ Already Logged In</div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="login-subtitle">Welcome back, {st.session_state.user_email}!</div>', unsafe_allow_html=True)
     
-    st.success(f"You are currently logged in as: **{st.session_state.user_email}**")
+    user_role = st.session_state.user_data.get('role', 'user')
+    role_badge = "🔑 Admin" if user_role == 'admin' else "👤 User"
+    
+    st.markdown(f'<div class="login-subtitle">Welcome back, {st.session_state.user_data["name"]}!</div>', unsafe_allow_html=True)
+    
+    st.success(f"**Email:** {st.session_state.user_email}")
+    st.info(f"**Role:** {role_badge}")
+    st.info(f"**Title:** {st.session_state.user_data['title']}")
     
     col1, col2 = st.columns(2)
     
@@ -88,8 +107,8 @@ if st.session_state.logged_in:
 else:
     # Login Form
     st.markdown('<div class="login-container">', unsafe_allow_html=True)
-    st.markdown('<div class="login-title">🔐 Admin Login</div>', unsafe_allow_html=True)
-    st.markdown('<div class="login-subtitle">Access Profile Management</div>', unsafe_allow_html=True)
+    st.markdown('<div class="login-title">🔐 Professional Login</div>', unsafe_allow_html=True)
+    st.markdown('<div class="login-subtitle">Access Your Profile</div>', unsafe_allow_html=True)
     
     with st.form("login_form"):
         email = st.text_input("Email Address", placeholder="Enter your email")
@@ -110,7 +129,7 @@ else:
                 st.success("Login successful! Redirecting...")
                 st.rerun()
             else:
-                st.error("Invalid password. Please try again.")
+                st.error("Invalid email or password. Please try again.")
         
         if clear:
             st.rerun()
@@ -119,4 +138,16 @@ else:
     
     # Info section
     st.markdown("---")
-    st.info("💡 **Note:** This login page provides access to the profile management system where you can edit Event Coordinator, Photographer, and DJ profiles.")
+    st.info("💡 **Note:** This login page provides access to your professional profile where you can manage your information, photos, and details.")
+    
+    with st.expander("📧 Need Help?"):
+        st.markdown("""
+        **For Professionals:**
+        - Use the email address provided to you by TCN Entertainment
+        - Default password: `Siepe2025!`
+        - Contact admin if you need to reset your password
+        
+        **For Administrators:**
+        - Use your admin credentials to access all profiles
+        - Admin email: `tcnentertainmen7@gmail.com`
+        """)
