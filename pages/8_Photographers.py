@@ -51,8 +51,9 @@ def get_base64_image(image_path):
     except FileNotFoundError:
         return None
 
-# Get Photographers Data from database
-photographers = profile_manager.get_all_profiles("photographers")
+# Get Photographers Data from database (exclude admin profiles)
+all_photographers = profile_manager.get_all_profiles("photographers")
+photographers = [p for p in all_photographers if p.get('role') != 'admin']
 
 
 # Load the images

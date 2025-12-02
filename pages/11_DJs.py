@@ -51,8 +51,9 @@ def get_base64_image(image_path):
     except FileNotFoundError:
         return None
 
-# Get DJs Data from database
-djs = profile_manager.get_all_profiles("djs")
+# Get DJs Data from database (exclude admin profiles)
+all_djs = profile_manager.get_all_profiles("djs")
+djs = [d for d in all_djs if d.get('role') != 'admin']
 
 # Load the images
 youtube_img = base64.b64encode(open("pages/images/youtube.png", "rb").read()).decode()

@@ -51,8 +51,9 @@ def get_base64_image(image_path):
     except FileNotFoundError:
         return None
 
-# Get Event Coordinators Data from database
-coordinators = profile_manager.get_all_profiles("event_coordinators")
+# Get Event Coordinators Data from database (exclude admin profiles)
+all_coordinators = profile_manager.get_all_profiles("event_coordinators")
+coordinators = [c for c in all_coordinators if c.get('role') != 'admin']
 
 # Load the images
 youtube_img = base64.b64encode(open("pages/images/youtube.png", "rb").read()).decode()
