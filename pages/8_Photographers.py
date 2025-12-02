@@ -86,6 +86,16 @@ for i, photo in enumerate(photographers):
         st.markdown(f'**{photo["name"]}**')
         st.markdown(f'*{photo["title"]}*')
         st.markdown(photo["short_bio"])
+        
+        # Contact Information
+        st.markdown("---")
+        if photo.get("email"):
+            st.markdown(f'📧 {photo["email"]}')
+        if photo.get("phone"):
+            st.markdown(f'📞 {photo["phone"]}')
+        if photo.get("website"):
+            st.markdown(f'🌐 [{photo["website"]}]({photo["website"]})')
+        
         # Social media links
         social_cols = st.columns(3)
         if photo.get("youtube"):

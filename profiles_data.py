@@ -276,7 +276,7 @@ class ProfileManager:
             update_fields = []
             values = {"profile_id": profile_id}
             
-            allowed_fields = ['name', 'title', 'short_bio', 'full_bio', 'image_path', 'youtube', 'instagram', 'facebook', 'service_city', 'service_state', 'service_radius_miles', 'website']
+            allowed_fields = ['name', 'title', 'short_bio', 'full_bio', 'image_path', 'youtube', 'instagram', 'facebook', 'service_city', 'service_state', 'service_radius_miles', 'website', 'phone']
             
             for field in allowed_fields:
                 if field in data:

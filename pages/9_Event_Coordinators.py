@@ -85,6 +85,16 @@ for i, coord in enumerate(coordinators):
         st.markdown(f'**{coord["name"]}**')
         st.markdown(f'*{coord["title"]}*')
         st.markdown(coord["short_bio"])
+        
+        # Contact Information
+        st.markdown("---")
+        if coord.get("email"):
+            st.markdown(f'📧 {coord["email"]}')
+        if coord.get("phone"):
+            st.markdown(f'📞 {coord["phone"]}')
+        if coord.get("website"):
+            st.markdown(f'🌐 [{coord["website"]}]({coord["website"]})')
+        
         # Social media links
         social_cols = st.columns(3)
         if coord.get("youtube"):

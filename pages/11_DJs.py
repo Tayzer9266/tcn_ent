@@ -85,6 +85,16 @@ for i, dj in enumerate(djs):
         st.markdown(f'**{dj["name"]}**')
         st.markdown(f'*{dj["title"]}*')
         st.markdown(dj["short_bio"])
+        
+        # Contact Information
+        st.markdown("---")
+        if dj.get("email"):
+            st.markdown(f'📧 {dj["email"]}')
+        if dj.get("phone"):
+            st.markdown(f'📞 {dj["phone"]}')
+        if dj.get("website"):
+            st.markdown(f'🌐 [{dj["website"]}]({dj["website"]})')
+        
         # Social media links
         social_cols = st.columns(3)
         if dj.get("youtube"):

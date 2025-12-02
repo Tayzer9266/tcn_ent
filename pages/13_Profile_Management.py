@@ -329,11 +329,17 @@ if st.session_state.selected_profile_id and st.session_state.selected_profile_ty
                 # Image upload
                 uploaded_file = st.file_uploader("Upload New Image (optional)", type=['png', 'jpg', 'jpeg'])
             
-            st.markdown("**Website & Social Media Links:**")
+            st.markdown("**Contact Information:**")
+            
+            # Phone Number
+            phone = st.text_input("📞 Phone Number", value=profile.get('phone', '') or "", 
+                                 help="Your contact phone number (e.g., (214) 555-0100)")
             
             # Personal Website
             website = st.text_input("🌐 Personal Website", value=profile.get('website', '') or "", 
                                    help="Your professional website URL (e.g., https://www.yourwebsite.com)")
+            
+            st.markdown("**Social Media Links:**")
             
             # Social Media
             social_col1, social_col2, social_col3 = st.columns(3)
@@ -366,6 +372,7 @@ if st.session_state.selected_profile_id and st.session_state.selected_profile_ty
                     'service_city': service_city,
                     'service_state': service_state,
                     'service_radius_miles': service_radius_miles,
+                    'phone': phone if phone else None,
                     'website': website if website else None,
                     'youtube': youtube if youtube else None,
                     'instagram': instagram if instagram else None,
