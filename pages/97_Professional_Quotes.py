@@ -133,31 +133,53 @@ with tab1:
     if all_requests:
         today = date.today()
         active_requests = []
+        past_count = 0
         
         for request in all_requests:
             event_date = request.get('event_date')
+            include_event = False
+            
             if event_date:
                 # Convert to date if it's a datetime or string
                 if isinstance(event_date, str):
                     try:
                         event_date = datetime.fromisoformat(event_date.replace('Z', '+00:00')).date()
                     except:
-                        event_date = None
+                        # If parsing fails, include the event
+                        include_event = True
                 elif isinstance(event_date, datetime):
                     event_date = event_date.date()
+                elif isinstance(event_date, date):
+                    # Already a date object
+                    pass
+                else:
+                    # Unknown type, include the event
+                    include_event = True
                 
                 # Only include events that haven't passed
-                if event_date and event_date >= today:
-                    active_requests.append(request)
+                if not include_event:
+                    if event_date >= today:
+                        include_event = True
+                    else:
+                        past_count += 1
             else:
                 # Include events without a date (TBD)
+                include_event = True
+            
+            if include_event:
                 active_requests.append(request)
         
         all_requests = active_requests
+        
+        # Show info about filtered events
+        if past_count > 0:
+            st.info(f"📊 Found {len(all_requests)} active quote requests ({past_count} past events hidden)")
+        else:
+            st.info(f"📊 Found {len(all_requests)} active quote requests")
+    else:
+        st.info("📭 No quote requests found in the database")
     
     if all_requests:
-        st.info(f"📊 Found {len(all_requests)} active quote requests")
-        
         for request in all_requests:
             event_id = request['event_id']
             
