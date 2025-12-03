@@ -104,6 +104,9 @@ def run_query(query):
         raise RuntimeError(f"Error executing query: {e}")
 
 
+
+
+
 # Function to get all scheduled dates for the current month
 def get_scheduled_dates():
     query = """
