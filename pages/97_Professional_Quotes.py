@@ -171,6 +171,9 @@ with tab1:
         
         all_requests = active_requests
         
+        # Sort by event date (earliest first - most recent upcoming event)
+        all_requests.sort(key=lambda x: x.get('event_date') if x.get('event_date') else datetime.max)
+        
         # Show info about filtered events
         if past_count > 0:
             st.info(f"📊 Found {len(all_requests)} active quote requests ({past_count} past events hidden)")
