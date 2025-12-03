@@ -16,13 +16,13 @@ st.set_page_config(
     page_title="Home",
     page_icon="pages/images/TCN logo black.jpg",
     layout="wide",
-    initial_sidebar_state="collapsed",  #expanded
+    initial_sidebar_state="collapsed",
     menu_items={
         'About': "# Make your dream a reality!"
     }
 )
 
-# Render authentication header
+# Render authentication header at the top of the page
 render_auth_header()
 
 # Load the images
