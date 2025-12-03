@@ -91,7 +91,7 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 if not st.session_state.get('logged_in', False):
     st.error("⚠️ Please login to access quote requests")
     if st.button("Go to Login"):
-        st.switch_page("pages/1_Login.py")
+        st.switch_page("pages/90_Login.py")
     st.stop()
 
 if st.session_state.get('user_type') != 'professional':
@@ -362,4 +362,4 @@ with tab2:
 # Back button
 st.markdown("---")
 if st.button("← Back to Profile Management"):
-    st.switch_page("pages/13_Profile_Management.py")
+    st.switch_page("pages/92_Profile_Management.py")

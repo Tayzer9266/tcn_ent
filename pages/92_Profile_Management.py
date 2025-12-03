@@ -83,7 +83,7 @@ if not st.session_state.logged_in:
     st.warning("⚠️ You must be logged in to access this page.")
     st.info("Please login to manage your profile.")
     if st.button("Go to Login Page", type="primary"):
-        st.switch_page("pages/1_Login.py")
+        st.switch_page("pages/90_Login.py")
     st.stop()
 
 # Get user role
@@ -101,7 +101,7 @@ with col1:
         st.markdown(f'<span class="user-badge">USER</span> **{st.session_state.user_data["name"]}** ({st.session_state.user_email})', unsafe_allow_html=True)
 with col2:
     if st.button("💼 Quote Requests", type="primary", use_container_width=True):
-        st.switch_page("pages/18_Professional_Quotes.py")
+        st.switch_page("pages/97_Professional_Quotes.py")
 with col3:
     if st.button("Logout", type="secondary", use_container_width=True):
         st.session_state.logged_in = False
@@ -110,7 +110,7 @@ with col3:
         st.session_state.user_profile_type = None
         st.session_state.selected_profile_type = None
         st.session_state.selected_profile_id = None
-        st.switch_page("pages/1_Login.py")
+        st.switch_page("pages/90_Login.py")
 
 st.markdown("---")
 

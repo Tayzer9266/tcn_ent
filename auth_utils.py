@@ -12,7 +12,7 @@ def require_client_auth():
         st.error("⚠️ Please login to access this page")
         st.info("This page is only accessible to registered clients.")
         if st.button("Go to Login", type="primary"):
-            st.switch_page("pages/1_Login.py")
+            st.switch_page("pages/90_Login.py")
         st.stop()
     
     if st.session_state.get('user_type') != 'client':
@@ -31,7 +31,7 @@ def require_professional_auth():
         st.error("⚠️ Please login to access this page")
         st.info("This page is only accessible to professionals.")
         if st.button("Go to Login", type="primary"):
-            st.switch_page("pages/1_Login.py")
+            st.switch_page("pages/90_Login.py")
         st.stop()
     
     if st.session_state.get('user_type') != 'professional':

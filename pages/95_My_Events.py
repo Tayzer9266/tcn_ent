@@ -129,7 +129,7 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 if not st.session_state.get('logged_in', False):
     st.error("⚠️ Please login to view your events")
     if st.button("Go to Login"):
-        st.switch_page("pages/1_Login.py")
+        st.switch_page("pages/90_Login.py")
     st.stop()
 
 if st.session_state.get('user_type') != 'client':
@@ -318,7 +318,7 @@ if filtered_events:
         with col4:
             if st.button("💬 Chat", key=f"chat_{event['event_id']}", use_container_width=True):
                 st.session_state.selected_event_id = event['event_id']
-                st.switch_page("pages/17_Event_Chat.py")
+                st.switch_page("pages/96_Event_Chat.py")
         
         st.markdown("---")
 
@@ -343,11 +343,11 @@ col1, col2, col3 = st.columns([1, 1, 1])
 
 with col1:
     if st.button("← Back to Dashboard", use_container_width=True):
-        st.switch_page("pages/14_Client_Dashboard.py")
+        st.switch_page("pages/93_Client_Dashboard.py")
 
 with col2:
     if st.button("📋 Request New Quote", type="primary", use_container_width=True):
-        st.switch_page("pages/15_Request_Quote.py")
+        st.switch_page("pages/94_Request_Quote.py")
 
 with col3:
     if st.button("🔄 Refresh Events", use_container_width=True):

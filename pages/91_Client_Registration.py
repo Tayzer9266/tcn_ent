@@ -183,7 +183,7 @@ with st.form("registration_form"):
                 
                 # Provide login button
                 if st.button("Go to Login Page", type="primary"):
-                    st.switch_page("pages/1_Login.py")
+                    st.switch_page("pages/90_Login.py")
             else:
                 st.error(f"❌ {message}")
     
@@ -225,4 +225,4 @@ col1, col2, col3 = st.columns([1, 1, 1])
 with col2:
     st.markdown("**Already have an account?**")
     if st.button("Login Here", use_container_width=True):
-        st.switch_page("pages/1_Login.py")
+        st.switch_page("pages/90_Login.py")

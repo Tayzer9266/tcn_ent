@@ -115,7 +115,7 @@ if st.session_state.logged_in:
         
         with col1:
             if st.button("Go to Dashboard", type="primary", use_container_width=True):
-                st.switch_page("pages/14_Client_Dashboard.py")
+                st.switch_page("pages/93_Client_Dashboard.py")
         
         with col2:
             if st.button("Logout", use_container_width=True):
@@ -136,7 +136,7 @@ if st.session_state.logged_in:
         
         with col1:
             if st.button("Go to Profile Management", type="primary", use_container_width=True):
-                st.switch_page("pages/13_Profile_Management.py")
+                st.switch_page("pages/92_Profile_Management.py")
         
         with col2:
             if st.button("Logout", use_container_width=True):
@@ -187,7 +187,7 @@ else:
     with col2:
         st.markdown("**New Client?**")
         if st.button("Register Here", type="primary", use_container_width=True):
-            st.switch_page("pages/2_Client_Registration.py")
+            st.switch_page("pages/91_Client_Registration.py")
     
     # Info section
     st.markdown("---")

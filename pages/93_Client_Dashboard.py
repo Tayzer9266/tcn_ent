@@ -127,7 +127,7 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 if not st.session_state.get('logged_in', False):
     st.error("⚠️ Please login to access the dashboard")
     if st.button("Go to Login"):
-        st.switch_page("pages/1_Login.py")
+        st.switch_page("pages/90_Login.py")
     st.stop()
 
 if st.session_state.get('user_type') != 'client':
@@ -206,7 +206,7 @@ with col1:
     st.markdown("### 📋 Request a Quote")
     st.markdown("Get quotes for DJ, Photography, or Event Coordination services")
     if st.button("Request Quote", type="primary", use_container_width=True, key="req_quote"):
-        st.switch_page("pages/15_Request_Quote.py")
+        st.switch_page("pages/94_Request_Quote.py")
     st.markdown('</div>', unsafe_allow_html=True)
 
 with col2:
@@ -214,7 +214,7 @@ with col2:
     st.markdown("### 🎉 My Events")
     st.markdown("View and manage all your events and bookings")
     if st.button("View Events", type="primary", use_container_width=True, key="view_events"):
-        st.switch_page("pages/16_My_Events.py")
+        st.switch_page("pages/95_My_Events.py")
     st.markdown('</div>', unsafe_allow_html=True)
 
 with col3:
@@ -223,7 +223,7 @@ with col3:
     st.markdown("Chat with professionals about your events")
     if st.button("View Messages", type="primary", use_container_width=True, key="view_messages"):
         if events:
-            st.switch_page("pages/17_Event_Chat.py")
+            st.switch_page("pages/96_Event_Chat.py")
         else:
             st.info("No events yet. Request a quote to get started!")
     st.markdown('</div>', unsafe_allow_html=True)
@@ -269,12 +269,12 @@ if events:
         with col1:
             if st.button(f"View Details", key=f"details_{event['event_id']}", use_container_width=True):
                 st.session_state.selected_event_id = event['event_id']
-                st.switch_page("pages/17_Event_Chat.py")
+                st.switch_page("pages/96_Event_Chat.py")
         with col2:
             if event.get('quote_count', 0) > 0:
                 if st.button(f"View Quotes ({event.get('quote_count', 0)})", key=f"quotes_{event['event_id']}", use_container_width=True):
                     st.session_state.selected_event_id = event['event_id']
-                    st.switch_page("pages/16_My_Events.py")
+                    st.switch_page("pages/95_My_Events.py")
     
     st.markdown("<br>", unsafe_allow_html=True)
     
@@ -282,7 +282,7 @@ if events:
         col1, col2, col3 = st.columns([1, 1, 1])
         with col2:
             if st.button("View All Events", type="secondary", use_container_width=True):
-                st.switch_page("pages/16_My_Events.py")
+                st.switch_page("pages/95_My_Events.py")
 else:
     st.info("🎉 No events yet! Click 'Request Quote' above to get started with your first event.")
     st.markdown("""
@@ -315,4 +315,4 @@ with col2:
         st.session_state.user_profile_type = None
         st.session_state.user_type = None
         st.success("Logged out successfully!")
-        st.switch_page("pages/1_Login.py")
+        st.switch_page("pages/90_Login.py")

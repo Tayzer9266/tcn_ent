@@ -115,7 +115,7 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 if not st.session_state.get('logged_in', False):
     st.error("⚠️ Please login to access chat")
     if st.button("Go to Login"):
-        st.switch_page("pages/1_Login.py")
+        st.switch_page("pages/90_Login.py")
     st.stop()
 
 if st.session_state.get('user_type') != 'client':
@@ -136,7 +136,7 @@ events = client_manager.get_client_events(client_id)
 if not events:
     st.warning("📭 You don't have any events yet. Request a quote to get started!")
     if st.button("Request Quote", type="primary"):
-        st.switch_page("pages/15_Request_Quote.py")
+        st.switch_page("pages/94_Request_Quote.py")
     st.stop()
 
 # Event selector
@@ -289,7 +289,7 @@ with st.form("message_form", clear_on_submit=True):
         st.rerun()
     
     if back_button:
-        st.switch_page("pages/16_My_Events.py")
+        st.switch_page("pages/95_My_Events.py")
 
 st.markdown('</div>', unsafe_allow_html=True)
 
@@ -299,7 +299,7 @@ col1, col2, col3 = st.columns(3)
 
 with col1:
     if st.button("📋 View Event Details", use_container_width=True):
-        st.switch_page("pages/16_My_Events.py")
+        st.switch_page("pages/95_My_Events.py")
 
 with col2:
     if st.button("💰 View Quotes", use_container_width=True):
@@ -321,7 +321,7 @@ with col2:
 
 with col3:
     if st.button("🏠 Dashboard", use_container_width=True):
-        st.switch_page("pages/14_Client_Dashboard.py")
+        st.switch_page("pages/93_Client_Dashboard.py")
 
 # Tips section
 with st.expander("💡 Chat Tips"):
