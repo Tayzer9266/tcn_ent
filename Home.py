@@ -8,6 +8,9 @@ import os
 from datetime import datetime, date  # Importing datetime and date modules
 import calendar
 from streamlit_calendar import calendar
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
+from components.header_auth import render_auth_header
 # Page Tab
 st.set_page_config(
     page_title="Home",
@@ -18,6 +21,9 @@ st.set_page_config(
         'About': "# Make your dream a reality!"
     }
 )
+
+# Render authentication header
+render_auth_header()
 
 # Load the images
 youtube_img = base64.b64encode(open("pages/images/youtube.png", "rb").read()).decode()

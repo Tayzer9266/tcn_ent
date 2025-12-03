@@ -1,4 +1,8 @@
 import streamlit as st
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from components.header_auth import render_auth_header
 import base64
 
 # ---- HEADER SECTION ----
@@ -11,6 +15,9 @@ st.set_page_config(
         'About': "# Make your dream a reality!"
     }
 )
+
+# Render authentication header
+render_auth_header()
 
 
 # Load the images
