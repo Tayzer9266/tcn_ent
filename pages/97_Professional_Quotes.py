@@ -172,7 +172,21 @@ with tab1:
         all_requests = active_requests
         
         # Sort by event date (earliest first - most recent upcoming event)
-        all_requests.sort(key=lambda x: x.get('event_date') if x.get('event_date') else datetime.max)
+        def get_sort_date(request):
+            event_date = request.get('event_date')
+            if event_date:
+                if isinstance(event_date, str):
+                    try:
+                        return datetime.fromisoformat(event_date.replace('Z', '+00:00'))
+                    except:
+                        return datetime.max
+                elif isinstance(event_date, date) and not isinstance(event_date, datetime):
+                    return datetime.combine(event_date, datetime.min.time())
+                elif isinstance(event_date, datetime):
+                    return event_date
+            return datetime.max
+        
+        all_requests.sort(key=get_sort_date)
         
         # Show info about filtered events
         if past_count > 0:
