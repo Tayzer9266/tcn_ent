@@ -87,7 +87,7 @@ user_role = st.session_state.user_data.get('role', 'user')
 is_admin = (user_role == 'admin')
 
 # Header with logout button
-col1, col2 = st.columns([4, 1])
+col1, col2, col3 = st.columns([3, 1, 1])
 with col1:
     if is_admin:
         st.markdown('<div class="section-title">🔑 Admin Dashboard - Profile Management</div>', unsafe_allow_html=True)
@@ -96,7 +96,10 @@ with col1:
         st.markdown('<div class="section-title">👤 My Profile</div>', unsafe_allow_html=True)
         st.markdown(f'<span class="user-badge">USER</span> **{st.session_state.user_data["name"]}** ({st.session_state.user_email})', unsafe_allow_html=True)
 with col2:
-    if st.button("Logout", type="secondary"):
+    if st.button("💼 Quote Requests", type="primary", use_container_width=True):
+        st.switch_page("pages/18_Professional_Quotes.py")
+with col3:
+    if st.button("Logout", type="secondary", use_container_width=True):
         st.session_state.logged_in = False
         st.session_state.user_email = None
         st.session_state.user_data = None
