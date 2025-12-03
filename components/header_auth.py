@@ -11,34 +11,20 @@ def render_navigation_bar():
     is_client_logged_in = st.session_state.get('client_logged_in', False)
     is_professional_logged_in = st.session_state.get('professional_logged_in', False)
     
-    # Define navigation pages with grouped professionals
-    pages = ["Home", "Request Quote", "Professionals", "Services", "Questionnaires", "Event Planning Tips"]
-    
-    # Define sub-pages for Professionals dropdown
-    professionals_options = {
-        "Professionals": ["DJs", "Photographers", "Event Coordinators"]
-    }
+    # Define navigation pages
+    pages = ["Home", "Request Quote", "Services", "Questionnaires", "Event Planning Tips", "DJs", "Photographers", "Event Coordinators"]
     
     # Add authentication options based on login status
     if is_client_logged_in:
-        client_name = st.session_state.get('client_data', {}).get('first_name', 'Client')
-        pages.append(f"👤 {client_name}")
-        auth_options = {f"👤 {client_name}": ["Dashboard", "Logout"]}
+        pages.extend(["Dashboard", "Logout"])
     elif is_professional_logged_in:
-        professional_name = st.session_state.get('professional_data', {}).get('name', 'Professional')
-        pages.append(f"👤 {professional_name}")
-        auth_options = {f"👤 {professional_name}": ["Profile", "Logout"]}
+        pages.extend(["Profile", "Logout"])
     else:
         pages.extend(["Login", "Register"])
-        auth_options = {}
-    
-    # Combine options
-    all_options = {**professionals_options, **auth_options}
     
     # Render navigation bar
     page = st_navbar(
         pages,
-        options=all_options,
         styles={
             "nav": {
                 "background-color": "#1e1e1e",
