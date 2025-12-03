@@ -10,7 +10,8 @@ import calendar
 from streamlit_calendar import calendar
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
-from components.header_auth import render_auth_header
+from components.header_auth import render_navigation_bar
+
 # Page Tab
 st.set_page_config(
     page_title="Home",
@@ -22,8 +23,8 @@ st.set_page_config(
     }
 )
 
-# Render authentication header at the top of the page
-render_auth_header()
+# Render navigation bar at the top of the page
+render_navigation_bar()
 
 # Load the images
 youtube_img = base64.b64encode(open("pages/images/youtube.png", "rb").read()).decode()

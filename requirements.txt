@@ -6,3 +6,4 @@ datetime
 streamlit-calendar
 fpdf
 stripe
+streamlit-navigation-bar
