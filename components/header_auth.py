@@ -119,5 +119,5 @@ def render_auth_header():
     </script>
     """
     
-    # Render the header using components.html with a small height
-    components.html(full_html, height=0)
+    # Render the header using components.html with proper height for visibility
+    components.html(full_html, height=60)
