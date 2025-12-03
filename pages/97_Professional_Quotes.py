@@ -129,8 +129,34 @@ with tab1:
     # Get all quote requests
     all_requests = client_manager.get_all_quote_requests()
     
+    # Filter out past events
     if all_requests:
-        st.info(f"📊 Found {len(all_requests)} total quote requests")
+        today = date.today()
+        active_requests = []
+        
+        for request in all_requests:
+            event_date = request.get('event_date')
+            if event_date:
+                # Convert to date if it's a datetime or string
+                if isinstance(event_date, str):
+                    try:
+                        event_date = datetime.fromisoformat(event_date.replace('Z', '+00:00')).date()
+                    except:
+                        event_date = None
+                elif isinstance(event_date, datetime):
+                    event_date = event_date.date()
+                
+                # Only include events that haven't passed
+                if event_date and event_date >= today:
+                    active_requests.append(request)
+            else:
+                # Include events without a date (TBD)
+                active_requests.append(request)
+        
+        all_requests = active_requests
+    
+    if all_requests:
+        st.info(f"📊 Found {len(all_requests)} active quote requests")
         
         for request in all_requests:
             event_id = request['event_id']
@@ -141,10 +167,20 @@ with tab1:
             
             st.markdown('<div class="request-card">', unsafe_allow_html=True)
             
-            # Request header
+            # Request header with event status
+            event_status = request.get('event_status', 'pending')
+            status_color = {
+                'pending': '#ffd60a',
+                'confirmed': '#06d6a0',
+                'completed': '#457b9d',
+                'cancelled': '#e63946'
+            }.get(event_status.lower(), '#666')
+            
             st.markdown(f"""
             <div class="request-header">
-                <div class="request-title">{request.get('event_name', 'Untitled Event')}</div>
+                <div class="request-title">{request.get('event_name', 'Untitled Event')} 
+                    <span style="background: {status_color}; color: white; padding: 0.2em 0.8em; border-radius: 15px; font-size: 0.7em; margin-left: 0.5em;">{event_status.upper()}</span>
+                </div>
                 <div style="color: #666; font-size: 0.9em;">Event ID: {event_id} | Requested: {request.get('created_at', 'Unknown').strftime('%b %d, %Y') if isinstance(request.get('created_at'), datetime) else 'Unknown'}</div>
             </div>
             """, unsafe_allow_html=True)
