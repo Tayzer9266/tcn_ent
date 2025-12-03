@@ -6,6 +6,10 @@ from datetime import datetime, date, timedelta
 # Add parent directory to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from client_manager import client_manager
+from auth_utils import require_professional_auth
+
+# Require professional authentication
+require_professional_auth()
 
 # Page configuration
 st.set_page_config(

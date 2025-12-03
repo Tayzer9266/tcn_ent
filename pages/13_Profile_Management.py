@@ -7,8 +7,12 @@ from datetime import datetime
 # Add parent directory to path to import profiles_data
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from profiles_data import profile_manager
+from auth_utils import require_professional_auth
 
 # Page Tab
+# Require professional authentication
+require_professional_auth()
+
 st.set_page_config(
     page_title="Profile Management",
     page_icon="pages/images/TCN logo black.jpg",
