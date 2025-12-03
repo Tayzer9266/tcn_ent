@@ -175,10 +175,17 @@ with tab1:
                 """, unsafe_allow_html=True)
             
             with col2:
+                # Safely format budget
+                budget = request.get('estimated_budget', 0)
+                try:
+                    budget_formatted = f"${float(budget):,.2f}" if budget else "TBD"
+                except (ValueError, TypeError):
+                    budget_formatted = "TBD"
+                
                 st.markdown(f"""
                 <span class="info-label">👥 Guests:</span> {request.get('estimated_guest', 'TBD')}<br>
                 <span class="info-label">⏱️ Hours:</span> {request.get('service_hours', 'TBD')}<br>
-                <span class="info-label">💰 Budget:</span> ${request.get('estimated_budget', 0):,.2f}
+                <span class="info-label">💰 Budget:</span> {budget_formatted}
                 """, unsafe_allow_html=True)
             
             with col3:
