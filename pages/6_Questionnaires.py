@@ -2,7 +2,6 @@ import streamlit as st
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from components.header_auth import render_auth_header
 import base64
 
 
@@ -23,8 +22,6 @@ st.set_page_config(
     }
 )
 
-# Render authentication header
-render_auth_header()
 
 # Load the images
 youtube_img = base64.b64encode(open("pages/images/youtube.png", "rb").read()).decode()

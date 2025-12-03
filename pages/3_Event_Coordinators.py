@@ -2,7 +2,6 @@ import streamlit as st
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from components.header_auth import render_auth_header
 import base64
 import os
 import sys
@@ -22,8 +21,6 @@ st.set_page_config(
     }
 )
 
-# Render authentication header
-render_auth_header()
 
 # Background for page
 page_bg_img = """
