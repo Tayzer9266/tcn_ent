@@ -87,7 +87,7 @@ def render_auth_header():
         st.markdown(f"""
             <div class="auth-header">
                 <span class="user-info">👤 {client_name}</span>
-                <a href="/93_Client_Dashboard" target="_self" class="auth-link">Dashboard</a>
+                <a href="93_Client_Dashboard" target="_self" class="auth-link">Dashboard</a>
             </div>
         """, unsafe_allow_html=True)
         
@@ -97,7 +97,7 @@ def render_auth_header():
         st.markdown(f"""
             <div class="auth-header">
                 <span class="user-info">👤 {professional_name}</span>
-                <a href="/92_Profile_Management" target="_self" class="auth-link">Profile</a>
+                <a href="92_Profile_Management" target="_self" class="auth-link">Profile</a>
             </div>
         """, unsafe_allow_html=True)
         
@@ -105,7 +105,7 @@ def render_auth_header():
         # Not logged in - show login and register links
         st.markdown("""
             <div class="auth-header">
-                <a href="/90_Login" target="_self" class="auth-link">Login</a>
-                <a href="/91_Client_Registration" target="_self" class="auth-link auth-link-register">Register</a>
+                <a href="90_Login" target="_self" class="auth-link">Login</a>
+                <a href="91_Client_Registration" target="_self" class="auth-link auth-link-register">Register</a>
             </div>
         """, unsafe_allow_html=True)
