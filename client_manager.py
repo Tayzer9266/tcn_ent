@@ -194,7 +194,7 @@ class ClientManager:
                     :client_id, :event_name, :event_type, :event_date, :event_location,
                     :start_time, :end_time, :service_hours, :venue, :estimated_guest,
                     :estimated_budget, :description, :special_requirements,
-                    'pending', :created_at, :updated_at
+                    'Pending', :created_at, :updated_at
                 )
                 RETURNING event_id
             ''')
