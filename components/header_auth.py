@@ -49,11 +49,9 @@ def render_navigation_bar():
         }
     )
     
-    # Handle navigation
-    if page:
-        if page == "Home":
-            st.switch_page("Home.py")
-        elif page == "Request Quote":
+    # Handle navigation only if page is different from current and not None
+    if page and page != "Home":
+        if page == "Request Quote":
             st.switch_page("pages/1_Request_Quote_Estimate.py")
         elif page == "DJs":
             st.switch_page("pages/4_DJs.py")
