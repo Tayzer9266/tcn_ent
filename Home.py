@@ -7,7 +7,6 @@ import pandas as pd
 import os
 from datetime import datetime, date  # Importing datetime and date modules
 import calendar
-from streamlit_calendar import calendar
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 from components.header_auth import render_auth_header
@@ -130,15 +129,36 @@ st.video("https://www.youtube.com/watch?v=baTq72zAc-U")
 
 # ---- HEADER SECTION ----
 with st.container():
-    st.markdown('<div class="section-title">Overview</div>', unsafe_allow_html=True) 
+    st.markdown('<div class="section-title">Overview</div>', unsafe_allow_html=True)
     #st.title("Overview")
     st.markdown(
-        """Welcome to TCN Entertainment, where the beats meet the streets and the fun never skips a track! I am your ultimate DJ professional with the top-tier sound and lighting.
-        I'm here to turn your event into an epic celebration that'll have everyone talking long after the music fades.
-        But I'm more than just a DJ, I will work closely with you to understand your vision, preferences, and must-play tracks.
-        I'm here to listen, collaborate, and bring your party dreams to life, one beat drop at a time. So, if you're ready to take
-        your event to the next level, let me help you and be your soundtrack to success!"""
+        """Welcome to TCN Entertainment, your full-service event partner in Dallas, TX. We specialize in DJ services, professional photography, and expert event coordination to make your special occasions unforgettable.
+        From the perfect soundtrack to capturing every moment and ensuring seamless execution, our team is dedicated to bringing your vision to life. Whether it's a wedding, corporate event, or private party, we collaborate closely with you to create experiences that exceed expectations.
+        Let us handle the details so you can focus on celebrating!"""
     )
+
+# ---- OUR SERVICES SECTION ----
+with st.container():
+    st.write("---")
+    st.markdown('<div class="section-title">Our Services</div>', unsafe_allow_html=True)
+    st.markdown("We offer a comprehensive range of services to cover all aspects of your event:")
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.markdown("**🎶 DJ Services**")
+        st.markdown("Create the perfect atmosphere with custom playlists, lighting effects, and professional sound systems. From weddings to corporate events, our DJs keep the energy high and the crowd engaged.")
+        st.markdown("[Meet Our DJs >](4_DJs)")
+
+    with col2:
+        st.markdown("**📸 Photography**")
+        st.markdown("Capture every precious moment with our skilled photographers. We specialize in event photography, providing high-quality images that preserve your memories forever.")
+        st.markdown("[Meet Our Photographers >](2_Photographers)")
+
+    with col3:
+        st.markdown("**🎉 Event Coordination**")
+        st.markdown("Let our experienced coordinators handle the logistics, timelines, and details. From planning to execution, we ensure your event runs smoothly and flawlessly.")
+        st.markdown("[Meet Our Coordinators >](3_Event_Coordinators)")
 
 # ---- PACKAGE SELECTION SECTION ----
 # with st.container():
@@ -195,7 +215,7 @@ with st.container():
         st.markdown('<div class="section-title">🎶 Services & Features</div>', unsafe_allow_html=True)
         st.markdown(
             """
-            To receive an instant quote for DJ services and optional add-ons, click below:
+            To receive an instant quote for our services, click below:
 
             - **Custom Playlists:** Top 40, EDM, Hip-Hop, R&B, Latin, Rock, Jazz, K-Pop and more!
             - **Event Coordination:** Seamless setup, breakdown, and collaboration with venues/planners.
