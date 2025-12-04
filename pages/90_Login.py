@@ -7,6 +7,7 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from profiles_data import profile_manager
 from client_manager import client_manager
+from components.header_auth import render_auth_header
 
 # Page Tab
 st.set_page_config(
@@ -18,6 +19,9 @@ st.set_page_config(
         'About': "# TCN Entertainment Login"
     }
 )
+
+# Render authentication header
+render_auth_header()
 
 # Background for page
 page_bg_img = """
