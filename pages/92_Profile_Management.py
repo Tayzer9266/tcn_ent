@@ -360,6 +360,16 @@ if st.session_state.selected_profile_id and st.session_state.selected_profile_ty
             with social_col3:
                 facebook = st.text_input("Facebook URL", value=profile['facebook'] or "")
             
+            # Admin-only: Featured checkbox
+            if is_admin:
+                st.markdown("---")
+                st.markdown("**🌟 Admin Settings:**")
+                featured = st.checkbox(
+                    "Featured Professional", 
+                    value=profile.get('featured', False),
+                    help="Featured professionals appear prominently on the website"
+                )
+            
             # Form buttons
             button_col1, button_col2, button_col3 = st.columns([1, 1, 2])
             
@@ -385,6 +395,10 @@ if st.session_state.selected_profile_id and st.session_state.selected_profile_ty
                     'instagram': instagram if instagram else None,
                     'facebook': facebook if facebook else None
                 }
+                
+                # Add featured field if admin
+                if is_admin:
+                    update_data['featured'] = featured
                 
                 # Handle image upload
                 if uploaded_file:
