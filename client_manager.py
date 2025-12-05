@@ -570,16 +570,16 @@ class ClientManager:
         try:
             query = text('''
                 UPDATE events 
-                SET deposit_paid = :deposit_paid, 
-                    deposit_completed = :deposit_completed,
+                SET deposit_completed = :deposit_paid, 
+                    payment_completed = :deposit_completed,
                     updated_at = :updated_at
                 WHERE event_id = :event_id
             ''')
             
             self.conn.execute(query, {
                 "event_id": event_id,
-                "deposit_paid": deposit_paid,
-                "deposit_completed": deposit_completed,
+                "deposit_completed": deposit_paid,
+                "payment_completed": deposit_completed,
                 "updated_at": datetime.now()
             })
             
