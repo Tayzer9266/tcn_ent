@@ -385,37 +385,42 @@ with tab1:
             # Admin-only: Deposit information
             if is_admin:
                 st.markdown("---")
-                st.markdown("**💳 Deposit Information (Admin Only):**")
+                st.markdown("**💳 Payment Information (Admin Only):**")
+                
+                # Get current values from request
+                current_deposit_paid = request.get('deposit_paid', False)
+                current_final_payment = request.get('deposit_completed', False)
+                
                 deposit_col1, deposit_col2 = st.columns(2)
                 
                 with deposit_col1:
                     deposit_paid = st.checkbox(
                         "Deposit Paid", 
-                        value=request.get('deposit_paid', False),
+                        value=current_deposit_paid,
                         key=f"deposit_paid_{event_id}",
                         help="Has the client paid the deposit?"
                     )
                 
                 with deposit_col2:
-                    deposit_completed = st.checkbox(
-                        "Deposit Completed", 
-                        value=request.get('deposit_completed', False),
-                        key=f"deposit_completed_{event_id}",
-                        help="Has the deposit transaction been completed?"
+                    final_payment_completed = st.checkbox(
+                        "Final Payment Completed", 
+                        value=current_final_payment,
+                        key=f"final_payment_{event_id}",
+                        help="Has the final payment been completed?"
                     )
                 
-                # Update button for deposit fields
-                if st.button("💾 Update Deposit Status", key=f"update_deposit_{event_id}", type="secondary"):
+                # Update button for payment fields
+                if st.button("💾 Update Payment Status", key=f"update_payment_{event_id}", type="secondary"):
                     success = client_manager.update_event_deposit_status(
                         event_id=event_id,
                         deposit_paid=deposit_paid,
-                        deposit_completed=deposit_completed
+                        deposit_completed=final_payment_completed
                     )
                     if success:
-                        st.success("✅ Deposit status updated successfully!")
+                        st.success("✅ Payment status updated successfully!")
                         st.rerun()
                     else:
-                        st.error("❌ Failed to update deposit status")
+                        st.error("❌ Failed to update payment status")
             
             # Description and requirements
             if request.get('description'):
