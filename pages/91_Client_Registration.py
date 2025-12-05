@@ -181,9 +181,8 @@ with st.form("registration_form"):
                 st.balloons()
                 st.info("🔑 You can now login with your email and password")
                 
-                # Provide login button
-                if st.button("Go to Login Page", type="primary"):
-                    st.switch_page("pages/90_Login.py")
+                # Set session state to trigger redirect
+                st.session_state.registration_success = True
             else:
                 st.error(f"❌ {message}")
     
@@ -191,6 +190,15 @@ with st.form("registration_form"):
         st.rerun()
 
 st.markdown('</div>', unsafe_allow_html=True)
+
+# Show login button after successful registration (outside form)
+if st.session_state.get('registration_success', False):
+    st.markdown("---")
+    col1, col2, col3 = st.columns([1, 1, 1])
+    with col2:
+        if st.button("Go to Login Page", type="primary", use_container_width=True):
+            st.session_state.registration_success = False
+            st.switch_page("pages/90_Login.py")
 
 # Additional information
 st.markdown("---")

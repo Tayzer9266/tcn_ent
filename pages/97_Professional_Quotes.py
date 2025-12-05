@@ -103,10 +103,12 @@ professional_data = st.session_state.user_data
 professional_id = professional_data.get('profile_id')
 professional_name = professional_data.get('name')
 professional_type = st.session_state.user_profile_type  # 'photographers', 'djs', 'event_coordinators'
+user_role = professional_data.get('role', 'user')
+is_admin = (user_role == 'admin')
 
 # Map table name to professional type
 type_map = {
-    'photographers': 'photographer',
+    'photographers': 'photographer', 
     'djs': 'dj',
     'event_coordinators': 'event_coordinator'
 }
@@ -128,6 +130,59 @@ with tab1:
     
     # Get all quote requests
     all_requests = client_manager.get_all_quote_requests()
+    
+    # Debug: Show total count before filtering
+    if all_requests:
+        st.info(f"🔍 Debug: Found {len(all_requests)} total events in database before filtering")
+    
+    # Calculate status statistics BEFORE filtering
+    status_counts = {}
+    if all_requests:
+        for request in all_requests:
+            status = request.get('event_status', 'pending').lower()
+            status_counts[status] = status_counts.get(status, 0) + 1
+    
+    # Display status statistics
+    if status_counts:
+        st.markdown("### 📊 Event Status Statistics")
+        stat_cols = st.columns(len(status_counts))
+        for idx, (status, count) in enumerate(sorted(status_counts.items())):
+            with stat_cols[idx]:
+                status_color = {
+                    'pending': '#ffd60a',
+                    'confirmed': '#06d6a0',
+                    'completed': '#457b9d',
+                    'cancelled': '#e63946'
+                }.get(status, '#666')
+                st.markdown(f"""
+                <div style="background: {status_color}; color: white; padding: 1em; border-radius: 10px; text-align: center;">
+                    <div style="font-size: 2em; font-weight: 700;">{count}</div>
+                    <div style="font-size: 0.9em; text-transform: uppercase;">{status}</div>
+                </div>
+                """, unsafe_allow_html=True)
+        
+        st.markdown("---")
+        
+        # Status filter
+        st.markdown("### 🔍 Filter by Status")
+        filter_col1, filter_col2 = st.columns([3, 1])
+        
+        with filter_col1:
+            status_options = ['All'] + [s.title() for s in sorted(status_counts.keys())]
+            selected_status = st.selectbox(
+                "Select Status to Display",
+                options=status_options,
+                index=0,
+                help="Filter events by their status"
+            )
+        
+        with filter_col2:
+            st.markdown("<br>", unsafe_allow_html=True)
+            if st.button("🔄 Reset Filter", use_container_width=True):
+                selected_status = 'All'
+                st.rerun()
+        
+        st.markdown("---")
     
     # Filter out past events
     if all_requests:
@@ -171,6 +226,10 @@ with tab1:
         
         all_requests = active_requests
         
+        # Apply status filter if selected
+        if status_counts and selected_status != 'All':
+            all_requests = [r for r in all_requests if r.get('event_status', 'pending').lower() == selected_status.lower()]
+        
         # Sort by event date (earliest first - most recent upcoming event)
         def get_sort_date(request):
             event_date = request.get('event_date')
@@ -189,10 +248,11 @@ with tab1:
         all_requests.sort(key=get_sort_date)
         
         # Show info about filtered events
+        filter_msg = f" with status '{selected_status}'" if status_counts and selected_status != 'All' else ""
         if past_count > 0:
-            st.info(f"📊 Found {len(all_requests)} active quote requests ({past_count} past events hidden)")
+            st.info(f"📊 Found {len(all_requests)} active quote requests{filter_msg} ({past_count} past events hidden)")
         else:
-            st.info(f"📊 Found {len(all_requests)} active quote requests")
+            st.info(f"📊 Found {len(all_requests)} active quote requests{filter_msg}")
     else:
         st.info("📭 No quote requests found in the database")
     
@@ -269,6 +329,41 @@ with tab1:
                 <span class="info-label">💬 Messages:</span> {request.get('message_count', 0)}<br>
                 <span class="info-label">💰 Quotes:</span> {request.get('quote_count', 0)}
                 """, unsafe_allow_html=True)
+            
+            # Admin-only: Deposit information
+            if is_admin:
+                st.markdown("---")
+                st.markdown("**💳 Deposit Information (Admin Only):**")
+                deposit_col1, deposit_col2 = st.columns(2)
+                
+                with deposit_col1:
+                    deposit_paid = st.checkbox(
+                        "Deposit Paid", 
+                        value=request.get('deposit_paid', False),
+                        key=f"deposit_paid_{event_id}",
+                        help="Has the client paid the deposit?"
+                    )
+                
+                with deposit_col2:
+                    deposit_completed = st.checkbox(
+                        "Deposit Completed", 
+                        value=request.get('deposit_completed', False),
+                        key=f"deposit_completed_{event_id}",
+                        help="Has the deposit transaction been completed?"
+                    )
+                
+                # Update button for deposit fields
+                if st.button("💾 Update Deposit Status", key=f"update_deposit_{event_id}", type="secondary"):
+                    success = client_manager.update_event_deposit_status(
+                        event_id=event_id,
+                        deposit_paid=deposit_paid,
+                        deposit_completed=deposit_completed
+                    )
+                    if success:
+                        st.success("✅ Deposit status updated successfully!")
+                        st.rerun()
+                    else:
+                        st.error("❌ Failed to update deposit status")
             
             # Description and requirements
             if request.get('description'):

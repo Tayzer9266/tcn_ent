@@ -159,7 +159,7 @@ class ClientManager:
                        COUNT(DISTINCT q.quote_id) as quote_count,
                        COUNT(DISTINCT m.message_id) as message_count
                 FROM events e
-                LEFT JOIN quotes q ON e.event_id = q.event_id
+                LEFT JOIN quotes q ON e.event_id = q.quote_id
                 LEFT JOIN messages m ON e.event_id = m.event_id
                 WHERE e.client_id = :client_id AND e.deleted_at IS NULL
                 GROUP BY e.event_id
@@ -525,6 +525,32 @@ class ClientManager:
         except Exception as e:
             print(f"Error getting event by ID: {e}")
             return None
+    
+    def update_event_deposit_status(self, event_id, deposit_paid, deposit_completed):
+        """Update deposit status for an event (admin only)"""
+        try:
+            query = text('''
+                UPDATE events 
+                SET deposit_paid = :deposit_paid, 
+                    deposit_completed = :deposit_completed,
+                    updated_at = :updated_at
+                WHERE event_id = :event_id
+            ''')
+            
+            self.conn.execute(query, {
+                "event_id": event_id,
+                "deposit_paid": deposit_paid,
+                "deposit_completed": deposit_completed,
+                "updated_at": datetime.now()
+            })
+            
+            self.conn.commit()
+            return True
+            
+        except Exception as e:
+            print(f"Error updating deposit status: {e}")
+            self.conn.rollback()
+            return False
 
 # Initialize the client manager
 client_manager = ClientManager()
