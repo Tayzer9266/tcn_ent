@@ -388,15 +388,15 @@ with tab1:
                 st.markdown("**💳 Payment Information (Admin Only):**")
                 
                 # Get current values from request
-                current_deposit_paid = request.get('deposit_paid', False)
-                current_final_payment = request.get('deposit_completed', False)
+                current_deposit_completed = request.get('deposit_completed', False)
+                current_final_payment = request.get('payment_completed', False)
                 
                 deposit_col1, deposit_col2 = st.columns(2)
                 
                 with deposit_col1:
-                    deposit_paid = st.checkbox(
+                    deposit_completed = st.checkbox(
                         "Deposit Paid", 
-                        value=current_deposit_paid,
+                        value=current_deposit_completed,
                         key=f"deposit_paid_{event_id}",
                         help="Has the client paid the deposit?"
                     )
@@ -413,8 +413,8 @@ with tab1:
                 if st.button("💾 Update Payment Status", key=f"update_payment_{event_id}", type="secondary"):
                     success = client_manager.update_event_deposit_status(
                         event_id=event_id,
-                        deposit_paid=deposit_paid,
-                        deposit_completed=final_payment_completed
+                        deposit_completed=deposit_completed,
+                        payment_completed=final_payment_completed
                     )
                     if success:
                         st.success("✅ Payment status updated successfully!")

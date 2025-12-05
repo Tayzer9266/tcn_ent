@@ -565,21 +565,21 @@ class ClientManager:
             print(f"Error getting event by ID: {e}")
             return None
     
-    def update_event_deposit_status(self, event_id, deposit_paid, deposit_completed):
-        """Update deposit status for an event (admin only)"""
+    def update_event_deposit_status(self, event_id, deposit_completed, payment_completed):
+        """Update payment status for an event (admin only)"""
         try:
             query = text('''
                 UPDATE events 
-                SET deposit_completed = :deposit_paid, 
-                    payment_completed = :deposit_completed,
+                SET deposit_completed = :deposit_completed, 
+                    payment_completed = :payment_completed,
                     updated_at = :updated_at
                 WHERE event_id = :event_id
             ''')
             
             self.conn.execute(query, {
                 "event_id": event_id,
-                "deposit_completed": deposit_paid,
-                "payment_completed": deposit_completed,
+                "deposit_completed": deposit_completed,
+                "payment_completed": payment_completed,
                 "updated_at": datetime.now()
             })
             
@@ -587,7 +587,7 @@ class ClientManager:
             return True
             
         except Exception as e:
-            print(f"Error updating deposit status: {e}")
+            print(f"Error updating payment status: {e}")
             self.conn.rollback()
             return False
 
