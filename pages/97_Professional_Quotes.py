@@ -208,19 +208,26 @@ with tab1:
         st.markdown("### 🔍 Filter by Status")
         filter_col1, filter_col2 = st.columns([3, 1])
         
+        # Initialize filter state if not exists
+        if 'status_filter' not in st.session_state:
+            st.session_state.status_filter = 'All'
+        
         with filter_col1:
             status_options = ['All'] + [s.title() for s in sorted(status_counts.keys())]
             selected_status = st.selectbox(
                 "Select Status to Display",
                 options=status_options,
-                index=0,
+                index=status_options.index(st.session_state.status_filter) if st.session_state.status_filter in status_options else 0,
+                key="status_selectbox",
                 help="Filter events by their status"
             )
+            # Update session state
+            st.session_state.status_filter = selected_status
         
         with filter_col2:
             st.markdown("<br>", unsafe_allow_html=True)
-            if st.button("🔄 Reset Filter", use_container_width=True):
-                selected_status = 'All'
+            if st.button("🔄 Reset Filter", use_container_width=True, key="reset_filter_btn"):
+                st.session_state.status_filter = 'All'
                 st.rerun()
         
         st.markdown("---")
