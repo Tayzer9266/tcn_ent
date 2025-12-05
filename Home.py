@@ -148,17 +148,17 @@ with st.container():
     with col1:
         st.markdown("**🎶 DJ Services**")
         st.markdown("Create the perfect atmosphere with custom playlists, lighting effects, and professional sound systems. From weddings to corporate events, our DJs keep the energy high and the crowd engaged.")
-        st.page_link("pages/4_DJs.py", label="Meet Our DJs >")
+        st.page_link("pages/2_DJs.py", label="Meet Our DJs >")
 
     with col2:
         st.markdown("**📸 Photography**")
         st.markdown("Capture every precious moment with our skilled photographers. We specialize in event photography, providing high-quality images that preserve your memories forever.")
-        st.page_link("pages/2_Photographers.py", label="Meet Our Photographers >")
+        st.page_link("pages/3_Photographers.py", label="Meet Our Photographers >")
 
     with col3:
         st.markdown("**🎉 Event Coordination**")
         st.markdown("Let our experienced coordinators handle the logistics, timelines, and details. From planning to execution, we ensure your event runs smoothly and flawlessly.")
-        st.page_link("pages/3_Event_Coordinators.py", label="Meet Our Coordinators >")
+        st.page_link("pages/4_Event_Coordinators.py", label="Meet Our Coordinators >")
 
 # ---- PACKAGE SELECTION SECTION ----
 # with st.container():
