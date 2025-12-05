@@ -469,24 +469,39 @@ class ClientManager:
             self.conn.rollback()
             return False
     
-    def get_professional_quotes(self, professional_id, professional_type):
-        """Get all quotes sent by a specific professional"""
+    def get_professional_quotes(self, professional_id, professional_type, is_admin=False):
+        """Get all quotes sent by a specific professional, or all quotes if admin"""
         try:
-            query = text('''
-                SELECT q.*, e.event_name, e.event_date, e.event_location,
-                       c.first_name, c.last_name, c.email, c.phone_number
-                FROM quotes q
-                JOIN events e ON q.event_id = e.event_id
-                JOIN clients c ON q.client_id = c.client_id
-                WHERE q.professional_id = :professional_id 
-                AND q.professional_type = :professional_type
-                ORDER BY q.created_at DESC
-            ''')
+            if is_admin:
+                # Admin sees all quotes
+                query = text('''
+                    SELECT q.*, e.event_name, e.event_date, e.event_location,
+                           c.first_name, c.last_name, c.email, c.phone_number
+                    FROM quotes q
+                    JOIN events e ON q.event_id = e.event_id
+                    JOIN clients c ON q.client_id = c.client_id
+                    ORDER BY q.created_at DESC
+                ''')
+                
+                result = self.conn.execute(query)
+            else:
+                # Regular professional sees only their quotes
+                query = text('''
+                    SELECT q.*, e.event_name, e.event_date, e.event_location,
+                           c.first_name, c.last_name, c.email, c.phone_number
+                    FROM quotes q
+                    JOIN events e ON q.event_id = e.event_id
+                    JOIN clients c ON q.client_id = c.client_id
+                    WHERE q.professional_id = :professional_id 
+                    AND q.professional_type = :professional_type
+                    ORDER BY q.created_at DESC
+                ''')
+                
+                result = self.conn.execute(query, {
+                    "professional_id": professional_id,
+                    "professional_type": professional_type
+                })
             
-            result = self.conn.execute(query, {
-                "professional_id": professional_id,
-                "professional_type": professional_type
-            })
             rows = result.fetchall()
             
             quotes = []

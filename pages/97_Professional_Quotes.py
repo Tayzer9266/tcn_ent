@@ -496,8 +496,8 @@ with tab1:
 with tab2:
     st.markdown("### 📤 My Sent Quotes")
     
-    # Get quotes sent by this professional
-    my_quotes = client_manager.get_professional_quotes(professional_id, prof_type)
+    # Get quotes sent by this professional (or all quotes if admin)
+    my_quotes = client_manager.get_professional_quotes(professional_id, prof_type, is_admin=is_admin)
     
     if my_quotes:
         st.success(f"📊 You've sent {len(my_quotes)} quotes")
