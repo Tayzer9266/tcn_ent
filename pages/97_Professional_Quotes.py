@@ -135,16 +135,57 @@ with tab1:
     if all_requests:
         st.info(f"🔍 Debug: Found {len(all_requests)} total events in database before filtering")
     
-    # Calculate status statistics BEFORE filtering
-    status_counts = {}
+    # Filter out past events FIRST
+    active_requests = []
+    past_count = 0
+    
     if all_requests:
+        today = date.today()
+        
         for request in all_requests:
+            event_date = request.get('event_date')
+            include_event = False
+            
+            if event_date:
+                # Convert to date if it's a datetime or string
+                if isinstance(event_date, str):
+                    try:
+                        event_date = datetime.fromisoformat(event_date.replace('Z', '+00:00')).date()
+                    except:
+                        # If parsing fails, include the event
+                        include_event = True
+                elif isinstance(event_date, datetime):
+                    event_date = event_date.date()
+                elif isinstance(event_date, date):
+                    # Already a date object
+                    pass
+                else:
+                    # Unknown type, include the event
+                    include_event = True
+                
+                # Only include events that haven't passed
+                if not include_event:
+                    if event_date >= today:
+                        include_event = True
+                    else:
+                        past_count += 1
+            else:
+                # Include events without a date (TBD)
+                include_event = True
+            
+            if include_event:
+                active_requests.append(request)
+    
+    # Calculate status statistics AFTER filtering past events
+    status_counts = {}
+    if active_requests:
+        for request in active_requests:
             status = request.get('event_status', 'pending').lower()
             status_counts[status] = status_counts.get(status, 0) + 1
     
     # Display status statistics
     if status_counts:
-        st.markdown("### 📊 Event Status Statistics")
+        st.markdown("### 📊 Event Status Statistics (Active Events)")
         stat_cols = st.columns(len(status_counts))
         for idx, (status, count) in enumerate(sorted(status_counts.items())):
             with stat_cols[idx]:
@@ -184,77 +225,42 @@ with tab1:
         
         st.markdown("---")
     
-    # Filter out past events
-    if all_requests:
-        today = date.today()
-        active_requests = []
-        past_count = 0
-        
-        for request in all_requests:
-            event_date = request.get('event_date')
-            include_event = False
-            
-            if event_date:
-                # Convert to date if it's a datetime or string
-                if isinstance(event_date, str):
-                    try:
-                        event_date = datetime.fromisoformat(event_date.replace('Z', '+00:00')).date()
-                    except:
-                        # If parsing fails, include the event
-                        include_event = True
-                elif isinstance(event_date, datetime):
-                    event_date = event_date.date()
-                elif isinstance(event_date, date):
-                    # Already a date object
-                    pass
-                else:
-                    # Unknown type, include the event
-                    include_event = True
-                
-                # Only include events that haven't passed
-                if not include_event:
-                    if event_date >= today:
-                        include_event = True
-                    else:
-                        past_count += 1
-            else:
-                # Include events without a date (TBD)
-                include_event = True
-            
-            if include_event:
-                active_requests.append(request)
-        
-        all_requests = active_requests
-        
-        # Apply status filter if selected
-        if status_counts and selected_status != 'All':
-            all_requests = [r for r in all_requests if r.get('event_status', 'pending').lower() == selected_status.lower()]
-        
-        # Sort by event date (earliest first - most recent upcoming event)
-        def get_sort_date(request):
-            event_date = request.get('event_date')
-            if event_date:
-                if isinstance(event_date, str):
-                    try:
-                        return datetime.fromisoformat(event_date.replace('Z', '+00:00'))
-                    except:
-                        return datetime.max
-                elif isinstance(event_date, date) and not isinstance(event_date, datetime):
-                    return datetime.combine(event_date, datetime.min.time())
-                elif isinstance(event_date, datetime):
-                    return event_date
-            return datetime.max
-        
-        all_requests.sort(key=get_sort_date)
-        
-        # Show info about filtered events
-        filter_msg = f" with status '{selected_status}'" if status_counts and selected_status != 'All' else ""
-        if past_count > 0:
-            st.info(f"📊 Found {len(all_requests)} active quote requests{filter_msg} ({past_count} past events hidden)")
-        else:
-            st.info(f"📊 Found {len(all_requests)} active quote requests{filter_msg}")
+    # Apply status filter if selected
+    filtered_requests = active_requests
+    if status_counts and selected_status != 'All':
+        filtered_requests = [r for r in active_requests if r.get('event_status', 'pending').lower() == selected_status.lower()]
+    
+    # Use filtered_requests for display
+    all_requests = filtered_requests
+    
+    # Sort by event date (earliest first - most recent upcoming event)
+    def get_sort_date(request):
+        event_date = request.get('event_date')
+        if event_date:
+            if isinstance(event_date, str):
+                try:
+                    return datetime.fromisoformat(event_date.replace('Z', '+00:00'))
+                except:
+                    return datetime.max
+            elif isinstance(event_date, date) and not isinstance(event_date, datetime):
+                return datetime.combine(event_date, datetime.min.time())
+            elif isinstance(event_date, datetime):
+                return event_date
+        return datetime.max
+    
+    all_requests.sort(key=get_sort_date)
+    
+    # Show info about filtered events
+    filter_msg = f" with status '{selected_status}'" if status_counts and selected_status != 'All' else ""
+    if past_count > 0:
+        st.info(f"📊 Displaying {len(all_requests)} active quote requests{filter_msg} ({past_count} past events hidden)")
+    elif all_requests:
+        st.info(f"📊 Displaying {len(all_requests)} active quote requests{filter_msg}")
     else:
-        st.info("📭 No quote requests found in the database")
+        if status_counts and selected_status != 'All':
+            st.info(f"📭 No active quote requests found with status '{selected_status}'")
+        else:
+            st.info("📭 No active quote requests found")
     
     if all_requests:
         for request in all_requests:
