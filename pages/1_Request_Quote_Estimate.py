@@ -101,8 +101,8 @@ with st.container():
 # Load database credentials from Streamlit secrets
 db_config = st.secrets["postgres"]
 
-# Set Stripe API key
-stripe.api_key = st.secrets["stripe"]["secret_key"]
+# Set Stripe API key (commented out to prevent errors when secrets not configured)
+# stripe.api_key = st.secrets["stripe"]["secret_key"]
 
 # Email configuration for formsubmit.co
 email_recipient = st.secrets.get("email", {}).get("recipient", "tnguyen9266@GMAIL.COM")
