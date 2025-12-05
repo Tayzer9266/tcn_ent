@@ -3,15 +3,7 @@ import os
 import sys
 from datetime import datetime, date, timedelta
 
-# Add parent directory to path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from client_manager import client_manager
-from auth_utils import require_professional_auth
-
-# Require professional authentication
-require_professional_auth()
-
-# Page configuration
+# Page configuration - MUST be first
 st.set_page_config(
     page_title="Quote Requests",
     page_icon="pages/images/TCN logo black.jpg",
@@ -21,6 +13,14 @@ st.set_page_config(
         'About': "# Manage Quote Requests"
     }
 )
+
+# Add parent directory to path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from client_manager import client_manager
+from auth_utils import require_professional_auth
+
+# Require professional authentication
+require_professional_auth()
 
 # Custom CSS
 page_bg_img = """
