@@ -472,11 +472,18 @@ with tab1:
                     st.markdown(f"**Client:** {event.get('first_name')} {event.get('last_name')}")
                     st.markdown(f"**Event:** {event.get('event_name')} on {event.get('event_date')}")
                     
+                    # Safely get budget value
+                    budget = event.get('estimated_budget', 1000)
+                    try:
+                        default_amount = float(budget) if budget else 1000.0
+                    except (ValueError, TypeError):
+                        default_amount = 1000.0
+                    
                     quote_amount = st.number_input(
                         "Quote Amount ($) *",
                         min_value=0.0,
                         max_value=100000.0,
-                        value=float(event.get('estimated_budget', 1000)),
+                        value=default_amount,
                         step=50.0,
                         help="Enter your quote amount"
                     )
