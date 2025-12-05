@@ -401,6 +401,30 @@ class ClientManager:
             print(f"Error getting quote requests: {e}")
             return []
     
+    def update_event_notes(self, event_id, notes):
+        """Update professional notes for an event"""
+        try:
+            query = text('''
+                UPDATE events 
+                SET notes = :notes,
+                    updated_at = :updated_at
+                WHERE event_id = :event_id
+            ''')
+            
+            self.conn.execute(query, {
+                "event_id": event_id,
+                "notes": notes,
+                "updated_at": datetime.now()
+            })
+            
+            self.conn.commit()
+            return True
+            
+        except Exception as e:
+            print(f"Error updating event notes: {e}")
+            self.conn.rollback()
+            return False
+    
     def create_quote(self, event_id, professional_id, professional_type, professional_name, quote_data):
         """Create a new quote for an event"""
         try:

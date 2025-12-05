@@ -343,6 +343,36 @@ with tab1:
                 <span class="info-label">💰 Quotes:</span> {request.get('quote_count', 0)}
                 """, unsafe_allow_html=True)
             
+            # Professional Notes Section (visible to all professionals, not clients)
+            st.markdown("---")
+            st.markdown("**📝 Professional Notes (Internal Use Only):**")
+            st.caption("⚠️ These notes are only visible to professionals and will NOT be shown to clients.")
+            
+            # Get current notes
+            current_notes = request.get('notes', '')
+            
+            # Text area for notes
+            notes_text = st.text_area(
+                "Add your personal notes about this quote/event:",
+                value=current_notes if current_notes else "",
+                key=f"notes_{event_id}",
+                height=100,
+                placeholder="Enter your notes here... (e.g., special considerations, follow-up items, pricing notes, etc.)",
+                help="These notes are for professional use only and will not be visible to the client"
+            )
+            
+            # Save button for notes
+            if st.button("💾 Save Notes", key=f"save_notes_{event_id}", type="secondary"):
+                success = client_manager.update_event_notes(
+                    event_id=event_id,
+                    notes=notes_text
+                )
+                if success:
+                    st.success("✅ Notes saved successfully!")
+                    st.rerun()
+                else:
+                    st.error("❌ Failed to save notes")
+            
             # Admin-only: Deposit information
             if is_admin:
                 st.markdown("---")
