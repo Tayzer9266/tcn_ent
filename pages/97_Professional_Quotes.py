@@ -343,6 +343,15 @@ with tab1:
                 <span class="info-label">💰 Quotes:</span> {request.get('quote_count', 0)}
                 """, unsafe_allow_html=True)
             
+            # Client Comments Section (from description field)
+            st.markdown("---")
+            st.markdown("**💬 Client Comments:**")
+            client_comments = request.get('description', '')
+            if client_comments:
+                st.info(client_comments)
+            else:
+                st.caption("No comments provided by the client.")
+            
             # Professional Notes Section (visible to all professionals, not clients)
             st.markdown("---")
             st.markdown("**📝 Professional Notes (Internal Use Only):**")
