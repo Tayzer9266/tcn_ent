@@ -132,10 +132,13 @@ with tab1:
     all_requests = client_manager.get_all_quote_requests()
     
     # Debug: Show total count before filtering
-    if all_requests:
-        st.info(f"🔍 Debug: Found {len(all_requests)} total events in database before filtering")
+    if is_admin:
+        if all_requests:
+            st.info(f"🔍 Admin Debug: Found {len(all_requests)} total events in database before filtering")
+        else:
+            st.warning(f"🔍 Admin Debug: No events found in database. The events table may be empty.")
     
-    # Filter out past events FIRST
+    # Filter out past events FIRST (but admins can see all events)
     active_requests = []
     past_count = 0
     
@@ -163,9 +166,9 @@ with tab1:
                     # Unknown type, include the event
                     include_event = True
                 
-                # Only include events that haven't passed
+                # Admins see all events, others only see future events
                 if not include_event:
-                    if event_date >= today:
+                    if is_admin or event_date >= today:
                         include_event = True
                     else:
                         past_count += 1
@@ -260,14 +263,17 @@ with tab1:
     # Show info about filtered events
     filter_msg = f" with status '{selected_status}'" if status_counts and selected_status != 'All' else ""
     if past_count > 0:
-        st.info(f"📊 Displaying {len(all_requests)} active quote requests{filter_msg} ({past_count} past events hidden)")
+        if is_admin:
+            st.info(f"📊 Displaying {len(all_requests)} quote requests{filter_msg} (including all events - admin view)")
+        else:
+            st.info(f"📊 Displaying {len(all_requests)} active quote requests{filter_msg} ({past_count} past events hidden)")
     elif all_requests:
-        st.info(f"📊 Displaying {len(all_requests)} active quote requests{filter_msg}")
+        st.info(f"📊 Displaying {len(all_requests)} quote requests{filter_msg}")
     else:
         if status_counts and selected_status != 'All':
-            st.info(f"📭 No active quote requests found with status '{selected_status}'")
+            st.info(f"📭 No quote requests found with status '{selected_status}'")
         else:
-            st.info("📭 No active quote requests found")
+            st.warning("📭 No quote requests found. This could mean:\n- No events have been created yet\n- All events have been deleted\n- There's a database connection issue")
     
     if all_requests:
         for request in all_requests:
