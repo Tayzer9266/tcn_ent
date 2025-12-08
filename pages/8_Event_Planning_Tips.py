@@ -3,17 +3,21 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import base64
+from components.header_auth import render_auth_header
 
 # ---- HEADER SECTION ----
 st.set_page_config(
-    page_title="Services",
+    page_title="Event Planning Tips",
     page_icon="pages/images/TCN logo black.jpg",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
     menu_items={
         'About': "# Make your dream a reality!"
     }
 )
+
+# Render authentication header with custom navigation
+render_auth_header()
 
 
 

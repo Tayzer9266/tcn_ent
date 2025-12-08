@@ -3,24 +3,26 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import base64
-
-
 from sqlalchemy import create_engine
 from sqlalchemy import text
 import pandas as pd
 from PIL import Image
 from datetime import datetime, date
 from utils.pdf_generator import PDFGenerator, generate_dj_contract_pdf_response
+from components.header_auth import render_auth_header
 
 st.set_page_config(
     page_title="Questionnaires",
     page_icon="pages/images/TCN logo black.jpg",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
     menu_items={
         'About': "# Make your dream a reality!"
     }
 )
+
+# Render authentication header with custom navigation
+render_auth_header()
 
 
 # Load the images

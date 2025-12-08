@@ -37,6 +37,9 @@ def render_auth_header():
         if st.button("📋 Questionnaires", use_container_width=True, key="nav_questionnaires"):
             st.switch_page("pages/6_Questionnaires.py")
         
+        if st.button("💡 Event Planning Tips", use_container_width=True, key="nav_tips"):
+            st.switch_page("pages/8_Event_Planning_Tips.py")
+        
         st.markdown("---")
         
         # Authentication Section
