@@ -513,9 +513,9 @@ class ClientManager:
                 query = text('''
                     SELECT q.*, e.event_name, e.event_date, e.event_location,
                            c.first_name, c.last_name, c.email, c.phone_number
-                    FROM quotes q
-                    JOIN events e ON q.event_id = e.event_id
-                    JOIN clients c ON q.client_id = c.client_id
+                    FROM events e
+                    LEFT JOIN quotes q ON q.event_id = e.event_id
+                    LEFT JOIN clients c ON e.client_id = c.client_id
                     WHERE q.professional_id = :professional_id 
                     AND q.professional_type = :professional_type
                     ORDER BY q.created_at DESC
