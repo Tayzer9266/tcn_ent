@@ -11,6 +11,8 @@ from datetime import datetime, date
 from utils.pdf_generator import PDFGenerator, generate_dj_contract_pdf_response
 import stripe
 import requests
+from components.header_auth import render_auth_header
+
 st.set_page_config(
     page_title="Questionnaires",
     page_icon="pages/images/TCN logo black.jpg",
@@ -20,6 +22,9 @@ st.set_page_config(
         'About': "# Make your dream a reality!"
     }
 )
+
+# Render authentication header with custom navigation
+render_auth_header()
 
 
 # Load the images

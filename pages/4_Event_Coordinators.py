@@ -3,12 +3,8 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import base64
-import os
-import sys
-
-# Add parent directory to path to import profiles_data
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from profiles_data import profile_manager
+from components.header_auth import render_auth_header
 
 # Page Tab
 st.set_page_config(
@@ -20,6 +16,9 @@ st.set_page_config(
         'About': "# Professional Event Coordinators for Your Events!"
     }
 )
+
+# Render authentication header with custom navigation
+render_auth_header()
 
 
 # Background for page
