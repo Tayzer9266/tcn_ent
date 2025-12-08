@@ -14,7 +14,7 @@ import requests
 from components.header_auth import render_auth_header
 
 st.set_page_config(
-    page_title="Questionnaires",
+    page_title="Request Quote",
     page_icon="pages/images/TCN logo black.jpg",
     layout="wide",
     initial_sidebar_state="collapsed",
@@ -59,15 +59,12 @@ with col3:
     )
 
  
+ 
 # Use local CSS
 with open("pages/style/style.css") as source_style:
     st.markdown(f"<style>{source_style.read()}</style>", unsafe_allow_html=True)
 
-
-# Use local CSS
-with open("pages/style/style.css") as source_style:
-    st.markdown(f"<style>{source_style.read()}</style>", unsafe_allow_html=True)
-st.image("pages/images/quote.png", width=1750)  
+st.image("pages/images/quote.png", width=1750)
 
 # Inject CSS for background color
 page_bg_img = """
@@ -343,7 +340,7 @@ with st.container():
         
             if option == "New": 
                 with st.form("my_form"):
-                    service_types = st.multiselect("Service Type?*", ("","DJ","MC", "Karaoke","Photographer","Videographer","Tattoo Pop-up"))
+                    service_types = st.multiselect("Service Type?*", ("DJ","MC", "Karaoke","Photographer","Videographer","Tattoo Pop-up"))
                     first_name = st.text_input("First Name*", "")  #FirstName
                     last_name = st.text_input("Last Name*", "") #LastName
                     phone_number = st.text_input("Phone Number*", "") #Phone
