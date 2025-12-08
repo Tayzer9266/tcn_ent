@@ -557,52 +557,127 @@ with tab2:
     my_quotes = client_manager.get_professional_quotes(professional_id, prof_type, is_admin=is_admin)
     
     if my_quotes:
-        st.success(f"📊 You've sent {len(my_quotes)} quotes")
+        # Date Filter for Quotes
+        st.markdown("### 🗓️ Filter by Event Date")
+        filter_col1, filter_col2 = st.columns([3, 1])
         
-        # Group by status
-        pending_quotes = [q for q in my_quotes if q.get('quote_status') == 'sent']
-        accepted_quotes = [q for q in my_quotes if q.get('quote_status') == 'accepted']
-        rejected_quotes = [q for q in my_quotes if q.get('quote_status') == 'rejected']
+        # Initialize date filter state if not exists
+        if 'quote_date_filter' not in st.session_state:
+            st.session_state.quote_date_filter = 'Future Events'
         
-        # Display statistics
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.metric("Pending", len(pending_quotes))
-        with col2:
-            st.metric("Accepted", len(accepted_quotes))
-        with col3:
-            st.metric("Rejected", len(rejected_quotes))
+        with filter_col1:
+            date_filter_options = ['All', 'Future Events', 'Past Events']
+            selected_date_filter = st.selectbox(
+                "Select Date Range to Display",
+                options=date_filter_options,
+                index=date_filter_options.index(st.session_state.quote_date_filter) if st.session_state.quote_date_filter in date_filter_options else 1,
+                key="quote_date_selectbox",
+                help="Filter quotes by event date"
+            )
+            # Update session state
+            st.session_state.quote_date_filter = selected_date_filter
+        
+        with filter_col2:
+            st.markdown("<br>", unsafe_allow_html=True)
+            if st.button("🔄 Reset Date Filter", use_container_width=True, key="reset_date_filter_btn"):
+                st.session_state.quote_date_filter = 'Future Events'
+                st.rerun()
+        
+        # Apply date filter based on event_date in quotes
+        today = date.today()
+        filtered_quotes = []
+        
+        for quote in my_quotes:
+            event_date = quote.get('event_date')
+            include_quote = False
+            
+            if event_date:
+                # Convert to date if it's a datetime or string
+                if isinstance(event_date, str):
+                    try:
+                        event_date = datetime.fromisoformat(event_date.replace('Z', '+00:00')).date()
+                    except:
+                        # If parsing fails, include based on filter
+                        include_quote = (selected_date_filter == 'All')
+                elif isinstance(event_date, datetime):
+                    event_date = event_date.date()
+                elif isinstance(event_date, date):
+                    # Already a date object
+                    pass
+                else:
+                    # Unknown type, include based on filter
+                    include_quote = (selected_date_filter == 'All')
+                
+                # Apply filter logic
+                if not include_quote:
+                    if selected_date_filter == 'All':
+                        include_quote = True
+                    elif selected_date_filter == 'Future Events':
+                        include_quote = (event_date >= today)
+                    elif selected_date_filter == 'Past Events':
+                        include_quote = (event_date < today)
+            else:
+                # Include quotes without event date only in "All" filter
+                include_quote = (selected_date_filter == 'All')
+            
+            if include_quote:
+                filtered_quotes.append(quote)
+        
+        # Use filtered quotes for display
+        my_quotes = filtered_quotes
         
         st.markdown("---")
         
-        # Display quotes
-        for quote in my_quotes:
-            status = quote.get('quote_status', 'sent')
-            status_class = f"status-{status}"
+        if my_quotes:
+            st.success(f"📊 Displaying {len(my_quotes)} quotes ({selected_date_filter})")
             
-            st.markdown('<div class="request-card">', unsafe_allow_html=True)
+            # Group by status
+            pending_quotes = [q for q in my_quotes if q.get('quote_status') == 'sent']
+            accepted_quotes = [q for q in my_quotes if q.get('quote_status') == 'accepted']
+            rejected_quotes = [q for q in my_quotes if q.get('quote_status') == 'rejected']
             
-            col1, col2 = st.columns([3, 1])
-            
+            # Display statistics
+            col1, col2, col3 = st.columns(3)
             with col1:
-                st.markdown(f"**Event:** {quote.get('event_name')}")
-                st.markdown(f"**Client:** {quote.get('first_name')} {quote.get('last_name')}")
-                st.markdown(f"**Amount:** ${quote.get('quote_amount', 0):,.2f}")
-            
+                st.metric("Pending", len(pending_quotes))
             with col2:
-                st.markdown(f'<span class="status-badge {status_class}">{status.upper()}</span>', unsafe_allow_html=True)
+                st.metric("Accepted", len(accepted_quotes))
+            with col3:
+                st.metric("Rejected", len(rejected_quotes))
             
-            with st.expander("View Quote Details"):
-                st.markdown(f"**Quote ID:** {quote.get('quote_id')}")
-                st.markdown(f"**Event Date:** {quote.get('event_date')}")
-                st.markdown(f"**Location:** {quote.get('event_location')}")
-                st.markdown(f"**Client Email:** {quote.get('email')}")
-                st.markdown(f"**Client Phone:** {quote.get('phone_number')}")
-                st.markdown(f"**Sent:** {quote.get('created_at')}")
-                st.markdown(f"**Valid Until:** {quote.get('valid_until')}")
-                st.markdown(f"**Details:** {quote.get('quote_details')}")
-            
-            st.markdown('</div>', unsafe_allow_html=True)
+            st.markdown("---")
+        else:
+            st.info(f"📭 No quotes found for {selected_date_filter}")
+        
+        # Display quotes (only if we have filtered quotes)
+        if my_quotes:
+            for quote in my_quotes:
+                status = quote.get('quote_status', 'sent')
+                status_class = f"status-{status}"
+                
+                st.markdown('<div class="request-card">', unsafe_allow_html=True)
+                
+                col1, col2 = st.columns([3, 1])
+                
+                with col1:
+                    st.markdown(f"**Event:** {quote.get('event_name')}")
+                    st.markdown(f"**Client:** {quote.get('first_name')} {quote.get('last_name')}")
+                    st.markdown(f"**Amount:** ${quote.get('quote_amount', 0):,.2f}")
+                
+                with col2:
+                    st.markdown(f'<span class="status-badge {status_class}">{status.upper()}</span>', unsafe_allow_html=True)
+                
+                with st.expander("View Quote Details"):
+                    st.markdown(f"**Quote ID:** {quote.get('quote_id')}")
+                    st.markdown(f"**Event Date:** {quote.get('event_date')}")
+                    st.markdown(f"**Location:** {quote.get('event_location')}")
+                    st.markdown(f"**Client Email:** {quote.get('email')}")
+                    st.markdown(f"**Client Phone:** {quote.get('phone_number')}")
+                    st.markdown(f"**Sent:** {quote.get('created_at')}")
+                    st.markdown(f"**Valid Until:** {quote.get('valid_until')}")
+                    st.markdown(f"**Details:** {quote.get('quote_details')}")
+                
+                st.markdown('</div>', unsafe_allow_html=True)
     else:
         st.info("📭 You haven't sent any quotes yet")
 
