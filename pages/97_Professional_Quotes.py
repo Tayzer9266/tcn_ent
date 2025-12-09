@@ -146,6 +146,10 @@ with tab1:
         # We need to look up their actual database ID
         professional_db_id = professional_data.get('id')  # This is the database ID
         
+        # DEBUG: Show professional info
+        st.warning(f"🔍 DEBUG - Professional Info: ID={professional_db_id}, Name={professional_name}, Type={professional_type}")
+        st.warning(f"🔍 DEBUG - Professional Data: {professional_data}")
+        
         # Map professional type to field name in events table
         assignment_field_map = {
             'djs': 'dj_id',
@@ -154,6 +158,12 @@ with tab1:
         }
         
         assignment_field = assignment_field_map.get(professional_type)
+        
+        # DEBUG: Show first few events with assignment info
+        st.warning(f"🔍 DEBUG - Checking field: {assignment_field}")
+        for idx, request in enumerate(all_requests[:3]):  # Show first 3 events
+            assigned_id = request.get(assignment_field)
+            st.warning(f"🔍 DEBUG - Event {idx+1}: event_id={request.get('event_id')}, {assignment_field}={assigned_id}, Match={assigned_id == professional_db_id}")
         
         for request in all_requests:
             assigned_id = request.get(assignment_field)
@@ -171,6 +181,8 @@ with tab1:
             assigned_to_me = [r for r in filtered_by_assignment if r.get(assignment_field) == professional_db_id]
             unassigned = [r for r in filtered_by_assignment if not r.get(assignment_field) or r.get(assignment_field) == 0]
             st.info(f"📊 Showing {len(filtered_by_assignment)} events: {len(assigned_to_me)} assigned to you, {len(unassigned)} unassigned")
+        else:
+            st.error(f"❌ No events found matching your ID ({professional_db_id}). This could mean no events are assigned to you or unassigned.")
     
     # Filter out past events FIRST (but admins can see all events)
     active_requests = []
