@@ -138,6 +138,40 @@ with tab1:
         else:
             st.warning(f"🔍 Admin Debug: No events found in database. The events table may be empty.")
     
+    # Filter by professional assignment (non-admin only)
+    if not is_admin and all_requests:
+        filtered_by_assignment = []
+        
+        # Get the professional's database ID from their profile_id
+        # We need to look up their actual database ID
+        professional_db_id = professional_data.get('id')  # This is the database ID
+        
+        # Map professional type to field name in events table
+        assignment_field_map = {
+            'djs': 'dj_id',
+            'photographers': 'photographer_id',
+            'event_coordinators': 'event_coordinator_id'
+        }
+        
+        assignment_field = assignment_field_map.get(professional_type)
+        
+        for request in all_requests:
+            assigned_id = request.get(assignment_field)
+            
+            # Include if:
+            # 1. Not assigned to anyone (assigned_id is None or 0)
+            # 2. Assigned to this specific professional
+            if assigned_id is None or assigned_id == 0 or assigned_id == professional_db_id:
+                filtered_by_assignment.append(request)
+        
+        all_requests = filtered_by_assignment
+        
+        # Show filtering info
+        if filtered_by_assignment:
+            assigned_to_me = [r for r in filtered_by_assignment if r.get(assignment_field) == professional_db_id]
+            unassigned = [r for r in filtered_by_assignment if not r.get(assignment_field) or r.get(assignment_field) == 0]
+            st.info(f"📊 Showing {len(filtered_by_assignment)} events: {len(assigned_to_me)} assigned to you, {len(unassigned)} unassigned")
+    
     # Filter out past events FIRST (but admins can see all events)
     active_requests = []
     past_count = 0
