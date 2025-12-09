@@ -388,8 +388,124 @@ with tab1:
                 else:
                     st.error("❌ Failed to save notes")
             
-            # Admin-only: Deposit information
+            # Admin-only: Professional Assignments
             if is_admin:
+                st.markdown("---")
+                st.markdown("**👥 Assign Professionals (Admin Only):**")
+                st.caption("Assign DJ, Photographer, and Event Coordinator to this event")
+                
+                # Get all professionals
+                all_djs = client_manager.get_all_professionals('djs')
+                all_photographers = client_manager.get_all_professionals('photographers')
+                all_coordinators = client_manager.get_all_professionals('event_coordinators')
+                
+                # Get current assignments
+                current_dj_id = request.get('dj_id')
+                current_photographer_id = request.get('photographer_id')
+                current_coordinator_id = request.get('event_coordinator_id')
+                
+                # Create dropdown options with "None" as first option
+                dj_options = [{"id": 0, "name": "-- Not Assigned --"}] + all_djs
+                photographer_options = [{"id": 0, "name": "-- Not Assigned --"}] + all_photographers
+                coordinator_options = [{"id": 0, "name": "-- Not Assigned --"}] + all_coordinators
+                
+                # Find current index for each dropdown
+                dj_index = 0
+                if current_dj_id:
+                    for idx, dj in enumerate(dj_options):
+                        if dj['id'] == current_dj_id:
+                            dj_index = idx
+                            break
+                
+                photographer_index = 0
+                if current_photographer_id:
+                    for idx, photographer in enumerate(photographer_options):
+                        if photographer['id'] == current_photographer_id:
+                            photographer_index = idx
+                            break
+                
+                coordinator_index = 0
+                if current_coordinator_id:
+                    for idx, coordinator in enumerate(coordinator_options):
+                        if coordinator['id'] == current_coordinator_id:
+                            coordinator_index = idx
+                            break
+                
+                # Display current assignments
+                if current_dj_id or current_photographer_id or current_coordinator_id:
+                    st.info("**Current Assignments:**")
+                    assign_col1, assign_col2, assign_col3 = st.columns(3)
+                    with assign_col1:
+                        if current_dj_id:
+                            dj_name = client_manager.get_professional_name_by_id('djs', current_dj_id)
+                            st.markdown(f"🎧 **DJ:** {dj_name or 'Unknown'}")
+                        else:
+                            st.markdown("🎧 **DJ:** Not assigned")
+                    with assign_col2:
+                        if current_photographer_id:
+                            photographer_name = client_manager.get_professional_name_by_id('photographers', current_photographer_id)
+                            st.markdown(f"📸 **Photographer:** {photographer_name or 'Unknown'}")
+                        else:
+                            st.markdown("📸 **Photographer:** Not assigned")
+                    with assign_col3:
+                        if current_coordinator_id:
+                            coordinator_name = client_manager.get_professional_name_by_id('event_coordinators', current_coordinator_id)
+                            st.markdown(f"📋 **Coordinator:** {coordinator_name or 'Unknown'}")
+                        else:
+                            st.markdown("📋 **Coordinator:** Not assigned")
+                
+                # Dropdowns for assignment
+                prof_col1, prof_col2, prof_col3 = st.columns(3)
+                
+                with prof_col1:
+                    selected_dj = st.selectbox(
+                        "🎧 Assign DJ",
+                        options=range(len(dj_options)),
+                        format_func=lambda x: dj_options[x]['name'],
+                        index=dj_index,
+                        key=f"dj_select_{event_id}",
+                        help="Select a DJ to assign to this event"
+                    )
+                
+                with prof_col2:
+                    selected_photographer = st.selectbox(
+                        "📸 Assign Photographer",
+                        options=range(len(photographer_options)),
+                        format_func=lambda x: photographer_options[x]['name'],
+                        index=photographer_index,
+                        key=f"photographer_select_{event_id}",
+                        help="Select a photographer to assign to this event"
+                    )
+                
+                with prof_col3:
+                    selected_coordinator = st.selectbox(
+                        "📋 Assign Event Coordinator",
+                        options=range(len(coordinator_options)),
+                        format_func=lambda x: coordinator_options[x]['name'],
+                        index=coordinator_index,
+                        key=f"coordinator_select_{event_id}",
+                        help="Select an event coordinator to assign to this event"
+                    )
+                
+                # Update button for professional assignments
+                if st.button("💾 Update Professional Assignments", key=f"update_professionals_{event_id}", type="primary"):
+                    selected_dj_id = dj_options[selected_dj]['id']
+                    selected_photographer_id = photographer_options[selected_photographer]['id']
+                    selected_coordinator_id = coordinator_options[selected_coordinator]['id']
+                    
+                    success = client_manager.update_event_professionals(
+                        event_id=event_id,
+                        dj_id=selected_dj_id,
+                        photographer_id=selected_photographer_id,
+                        event_coordinator_id=selected_coordinator_id
+                    )
+                    if success:
+                        st.success("✅ Professional assignments updated successfully!")
+                        st.rerun()
+                    else:
+                        st.error("❌ Failed to update professional assignments")
+                
+                # Admin-only: Payment information
                 st.markdown("---")
                 st.markdown("**💳 Payment Information (Admin Only):**")
                 

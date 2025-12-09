@@ -590,6 +590,104 @@ class ClientManager:
             print(f"Error updating payment status: {e}")
             self.conn.rollback()
             return False
+    
+    def get_all_professionals(self, professional_type):
+        """
+        Get all professionals of a specific type
+        professional_type: 'djs', 'photographers', or 'event_coordinators'
+        Returns list of professionals with id and name
+        """
+        try:
+            query = text(f'''
+                SELECT id, name, profile_id
+                FROM {professional_type}
+                ORDER BY name
+            ''')
+            
+            result = self.conn.execute(query)
+            rows = result.fetchall()
+            
+            professionals = []
+            for row in rows:
+                professional_dict = {
+                    'id': row[0],
+                    'name': row[1],
+                    'profile_id': row[2]
+                }
+                professionals.append(professional_dict)
+            
+            return professionals
+            
+        except Exception as e:
+            print(f"Error getting professionals: {e}")
+            return []
+    
+    def update_event_professionals(self, event_id, dj_id=None, photographer_id=None, event_coordinator_id=None):
+        """
+        Update professional assignments for an event (admin only)
+        Pass None to leave a field unchanged
+        """
+        try:
+            # Build dynamic update query based on which fields are provided
+            update_fields = []
+            values = {"event_id": event_id, "updated_at": datetime.now()}
+            
+            if dj_id is not None:
+                update_fields.append("dj_id = :dj_id")
+                values["dj_id"] = dj_id if dj_id != 0 else None
+            
+            if photographer_id is not None:
+                update_fields.append("photographer_id = :photographer_id")
+                values["photographer_id"] = photographer_id if photographer_id != 0 else None
+            
+            if event_coordinator_id is not None:
+                update_fields.append("event_coordinator_id = :event_coordinator_id")
+                values["event_coordinator_id"] = event_coordinator_id if event_coordinator_id != 0 else None
+            
+            if update_fields:
+                update_fields.append("updated_at = :updated_at")
+                query = text(f'''
+                    UPDATE events 
+                    SET {', '.join(update_fields)}
+                    WHERE event_id = :event_id
+                ''')
+                
+                self.conn.execute(query, values)
+                self.conn.commit()
+                return True
+            
+            return False
+            
+        except Exception as e:
+            print(f"Error updating event professionals: {e}")
+            self.conn.rollback()
+            return False
+    
+    def get_professional_name_by_id(self, professional_type, professional_id):
+        """
+        Get professional name by ID
+        professional_type: 'djs', 'photographers', or 'event_coordinators'
+        """
+        try:
+            if not professional_id:
+                return None
+            
+            query = text(f'''
+                SELECT name
+                FROM {professional_type}
+                WHERE id = :professional_id
+            ''')
+            
+            result = self.conn.execute(query, {"professional_id": professional_id})
+            row = result.fetchone()
+            
+            if row:
+                return row[0]
+            return None
+            
+        except Exception as e:
+            print(f"Error getting professional name: {e}")
+            return None
 
 # Initialize the client manager
 client_manager = ClientManager()
