@@ -373,17 +373,17 @@ class ClientManager:
             query = text('''
                 SELECT e.*, 
                        c.first_name, c.last_name, c.email, c.phone_number,
-                       COUNT(DISTINCT q.quote_id) as quote_count,
-                       COUNT(DISTINCT m.message_id) as message_count,
+                       COALESCE(COUNT(DISTINCT q.quote_id), 0) as quote_count,
+                       COALESCE(COUNT(DISTINCT m.message_id), 0) as message_count,
                        STRING_AGG(DISTINCT s.service_name, ', ') as requested_services
                 FROM events e
-                JOIN clients c ON e.client_id = c.client_id
+                LEFT JOIN clients c ON e.client_id = c.client_id
                 LEFT JOIN quotes q ON e.event_id = q.event_id
                 LEFT JOIN messages m ON e.event_id = m.event_id
                 LEFT JOIN event_services es ON e.event_id = es.event_id
                 LEFT JOIN services s ON es.service_id = s.service_id
                 WHERE e.deleted_at IS NULL
-                GROUP BY e.event_id, c.client_id
+                GROUP BY e.event_id, c.client_id, c.first_name, c.last_name, c.email, c.phone_number
                 ORDER BY e.created_at DESC
             ''')
             
