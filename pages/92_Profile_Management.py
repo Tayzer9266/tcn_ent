@@ -8,10 +8,14 @@ from datetime import datetime
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from profiles_data import profile_manager
 from auth_utils import require_professional_auth
+from components.header_auth import render_auth_header
 
 # Page Tab
 # Require professional authentication
 require_professional_auth()
+
+# Render navigation header in sidebar
+render_auth_header()
 
 st.set_page_config(
     page_title="Profile Management",
