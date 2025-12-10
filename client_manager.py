@@ -430,6 +430,20 @@ class ClientManager:
         try:
             from datetime import datetime, timedelta
             
+            # Extract numeric ID from profile_id string (e.g., 'dj_1' -> 1)
+            numeric_professional_id = None
+            if professional_id:
+                if isinstance(professional_id, str) and '_' in professional_id:
+                    try:
+                        # Extract number from 'dj_1', 'photographer_2', etc.
+                        numeric_professional_id = int(professional_id.split('_')[1])
+                    except (ValueError, IndexError):
+                        print(f"Warning: Could not extract numeric ID from '{professional_id}'")
+                        numeric_professional_id = None
+                elif isinstance(professional_id, int):
+                    # Already a numeric ID
+                    numeric_professional_id = professional_id
+            
             # Default valid until date (30 days from now)
             valid_until = quote_data.get('valid_until')
             if not valid_until:
@@ -450,7 +464,7 @@ class ClientManager:
             
             result = self.conn.execute(query, {
                 "event_id": event_id,
-                "professional_id": professional_id,
+                "professional_id": numeric_professional_id,
                 "professional_type": professional_type,
                 "professional_name": professional_name,
                 "quote_amount": quote_data.get('quote_amount'),
@@ -496,14 +510,29 @@ class ClientManager:
     def get_professional_quotes(self, professional_id, professional_type, is_admin=False):
         """Get all quotes sent by a specific professional, or all quotes if admin"""
         try:
+            # Extract numeric ID from profile_id string (e.g., 'dj_1' -> 1)
+            numeric_professional_id = None
+            if professional_id:
+                if isinstance(professional_id, str) and '_' in professional_id:
+                    try:
+                        # Extract number from 'dj_1', 'photographer_2', etc.
+                        numeric_professional_id = int(professional_id.split('_')[1])
+                    except (ValueError, IndexError):
+                        print(f"Warning: Could not extract numeric ID from '{professional_id}'")
+                        numeric_professional_id = None
+                elif isinstance(professional_id, int):
+                    # Already a numeric ID
+                    numeric_professional_id = professional_id
+            
             if is_admin:
-                # Admin sees all quotes
+                # Admin sees all quotes (only those with valid professional_id)
                 query = text('''
                     SELECT q.*, e.event_name, e.event_date, e.event_location,
                            c.first_name, c.last_name, c.email, c.phone_number
-                    FROM events e
-                    LEFT JOIN quotes q ON q.event_id = e.event_id
+                    FROM quotes q
+                    LEFT JOIN events e ON q.event_id = e.event_id
                     LEFT JOIN clients c ON e.client_id = c.client_id
+                    WHERE q.professional_id IS NOT NULL
                     ORDER BY q.created_at DESC
                 ''')
                 
@@ -513,8 +542,8 @@ class ClientManager:
                 query = text('''
                     SELECT q.*, e.event_name, e.event_date, e.event_location,
                            c.first_name, c.last_name, c.email, c.phone_number
-                    FROM events e
-                    LEFT JOIN quotes q ON q.event_id = e.event_id
+                    FROM quotes q
+                    LEFT JOIN events e ON q.event_id = e.event_id
                     LEFT JOIN clients c ON e.client_id = c.client_id
                     WHERE q.professional_id = :professional_id 
                     AND q.professional_type = :professional_type
@@ -522,7 +551,7 @@ class ClientManager:
                 ''')
                 
                 result = self.conn.execute(query, {
-                    "professional_id": professional_id,
+                    "professional_id": numeric_professional_id,
                     "professional_type": professional_type
                 })
             
@@ -547,7 +576,7 @@ class ClientManager:
                        c.first_name, c.last_name, c.email, c.phone_number,
                        STRING_AGG(DISTINCT s.service_name, ', ') as requested_services
                 FROM events e
-                JOIN clients c ON e.client_id = c.client_id
+                LEFT JOIN clients c ON e.client_id = c.client_id
                 LEFT JOIN event_services es ON e.event_id = es.event_id
                 LEFT JOIN services s ON es.service_id = s.service_id
                 WHERE e.event_id = :event_id
