@@ -7,6 +7,19 @@ from sqlalchemy import create_engine, text
 from datetime import datetime
 import hashlib
 
+# Service to Professional Category Mapping
+SERVICE_CATEGORY_MAP = {
+    'DJ': 'djs',
+    'DJ Services': 'djs',
+    'MC': 'djs',
+    'Karaoke': 'djs',
+    'Photographer': 'photographers',
+    'Photography Services': 'photographers',
+    'Videographer': 'photographers',
+    'Event Coordination': 'event_coordinators',
+    'Event Coordinator': 'event_coordinators'
+}
+
 class ClientManager:
     def __init__(self):
         self.engine = None
@@ -717,6 +730,32 @@ class ClientManager:
         except Exception as e:
             print(f"Error getting professional name: {e}")
             return None
+    
+    def check_service_matches_professional_category(self, requested_services, professional_type):
+        """
+        Check if any of the requested services match the professional's category
+        
+        Args:
+            requested_services: Comma-separated string of service names (e.g., "DJ, Photographer")
+            professional_type: Professional category ('djs', 'photographers', 'event_coordinators')
+        
+        Returns:
+            bool: True if any service matches the professional's category
+        """
+        if not requested_services:
+            # If no services specified, show to all professionals
+            return True
+        
+        # Parse the comma-separated services
+        services = [s.strip() for s in requested_services.split(',')]
+        
+        # Check if any service matches the professional's category
+        for service in services:
+            service_category = SERVICE_CATEGORY_MAP.get(service)
+            if service_category == professional_type:
+                return True
+        
+        return False
 
 # Initialize the client manager
 client_manager = ClientManager()

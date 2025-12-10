@@ -138,8 +138,22 @@ with tab1:
         else:
             st.warning(f"🔍 Admin Debug: No events found in database. The events table may be empty.")
     
-    # Filter by professional assignment (non-admin only)
+    # Apply filtering for non-admin professionals
     if not is_admin and all_requests:
+        # STEP 1: Filter by service category
+        # Only show events that have services matching the professional's category
+        filtered_by_service = []
+        
+        for request in all_requests:
+            requested_services = request.get('requested_services', '')
+            # Check if this event's services match the professional's category
+            if client_manager.check_service_matches_professional_category(requested_services, professional_type):
+                filtered_by_service.append(request)
+        
+        # STEP 2: Filter by professional assignment
+        # From the service-filtered events, only show:
+        # - Events not assigned to anyone in this category, OR
+        # - Events assigned specifically to this professional
         filtered_by_assignment = []
         
         # Get the professional's actual database ID
@@ -165,7 +179,7 @@ with tab1:
         
         assignment_field = assignment_field_map.get(professional_type)
         
-        for request in all_requests:
+        for request in filtered_by_service:
             assigned_id = request.get(assignment_field)
             
             # Include if:
@@ -180,7 +194,7 @@ with tab1:
         if filtered_by_assignment:
             assigned_to_me = [r for r in filtered_by_assignment if r.get(assignment_field) == professional_db_id]
             unassigned = [r for r in filtered_by_assignment if not r.get(assignment_field) or r.get(assignment_field) == 0]
-            st.info(f"📊 Showing {len(filtered_by_assignment)} events: {len(assigned_to_me)} assigned to you, {len(unassigned)} unassigned")
+            st.info(f"📊 Showing {len(filtered_by_assignment)} events with {prof_type} services: {len(assigned_to_me)} assigned to you, {len(unassigned)} unassigned")
     
     # Filter out past events FIRST (but admins can see all events)
     active_requests = []
