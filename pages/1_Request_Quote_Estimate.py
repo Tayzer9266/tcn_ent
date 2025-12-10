@@ -340,7 +340,7 @@ with st.container():
         
             if option == "New": 
                 with st.form("my_form"):
-                    service_types = st.multiselect("Service Type?*", ("DJ","MC", "Karaoke","Photographer","Videographer","Tattoo Pop-up"))
+                    service_types = st.multiselect("Service Type?*", ("DJ","MC", "Karaoke","Photographer","Videographer","Tattoo Pop-up","Event Coordinator"))
                     first_name = st.text_input("First Name*", "")  #FirstName
                     last_name = st.text_input("Last Name*", "") #LastName
                     phone_number = st.text_input("Phone Number*", "") #Phone
@@ -863,7 +863,7 @@ www.tcnentertainment.com
 
                                         service_types = st.multiselect(
                                             "Service Type?*",
-                                            options=["", "DJ", "MC", "Karaoke", "Photographer", "Videographer", "Tattoo Pop-up"],
+                                            options=["", "DJ", "MC", "Karaoke", "Photographer", "Videographer", "Tattoo Pop-up","Event Coordinator"],
                                             default=default_service_types
                                         )
                                         # Default value for price_override
