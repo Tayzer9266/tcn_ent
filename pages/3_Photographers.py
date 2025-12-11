@@ -115,7 +115,8 @@ for i, photo in enumerate(photographers):
         
         # View Full Profile Button
         if st.button(f"👁️ View Full Profile", key=f"view_{photo['profile_id']}", use_container_width=True, type="primary"):
-            st.query_params.update({"profile_type": "photographers", "profile_id": photo['profile_id']})
+            st.session_state.profile_type = "photographers"
+            st.session_state.profile_id = photo['profile_id']
             st.switch_page("pages/98_Professional_Profile.py")
         
         # Contact Information

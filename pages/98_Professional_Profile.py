@@ -313,14 +313,23 @@ def get_youtube_embed_url(url):
         return f"https://www.youtube.com/embed/{video_id}"
     return url
 
-# Get profile information from URL parameters
-if 'profile_type' not in st.query_params or 'profile_id' not in st.query_params:
+# Get profile information from session state or URL parameters
+profile_type = None
+profile_id = None
+
+# Check session state first
+if 'profile_type' in st.session_state and 'profile_id' in st.session_state:
+    profile_type = st.session_state.profile_type
+    profile_id = st.session_state.profile_id
+# Fallback to query params
+elif 'profile_type' in st.query_params and 'profile_id' in st.query_params:
+    profile_type = st.query_params['profile_type']
+    profile_id = st.query_params['profile_id']
+
+if not profile_type or not profile_id:
     st.error("❌ No professional profile specified.")
     st.info("Please select a professional from the listings page.")
     st.stop()
-
-profile_type = st.query_params['profile_type']
-profile_id = st.query_params['profile_id']
 
 # Get profile data
 profile = profile_manager.get_profile_by_id(profile_type, profile_id)

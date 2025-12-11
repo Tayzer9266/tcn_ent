@@ -114,7 +114,8 @@ for i, coord in enumerate(coordinators):
         
         # View Full Profile Button
         if st.button(f"👁️ View Full Profile", key=f"view_{coord['profile_id']}", use_container_width=True, type="primary"):
-            st.query_params.update({"profile_type": "event_coordinators", "profile_id": coord['profile_id']})
+            st.session_state.profile_type = "event_coordinators"
+            st.session_state.profile_id = coord['profile_id']
             st.switch_page("pages/98_Professional_Profile.py")
         
         # Contact Information

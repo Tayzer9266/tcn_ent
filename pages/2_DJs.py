@@ -114,7 +114,8 @@ for i, dj in enumerate(djs):
         
         # View Full Profile Button
         if st.button(f"👁️ View Full Profile", key=f"view_{dj['profile_id']}", use_container_width=True, type="primary"):
-            st.query_params.update({"profile_type": "djs", "profile_id": dj['profile_id']})
+            st.session_state.profile_type = "djs"
+            st.session_state.profile_id = dj['profile_id']
             st.switch_page("pages/98_Professional_Profile.py")
         
         # Contact Information
