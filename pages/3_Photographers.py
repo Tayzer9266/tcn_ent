@@ -54,6 +54,22 @@ def get_base64_image(image_path):
     except FileNotFoundError:
         return None
 
+# Helper function to render star rating
+def render_stars(rating):
+    """Render star rating"""
+    if rating == 0:
+        return "No ratings yet"
+    full_stars = int(rating)
+    half_star = 1 if rating - full_stars >= 0.5 else 0
+    empty_stars = 5 - full_stars - half_star
+    
+    stars = "⭐" * full_stars
+    if half_star:
+        stars += "✨"
+    stars += "☆" * empty_stars
+    
+    return f"{stars} {rating:.1f}/5.0"
+
 # Get Photographers Data from database (exclude admin profiles)
 all_photographers = profile_manager.get_all_profiles("photographers")
 photographers = [p for p in all_photographers if p.get('role') != 'admin']
@@ -88,7 +104,19 @@ for i, photo in enumerate(photographers):
             st.markdown('<p>Image not available</p>', unsafe_allow_html=True)
         st.markdown(f'**{photo["name"]}**')
         st.markdown(f'*{photo["title"]}*')
+        
+        # Rating and Reviews
+        rating = photo.get('average_rating', 0)
+        total_reviews = photo.get('total_reviews', 0)
+        st.markdown(f'**{render_stars(rating)}**')
+        st.markdown(f'*({total_reviews} reviews)*')
+        
         st.markdown(photo["short_bio"])
+        
+        # View Full Profile Button
+        if st.button(f"👁️ View Full Profile", key=f"view_{photo['profile_id']}", use_container_width=True, type="primary"):
+            st.query_params.update({"profile_type": "photographers", "profile_id": photo['profile_id']})
+            st.switch_page("pages/98_Professional_Profile.py")
         
         # Contact Information
         st.markdown("---")

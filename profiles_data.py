@@ -276,7 +276,7 @@ class ProfileManager:
             update_fields = []
             values = {"profile_id": profile_id}
             
-            allowed_fields = ['name', 'title', 'short_bio', 'full_bio', 'image_path', 'youtube', 'instagram', 'facebook', 'service_city', 'service_state', 'service_radius_miles', 'website', 'phone']
+            allowed_fields = ['name', 'title', 'short_bio', 'full_bio', 'image_path', 'youtube', 'instagram', 'facebook', 'service_city', 'service_state', 'service_radius_miles', 'website', 'phone', 'gallery_images', 'gallery_videos', 'profile_video_url', 'overview_text', 'years_experience', 'events_completed']
             
             for field in allowed_fields:
                 if field in data:
@@ -335,6 +335,172 @@ class ProfileManager:
             
         except Exception as e:
             print(f"Error deleting profile: {e}")
+            return False
+    
+    def get_professional_reviews(self, profile_type, profile_id):
+        """Get all reviews for a professional"""
+        try:
+            query = text('''
+                SELECT review_id, client_name, rating, review_title, review_text,
+                       event_type, event_date, verified_booking, helpful_count, 
+                       created_at, updated_at
+                FROM professional_reviews
+                WHERE professional_type = :prof_type AND professional_id = :prof_id
+                ORDER BY created_at DESC
+            ''')
+            result = self.conn.execute(query, {"prof_type": profile_type, "prof_id": profile_id})
+            rows = result.fetchall()
+            
+            reviews = []
+            for row in rows:
+                reviews.append(dict(row._mapping))
+            
+            return reviews
+            
+        except Exception as e:
+            print(f"Error getting reviews: {e}")
+            return []
+    
+    def add_review(self, review_data):
+        """Add a new review and update professional's rating"""
+        try:
+            query = text('''
+                INSERT INTO professional_reviews (
+                    professional_type, professional_id, client_id, client_name,
+                    rating, review_title, review_text, event_type, event_date,
+                    verified_booking
+                ) VALUES (
+                    :professional_type, :professional_id, :client_id, :client_name,
+                    :rating, :review_title, :review_text, :event_type, :event_date,
+                    :verified_booking
+                )
+            ''')
+            
+            self.conn.execute(query, review_data)
+            self.conn.commit()
+            
+            # Update professional's average rating and review count
+            self.update_review_stats(
+                review_data['professional_type'],
+                review_data['professional_id']
+            )
+            
+            return True
+            
+        except Exception as e:
+            print(f"Error adding review: {e}")
+            return False
+    
+    def update_review_stats(self, profile_type, profile_id):
+        """Update professional's average rating and total review count"""
+        try:
+            # Calculate average rating and count
+            query = text(f'''
+                UPDATE {profile_type}
+                SET 
+                    average_rating = COALESCE((
+                        SELECT ROUND(AVG(rating)::numeric, 2)
+                        FROM professional_reviews
+                        WHERE professional_type = :prof_type
+                        AND professional_id = :prof_id
+                    ), 0.00),
+                    total_reviews = COALESCE((
+                        SELECT COUNT(*)
+                        FROM professional_reviews
+                        WHERE professional_type = :prof_type
+                        AND professional_id = :prof_id
+                    ), 0)
+                WHERE profile_id = :prof_id
+            ''')
+            
+            self.conn.execute(query, {"prof_type": profile_type, "prof_id": profile_id})
+            self.conn.commit()
+            
+            return True
+            
+        except Exception as e:
+            print(f"Error updating review stats: {e}")
+            return False
+    
+    def add_gallery_item(self, profile_type, profile_id, media_type, media_path):
+        """Add an image or video to professional's gallery"""
+        try:
+            import json
+            
+            # Get current profile
+            profile = self.get_profile_by_id(profile_type, profile_id)
+            if not profile:
+                return False
+            
+            # Get current gallery
+            if media_type == 'image':
+                gallery = json.loads(profile.get('gallery_images', '[]'))
+                gallery.append(media_path)
+                field_name = 'gallery_images'
+            else:  # video
+                gallery = json.loads(profile.get('gallery_videos', '[]'))
+                gallery.append(media_path)
+                field_name = 'gallery_videos'
+            
+            # Update profile
+            query = text(f'''
+                UPDATE {profile_type}
+                SET {field_name} = :gallery, updated_at = :updated_at
+                WHERE profile_id = :profile_id
+            ''')
+            
+            self.conn.execute(query, {
+                "gallery": json.dumps(gallery),
+                "updated_at": datetime.now(),
+                "profile_id": profile_id
+            })
+            self.conn.commit()
+            
+            return True
+            
+        except Exception as e:
+            print(f"Error adding gallery item: {e}")
+            return False
+    
+    def delete_gallery_item(self, profile_type, profile_id, media_type, media_path):
+        """Remove an image or video from professional's gallery"""
+        try:
+            import json
+            
+            # Get current profile
+            profile = self.get_profile_by_id(profile_type, profile_id)
+            if not profile:
+                return False
+            
+            # Get current gallery and remove item
+            if media_type == 'image':
+                gallery = json.loads(profile.get('gallery_images', '[]'))
+                field_name = 'gallery_images'
+            else:  # video
+                gallery = json.loads(profile.get('gallery_videos', '[]'))
+                field_name = 'gallery_videos'
+            
+            if media_path in gallery:
+                gallery.remove(media_path)
+            
+            # Update profile
+            query = text(f'''
+                UPDATE {profile_type}
+                SET {field_name} = :gallery, updated_at = :updated_at
+                WHERE profile_id = :profile_id
+            ''')
+            
+            self.conn.execute(query, {
+                "gallery": json.dumps(gallery),
+                "updated_at": datetime.now(),
+                "profile_id": profile_id
+            })
+            self.conn.commit()
+            
+            return True
+            
+        except Exception as e:
+            print(f"Error deleting gallery item: {e}")
             return False
 
 # Initialize the profile manager
