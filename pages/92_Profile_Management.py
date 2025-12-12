@@ -459,7 +459,7 @@ if st.session_state.selected_profile_id and st.session_state.selected_profile_ty
                 # Show preview thumbnail
                 thumbnail_url = get_youtube_thumbnail(profile_video_url)
                 if thumbnail_url:
-                    st.image(thumbnail_url, width=200, caption="Video Preview")
+                    st.image(thumbnail_url, width=150, caption="Video Preview")
             elif profile_video_url:
                 st.error("❌ Invalid YouTube URL. Please use a valid YouTube link.")
             
@@ -523,7 +523,7 @@ if st.session_state.selected_profile_id and st.session_state.selected_profile_ty
                     with video_col1:
                         thumbnail_url = get_youtube_thumbnail(video_url)
                         if thumbnail_url:
-                            st.image(thumbnail_url, width=200, caption=f"Video {idx + 1}")
+                            st.image(thumbnail_url, width=150, caption=f"Video {idx + 1}")
                         st.text(video_url)
                     
                     with video_col2:
@@ -545,7 +545,7 @@ if st.session_state.selected_profile_id and st.session_state.selected_profile_ty
                     st.success("✅ Valid YouTube URL - will be added when you save")
                     thumbnail_url = get_youtube_thumbnail(new_video_url)
                     if thumbnail_url:
-                        st.image(thumbnail_url, width=200, caption="Video Preview")
+                        st.image(thumbnail_url, width=150, caption="Video Preview")
                 else:
                     st.error("❌ Invalid YouTube URL. Please use a valid YouTube link.")
             

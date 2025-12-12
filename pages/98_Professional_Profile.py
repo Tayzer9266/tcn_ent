@@ -107,7 +107,7 @@ page_style = """
 
 .slide img {
     width: 100%;
-    height: 500px;
+    height: 250px;
     object-fit: cover;
 }
 
@@ -216,10 +216,11 @@ page_style = """
 
 .video-container {
     position: relative;
-    padding-bottom: 56.25%;
+    padding-bottom: 28.125%;
     height: 0;
     overflow: hidden;
     border-radius: 10px;
+    max-width: 50%;
 }
 
 .video-container iframe {
@@ -371,9 +372,7 @@ try:
 except:
     gallery_videos = []
 
-# Add main profile image to gallery if not already there
-if profile.get('image_path') and profile['image_path'] not in gallery_images:
-    gallery_images.insert(0, profile['image_path'])
+# Don't add profile image to gallery - keep them separate
 
 # HERO SECTION
 st.markdown(f'''
@@ -512,22 +511,49 @@ with tab2:
     if profile.get('profile_video_url') or gallery_videos:
         st.markdown("### Videos")
         
-        if profile.get('profile_video_url'):
-            embed_url = get_youtube_embed_url(profile['profile_video_url'])
-            st.markdown(f'''
-            <div class="video-container">
-                <iframe src="{embed_url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-            ''', unsafe_allow_html=True)
+        video_col1, video_col2 = st.columns(2)
         
-        for video_url in gallery_videos:
-            embed_url = get_youtube_embed_url(video_url)
-            st.markdown(f'''
-            <div class="video-container">
-                <iframe src="{embed_url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-            <br>
-            ''', unsafe_allow_html=True)
+        with video_col1:
+            if profile.get('profile_video_url'):
+                embed_url = get_youtube_embed_url(profile['profile_video_url'])
+                st.markdown(f'''
+                <div class="video-container" style="max-width: 100%;">
+                    <iframe src="{embed_url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                ''', unsafe_allow_html=True)
+        
+        with video_col2:
+            if gallery_videos and len(gallery_videos) > 0:
+                embed_url = get_youtube_embed_url(gallery_videos[0])
+                st.markdown(f'''
+                <div class="video-container" style="max-width: 100%;">
+                    <iframe src="{embed_url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                ''', unsafe_allow_html=True)
+        
+        # Display remaining gallery videos in 2-column layout
+        if len(gallery_videos) > 1:
+            for i in range(1, len(gallery_videos), 2):
+                vid_col1, vid_col2 = st.columns(2)
+                
+                with vid_col1:
+                    embed_url = get_youtube_embed_url(gallery_videos[i])
+                    st.markdown(f'''
+                    <div class="video-container" style="max-width: 100%;">
+                        <iframe src="{embed_url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <br>
+                    ''', unsafe_allow_html=True)
+                
+                with vid_col2:
+                    if i + 1 < len(gallery_videos):
+                        embed_url = get_youtube_embed_url(gallery_videos[i + 1])
+                        st.markdown(f'''
+                        <div class="video-container" style="max-width: 100%;">
+                            <iframe src="{embed_url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <br>
+                        ''', unsafe_allow_html=True)
     
     st.markdown('</div>', unsafe_allow_html=True)
 
