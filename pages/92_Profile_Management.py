@@ -627,13 +627,21 @@ if st.session_state.selected_profile_id and st.session_state.selected_profile_ty
 
                 # Handle feature photo upload
                 if feature_uploaded_file:
-                    new_feature_image_path = save_uploaded_image(
-                        feature_uploaded_file,
-                        st.session_state.selected_profile_type,
-                        st.session_state.selected_profile_id + "_feature"
-                    )
-                    if new_feature_image_path:
-                        update_data['feature_photo_path'] = new_feature_image_path
+                    # Create feature photo directory
+                    upload_dir = f"pages/images/uploads/{st.session_state.selected_profile_type}/feature"
+                    os.makedirs(upload_dir, exist_ok=True)
+                    
+                    # Generate filename for feature photo
+                    file_extension = feature_uploaded_file.name.split('.')[-1]
+                    filename = f"{st.session_state.selected_profile_id}_feature_{datetime.now().strftime('%Y%m%d_%H%M%S')}.{file_extension}"
+                    new_feature_image_path = os.path.join(upload_dir, filename)
+                    
+                    # Save feature photo
+                    with open(new_feature_image_path, "wb") as f:
+                        f.write(feature_uploaded_file.getbuffer())
+                    
+                    update_data['feature_photo_path'] = new_feature_image_path
+                    st.info(f"✅ Feature photo will be saved to: {new_feature_image_path}")
                 
                 # Handle main profile video URL
                 if profile_video_url and validate_youtube_url(profile_video_url):
@@ -702,11 +710,18 @@ if st.session_state.selected_profile_id and st.session_state.selected_profile_ty
                 
                 if success:
                     st.success("✅ Profile updated successfully!")
+                    
+                    # Show confirmation for feature photo if uploaded
+                    if feature_uploaded_file:
+                        st.success("✅ Feature photo uploaded successfully!")
+                    
                     # Clear delete checkboxes from session state
                     for key in list(st.session_state.keys()):
                         if key.startswith('delete_img_') or key.startswith('delete_video_'):
                             del st.session_state[key]
-                    st.session_state.selected_profile_id = None
+                    
+                    # Keep the profile selected so user can see the changes
+                    # st.session_state.selected_profile_id = None
                     st.rerun()
                 else:
                     st.error("❌ Failed to update profile. Please try again.")
