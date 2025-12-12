@@ -527,7 +527,7 @@ with tab2:
         slideshow_parts.append('</div>')
         slideshow_parts.append('</div>')
         
-        # Combine and display with inline CSS
+        # Combine and display with inline CSS (4x6 proportions)
         full_html = """
         <style>
         .slideshow-container {
@@ -537,7 +537,7 @@ with tab2:
             background: #000;
             border-radius: 10px;
             overflow: hidden;
-            height: 450px;
+            height: 600px;
         }
         .slide {
             display: none;
@@ -551,7 +551,7 @@ with tab2:
         }
         .slide img {
             max-width: 100%;
-            max-height: 375px;
+            max-height: 550px;
             object-fit: contain;
             margin: auto;
         }
@@ -659,7 +659,7 @@ with tab2:
         showMediaSlide(0);
         </script>
         """
-        st.components.v1.html(full_html, height=500)
+        st.components.v1.html(full_html, height=650)
     else:
         st.info("No gallery media available yet.")
     
