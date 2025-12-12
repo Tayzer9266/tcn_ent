@@ -107,7 +107,7 @@ page_style = """
 
 .slide img {
     width: 100%;
-    height: 250px;
+    height: 500px;
     object-fit: contain;
     background: #000;
 }
@@ -495,8 +495,10 @@ with tab2:
     
     # MEDIA SLIDESHOW
     if all_media:
-        slideshow_html = '<div class="slideshow-container" id="mediaSlideshow">'
-        slideshow_html += '<button class="slide-nav slide-prev" onclick="prevMediaSlide()">❮</button>'
+        # Build slideshow HTML
+        slideshow_parts = []
+        slideshow_parts.append('<div class="slideshow-container" id="mediaSlideshow">')
+        slideshow_parts.append('<button class="slide-nav slide-prev" onclick="prevMediaSlide()">&#10094;</button>')
         
         for idx, (media_type, media_path) in enumerate(all_media):
             active_class = "active" if idx == 0 else ""
@@ -504,35 +506,30 @@ with tab2:
             if media_type == 'image':
                 img_base64 = get_base64_image(media_path)
                 if img_base64:
-                    slideshow_html += f'''
-                    <div class="slide {active_class}">
-                        <img src="data:image/png;base64,{img_base64}" alt="Gallery image {idx+1}">
-                    </div>
-                    '''
+                    slideshow_parts.append(f'<div class="slide {active_class}">')
+                    slideshow_parts.append(f'<img src="data:image/png;base64,{img_base64}" alt="Gallery image {idx+1}">')
+                    slideshow_parts.append('</div>')
             else:  # video
                 embed_url = get_youtube_embed_url(media_path)
-                slideshow_html += f'''
-                <div class="slide {active_class}">
-                    <div class="video-container" style="max-width: 100%; padding-bottom: 28.125%; margin: 0 auto;">
-                        <iframe src="{embed_url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                </div>
-                '''
+                slideshow_parts.append(f'<div class="slide {active_class}">')
+                slideshow_parts.append('<div class="video-container" style="max-width: 100%; padding-bottom: 56.25%; margin: 0 auto;">')
+                slideshow_parts.append(f'<iframe src="{embed_url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
+                slideshow_parts.append('</div>')
+                slideshow_parts.append('</div>')
         
-        slideshow_html += '<button class="slide-nav slide-next" onclick="nextMediaSlide()">❯</button>'
+        slideshow_parts.append('<button class="slide-nav slide-next" onclick="nextMediaSlide()">&#10095;</button>')
         
         # Slide indicators
-        slideshow_html += '<div class="slide-controls">'
+        slideshow_parts.append('<div class="slide-controls">')
         for idx in range(len(all_media)):
             active_class = "active" if idx == 0 else ""
-            slideshow_html += f'<span class="slide-dot {active_class}" onclick="goToMediaSlide({idx})"></span>'
-        slideshow_html += '</div>'
+            slideshow_parts.append(f'<span class="slide-dot {active_class}" onclick="goToMediaSlide({idx})"></span>')
+        slideshow_parts.append('</div>')
+        slideshow_parts.append('</div>')
         
-        slideshow_html += '</div>'
-        st.markdown(slideshow_html, unsafe_allow_html=True)
-        
-        # Updated JavaScript for media slideshow
-        media_slideshow_js = """
+        # Combine and display
+        slideshow_html = ''.join(slideshow_parts)
+        st.components.v1.html(slideshow_html + """
         <script>
         let currentMediaSlide = 0;
         
@@ -569,16 +566,13 @@ with tab2:
             showMediaSlide(currentMediaSlide);
         }
         
-        // Auto-advance slideshow every 7 seconds (longer for videos)
+        // Auto-advance slideshow every 7 seconds
         setInterval(nextMediaSlide, 7000);
         
-        // Initialize
-        setTimeout(function() {
-            showMediaSlide(currentMediaSlide);
-        }, 100);
+        // Initialize immediately
+        showMediaSlide(0);
         </script>
-        """
-        st.markdown(media_slideshow_js, unsafe_allow_html=True)
+        """, height=600)
     else:
         st.info("No gallery media available yet.")
     
