@@ -122,10 +122,13 @@ st.markdown("---")
 
 # Function to encode image to base64
 def get_base64_image(image_path):
+    """Safely encode image to base64, handling None and missing files"""
+    if image_path is None or image_path == "":
+        return None
     try:
         with open(image_path, "rb") as img_file:
             return base64.b64encode(img_file.read()).decode()
-    except FileNotFoundError:
+    except (FileNotFoundError, OSError, TypeError) as e:
         return None
 
 # Function to save uploaded image
