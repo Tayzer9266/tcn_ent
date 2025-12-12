@@ -1,5 +1,13 @@
-# TODO: Add Social Media Links to Profiles
+# Feature Photo Upload Implementation
 
-- [ ] Update pages/11_DJs.py: Add social media fields to DJ data (only DJ Tayzer has URLs), load base64 for social media images, modify profile card to display social media icons with links if present.
-- [ ] Update pages/8_Photographers.py: Add social media fields to photographers data (all None), load base64 for social media images, modify profile card to display social media icons with links if present.
-- [ ] Update pages/9_Event_Coordinators.py: Add social media fields to coordinators data (all None), load base64 for social media images, change profile image to base64 for consistency, modify profile card to display social media icons with links if present.
+## Tasks
+- [x] Add 'feature_photo_path' field to database tables (photographers, event_coordinators, djs)
+- [x] Update ProfileManager allowed_fields to include 'feature_photo_path'
+- [x] Add feature photo upload section to Profile Management page
+- [ ] Test feature photo upload functionality
+
+## Status
+- Database schema update: Completed
+- ProfileManager update: Completed
+- UI implementation: Completed
+- Testing: Pending

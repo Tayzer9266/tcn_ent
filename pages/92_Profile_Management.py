@@ -405,7 +405,30 @@ if st.session_state.selected_profile_id and st.session_state.selected_profile_ty
                 
                 # Image upload
                 uploaded_file = st.file_uploader("Upload New Image (optional)", type=['png', 'jpg', 'jpeg'])
-            
+
+            st.markdown("---")
+            st.markdown("### 🌟 Feature Photo")
+            st.markdown("*This photo will be used for the home screen display*")
+
+            # Current feature photo display
+            st.markdown("**Current Feature Photo:**")
+            feature_img_base64 = get_base64_image(profile.get('feature_photo_path'))
+            if feature_img_base64:
+                st.markdown(
+                    f'<img src="data:image/png;base64,{feature_img_base64}" width="200" style="border-radius: 10px;">',
+                    unsafe_allow_html=True
+                )
+            else:
+                st.info("No feature photo set. Upload one below!")
+
+            # Feature photo upload
+            feature_uploaded_file = st.file_uploader(
+                "Upload Feature Photo (optional)",
+                type=['png', 'jpg', 'jpeg'],
+                key="feature_photo_upload",
+                help="This image will be prominently displayed on the home screen"
+            )
+
             st.markdown("**Contact Information:**")
             
             # Phone Number
@@ -598,6 +621,16 @@ if st.session_state.selected_profile_id and st.session_state.selected_profile_ty
                     )
                     if new_image_path:
                         update_data['image_path'] = new_image_path
+
+                # Handle feature photo upload
+                if feature_uploaded_file:
+                    new_feature_image_path = save_uploaded_image(
+                        feature_uploaded_file,
+                        st.session_state.selected_profile_type,
+                        st.session_state.selected_profile_id + "_feature"
+                    )
+                    if new_feature_image_path:
+                        update_data['feature_photo_path'] = new_feature_image_path
                 
                 # Handle main profile video URL
                 if profile_video_url and validate_youtube_url(profile_video_url):
