@@ -537,7 +537,7 @@ with tab2:
             background: #000;
             border-radius: 10px;
             overflow: hidden;
-            height: 300px;
+            height: 450px;
         }
         .slide {
             display: none;
@@ -551,7 +551,7 @@ with tab2:
         }
         .slide img {
             max-width: 100%;
-            max-height: 250px;
+            max-height: 375px;
             object-fit: contain;
             margin: auto;
         }
@@ -659,7 +659,7 @@ with tab2:
         showMediaSlide(0);
         </script>
         """
-        st.components.v1.html(full_html, height=350)
+        st.components.v1.html(full_html, height=500)
     else:
         st.info("No gallery media available yet.")
     
