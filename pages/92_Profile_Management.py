@@ -2,6 +2,8 @@ import streamlit as st
 import base64
 import os
 import sys
+import json
+import re
 from datetime import datetime
 
 # Add parent directory to path to import profiles_data
@@ -145,6 +147,70 @@ def save_uploaded_image(uploaded_file, profile_type, profile_id):
         
         return file_path
     return None
+
+# Function to save gallery images
+def save_gallery_image(uploaded_file, profile_type, profile_id):
+    """Save uploaded gallery image and return the path"""
+    if uploaded_file is not None:
+        # Create gallery directory if it doesn't exist
+        upload_dir = f"pages/images/uploads/{profile_type}/gallery"
+        os.makedirs(upload_dir, exist_ok=True)
+        
+        # Generate filename
+        file_extension = uploaded_file.name.split('.')[-1]
+        filename = f"{profile_id}_gallery_{datetime.now().strftime('%Y%m%d_%H%M%S')}.{file_extension}"
+        file_path = os.path.join(upload_dir, filename)
+        
+        # Save file
+        with open(file_path, "wb") as f:
+            f.write(uploaded_file.getbuffer())
+        
+        return file_path
+    return None
+
+# Function to validate YouTube URL
+def validate_youtube_url(url):
+    """Validate if URL is a valid YouTube URL"""
+    if not url:
+        return False
+    
+    youtube_patterns = [
+        r'(https?://)?(www\.)?youtube\.com/watch\?v=[\w-]+',
+        r'(https?://)?(www\.)?youtu\.be/[\w-]+',
+        r'(https?://)?(www\.)?youtube\.com/embed/[\w-]+'
+    ]
+    
+    for pattern in youtube_patterns:
+        if re.match(pattern, url):
+            return True
+    return False
+
+# Function to extract YouTube video ID
+def extract_youtube_id(url):
+    """Extract YouTube video ID from URL"""
+    if 'youtube.com/watch?v=' in url:
+        return url.split('watch?v=')[1].split('&')[0]
+    elif 'youtu.be/' in url:
+        return url.split('youtu.be/')[1].split('?')[0]
+    elif 'youtube.com/embed/' in url:
+        return url.split('embed/')[1].split('?')[0]
+    return None
+
+# Function to get YouTube thumbnail
+def get_youtube_thumbnail(url):
+    """Get YouTube video thumbnail URL"""
+    video_id = extract_youtube_id(url)
+    if video_id:
+        return f"https://img.youtube.com/vi/{video_id}/mqdefault.jpg"
+    return None
+
+# Function to get YouTube embed URL
+def get_youtube_embed_url(url):
+    """Convert YouTube URL to embed URL"""
+    video_id = extract_youtube_id(url)
+    if video_id:
+        return f"https://www.youtube.com/embed/{video_id}"
+    return url
 
 # Initialize add_new_profile state
 if 'add_new_profile' not in st.session_state:
@@ -364,6 +430,125 @@ if st.session_state.selected_profile_id and st.session_state.selected_profile_ty
             with social_col3:
                 facebook = st.text_input("Facebook URL", value=profile['facebook'] or "")
             
+            # MEDIA GALLERY SECTION
+            st.markdown("---")
+            st.markdown("### 🎬 Media Gallery Management")
+            
+            # Parse current gallery data
+            try:
+                current_gallery_images = json.loads(profile.get('gallery_images', '[]')) if profile.get('gallery_images') else []
+            except:
+                current_gallery_images = []
+            
+            try:
+                current_gallery_videos = json.loads(profile.get('gallery_videos', '[]')) if profile.get('gallery_videos') else []
+            except:
+                current_gallery_videos = []
+            
+            # Main Profile Video
+            st.markdown("**📹 Main Profile Video (YouTube):**")
+            profile_video_url = st.text_input(
+                "Main Profile Video URL",
+                value=profile.get('profile_video_url', '') or "",
+                help="Enter your main YouTube video URL (e.g., https://www.youtube.com/watch?v=VIDEO_ID)",
+                key="profile_video_url"
+            )
+            
+            if profile_video_url and validate_youtube_url(profile_video_url):
+                st.success("✅ Valid YouTube URL")
+                # Show preview thumbnail
+                thumbnail_url = get_youtube_thumbnail(profile_video_url)
+                if thumbnail_url:
+                    st.image(thumbnail_url, width=200, caption="Video Preview")
+            elif profile_video_url:
+                st.error("❌ Invalid YouTube URL. Please use a valid YouTube link.")
+            
+            st.markdown("---")
+            
+            # Gallery Photos Section
+            st.markdown("**📸 Gallery Photos:**")
+            
+            if current_gallery_images:
+                st.markdown(f"*Current gallery has {len(current_gallery_images)} photo(s)*")
+                
+                # Display current images in a grid
+                cols_per_row = 4
+                for i in range(0, len(current_gallery_images), cols_per_row):
+                    cols = st.columns(cols_per_row)
+                    for j, col in enumerate(cols):
+                        idx = i + j
+                        if idx < len(current_gallery_images):
+                            with col:
+                                img_path = current_gallery_images[idx]
+                                img_base64 = get_base64_image(img_path)
+                                if img_base64:
+                                    st.markdown(
+                                        f'<img src="data:image/png;base64,{img_base64}" style="width:100%; border-radius:5px; margin-bottom:5px;">',
+                                        unsafe_allow_html=True
+                                    )
+                                else:
+                                    st.markdown("🖼️ Image not found")
+                                
+                                # Delete button for each image
+                                if st.checkbox("Delete", key=f"delete_img_{idx}"):
+                                    st.warning(f"⚠️ Will delete image {idx + 1}")
+            else:
+                st.info("No gallery photos yet. Upload some below!")
+            
+            # Upload new gallery photos
+            st.markdown("**Upload New Gallery Photos:**")
+            gallery_uploads = st.file_uploader(
+                "Choose gallery images",
+                type=['png', 'jpg', 'jpeg'],
+                accept_multiple_files=True,
+                key="gallery_uploads",
+                help="You can select multiple images at once"
+            )
+            
+            if gallery_uploads:
+                st.success(f"✅ {len(gallery_uploads)} image(s) ready to upload")
+            
+            st.markdown("---")
+            
+            # Gallery Videos Section
+            st.markdown("**🎥 Gallery Videos (YouTube):**")
+            
+            if current_gallery_videos:
+                st.markdown(f"*Current gallery has {len(current_gallery_videos)} video(s)*")
+                
+                # Display current videos
+                for idx, video_url in enumerate(current_gallery_videos):
+                    video_col1, video_col2 = st.columns([3, 1])
+                    
+                    with video_col1:
+                        thumbnail_url = get_youtube_thumbnail(video_url)
+                        if thumbnail_url:
+                            st.image(thumbnail_url, width=200, caption=f"Video {idx + 1}")
+                        st.text(video_url)
+                    
+                    with video_col2:
+                        if st.checkbox("Delete", key=f"delete_video_{idx}"):
+                            st.warning(f"⚠️ Will delete video {idx + 1}")
+            else:
+                st.info("No gallery videos yet. Add some below!")
+            
+            # Add new gallery video
+            st.markdown("**Add New Gallery Video:**")
+            new_video_url = st.text_input(
+                "YouTube Video URL",
+                key="new_video_url",
+                help="Enter a YouTube video URL to add to your gallery"
+            )
+            
+            if new_video_url:
+                if validate_youtube_url(new_video_url):
+                    st.success("✅ Valid YouTube URL - will be added when you save")
+                    thumbnail_url = get_youtube_thumbnail(new_video_url)
+                    if thumbnail_url:
+                        st.image(thumbnail_url, width=200, caption="Video Preview")
+                else:
+                    st.error("❌ Invalid YouTube URL. Please use a valid YouTube link.")
+            
             # Admin-only: Featured checkbox
             if is_admin:
                 st.markdown("---")
@@ -404,7 +589,7 @@ if st.session_state.selected_profile_id and st.session_state.selected_profile_ty
                 if is_admin:
                     update_data['featured'] = featured
                 
-                # Handle image upload
+                # Handle profile image upload
                 if uploaded_file:
                     new_image_path = save_uploaded_image(
                         uploaded_file,
@@ -413,6 +598,58 @@ if st.session_state.selected_profile_id and st.session_state.selected_profile_ty
                     )
                     if new_image_path:
                         update_data['image_path'] = new_image_path
+                
+                # Handle main profile video URL
+                if profile_video_url and validate_youtube_url(profile_video_url):
+                    update_data['profile_video_url'] = profile_video_url
+                elif not profile_video_url:
+                    update_data['profile_video_url'] = None
+                
+                # Handle gallery images
+                updated_gallery_images = current_gallery_images.copy()
+                
+                # Remove deleted images
+                for idx in range(len(current_gallery_images)):
+                    if st.session_state.get(f"delete_img_{idx}", False):
+                        img_path = current_gallery_images[idx]
+                        if img_path in updated_gallery_images:
+                            updated_gallery_images.remove(img_path)
+                            # Optionally delete the physical file
+                            try:
+                                if os.path.exists(img_path):
+                                    os.remove(img_path)
+                            except:
+                                pass
+                
+                # Add new gallery images
+                if gallery_uploads:
+                    for uploaded_gallery_file in gallery_uploads:
+                        new_gallery_path = save_gallery_image(
+                            uploaded_gallery_file,
+                            st.session_state.selected_profile_type,
+                            st.session_state.selected_profile_id
+                        )
+                        if new_gallery_path:
+                            updated_gallery_images.append(new_gallery_path)
+                
+                update_data['gallery_images'] = json.dumps(updated_gallery_images)
+                
+                # Handle gallery videos
+                updated_gallery_videos = current_gallery_videos.copy()
+                
+                # Remove deleted videos
+                for idx in range(len(current_gallery_videos)):
+                    if st.session_state.get(f"delete_video_{idx}", False):
+                        video_url = current_gallery_videos[idx]
+                        if video_url in updated_gallery_videos:
+                            updated_gallery_videos.remove(video_url)
+                
+                # Add new gallery video
+                if new_video_url and validate_youtube_url(new_video_url):
+                    if new_video_url not in updated_gallery_videos:
+                        updated_gallery_videos.append(new_video_url)
+                
+                update_data['gallery_videos'] = json.dumps(updated_gallery_videos)
                 
                 # Update profile
                 success = profile_manager.update_profile(
@@ -423,6 +660,10 @@ if st.session_state.selected_profile_id and st.session_state.selected_profile_ty
                 
                 if success:
                     st.success("✅ Profile updated successfully!")
+                    # Clear delete checkboxes from session state
+                    for key in list(st.session_state.keys()):
+                        if key.startswith('delete_img_') or key.startswith('delete_video_'):
+                            del st.session_state[key]
                     st.session_state.selected_profile_id = None
                     st.rerun()
                 else:
