@@ -107,7 +107,7 @@ page_style = """
 
 .slide img {
     width: 100%;
-    height: 500px;
+    height: 250px;
     object-fit: contain;
     background: #000;
 }
@@ -512,7 +512,7 @@ with tab2:
             else:  # video
                 embed_url = get_youtube_embed_url(media_path)
                 slideshow_parts.append(f'<div class="slide {active_class}">')
-                slideshow_parts.append('<div class="video-container" style="max-width: 100%; padding-bottom: 56.25%; margin: 0 auto;">')
+                slideshow_parts.append('<div class="video-container">')
                 slideshow_parts.append(f'<iframe src="{embed_url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
                 slideshow_parts.append('</div>')
                 slideshow_parts.append('</div>')
@@ -527,9 +527,95 @@ with tab2:
         slideshow_parts.append('</div>')
         slideshow_parts.append('</div>')
         
-        # Combine and display
-        slideshow_html = ''.join(slideshow_parts)
-        st.components.v1.html(slideshow_html + """
+        # Combine and display with inline CSS
+        full_html = """
+        <style>
+        .slideshow-container {
+            position: relative;
+            max-width: 100%;
+            margin: auto;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 300px;
+        }
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+        }
+        .slide.active {
+            display: flex;
+        }
+        .slide img {
+            max-width: 100%;
+            max-height: 250px;
+            object-fit: contain;
+            margin: auto;
+        }
+        .slide-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+        .slide-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .slide-dot.active {
+            background: white;
+            width: 30px;
+            border-radius: 6px;
+        }
+        .slide-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-size: 24px;
+            border: none;
+            z-index: 10;
+            transition: background 0.3s;
+            user-select: none;
+        }
+        .slide-nav:hover {
+            background: rgba(0,0,0,0.8);
+        }
+        .slide-prev {
+            left: 10px;
+        }
+        .slide-next {
+            right: 10px;
+        }
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        </style>
+        """ + ''.join(slideshow_parts) + """
         <script>
         let currentMediaSlide = 0;
         
@@ -572,7 +658,8 @@ with tab2:
         // Initialize immediately
         showMediaSlide(0);
         </script>
-        """, height=600)
+        """
+        st.components.v1.html(full_html, height=350)
     else:
         st.info("No gallery media available yet.")
     
