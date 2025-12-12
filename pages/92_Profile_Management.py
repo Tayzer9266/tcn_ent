@@ -645,27 +645,33 @@ if st.session_state.selected_profile_id and st.session_state.selected_profile_ty
                 updated_gallery_images = current_gallery_images.copy()
                 
                 # Remove deleted images
+                images_to_delete = []
                 for idx in range(len(current_gallery_images)):
                     if st.session_state.get(f"delete_img_{idx}", False):
                         img_path = current_gallery_images[idx]
-                        if img_path in updated_gallery_images:
-                            updated_gallery_images.remove(img_path)
-                            # Optionally delete the physical file
-                            try:
-                                if os.path.exists(img_path):
-                                    os.remove(img_path)
-                            except:
-                                pass
+                        images_to_delete.append(img_path)
                 
-                # Add new gallery images
-                if gallery_uploads:
+                # Remove from list and delete files
+                for img_path in images_to_delete:
+                    if img_path in updated_gallery_images:
+                        updated_gallery_images.remove(img_path)
+                        # Delete the physical file
+                        try:
+                            if os.path.exists(img_path):
+                                os.remove(img_path)
+                        except Exception as e:
+                            st.warning(f"Could not delete file {img_path}: {str(e)}")
+                
+                # Add new gallery images (only if there are new uploads)
+                if gallery_uploads and len(gallery_uploads) > 0:
                     for uploaded_gallery_file in gallery_uploads:
+                        # Generate unique filename to prevent duplicates
                         new_gallery_path = save_gallery_image(
                             uploaded_gallery_file,
                             st.session_state.selected_profile_type,
                             st.session_state.selected_profile_id
                         )
-                        if new_gallery_path:
+                        if new_gallery_path and new_gallery_path not in updated_gallery_images:
                             updated_gallery_images.append(new_gallery_path)
                 
                 update_data['gallery_images'] = json.dumps(updated_gallery_images)
