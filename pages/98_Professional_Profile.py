@@ -498,6 +498,7 @@ with tab2:
         # Build slideshow HTML
         slideshow_parts = []
         slideshow_parts.append('<div class="slideshow-container" id="mediaSlideshow">')
+        slideshow_parts.append('<button class="pause-button" id="pauseBtn" onclick="togglePause()">⏸ Pause</button>')
         slideshow_parts.append('<button class="slide-nav slide-prev" onclick="prevMediaSlide()">&#10094;</button>')
         
         for idx, (media_type, media_path) in enumerate(all_media):
@@ -602,9 +603,9 @@ with tab2:
         }
         .video-container {
             position: relative;
-            width: 66.67%;
-            max-width: 400px;
-            padding-bottom: 50%;
+            width: 100%;
+            max-width: 800px;
+            padding-bottom: 75%;
             height: 0;
             overflow: hidden;
             margin: 0 auto;
@@ -615,6 +616,23 @@ with tab2:
             left: 0;
             width: 100%;
             height: 100%;
+        }
+        .pause-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            z-index: 10;
+            transition: background 0.3s;
+        }
+        .pause-button:hover {
+            background: rgba(0,0,0,0.9);
         }
         </style>
         """ + ''.join(slideshow_parts) + """
@@ -654,8 +672,23 @@ with tab2:
             showMediaSlide(currentMediaSlide);
         }
         
-        // Auto-advance slideshow every 7 seconds
-        setInterval(nextMediaSlide, 7000);
+        // Auto-advance slideshow
+        let isPaused = false;
+        let slideshowInterval = setInterval(function() {
+            if (!isPaused) {
+                nextMediaSlide();
+            }
+        }, 7000);
+        
+        function togglePause() {
+            isPaused = !isPaused;
+            const pauseBtn = document.getElementById('pauseBtn');
+            if (isPaused) {
+                pauseBtn.innerHTML = '▶ Play';
+            } else {
+                pauseBtn.innerHTML = '⏸ Pause';
+            }
+        }
         
         // Initialize immediately
         showMediaSlide(0);
