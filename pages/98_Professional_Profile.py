@@ -602,10 +602,12 @@ with tab2:
         }
         .video-container {
             position: relative;
-            width: 100%;
-            padding-bottom: 56.25%;
+            width: 66.67%;
+            max-width: 400px;
+            padding-bottom: 50%;
             height: 0;
             overflow: hidden;
+            margin: 0 auto;
         }
         .video-container iframe {
             position: absolute;
