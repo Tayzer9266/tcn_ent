@@ -108,7 +108,8 @@ page_style = """
 .slide img {
     width: 100%;
     height: 250px;
-    object-fit: cover;
+    object-fit: contain;
+    background: #000;
 }
 
 .slide-controls {
@@ -477,83 +478,109 @@ with tab2:
     st.markdown('<div class="tab-content">', unsafe_allow_html=True)
     st.markdown("### Photo & Video Gallery")
     
-    # SLIDESHOW
-    if gallery_images:
-        slideshow_html = '<div class="slideshow-container">'
-        slideshow_html += '<button class="slide-nav slide-prev" onclick="prevSlide()">❮</button>'
+    # Combine all media for slideshow
+    all_media = []
+    
+    # Add gallery images
+    for img_path in gallery_images:
+        all_media.append(('image', img_path))
+    
+    # Add main profile video
+    if profile.get('profile_video_url'):
+        all_media.append(('video', profile['profile_video_url']))
+    
+    # Add gallery videos
+    for video_url in gallery_videos:
+        all_media.append(('video', video_url))
+    
+    # MEDIA SLIDESHOW
+    if all_media:
+        slideshow_html = '<div class="slideshow-container" id="mediaSlideshow">'
+        slideshow_html += '<button class="slide-nav slide-prev" onclick="prevMediaSlide()">❮</button>'
         
-        for idx, img_path in enumerate(gallery_images):
-            img_base64 = get_base64_image(img_path)
-            if img_base64:
-                active_class = "active" if idx == 0 else ""
+        for idx, (media_type, media_path) in enumerate(all_media):
+            active_class = "active" if idx == 0 else ""
+            
+            if media_type == 'image':
+                img_base64 = get_base64_image(media_path)
+                if img_base64:
+                    slideshow_html += f'''
+                    <div class="slide {active_class}">
+                        <img src="data:image/png;base64,{img_base64}" alt="Gallery image {idx+1}">
+                    </div>
+                    '''
+            else:  # video
+                embed_url = get_youtube_embed_url(media_path)
                 slideshow_html += f'''
                 <div class="slide {active_class}">
-                    <img src="data:image/png;base64,{img_base64}" alt="Gallery image {idx+1}">
+                    <div class="video-container" style="max-width: 100%; padding-bottom: 28.125%; margin: 0 auto;">
+                        <iframe src="{embed_url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
                 </div>
                 '''
         
-        slideshow_html += '<button class="slide-nav slide-next" onclick="nextSlide()">❯</button>'
+        slideshow_html += '<button class="slide-nav slide-next" onclick="nextMediaSlide()">❯</button>'
         
         # Slide indicators
         slideshow_html += '<div class="slide-controls">'
-        for idx in range(len(gallery_images)):
+        for idx in range(len(all_media)):
             active_class = "active" if idx == 0 else ""
-            slideshow_html += f'<span class="slide-dot {active_class}" onclick="goToSlide({idx})"></span>'
+            slideshow_html += f'<span class="slide-dot {active_class}" onclick="goToMediaSlide({idx})"></span>'
         slideshow_html += '</div>'
         
         slideshow_html += '</div>'
         st.markdown(slideshow_html, unsafe_allow_html=True)
-        st.markdown(slideshow_js, unsafe_allow_html=True)
+        
+        # Updated JavaScript for media slideshow
+        media_slideshow_js = """
+        <script>
+        let currentMediaSlide = 0;
+        
+        function showMediaSlide(n) {
+            const slides = document.querySelectorAll('#mediaSlideshow .slide');
+            const dots = document.querySelectorAll('#mediaSlideshow .slide-dot');
+            
+            if (n >= slides.length) currentMediaSlide = 0;
+            if (n < 0) currentMediaSlide = slides.length - 1;
+            
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove('active');
+                if (dots[i]) dots[i].classList.remove('active');
+            }
+            
+            if (slides[currentMediaSlide]) {
+                slides[currentMediaSlide].classList.add('active');
+                if (dots[currentMediaSlide]) dots[currentMediaSlide].classList.add('active');
+            }
+        }
+        
+        function nextMediaSlide() {
+            currentMediaSlide++;
+            showMediaSlide(currentMediaSlide);
+        }
+        
+        function prevMediaSlide() {
+            currentMediaSlide--;
+            showMediaSlide(currentMediaSlide);
+        }
+        
+        function goToMediaSlide(n) {
+            currentMediaSlide = n;
+            showMediaSlide(currentMediaSlide);
+        }
+        
+        // Auto-advance slideshow every 7 seconds (longer for videos)
+        setInterval(nextMediaSlide, 7000);
+        
+        // Initialize
+        setTimeout(function() {
+            showMediaSlide(currentMediaSlide);
+        }, 100);
+        </script>
+        """
+        st.markdown(media_slideshow_js, unsafe_allow_html=True)
     else:
-        st.info("No gallery images available yet.")
-    
-    # VIDEOS
-    if profile.get('profile_video_url') or gallery_videos:
-        st.markdown("### Videos")
-        
-        video_col1, video_col2 = st.columns(2)
-        
-        with video_col1:
-            if profile.get('profile_video_url'):
-                embed_url = get_youtube_embed_url(profile['profile_video_url'])
-                st.markdown(f'''
-                <div class="video-container" style="max-width: 100%;">
-                    <iframe src="{embed_url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-                ''', unsafe_allow_html=True)
-        
-        with video_col2:
-            if gallery_videos and len(gallery_videos) > 0:
-                embed_url = get_youtube_embed_url(gallery_videos[0])
-                st.markdown(f'''
-                <div class="video-container" style="max-width: 100%;">
-                    <iframe src="{embed_url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-                ''', unsafe_allow_html=True)
-        
-        # Display remaining gallery videos in 2-column layout
-        if len(gallery_videos) > 1:
-            for i in range(1, len(gallery_videos), 2):
-                vid_col1, vid_col2 = st.columns(2)
-                
-                with vid_col1:
-                    embed_url = get_youtube_embed_url(gallery_videos[i])
-                    st.markdown(f'''
-                    <div class="video-container" style="max-width: 100%;">
-                        <iframe src="{embed_url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                    <br>
-                    ''', unsafe_allow_html=True)
-                
-                with vid_col2:
-                    if i + 1 < len(gallery_videos):
-                        embed_url = get_youtube_embed_url(gallery_videos[i + 1])
-                        st.markdown(f'''
-                        <div class="video-container" style="max-width: 100%;">
-                            <iframe src="{embed_url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                        <br>
-                        ''', unsafe_allow_html=True)
+        st.info("No gallery media available yet.")
     
     st.markdown('</div>', unsafe_allow_html=True)
 
