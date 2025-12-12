@@ -498,7 +498,7 @@ with tab2:
         # Build slideshow HTML
         slideshow_parts = []
         slideshow_parts.append('<div class="slideshow-container" id="mediaSlideshow">')
-        slideshow_parts.append('<button class="pause-button" id="pauseBtn" onclick="togglePause()">⏸ Pause</button>')
+        slideshow_parts.append('<button class="pause-button" id="pauseBtn" onclick="togglePause()">▶ Play</button>')
         slideshow_parts.append('<button class="slide-nav slide-prev" onclick="prevMediaSlide()">&#10094;</button>')
         
         for idx, (media_type, media_path) in enumerate(all_media):
@@ -672,8 +672,8 @@ with tab2:
             showMediaSlide(currentMediaSlide);
         }
         
-        // Auto-advance slideshow
-        let isPaused = false;
+        // Auto-advance slideshow (paused by default)
+        let isPaused = true;
         let slideshowInterval = setInterval(function() {
             if (!isPaused) {
                 nextMediaSlide();
