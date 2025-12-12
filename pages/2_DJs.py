@@ -72,7 +72,7 @@ def render_stars(rating):
 
 # Get DJs Data from database (exclude admin profiles)
 all_djs = profile_manager.get_all_profiles("djs")
-djs = [d for d in all_djs if d.get('role') != 'admin']
+djs_list = [d for d in all_djs if d.get('role') != 'admin']
 
 # Load the images
 youtube_img = base64.b64encode(open("pages/images/youtube.png", "rb").read()).decode()
@@ -86,6 +86,48 @@ st.markdown(
     Our talented DJs are experts in creating the perfect soundtrack for your event. From weddings to fundraisers, we deliver high-energy performances and professional service.
     """
 )
+
+# State Filter Section
+st.markdown("---")
+filter_col1, filter_col2 = st.columns([1, 3])
+
+with filter_col1:
+    # Get unique states from all DJs
+    all_states = set()
+    for dj in djs_list:
+        state = dj.get('service_state', 'Texas')
+        if state:
+            all_states.add(state)
+    
+    # Sort states alphabetically
+    sorted_states = sorted(list(all_states))
+    
+    # Add "All States" option at the beginning
+    state_options = ["All States"] + sorted_states
+    
+    # State filter dropdown
+    selected_state = st.selectbox(
+        "🗺️ Filter by State:",
+        options=state_options,
+        index=0,
+        help="Filter DJs by their service location"
+    )
+
+with filter_col2:
+    # Display filter info
+    if selected_state == "All States":
+        st.info(f"📍 Showing all {len(djs_list)} DJs from all locations")
+    else:
+        filtered_count = len([d for d in djs_list if d.get('service_state') == selected_state])
+        st.info(f"📍 Showing {filtered_count} DJ(s) serving {selected_state}")
+
+# Filter DJs based on selected state
+if selected_state == "All States":
+    djs = djs_list
+else:
+    djs = [d for d in djs_list if d.get('service_state') == selected_state]
+
+st.markdown("---")
 
 # Profiles Grid
 cols = st.columns(3)

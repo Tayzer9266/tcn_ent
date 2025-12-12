@@ -72,8 +72,7 @@ def render_stars(rating):
 
 # Get Photographers Data from database (exclude admin profiles)
 all_photographers = profile_manager.get_all_profiles("photographers")
-photographers = [p for p in all_photographers if p.get('role') != 'admin']
-
+photographers_list = [p for p in all_photographers if p.get('role') != 'admin']
 
 # Load the images
 youtube_img = base64.b64encode(open("pages/images/youtube.png", "rb").read()).decode()
@@ -87,6 +86,48 @@ st.markdown(
     Our team of skilled photographers is dedicated to capturing the essence of your event. From weddings to corporate gatherings, we ensure every moment is preserved with professionalism and creativity.
     """
 )
+
+# State Filter Section
+st.markdown("---")
+filter_col1, filter_col2 = st.columns([1, 3])
+
+with filter_col1:
+    # Get unique states from all photographers
+    all_states = set()
+    for photographer in photographers_list:
+        state = photographer.get('service_state', 'Texas')
+        if state:
+            all_states.add(state)
+    
+    # Sort states alphabetically
+    sorted_states = sorted(list(all_states))
+    
+    # Add "All States" option at the beginning
+    state_options = ["All States"] + sorted_states
+    
+    # State filter dropdown
+    selected_state = st.selectbox(
+        "🗺️ Filter by State:",
+        options=state_options,
+        index=0,
+        help="Filter photographers by their service location"
+    )
+
+with filter_col2:
+    # Display filter info
+    if selected_state == "All States":
+        st.info(f"📍 Showing all {len(photographers_list)} photographers from all locations")
+    else:
+        filtered_count = len([p for p in photographers_list if p.get('service_state') == selected_state])
+        st.info(f"📍 Showing {filtered_count} photographer(s) serving {selected_state}")
+
+# Filter photographers based on selected state
+if selected_state == "All States":
+    photographers = photographers_list
+else:
+    photographers = [p for p in photographers_list if p.get('service_state') == selected_state]
+
+st.markdown("---")
 
 # Profiles Grid
 cols = st.columns(3)

@@ -72,7 +72,7 @@ def render_stars(rating):
 
 # Get Event Coordinators Data from database (exclude admin profiles)
 all_coordinators = profile_manager.get_all_profiles("event_coordinators")
-coordinators = [c for c in all_coordinators if c.get('role') != 'admin']
+coordinators_list = [c for c in all_coordinators if c.get('role') != 'admin']
 
 # Load the images
 youtube_img = base64.b64encode(open("pages/images/youtube.png", "rb").read()).decode()
@@ -86,6 +86,48 @@ st.markdown(
     Our experienced event coordinators handle every detail to ensure your event runs smoothly. From weddings to corporate gatherings, we bring expertise and creativity to make your occasion unforgettable.
     """
 )
+
+# State Filter Section
+st.markdown("---")
+filter_col1, filter_col2 = st.columns([1, 3])
+
+with filter_col1:
+    # Get unique states from all coordinators
+    all_states = set()
+    for coordinator in coordinators_list:
+        state = coordinator.get('service_state', 'Texas')
+        if state:
+            all_states.add(state)
+    
+    # Sort states alphabetically
+    sorted_states = sorted(list(all_states))
+    
+    # Add "All States" option at the beginning
+    state_options = ["All States"] + sorted_states
+    
+    # State filter dropdown
+    selected_state = st.selectbox(
+        "🗺️ Filter by State:",
+        options=state_options,
+        index=0,
+        help="Filter event coordinators by their service location"
+    )
+
+with filter_col2:
+    # Display filter info
+    if selected_state == "All States":
+        st.info(f"📍 Showing all {len(coordinators_list)} event coordinators from all locations")
+    else:
+        filtered_count = len([c for c in coordinators_list if c.get('service_state') == selected_state])
+        st.info(f"📍 Showing {filtered_count} event coordinator(s) serving {selected_state}")
+
+# Filter coordinators based on selected state
+if selected_state == "All States":
+    coordinators = coordinators_list
+else:
+    coordinators = [c for c in coordinators_list if c.get('service_state') == selected_state]
+
+st.markdown("---")
 
 # Profiles Grid
 cols = st.columns(3)
